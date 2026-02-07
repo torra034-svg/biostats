@@ -10,14 +10,35 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 #library
-```{r}
+```{r library}
 library(tidyverse)
 ```
 
 #import data
-```{r}
+```{r import data}
 url <- "https://raw.githubusercontent.com/torra034-svg/biostats/refs/heads/main/Biostats%202/Data%20Stuff/tomhs.csv"
 
 tomhs <- read_csv(url)
+```
+
+
+#data cleaning
+```{r remove values1}
+rm(url)
+```
+
+
+```{r}
+tomhs <- tomhs %>% 
+  mutate(wtchg = wt12 - wtbl,
+         cholchg = chol12 - cholbl)
+```
+
+#Questions
+##1)
+```{r}
+model <- lm(data = tomhs, cholchg ~ wtchg)
+
+summary(model)
 ```
 
