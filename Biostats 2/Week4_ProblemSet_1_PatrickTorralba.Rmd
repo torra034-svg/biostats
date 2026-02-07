@@ -56,7 +56,64 @@ summary(model_adjust)
 
 ```
 
-```{r}
+```{r Q3 unadjusted R-squared}
 
+summary(model)$adj.r.squared
+
+
+
+```
+
+
+```{r Q3 unadjusted PRESS value}
+
+residuals_unadjusted <- resid(model)
+leverage_unadjusted <- hatvalues(model)
+
+PRESS_unadjusted <- sum((residuals_unadjusted / (1-leverage_unadjusted))^2)
+
+PRESS_unadjusted ## Note to self: Traditional measures like R² or adjusted R² tell you how well the model explains the data it was trained on. PRESS tells you how well the model is expected to perform on new data.
+
+#👉 A model can have a high R² and still have a poor PRESS if it overfits. 
+```
+
+
+
+```{r Q4 adjusted R-squared}
+
+summary(model_adjust)$adj.r.squared
+
+
+```
+
+
+```{r Q4 adjusted PRESS value}
+
+residuals_adjusted <- resid(model_adjust)
+leverage_adjusted <- hatvalues(model_adjust)
+
+PRESS_adjusted <- sum((residuals_adjusted / (1-leverage_adjusted))^2)
+
+PRESS_adjusted
+
+
+```
+
+
+```{r Q7}
+
+ggplot(tomhs, aes(x = wtchg, y = cholchg)) +
+  geom_point() + 
+  labs(x = "Weight change (lb)",
+       y = "Total Cholesterol Change",
+       title = "Total Cholesterol Change vs Weight Change")
+
+
+```
+
+```{r Q9 diagnostic plot}
+
+par(mfrow = c(2,2))
+plot(model_adjust)
 ```
 
