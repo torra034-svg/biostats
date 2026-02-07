@@ -1,0 +1,50 @@
+---
+title: 'MULTIPLE LINEAR REGRESSION, Part 1 Problem Set #2'
+author: "Patrick Torralba"
+date: "2026-01-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#import data
+```{r}
+tomhs <- read.csv(file = "C:/Users/Lenovo/OneDrive/Documents/Biostats 2/Data Stuff/tomhs.csv", header = TRUE)
+```
+
+#library
+```{r}
+library(tidyverse)
+library(summarytools)
+library(psych)
+```
+
+#1)
+```{r}
+tomhs1 <- tomhs %>% 
+  mutate("wtchg" = wt12 - wtbl,
+         "cholchg" = chol12 - cholbl)
+```
+
+#2) Checking Data
+```{r}
+tomhs1 %>% 
+  select(ptid, wtchg, wt12, wtbl, cholchg, chol12, cholbl) %>%
+  slice_sample(n = 3)
+```
+
+#3) Summary stats for cholchg
+```{r}
+descr(tomhs1$cholchg)
+
+describe(tomhs1$cholchg)
+```
+
+#4) graphical summary
+```{r}
+ggplot(tomhs1, aes(x = cholchg)) +
+  geom_histogram()
+```
+

@@ -1,0 +1,149 @@
+---
+title: "Week 2 HW - Patrick Torralba"
+author: "Patrick Torralba"
+date: "2026-02-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#library
+```{r}
+library(tidyverse)
+library(gtsummary)
+library(performance)
+library(see)
+```
+
+#import data
+```{r}
+tomhs <- read.csv(file = "C:/Users/Lenovo/OneDrive/Documents/Biostats 2/Data Stuff/tomhs.csv", header = TRUE)
+```
+
+#RQ1) What is the effect of weight change on total cholesterol change without adjusting for anything?
+```{r data cleaning}
+RQ1 <- tomhs %>% 
+  select(wtbl,wt12,cholbl,chol12, sex) %>% 
+  mutate("weight_change" = wt12-wtbl,
+         "cholesterol_change" = chol12-cholbl,
+         "Sex" = if_else(sex == 1, "Male", "Female"))
+
+RQ1
+```
+
+
+
+```{r RQ1_model summary}
+
+RQ1_model <- lm(data = RQ1, cholesterol_change ~ weight_change)
+
+summary(RQ1_model)
+
+```
+
+
+
+```{r RQ1_model 95% CI}
+RQ1_CI <- confint(RQ1_model)
+
+RQ1_CI
+```
+
+
+
+```{r RQ1 graph}
+ggplot(RQ1, aes(x = weight_change, y = cholesterol_change)) +
+  geom_point() +
+  labs(x = "Weight Change",
+       y = "Cholesterol Change",
+       title = "Figure 1. Unadjusted Linear Relationship between Weight Change vs Cholesterol Change") +
+  geom_smooth(se = FALSE, method = "lm")
+```
+
+
+#RQ2) What is the effect of weight change on total cholesterol change after adjusting for sex?
+
+```{r RQ2 model summary}
+RQ2_model <- lm(data = RQ1, cholesterol_change ~ weight_change + factor(sex))
+
+summary(RQ2_model)
+```
+
+
+
+```{r RQ2_model 95% CI}
+RQ2_CI <- confint(RQ2_model)
+
+RQ2_CI
+```
+
+
+
+```{r RQ2 graph}
+ggplot(RQ1, aes(x = weight_change, y = cholesterol_change, color = Sex)) +
+  geom_point() +
+  labs(x = "Weight Change",
+       y = "Cholesterol Change",
+       title = "Figure 2. Linear Relationship between Weight Change vs Cholesterol Change by Sex") +
+  geom_smooth(se = FALSE, method = "lm")
+```
+
+
+
+## RQ2_model assumptions
+```{r diagnostic plots}
+par(mfrow = c(2,2))
+plot(RQ2_model)
+
+```
+
+
+#RQ3) Given these results, is there evidence that sex may be a confounding variable in this case?
+No, there is not any evidence that sex may be a confounding variable.
+
+#Table 1)
+```{r t1 data cleaning}
+t1 <- tomhs %>% 
+  select(age,sex,race,income,marital,educ,eversmk,nowsmk) %>% 
+  mutate(Sex = if_else(sex == 1, "Male", "Female"),
+         Race = case_when(race == 1 ~ "White",
+                          race == 2 ~ "Black",
+                          race == 3 ~ "Asian",
+                          race == 4 ~ "Other"),
+         Income = case_when(income == 1 ~ "Less than $9,999",
+                            income == 2 ~ "$10,000 to $19,999",
+                            income == 3 ~ "$20,000 to $29,999",
+                            income == 4 ~ "$30,000 to $39,999",
+                            income == 5 ~ "$40,000 to $49,999",
+                            income == 6 ~ "$50,000 to $59,999",
+                            income == 7 ~ "$60,000 to $69,999",
+                            income == 8 ~ "$70,000 or more"),
+         Marital = case_when(marital == 1 ~ "Never married",
+                             marital == 2 ~ "Separated",
+                             marital == 3 ~ "Divorced",
+                             marital == 4 ~ "Widowed",
+                             marital == 5 ~ "Married"),
+         Education = case_when(educ == 1 ~"Eighth grade or less",
+                               educ == 2 ~"Trade school or business school instead of high school",
+                               educ == 3 ~"Some high school",
+                               educ == 4 ~"High school graduate", 
+                               educ == 5 ~"Trade school or business school after graduating from high school",
+                               educ == 6 ~"Some college including 2 year degrees",
+                               educ == 7 ~"Received bachelor's degree",
+                               educ == 8 ~"Graduate or professional education beyond the bachelor's degree",
+                               educ == 9 ~ "Graduate or professional degree (Specify):"),
+         "Ever Smoked" = if_else(eversmk == 1, "Yes", "No"),
+         "Current Smoker" = if_else(nowsmk == 1, "Yes", "No")) %>% 
+  select(-sex,-race,-income,-marital,-educ,-eversmk,-nowsmk)
+
+```
+
+```{r table summary}
+t1_sum <- tbl_summary(t1) %>% 
+  modify_caption("**Table 1. TOMHS Study Patient Demographics**")
+
+t1_sum
+```
+
