@@ -1,0 +1,11 @@
+---
+title: "Week4_ProblemSet_1"
+author: "Patrick Torralba"
+date: "2026-02-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
