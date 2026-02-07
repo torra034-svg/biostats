@@ -9,3 +9,15 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+#library
+```{r}
+library(tidyverse)
+```
+
+#import data
+```{r}
+url <- "https://raw.githubusercontent.com/torra034-svg/biostats/refs/heads/main/Biostats%202/Data%20Stuff/tomhs.csv"
+
+tomhs <- read_csv(url)
+```
+
