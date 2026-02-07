@@ -1,0 +1,172 @@
+---
+title: "Biostats Project"
+author: "Patrick Torralba"
+date: "2025-11-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#import data from school laptop
+```{r}
+demo <- read.csv(file = "C:/Users/torra034/Documents/Biostats/BangladeshBirthDataR.csv", header = TRUE)
+```
+
+#import data from home laptop
+```{r}
+demo <- read.csv(file = "C:/Users/Lenovo/OneDrive/Documents/Biostatistics/Biostats Assignments/Datasets and related info/BangladeshBirthDataR.csv", header = TRUE)
+
+```
+
+
+#library
+```{r}
+library(tidyverse)
+library(epibasix)
+library(psych)
+library(epitools)
+```
+
+Introduction
+The study design is an observational study cohort.The goal of our analysis is to examine the relationship between the following variables: 5 month energy intake for babies, the age of the mother (in decades), and the average wealth of the mother. 
+
+We are examining said variables against the following predictors: mid-upper arm circumference (MUAC Score) and if the baby is considered small for gestational age (SGA) [bottom 10% for their gestational age].
+
+In terms of the variables being compared to MUAC Score, we are using an ANOVA test to test the means of 3+ groups for the Age Decade variable and the 5 month energy intake variable. For the average wealth variable, we will be using a paired t-test.
+
+We will also determine if there are confounding variables.
+
+
+#Table 1: Descriptive Statistics
+
+#Age Decade
+```{r}
+describeBy(demo$MATMUAC_BASELINE, demo$DECADEAGE)
+
+```
+
+#Average Wealth
+```{r}
+describeBy(demo$MATMUAC_BASELINE, demo$AvgWealth)
+```
+
+
+#5 month energy intake
+```{r}
+describeBy(demo$MATMUAC_BASELINE, demo$kcalperday_5_tert)
+```
+
+#Table 1: ANOVA
+
+#Age Decade
+```{r}
+demo_age <- aov(data = demo, MATMUAC_BASELINE ~ factor(DECADEAGE))
+  
+  
+summary(demo_age)
+```
+
+#Average Wealth: Two-sample t-test
+```{r}
+t.test(demo$MATMUAC_BASELINE ~ demo$AvgWealth)
+```
+
+#5 Month Energy: ANOVA
+```{r}
+demo_energy_aov <-
+  aov(data = demo, MATMUAC_BASELINE ~ kcalperday_5_tert)
+
+summary(demo_energy_aov)
+```
+
+#5 Month Energy: Tukey HSD
+```{r}
+tukey_energy <- TukeyHSD(demo_energy_aov)
+
+tukey_energy
+```
+
+-----------------------------------------------------
+#Table 2: Small for gestational age | 2x2 table
+
+#Age Decade
+```{r}
+age_table <- table(demo$DECADEAGE, demo$sga_intergrowth)
+
+#Reorder columns for analysis
+age_table <- age_table[, c(2,1)]
+
+#Age Decade Analysis: Odds-ratio
+oddsratio(age_table) # I used the epitools package to do this. I used the odds-ratio to calculate the counts.
+
+chisq.test(age_table)
+```
+
+
+#Average Wealth
+```{r}
+wealth_table <- table(demo$AvgWealth, demo$sga_intergrowth)
+
+#reorder columns
+wealth_table <- wealth_table[, c(2,1)]
+
+#Wealth Analysis: 2x2
+summary(epi2x2(wealth_table, alpha = 0.05))
+
+```
+
+#5 month energy
+```{r}
+energy_table <- table(demo$kcalperday_5_tert, demo$sga_intergrowth)
+
+#reorder columns
+energy_table <- energy_table[, c(2,1)]
+
+
+#chi-squared
+chisq.test(energy_table)
+
+
+#Energy Analysis: Odds-ratio
+oddsratio(energy_table)
+```
+
+
+---------------------------------------------
+#Table 3: Standardized Weight
+
+# Age Decade: Descriptive Stats
+```{r}
+describeBy(demo$WTZ_12, demo$DECADEAGE)
+```
+
+# Age Decade: ANOVA
+```{r}
+age <- aov(demo$WTZ_12 ~ as.factor(demo$DECADEAGE))
+
+summary(age)
+```
+
+# Average Wealth: Descriptive Stats
+```{r}
+describeBy(demo$WTZ_12, demo$AvgWealth)
+```
+
+# Average Wealth: two-sample t-test
+```{r}
+wealth <- t.test(demo$WTZ_12 ~ demo$AvgWealth, conf.level = 0.95, alternative = "two.sided", mu = 0)
+
+wealth
+```
+
+
+
+# 5 month energy intake: descriptive stats
+```{r}
+describeBy(demo$WTZ_12, demo$kcalperday_5_tert)
+```
+
+
+

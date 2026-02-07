@@ -1,0 +1,110 @@
+---
+title: "ANOVA Collaborative Key"
+author: "Patrick Torralba"
+date: "2025-10-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Inference for Comparing 3+ Means
+
+#5) The population of interest are the babies of different races / ethnicities.
+
+#6) They used an observational study - a cohort study.
+
+#7) The sampling method was a simple random sample.
+
+
+#library
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(psych)
+```
+
+#set-up 
+```{r}
+NCB <- read.csv(file = "C:/Users/Lenovo/Downloads/NCbirths.csv", header = TRUE)
+```
+
+
+#8) Graph 
+```{r}
+ggplot(data = NCB, aes(x = NCRace, y = BirthWeightGm, fill = NCRace)) + 
+  geom_col() +
+  theme(legend.position = "none") +
+  labs(x = "Race", y = "Birth weigt (gm)", title = "Birth Weight by Race")
+```
+
+#9) Summary Statistics
+```{r}
+NCB_summary <- NCB %>% 
+  select(NCRace, BirthWeightGm)
+
+View(NCB_summary)
+
+
+describe(data = NCB_summary, 
+         BirthWeightGm ~ NCRace,
+         na.rm = TRUE,
+         quant = c(.25, .75),
+         IQR = TRUE)
+```
+
+
+#10) The conditions for the Central Limit Theorem are met. Because the sample size is large enough.
+
+#11) We can assume equal variance.
+
+#12) ANOVA Hypothesis Test: H0: u1=u2=u3=u4; Ha: atleast one sample mean is different
+
+#13)
+```{r}
+NCB_aov <- aov(NCB_summary$BirthWeightGm~NCB_summary$NCRace)
+
+summary(NCB_aov)
+
+#F-statistic = 10.37
+#p-value = 9.52e-07
+```
+
+#14) We have evidence to reject the null hypothesis since our p-value < 0.05. We are 95% confident that atleast one of the sample group means is different.
+
+#15) The next step after rejecting the null-hyp is to do post-hoc analysis, either a Tukey HSD or a Bonefferoni Correction, to understand which specific sample means are different. We would need to be careful using the Boneferroni method because increasing the alpha level will increase risks in type II errors.
+
+# Post Hoc Analysis
+
+#16 +17) Bonferroni correction
+
+```{r}
+pairwise.t.test(NCB_summary$BirthWeightGm, NCB_summary$NCRace, p.adjust.method =  "bonferroni")
+
+# The pairs that are statistically significant are Hispanic-Black and White-Black.
+```
+
+#18 + 19) Tukey HSD
+
+```{r}
+TukeyHSD(NCB_aov)
+
+#The races that are statistically significant are Hispanic-Black abd White-Black. Becaus ethe p-values are less than 0.05.
+```
+
+#20) Hispanic-Black have a significantly higher average birth weight than others.
+
+#21) The other birth weights were not meaningful because they are not statistically significant.
+
+#22) 
+
+
+#24) Mom Race vs Birthweight | Graph
+```{r}
+ggplot(data = NCB, aes(x = MomRace, y = BirthWeightGm, fill = MomRace)) +
+  geom_col() +
+  theme(legend.position = "none") +
+  labs(x = "Mom's Race", y = "Birth Weight (gm)", title = "Birth weight by Mom's race")
+```
+

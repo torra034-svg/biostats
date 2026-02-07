@@ -1,0 +1,62 @@
+---
+title: "Lesson 3 Lab"
+author: "Patrick Torralba"
+date: "2025-09-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+#Load library
+```{r}
+library(epiDisplay)
+```
+
+#Confidence Intervals for a Mean in R
+
+#Import Data
+```{r}
+lhs<-read.csv(file = "C:/Users/Lenovo/Downloads/lhs (1).csv", header = TRUE)
+```
+
+#Confidence Interval Calculation
+```{r}
+ci(lhs$wgtchg05, alpha = 0.05)
+```
+
+#Guided Questions
+#1) The average weight change for the LHS participants is 3.71 kg. The value of the Standard Error is the 0.09.
+
+#2) The degrees of freedom is 5468
+```{r}
+qt(0.975, df =5469-1)
+```
+
+#3) The lower 95 CI is 3.53 kg and the upper 95 CI is 3.89 kg.
+
+#-------------------------------------------------
+
+#Reclassifying Variables
+
+#Reclassify numerical to categorical
+```{r}
+lhs$lung.fxn<-cut(lhs$FEVFVC3,
+breaks=c(0, 69.99999999, 100),
+labels=c("abnormal","normal"))
+```
+
+#Reclassify categorical to numerical
+```{r}
+lhs$marital0 <- as.factor(lhs$marital0)
+str(lhs$marital0)
+```
+
+
+#Guided Questions
+#1) Quotes are placed around the labels to signify how we want to label values from 0-69.9 and 70-100
+
+#2) The name of the variable is martial0. It has the same name for both factor and interger form because we kept the name but redefined the data type.

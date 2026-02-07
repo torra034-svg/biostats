@@ -1,0 +1,112 @@
+---
+title: "PatrickTorralba_Final_Project_Code"
+author: "Patrick Torralba"
+date: "2025-12-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#library
+```{r}
+library(tidyverse)
+```
+
+#import data
+```{r}
+fp <- read.csv(file = "C:/Users/Lenovo/OneDrive/Documents/Biostatistics/Biostats Assignments/Datasets and related info/BangladeshBirthDataR.csv", header = TRUE)
+```
+
+#data clean
+```{r}
+fp <- fp %>% 
+  mutate("sga" = case_when(
+    sga_intergrowth == "1" ~ "SGA" ,
+    sga_intergrowth == "0" ~ "non-SGA"
+  ))
+```
+
+
+#Introduction
+
+##Research Question
+In this project, we are interested in answering the following research question: Is there a relationship between birth measures and baby weight at one year? To answer our research question, we will be utilizing the following variables: standardized weight at one year, the maternal mid-upper arm circumference (MUAC) score, and if the baby was small for gestational age (SGA) meaning that the birth weight was in the bottom 10% of their gestational age). 
+
+To answer our research question, we broke down the question into three models. 
+
+The first is a single linear regression model that predict the one-year standardized weight of the baby based on their SGA status. 
+
+The second is another single linear regression model that predicts the one-year standardized weight of the baby based on the maternal MUAC score. 
+
+And, the third is a multiple linear regression model that predicts the one-year standardized weight of the baby based on both the baby SGA status and maternal MUAC score.  
+
+##Data & Background
+The data we are using for this research question is a subset of data from a study that examines the relationship between breast milk macronutrients and offspring growth and neurodevelopment in a lactation cohort consisting of 98 mother-baby pairs in rural Bangladesh (North et al., 2025). The dataset has a total of 7 variables and 98 rows.
+
+##Research Design
+In terms of research design, the study was a longitudinal cohort taking place in the Projahnmo research site in rural Sylhet, Bangladesh. Women were enrolled into the lactation cohort from 01/03/2018 - 04/04/2018 at the postpartum visit around 42-60 days after delivery (North et al., 2025). The mothers and infants were then followed from birth to 24 months.
+
+##Central Limit Theorem.
+The data meets the criteria of the Central Limit Theorem: it is a representative sample, has independent observations, and accurate data. Specifically, the sampled cohort in Sylhet was selected because the area is rural and agrarian, has a per-person GDP of less than $2 USD, and breastfeeding is a common practice. Thus, this cohort was representative of the objectives of the initial study.
+
+# Demographics and Characteristics
+●	Are you concerned that the age decade of the mother, average wealth of the family, or energy intake from breast milk at 5 months could be a potential confounder?  Explain your reasoning by citing numbers in tables 1 - 3 
+## Potential Confounders
+The age-decade of the mother may be a potential confounder considering that out of the total 98 women, 15 were in their teens, 68 were in their twenties, and 15 were in their thirties. This could be a confounder because mothers in their teens and thirties may be underrepresented (Table 3).
+
+# Model 1: Single Linear Regression | weight vs SGA
+```{r}
+SLR_model <- lm(fp$WTZ_12~fp$sga)
+
+summary(SLR_model)
+
+plot(SLR_model)
+```
+
+
+## CLT Assumptions <=== JK JK. I need to run a two-sample t-test because SGA is a binary variable.
+Prior to doing hypothesis testing, we must first meet the following assumptions for the SGA and weight variables:  independence, normality, and homogenity of variance. 
+
+In this context, independence refers to each weight value being independent, non-influential, of other weight values. Normality refers to the distribution of weight values should appear symmetrical and bell shaped. Homogenity refers to the equal spread or how variable the weight values are for SGA or non-SGA babies. 
+
+
+### Check that homogenity assumption is met by doing var.test
+```{r}
+var.test(fp$WTZ_12~fp$sga)
+
+## p-value = 0.8491
+## since p-value > 0.05 we conclude that the variances are equal
+```
+
+###Check that normality assumption is met by doing making histogram
+```{r}
+ggplot(data = fp, aes(x = WTZ_12, fill = sga)) +
+  geom_histogram(
+    alpha = 0.6,
+    position = "identity",
+    color = "black",
+    binwidth = 0.3
+  ) +
+  labs(x = "Baby Weight at One-year Distribution",
+       y = "Count",
+       fill = "SGA Status",
+       title = "Figure 1. Histogram Distribution of Baby Weight by SGA Status")
+```
+
+
+That being said, based on the research design, we confirm that the independence assumption is met. Normality is met because the histogram distribution appears bell-shaped and symmetrical. And, our variance test resulted in an equal variance.  
+
+
+## Is SGA a significant predictor?
+We utilized a two-sample t-test to determine if there is a significant difference between the weight value means between SGA babies and non-SGA babies. Our null hypothesis is that there is no difference between the two means for both groups. And, our alternative hypothesis is that there is a difference between the means. 
+
+```{r}
+t.test(fp$WTZ_12~fp$sga, alternative = "two.sided", var.equal = TRUE, conf.level = 0.95)
+
+#p-value = 0.005111
+# 95% confidence interval [0.1576022, 0.8592515]
+```
+
+Since the p-value is lower than our alpha, we reject the null hypothesis and we conclude that there is a difference between baby weight means for SGA and non-SGA groups. We conclude that the true population mean difference is between 0.16 to 0.86.

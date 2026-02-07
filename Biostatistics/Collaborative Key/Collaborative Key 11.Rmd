@@ -1,0 +1,42 @@
+---
+title: "Collaborative Key 11"
+author: "Patrick Torralba"
+date: "2025-11-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#import data
+```{r}
+ncb <- read.csv(file = "C:/Users/Lenovo/OneDrive/Documents/Biostatistics/Biostats Assignments/Datasets and related info/NCbirths.csv", header = TRUE)
+
+```
+
+#library
+```{r}
+library(tidyverse)
+```
+
+#Exploring the Relationship Between Weight Gained by Parent Giving Birth and Birthweight of Baby
+
+```{r}
+ggplot(data = ncb, aes(x = Gained, y = BirthWeightGm)) +
+  geom_point() +
+  geom_abline() +
+  labs(x = "Weight Gained by Parent", y = "Birthweight of Baby (g)", title = "Weight Gained by Parent vs Birthweight of Baby")
+
+```
+
+
+#Correlation Coefficient
+```{r}
+weight_cor <- ncb %>% 
+  cor(x = Gained, y = BirthWeightGm)
+
+cor(x= ncb$Gained,y = ncb$BirthWeightGm)
+
+```
+

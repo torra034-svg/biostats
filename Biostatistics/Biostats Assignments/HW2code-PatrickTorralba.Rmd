@@ -1,0 +1,53 @@
+---
+title: "HW2code-PatrickTorralba"
+author: "Patrick Torralba"
+date: "2025-09-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Step 1: Coding
+
+#Import Data
+```{r}
+pph <- read.csv(file = file.choose(), header = TRUE)
+```
+
+#Total Blood Loss Histogram Graph
+```{r}
+hist(x = pph$TotalBloodLoss,
+     xlab = "Total Blood Loss (mL)",
+     main = "Figure 1. Total Blood Loss during Vaginal Birth")
+```
+
+#Summary Statistics
+```{r}
+summary(pph$TotalBloodLoss, na.rm = TRUE)
+sd(pph$TotalBloodLoss, na.rm = TRUE)
+
+
+# Min = 20.0, Max = 2000.0, Range = 1980
+# 1Q = 150, Median = 300.0, 3Q = 450
+# Mean = 384.9, st.dev = 333.735
+```
+
+#Hypothesis Testing | Are patients averaging *more* than 500mL of blood loss?
+```{r}
+t.test(pph$TotalBloodLoss, conf.level = 0.95, mu = 500, alternative = "greater")
+
+# our p-value = 1 (thats a super small number and def less than 0.05)
+```
+
+#Confidence Interval (CI) Calculation
+```{r}
+library(epiDisplay)
+
+ci(pph$TotalBloodLoss, alpha = 0.05)
+
+# Our lower 95% CI level is 354.84 and our upper 95% CI is 414.89
+```
+
+

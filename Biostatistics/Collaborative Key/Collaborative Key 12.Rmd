@@ -1,0 +1,45 @@
+---
+title: "Linear Regression Collaborative Key"
+author: "Patrick Torralba"
+date: "2025-11-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#import data
+```{r}
+ncb <- read.csv(file = "C:/Users/Lenovo/OneDrive/Documents/Biostatistics/Biostats Assignments/Datasets and related info/NCbirths.csv", header = TRUE)
+```
+
+#library
+```{r}
+library(tidyverse)
+```
+
+# Predicting Birthweight of All Babies from Weight Gained by Parent Giving Birth
+
+1. relationship between birthweight and Gained
+```{r}
+ggplot(data = ncb, aes(x = Gained, y = BirthWeightGm)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+2. linear model 
+```{r}
+model1 <- lm(ncb$BirthWeightGm~ncb$Gained)
+
+summary(model1)
+
+```
+
+# diagnostic plot
+```{r}
+par(mfrow=c(2,2))
+
+plot(model1)
+```
+

@@ -1,0 +1,112 @@
+---
+title: "W8 Collaborative Key"
+author: "Patrick Torralba"
+date: "2025-10-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#library
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(epibasix)
+```
+
+#import data
+```{r}
+births <- read.csv(file = "C:/Users/Lenovo/OneDrive/Documents/Biostatistics/Biostats Assignments/Datasets and related info/NCbirths.csv", header = TRUE)
+
+```
+
+# Estimating Risk of Low Birthweight Between Single Births and Multiple Births
+
+#15) Graph
+```{r}
+ggplot(data = births, aes(x = Plural, y = Low)) + 
+  geom_col()
+```
+
+#16) 
+
+#Low BW variable + Multiple variable
+```{r}
+births_v1 <- births %>% 
+  mutate("Low" = factor(Low)) %>% #Convert Low to factor
+  mutate("LowBW" = case_when(
+    Low == "1" ~ "Low",
+    Low == "0" ~ "Normal",
+    TRUE ~ "NA" #Default for other cases
+  )) %>% #LowBW
+  mutate("Plural" = factor(Plural)) %>% #Convert Plural to factor
+  mutate("Plural_1" = case_when(
+    Plural == "1" ~ "Single",
+    Plural == "2" ~ "Multiples",
+    TRUE ~ "Multiples")) %>%  # Create Plural for single vs multiples
+  mutate("Plural_1"= fct_relevel(
+    Plural_1,
+    "Single")) #Ensure that Single appears first in row
+```
+
+#17) 
+
+#LowBW Table
+```{r}
+b_table <- table(births_v1$Plural_1, births_v1$LowBW)
+
+b_table
+```
+
+
+#20) Calculate the Odds-ratio for SINGLE BABIES vs MULTIPLE BIRTHS
+
+```{r}
+summary(epi2x2(b_table))
+```
+
+#22) Compare MULTIPLE BIRTHS TO SINGLE BIRTHS. Calculate Odds Ratio
+
+# Factor re-level
+```{r}
+births_v1 <- births_v1 %>% 
+  mutate("Plural_v2" = fct_relevel(
+    Plural_1,
+    "Multiples")) #Ensure that Multiples appears first in row
+```
+
+
+#Test
+```{r}
+btest_table <- table(births_v1$Plural_v2, births_v1$LowBW)
+
+btest_table
+```
+
+
+# Create table by manually releveling values
+```{r}
+b2_table <- matrix(
+  c(31,16,88,1274),
+  nrow = 2, ncol = 2, byrow = TRUE,
+  dimnames = list(
+    c("Multiples","Single"),
+    c("Low","Normal")))
+
+b2_table
+```
+
+# Calculate Odds-ratio
+```{r}
+summary(epi2x2(b2_table))
+
+# The odds-ratio for low birthweight for the first baby born in a multiple birth is 28.05%
+```
+
+#23) The relationship between the two numbers is the odds of having a low birthweight baby born in a singular birth (3.6%) versus the odds of having a low birthweight baby born in a MULTIPLE birth (28.05%). Yes, changing the group comparisons does change the interpretation of the odds-ratio value.
+
+#24) The 95% confidence interval for the odds-ratio of low birthweight for multiple vs singular births is between 14.778 to 53.241
+
+#27) 

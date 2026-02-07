@@ -1,0 +1,129 @@
+---
+title: "Week 4 Problem Set - Collaborative"
+author: "Patrick Torralba"
+date: "2025-09-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Import data
+```{r}
+sleep <- read.csv(file = file.choose(), header = TRUE)
+```
+
+#library
+```{r}
+library(ggplot2)
+library(tidyverse)
+```
+
+#Review data
+```{r}
+str(sleep)
+View(sleep)
+```
+
+# Examining the Data
+#1) Researchers want to study students who have either anxiety and their sleep habits.
+
+#2) The research is an observational cohort study because researchers are not doing anything to influence college student's sleep schedule. They are just observing and collecting data.
+
+#3) They most likely selected the 253 subjects through convenience sampling.
+
+#4) Yes, they sampled from their population of interest because they collected college students who have anxiety.
+
+
+# Research Question
+
+
+#5) Average Sleep Histogram
+```{r}
+hist(x = sleep$AverageSleep, xlab = "Average Sleep", main = "Average Sleep Histogram")
+```
+
+#6) Summary Stats
+```{r}
+summary(sleep$AverageSleep)
+IQR(sleep$AverageSleep)
+range(sleep$AverageSleep)
+stats(sleep$AverageSleep)
+sd(sleep$AverageSleep)
+max(sleep$AverageSleep)
+
+
+# min = 4.950, median = 8.0, Q1 = 7.430, Q3 = 8.590, IQR = 1.16, range = 5.67, max =10.62 , sd = 0.9648
+
+```
+
+#7) Yes, the CLT are met because the sample size is large enough and the graph appears symmetrical.
+
+#8) The null hypothesis is that college students do not sleep less than 8 hours a night.
+
+#9) The alternative hypothesis should only be one-sided because we are looking if the college students have *less* than 8 hours of sleep. We'd use a two-tailed test if college students have different hours of sleep compared to 8 hours a night. H1 < 8 hours of sleep
+
+#10) 
+
+```{r}
+
+#(8.00 - )
+
+
+
+#Know: n > 30, pop st.dev = unknown
+# Therefore, we should use the t-statistic
+
+```
+
+
+#11) The test-statistic represents how far the sample data deviates from the null hypothesis. In this scenario, it represents how far this sample of college students sleep (in hours) deviates from the null hypothesis - 8 hours. 
+
+#12) ???
+
+#13) The p-value represents how unlikely an extreme event were to occur. Therefore in the context of this problem, we have X% for the alternative hypothesis to occur assuming the null hypothesis is true.
+
+#14) 
+
+```{r}
+t.test(x = sleep$AverageSleep, mu = 8, alternative = "less", conf.level = 0.95)
+
+# The t-statistic is -0.56 and the p-value is 0.2874.
+```
+
+#15) We fail to reject the null hypothesis and we are 95% certain that college students do not have less than 8 hours of sleep per night. 
+
+#16) This is about the null hypothesis because we assume the null hypothesis is true and we use a t-test to compare if our extreme values are statistically significant.
+
+#17) We could have made a type II error because we made a conclusion that we failed to reject the null hypothesis since our p-value was low. This could be because our null hypothesis of 8 hours is too low.
+
+# Testing Anxiety Scores
+
+#18) Graph
+
+```{r}
+hist(x = sleep$AnxietyScore, xlab = "Anxiety Score", main = "Anxiety Score Histogram")
+```
+
+#19 Summary Stats
+```{r}
+AS <- sleep$AnxietyScore
+
+summary(AS)
+IQR(AS)
+sd(AS)
+
+
+#mean = 5.372, median = 4, Q1 = 1, Q3 = 8, IQR = 7 , Range = 26, Min = 0, Max = 26, sd = 5.19
+```
+
+#20) Yes, the conditions met the Central Limit Theorem because the sample size is larger than 30. 
+
+#21) The null hypothesis is that college students are not anxious. The alternative hypothesis is that college students are anxious (Ho: u = 7, Ha: u > 7)
+
+#22) Calculation
+```{r}
+t.test(x=AS, )
+```
+

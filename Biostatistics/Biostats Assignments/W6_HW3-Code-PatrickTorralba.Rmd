@@ -1,0 +1,190 @@
+---
+title: "W6_HW3-PatrickTorralba"
+author: "Patrick Torralba"
+date: "2025-10-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Homework 3: Comparing Group Averages | Coding
+
+
+# Load library
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+# Import data
+```{r}
+pph <- read.csv(file = "C:/Users/Lenovo/OneDrive/Documents/Biostatistics/Biostats Assignments/Datasets and related info/PPHstudy.csv", header = TRUE)
+
+View(pph)
+```
+
+
+# Summary Statistics | Total Blood Loss vs Prior Illness Status
+```{r}
+pph_summary_stats <- pph %>% 
+  select(TotalBloodLoss, NoPriorIllness) %>% 
+  group_by(NoPriorIllness) %>% 
+  summarize(TotalBloodLoss_mean = mean(TotalBloodLoss, na.rm = TRUE),
+            TBL_sd = sd(TotalBloodLoss, na.rm = TRUE),
+            TBL_median = median(TotalBloodLoss, na.rm = TRUE),
+            TBL_min = min(TotalBloodLoss, na.rm = TRUE),
+            TBL_max = max(TotalBloodLoss, na.rm = TRUE),
+            TBL_range = TBL_max - TBL_min,
+            TBL_IQR = IQR(TotalBloodLoss, na.rm = TRUE),
+            TBL_Q1 = quantile(TotalBloodLoss, probs = 0.25, na.rm = TRUE),
+            TBL_Q3 = quantile(TotalBloodLoss, probs = 0.75, na.rm = TRUE))
+
+            
+## think of using describby()
+View(pph_summary_stats)
+```
+
+
+# Data Visualization | Set-up |Total Blood Loss vs Prior Illness Status
+```{r}
+pph_RQ1 <- pph %>% 
+  select(TotalBloodLoss, NoPriorIllness) %>% 
+  group_by(NoPriorIllness) %>% 
+  mutate(illness_status = factor(NoPriorIllness)) %>%  # Convert to factor
+  mutate(illness_status = fct_recode(illness_status,
+                                      "No prior illness" = "1",
+                                     "Prior illness" = "0")) %>% 
+  mutate("No Prior Illness" = case_when(
+    illness_status == "No prior illness" ~ TotalBloodLoss,
+    TRUE ~ NA_real_)) %>%  #No prior illness variable
+  mutate("Prior Illness" = case_when(
+    illness_status == "Prior illness" ~ TotalBloodLoss,
+    TRUE ~ NA_real_))  #Prior illness variable
+
+View(pph_RQ1)
+```
+
+# Data Visualization | Boxplot | Total Blood Loss vs Prior Illness Status
+```{r}
+ggplot(data = pph_RQ1, aes(x = illness_status, y = TotalBloodLoss, fill = illness_status), color = "black") +
+  geom_boxplot() +
+  labs(x = "Illness Status", y = "Total Blood Loss (mL)", title = "Figure 1. Total Blood Loss by Illness Status") +
+  theme(legend.position = "none")
+
+
+```
+
+# Hypothesis Test | Two-sample t-test | Total Blood Loss vs Prior Illness Status
+
+# Two-sample T-test
+```{r}
+t.test(pph_RQ1$`No Prior Illness`, pph_RQ1$`Prior Illness`,
+       conf.level = 0.95, 
+       mu = 0, 
+       altnerative = "two.sided", 
+       paired = FALSE, 
+       var.equal = FALSE)
+
+#p-value = 0.5864
+
+```
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+# Summary Statistics | Total Blood Loss vs Number of Kids
+```{r}
+pph_summary_stats_RQ2 <- pph %>% 
+  select(TotalBloodLoss, KidStatus) %>% 
+  group_by(KidStatus) %>% 
+  summarize(TotalBloodLoss_mean = mean(TotalBloodLoss, na.rm = TRUE),
+            TBL_sd = sd(TotalBloodLoss, na.rm = TRUE),
+            TBL_median = median(TotalBloodLoss, na.rm = TRUE),
+            TBL_min = min(TotalBloodLoss, na.rm = TRUE),
+            TBL_max = max(TotalBloodLoss, na.rm = TRUE),
+            TBL_range = TBL_max - TBL_min,
+            TBL_IQR = IQR(TotalBloodLoss, na.rm = TRUE),
+            TBL_Q1 = quantile(TotalBloodLoss, probs = 0.25, na.rm = TRUE),
+            TBL_Q3 = quantile(TotalBloodLoss, probs = 0.75, na.rm = TRUE))
+
+            
+
+View(pph_summary_stats_RQ2)
+```
+
+# Data Visualization | Total Blood Loss vs Number of Kids
+
+## Set-up
+```{r}
+pph_RQ2 <- pph %>% 
+  select(TotalBloodLoss, KidStatus) %>% 
+  group_by(KidStatus) %>% 
+  mutate(kid_number = factor(KidStatus)) %>%  # Convert to factor
+  mutate(kid_number = fct_recode(kid_number,
+                                      "2 or more children" = "2+",
+                                      "One Child" = "1",
+                                      "None" = "0")) %>% 
+  mutate("2 or more children" = case_when(
+    kid_number == "2 or more children" ~ TotalBloodLoss,
+    TRUE ~ NA_real_)) %>% # 2+ kids variable
+  mutate("One Child" = case_when(
+    kid_number == "One Child" ~ TotalBloodLoss,
+    TRUE ~ NA_real_)) %>%  #One Child variable
+  mutate("None" = case_when(
+    kid_number == "None" ~ TotalBloodLoss,
+    TRUE ~ NA_real_))  #None variable
+
+View(pph_RQ2)
+```
+
+## Boxplot
+```{r}
+ggplot(data = pph_RQ2, aes(x = kid_number, y = TotalBloodLoss, fill = kid_number), color = "black") + 
+  geom_boxplot() + 
+  labs(x = "Number of Children", y = "Total Blood Loss (mL)",
+  title = "Figure 2. Total Blood Loss by number of previous 
+children before this pregnancy." ) + 
+  theme(legend.position = "none")
+```
+
+
+## Log transform
+```{r}
+pph_RQ2_log <- pph_RQ2 %>% 
+  mutate("2 or more children (log)" = log(`2 or more children`),
+         "One child (log)" = log(`One Child`),
+         "None (log)" = log(None),
+         "Total Blood Loss (log)" = log(TotalBloodLoss))
+
+View(pph_RQ2_log)
+```
+
+
+## Boxplot post log transform
+```{r}
+ggplot(data = pph_RQ2_log, aes(x = kid_number, y = `Total Blood Loss (log)`, fill = kid_number), color = "black") + 
+  geom_boxplot() + 
+  labs(x = "Number of Children", y = "Total Blood Loss (mL)",
+  title = "Figure 3. Total Blood Loss (log) by number of 
+previous children before this pregnancy." ) + 
+  theme(legend.position = "none")
+```
+
+# ANOVA | Total Blood Loss (log) vs Number of Kids
+```{r}
+pph_RQ2_ANOVA <- aov(data = pph_RQ2_log, `Total Blood Loss (log)`~kid_number)
+
+summary(pph_RQ2_ANOVA) #p-value = 2.54e-07; meaning atleast one of the groups is statistically significant
+```
+
+# Tukey HSD | post-hoc analysis
+
+```{r}
+TukeyHSD(pph_RQ2_ANOVA) 
+
+# It appears that one-child and None; and 2 or more children-none; groups are statistically significant.
+```
+

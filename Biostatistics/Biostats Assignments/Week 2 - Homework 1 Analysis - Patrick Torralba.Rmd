@@ -1,0 +1,70 @@
+---
+title: 'Week 2: Homework 1 Analysis'
+author: "Patrick Torralba"
+date: "2025-09-10"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#load packages
+```{r}
+library(readxl)
+```
+
+#import dataset
+```{r}
+pphstudy <- read.csv(file ="C:/Users/Lenovo/Downloads/PPHstudy.csv", header = TRUE)
+```
+
+#view dataset
+```{r}
+View(pphstudy)
+```
+
+#step 1: Coding
+#Post-delivery Hemoglobin Concentration
+
+##Graph
+```{r}
+hist(pphstudy$HbPost, main="Figure 1. Post-delivery Hemoglobin Concentration trends", 
+     xlab="Hb Concentration (g/dL)", 
+     breaks = 10)
+```
+
+##Center Calculation
+```{r}
+mean(pphstudy$HbPost, na.rm = TRUE)
+median(pphstudy$HbPost, na.rm = TRUE)
+```
+
+
+##Spread Calculation
+```{r}
+sd(pphstudy$HbPost, na.rm = TRUE)
+IQR(pphstudy$HbPost, na.rm = TRUE)
+```
+
+#Total blood loss after delivery
+##Graph
+```{r}
+hist(pphstudy$TotalBloodLoss, 
+     main = "Figure 2. Total Blood Loss after Delivery",
+     xlab = "Blood Loss (mL)",
+     breaks = 10)
+```
+
+##Center Calculation
+```{r}
+mean(pphstudy$TotalBloodLoss, na.rm = TRUE)
+median(pphstudy$TotalBloodLoss, na.rm = TRUE)
+```
+
+
+##Spread Calculation
+```{r}
+sd(pphstudy$TotalBloodLoss, na.rm = TRUE)
+IQR(pphstudy$TotalBloodLoss, na.rm = TRUE)
+```

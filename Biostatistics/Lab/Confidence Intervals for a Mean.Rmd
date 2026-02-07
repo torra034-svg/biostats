@@ -1,0 +1,59 @@
+---
+title: "Confidence Intervals for a Mean"
+author: "Patrick Torralba"
+date: "2025-09-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Library
+```{r}
+library(psych)
+library(tidyverse)
+library(ggplot2)
+```
+
+
+#Import Data
+```{r}
+bodyt <- read.csv(file = "C:/Users/Lenovo/Downloads/BodyTempSample.csv", header = TRUE)
+```
+
+#Convert list to numeric vector
+```{r}
+bodyt1 <- as.numeric(unlist(bodyt))
+```
+
+#Summary Statistics
+```{r}
+summary(bodyt1)
+
+IQR(bodyt1)
+
+range(bodyt1, na.rm =TRUE)
+
+sd(bodyt1, na.rm = TRUE)
+```
+
+
+#Bodytemp Graph
+```{r}
+hist(x=bodyt$BodyTemp,
+     main = "Body Temp Sample",
+     xlab = "Body Temp",
+     ylab = "Frequency")
+```
+
+#SEM Calculation
+```{r}
+mean_se
+```
+
+#t-value
+```{r}
+pt(bodyt$BodyTemp, df = 49)
+```
+

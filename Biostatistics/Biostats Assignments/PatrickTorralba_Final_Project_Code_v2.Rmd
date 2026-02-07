@@ -1,0 +1,129 @@
+---
+title: "PatrickTorralba_Final_Project_Code"
+author: "Patrick Torralba"
+date: "2025-12-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#library
+```{r}
+library(tidyverse)
+library(psych)
+```
+
+#import data
+```{r}
+fp <- read.csv(file = "C:/Users/Lenovo/OneDrive/Documents/Biostatistics/Biostats Assignments/Datasets and related info/BangladeshBirthDataR.csv", header = TRUE)
+```
+
+#data clean
+```{r}
+fp <- fp %>% 
+  mutate("sga" = case_when(
+    sga_intergrowth == "1" ~ "SGA" ,
+    sga_intergrowth == "0" ~ "non-SGA"
+  ))
+```
+
+# General summary stats
+```{r}
+summary(fp)
+```
+
+
+
+### Check that homogenity assumption is met by doing var.test
+```{r}
+var.test(fp$WTZ_12~fp$sga)
+
+## p-value = 0.8491
+## since p-value > 0.05 we conclude that the variances are equal
+```
+
+###Check that normality assumption is met by doing making histogram
+```{r}
+ggplot(data = fp, aes(x = WTZ_12, fill = sga)) +
+  geom_histogram(
+    alpha = 0.6,
+    position = "identity",
+    color = "black",
+    binwidth = 0.3
+  ) +
+  labs(x = "Baby Weight at One-year Distribution",
+       y = "Count",
+       fill = "SGA Status",
+       title = "Figure 1. Histogram Distribution of Baby Weight by SGA Status")
+```
+
+
+# Model 1: Is SGA a significant predictor? 
+
+## Two-sample t-test because SGA is a binary variable.
+
+```{r}
+t.test(fp$WTZ_12~fp$sga, alternative = "two.sided", var.equal = TRUE, conf.level = 0.95)
+
+#p-value = 0.005111
+# 95% confidence interval [0.1576022, 0.8592515]
+```
+
+
+## Model 1: Baby Weight vs SGA graph
+```{r}
+ggplot(data = fp, aes(x = sga, y = WTZ_12, fill = sga)) +
+  geom_boxplot() +
+  labs(x = "SGA Status",
+       y = "Baby Weight at 1 Year (Z-score)",
+       title = "Figure 2. SGA Status vs Baby Weight at 1 Year") +
+  theme(legend.position = "")
+  
+```
+
+
+# Model 2: Weight_12 vs MUAC Score - graph
+```{r}
+ggplot(data = fp, aes(x = MATMUAC_BASELINE, y = WTZ_12)) +
+  geom_point() +
+  stat_smooth(method = "lm",
+              se = FALSE) +
+  labs(x = "MUAC Score (cm)",
+       y = "Baby Weight at 1 Year (Z-Score)",
+       title = "Figure 3. Baby Weight at 1 Year vs MUAC Score")
+```
+
+# Model 2: Weight_12 vs MUAC Score - stats
+```{r}
+MUAC_model <- lm(fp$WTZ_12~fp$MATMUAC_BASELINE)
+
+summary(MUAC_model)
+
+cor(fp$MATMUAC_BASELINE, fp$WTZ_12, use = "complete.obs")
+```
+
+#model 2 - summary stats
+```{r}
+describe(fp$sga_intergrowth)
+```
+
+
+#Model 3: Weight_12 vs MUAC Score and SGA Status - graph
+```{r}
+ggplot(data = fp, aes(x = MATMUAC_BASELINE, y = WTZ_12, color = sga)) +
+  geom_point() +
+  labs(x = "MUAC Score (cm)",
+      y = "Baby Weight at 1 Year (Z-Score)",
+      title = "Figure 5. MUAC Score & SGA vs Baby Weight at 1 Year",
+      color = "SGA Status")
+```
+
+#model 3: formula
+```{r}
+MUAC_SGA_model <- lm(fp$WTZ_12~fp$MATMUAC_BASELINE+fp$sga)
+
+summary(MUAC_SGA_model)
+```
+

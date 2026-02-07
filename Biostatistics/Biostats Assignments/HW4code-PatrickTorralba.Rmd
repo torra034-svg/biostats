@@ -1,0 +1,61 @@
+---
+title: 'Homework 4: Comparing Rates'
+author: "Patrick Torralba"
+date: "2025-10-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#library
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(epibasix)
+```
+
+#create data table
+```{r}
+smoke_table <- matrix(
+  c(38,193,17,212),
+  nrow = 2, ncol = 2, byrow = TRUE,
+  dimnames=list(
+    c("treatment","control"),
+    c("non-smoking", "smoking")
+  )
+)
+
+smoke_table
+```
+
+#Calculate relative-risk and odds-ratio + confidence intervals for: TREATMENT VS CONTROL
+```{r}
+summary(epi2x2(smoke_table))
+
+#Relative Risk = 2.216; CI = [1.289, 3.81]
+
+#Odds Ratio =2.455; CI = [1.342, 4.493]
+```
+
+#Calculate relative-risk and odds-ratio + confidence intervals for: CONTROL VS TREATMENT
+```{r}
+smoke_table_reverse <- matrix(
+  c(17,212,38,193),
+  nrow = 2, ncol = 2, byrow = TRUE,
+  dimnames=list(
+    c("control","treatment"),
+    c("non-smoking", "smoking")
+  )
+)
+
+smoke_table
+```
+
+#Reverse
+```{r}
+summary(epi2x2(smoke_table_reverse))
+
+```
+

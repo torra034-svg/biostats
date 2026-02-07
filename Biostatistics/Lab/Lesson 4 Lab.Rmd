@@ -1,0 +1,86 @@
+---
+title: "Lesson 4 Lab"
+author: "Patrick Torralba"
+date: "2025-09-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+#Hypothesis Testing
+
+##import data
+```{r}
+lhs <- read.csv(file =file.choose(), header = TRUE)
+```
+
+
+#two-sided t-test
+```{r}
+t.test(lhs$wgtchg05, conf.level=0.95, mu=0, alternative="two.sided")
+```
+
+
+#t-statistic value <--- this is our normal value of what we want to compare our t-statistic to
+```{r}
+qt(0.975, df = 5468)
+```
+
+
+##Guided Questions
+
+#1) The sample mean weight change is 3.71 kg
+
+#2) The test statistic is a t-statistic of 41.068 and the degrees of freedom is 5468.
+
+#3) The resulting p-valye is 2.2e-16
+
+
+---------------------------------------------
+
+#Transforming a Numerical Variable in R
+
+#Skewed Variable | This is a right-skewed graph
+```{r}
+hist(lhs$AV5CIGS, main="Histogram of average cigarettes at year 5",
+xlab="average cigarettes per day")
+```
+
+
+###Note: A QQ plot is created to generate a normal distribution from the data to compare what the data values would look like if the data was normally distributed
+
+## QQ Plot & Reference line
+```{r}
+qqnorm(lhs$AV5CIGS)
+qqline(lhs$AV5CIGS)
+```
+
+##Log transform this variable 
+```{r}
+lhs$logAvgCigs5<-log(lhs$AV5CIGS)
+```
+
+## Guided Questions
+#1)The first value is 2.30. There is missing data for rows 2,3, and 4.
+
+```{r}
+head(lhs)
+```
+
+#2) QQplot of log variable | No you cannot create a QQ plot of the new variable because these values go to infinity. This does not look symmetrical either.
+```{r}
+qnorm(lhs$logAvgCigs5)
+
+```
+
+#3 QQ plot of age variable | The age does not look symmetric
+```{r}
+log_age<-log(lhs$age)
+
+hist(log_age)
+```
+
