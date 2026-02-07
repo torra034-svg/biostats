@@ -28,17 +28,35 @@ rm(url)
 ```
 
 
-```{r}
+```{r create wtchg and cholchg}
 tomhs <- tomhs %>% 
   mutate(wtchg = wt12 - wtbl,
          cholchg = chol12 - cholbl)
 ```
 
 #Questions
-##1)
-```{r}
+```{r Q1}
 model <- lm(data = tomhs, cholchg ~ wtchg)
 
 summary(model)
+```
+
+```{r Q2 - factor level}
+
+tomhs <- tomhs %>% 
+  mutate(nowsmk = fct_relevel(as.factor(nowsmk), "2")) #set non-smokers as reference level
+  
+```
+
+```{r Q2 model}
+
+model_adjust <- lm(data = tomhs, cholchg ~ wtchg + nowsmk)
+
+summary(model_adjust)
+
+```
+
+```{r}
+
 ```
 
