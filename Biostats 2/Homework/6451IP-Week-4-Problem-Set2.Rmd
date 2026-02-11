@@ -1,5 +1,5 @@
 ---
-title: "6451IP-Week-4-Problem-Set2"
+title: "6451IP-Week-4-Problem-Set2 | MULTIPLE LINEAR REGRESSION, Part 3 Problem Set #2"
 author: "Patrick Torralba"
 date: "2026-02-11"
 output: html_document
@@ -13,20 +13,42 @@ knitr::opts_chunk$set(echo = TRUE)
 #library
 ```{r load library}
 library(tidyverse)
-library(RCurl)
 library(car)
 ```
 
 #import data
 ```{r load tomhs data from github}
-tomhs_URL <- getURL("https://github.com/torra034-svg/biostats/blob/main/Biostats%202/Data%20Stuff/tomhs.csv")
+url <- "https://raw.githubusercontent.com/torra034-svg/biostats/refs/heads/main/Biostats%202/Data%20Stuff/tomhs.csv"
 
-tomhs <- read.csv(text = tomhs_URL)
+tomhs <- read_csv(url)
 ```
 
 ```{r remove url}
+rm(url)
 
-rm(tomhs_URL)
+```
+
+#Questions
+
+```{r q1 create variables}
+tomhs <- tomhs %>% 
+  mutate(wtchg = wt12 - wtbl,
+         cholchg = chol12 - cholbl)
+```
+
+```{r q2 MLR model}
+
+model_adjusted <- lm(data = tomhs, cholchg ~ wtchg + nowsmk)
+
+summary(model_adjusted)
+```
+
+
+```{r q3 and q4: check for outliers via cooks model}
+
+n <- nobs(model_adjusted) #define number of observations first in the model
+
+which(cooks.distance(model_adjusted) > 4/n) #this line identifies outliers
 
 ```
 
