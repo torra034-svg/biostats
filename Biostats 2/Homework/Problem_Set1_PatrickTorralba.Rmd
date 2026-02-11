@@ -1,0 +1,157 @@
+---
+title: "Problem_Set1_PatrickTorralba"
+author: "Patrick Torralba"
+date: "2026-01-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#library
+```{r}
+library(tidyverse)
+library(psych)
+library(gt)
+library(gtsummary)
+library(summarytools)
+```
+
+
+#1) import data
+```{r}
+Rheum <- read.csv(file = "C:/Users/Lenovo/Downloads/RheumArth.csv", header = TRUE)
+```
+
+#2,3,4) rows and columns, and variable types
+```{r}
+str(Rheum)
+```
+
+#6) Missing values
+```{r}
+Rheum %>%
+  summarise(across(everything(), ~ sum(is.na(.))))
+```
+
+#7) Creating a New Variable
+```{r}
+rheum <- Rheum %>% 
+  mutate(dxgt20 = if_else(Yrs_From_Dx >= 20,1,0))
+```
+
+#8) Checking the new variable | dxgt20
+```{r}
+ggplot(rheum, aes(x = dxgt20)) +
+  geom_bar() + 
+  labs(x = "Diagnosis", y = "Diagnosis Count", title = "Rheumatoid Arthritis Diagnosis", caption = "0 = Diagnosed less than 20 years ago, 1 = Diagnosed more than 20 years ago")
+```
+
+# Checking the new variable | Yrs_From_Dx
+```{r}
+ggplot(rheum, aes(x = Yrs_From_Dx)) +
+  geom_bar() +
+  labs(x = "Years from Diagnosis", y = "Diagnosis Count", title = "Rheumatoid Arthritis Diagnosis Year" )
+```
+
+#9) Table 1 | Data Cleaning
+```{r ra_table1}
+
+ra_table1 <- rheum %>% 
+  select(Sex, Yrs_From_Dx, CDAI_YN, DAS28_YN, Steroids_GT_5, DMARDs, sDMARDS, OsteopScreen, AgeGp) %>% 
+  mutate("f.Sex" = as.factor(if_else(Sex == 0, "Female", "Male", NA)),
+         "f.CDAI_YN" = as.factor(if_else(CDAI_YN == 1, "No", "Yes", NA)),
+         "f.DAS28_YN" = as.factor(if_else(DAS28_YN == 1, "No", "Yes", NA)),
+         "f.Steroids_GT_5" = as.factor(if_else(Steroids_GT_5 == 0, "No", "Yes", NA)),
+         "f.DMARDS" = as.factor(if_else(DMARDs == 0, "No", "Yes", NA)),
+         "f.sDMARDS" = as.factor(if_else("sDMARDs" == 0, "No", "Yes", NA)),
+         "f.OsteopScreen" = as.factor(if_else(OsteopScreen == 0, "No", "Yes", NA)),
+         "f.AgeGp" = as.factor(if_else(AgeGp == 1, "40 to 70 years
+(“control”)", "75 and older (“elderly”)", NA))) %>% 
+  select(Yrs_From_Dx, starts_with("f."))
+```
+
+
+## Table_1 | tbl_summary
+```{r}
+Table_1 <- tbl_summary(ra_table1, 
+                       by = f.AgeGp,
+                       statistic = all_continuous() ~ "mean = {mean}, standard deviation = {sd}, median = {median}, IQR = {IQR}",
+                       label = list("Yrs_From_Dx" = "Years from Diagnosis",
+             "f.Sex" = "Sex",
+             "f.CDAI_YN" = "CDAI",
+             "f.DAS28_YN" = "DAS_28",
+             "f.Steroids_GT_5" = "Daily 5mg Steroids?",
+             "f.DMARDS" = "DMARDS",
+             "f.sDMARDS" = "sDMARDS",
+             "f.OsteopScreen" = "Osteoporosis Screening?",
+             "f.AgeGp" = "Age Group")) %>% 
+  modify_caption("**Table 1. Patient Demographics**")
+
+ 
+Table_1
+```
+
+#13) EDA | Yrs_From_DX
+```{r EDA}
+descr(rheum$Yrs_From_Dx) #descriptive stats
+
+sum(is.na(rheum$Yrs_From_Dx)) #missing values
+```
+
+#14) Yrs_From_Dx Histogram
+```{r Yrs_From_Dx Histogram}
+
+ggplot(rheum, aes(x=Yrs_From_Dx)) +
+  geom_histogram() +
+  labs(x = "Years from Diagnosis", y = "Count", title = "Years from Diagnosis Count")
+
+```
+
+#16) OsteopScreen Summary Stats
+```{r}
+freq(ra_table1$f.OsteopScreen)
+```
+
+#18) EDA | OsteopScreen and AgeGp
+```{r data cleaning}
+osteo <- ra_table1 %>% 
+  select(f.OsteopScreen, f.AgeGp)
+
+```
+
+```{r table2}
+Table_2 <- tbl_summary(osteo,
+                       by = f.OsteopScreen,
+                       label = list("f.OsteopScreen" = "Osteoporosis Screening?",
+             "f.AgeGp" = "Age Group")) %>% 
+    modify_caption("**Table 2. Osteoporosis Screening & Age Group**")
+
+
+Table_2
+```
+
+#19) EDA | DAS_28 & Age_Gp
+```{r}
+ggplot(rheum, aes(x = Age, y = DAS_28)) +
+  geom_point() + 
+  labs(x = "Patient Age", y = "DAS 28 Score", title = "Patient Age vs DAS 28 Score")
+```
+
+#20) DAS_28 vs AgeGp
+```{r}
+ggplot(rheum, aes(x = as.factor(AgeGp), y = DAS_28, fill = (as.factor(AgeGp)))) +
+  geom_boxplot() +
+  labs(x = "Age Group (1 = 40-70 Years, 2 = 75+ Years)", y = "DAS 28 Score", title = "DAS 28 Score by Age Group") +
+  theme(legend.position = "none")
+```
+
+#22) Subsetting Data
+```{r}
+subRA <- Rheum %>% 
+  filter(DAS_28 > 4)
+
+print(subRA)
+```
+
