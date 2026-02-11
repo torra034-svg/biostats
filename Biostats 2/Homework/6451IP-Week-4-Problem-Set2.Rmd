@@ -73,7 +73,7 @@ rstudent(model_adjusted) #studentized residuals tell us how many st.dev away an 
 
 ```
 
-
+Now I need to 
 
 |         | Interpretation   |
 | ------- | ---------------- |
@@ -81,4 +81,10 @@ rstudent(model_adjusted) #studentized residuals tell us how many st.dev away an 
 | |r| > 2 | Possible outlier |
 | |r| > 3 | Likely outlier   |
 | |r| > 4 | Strong outlier   |
+
+```{r q7 studentized residuals of concern}
+
+which(abs(rstudent(model_adjusted))>3) #again ignore the top row bc that is the character position. The true observation output is in the second row.
+
+```
 
