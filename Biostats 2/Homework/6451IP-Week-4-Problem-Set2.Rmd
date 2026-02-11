@@ -9,3 +9,24 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+#library
+```{r load library}
+library(tidyverse)
+library(RCurl)
+library(car)
+```
+
+#import data
+```{r load tomhs data from github}
+tomhs_URL <- getURL("https://github.com/torra034-svg/biostats/blob/main/Biostats%202/Data%20Stuff/tomhs.csv")
+
+tomhs <- read.csv(text = tomhs_URL)
+```
+
+```{r remove url}
+
+rm(tomhs_URL)
+
+```
+
