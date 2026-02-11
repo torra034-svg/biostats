@@ -44,11 +44,30 @@ summary(model_adjusted)
 ```
 
 
-```{r q3 and q4: check for outliers via cooks model}
+```{r q3 check for outliers via cooks model}
 
 n <- nobs(model_adjusted) #define number of observations first in the model
 
 which(cooks.distance(model_adjusted) > 4/n) #this line identifies outliers
+
+```
+
+
+```{r q4 check standardized residuals}
+
+which(abs(rstandard(model_adjusted)) > 2) # make sure to only look at bottom row as the observation output. Ignore the top row.
+
+```
+
+
+```{r q5 check for strong standardized residuals}
+
+which(abs(rstandard(model_adjusted)) > 3) # this checks for strong residuals
+
+```
+
+
+```{r q6 studentized residuals}
 
 ```
 
