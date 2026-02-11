@@ -69,5 +69,16 @@ which(abs(rstandard(model_adjusted)) > 3) # this checks for strong residuals
 
 ```{r q6 studentized residuals}
 
+rstudent(model_adjusted) #studentized residuals tell us how many st.dev away an observed value is from the predicted value
+
 ```
+
+
+
+|         | Interpretation   |
+| ------- | ---------------- |
+| |r| < 2 | Normal           |
+| |r| > 2 | Possible outlier |
+| |r| > 3 | Likely outlier   |
+| |r| > 4 | Strong outlier   |
 
