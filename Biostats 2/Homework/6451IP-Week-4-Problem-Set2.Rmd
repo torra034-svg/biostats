@@ -118,7 +118,12 @@ DFBETAS <- dfbetas(model_adjusted)
 
 dfbeta_flag <- which(abs(DFBETAS) > 1)
 
+```
 
+
+```{r q19 multicollinearity}
+
+vif(model_adjusted)
 
 ```
 
