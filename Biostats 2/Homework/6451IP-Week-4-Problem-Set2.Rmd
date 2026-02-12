@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load library}
 library(tidyverse)
 library(car)
+library(olsrr)
 ```
 
 #import data
@@ -85,6 +86,39 @@ Now I need to
 ```{r q7 studentized residuals of concern}
 
 which(abs(rstudent(model_adjusted))>3) #again ignore the top row bc that is the character position. The true observation output is in the second row.
+
+```
+
+
+```{r q11 cooks distance}
+
+cooks.distance(model_adjusted)
+
+```
+
+
+```{r q13 DFFITS plot}
+
+ols_plot_dffits(model_adjusted)
+```
+
+
+```{r q14 DFFITS values of concern}
+
+p <- length(coef(model_adjusted)) #number of parameters
+
+threshold <- 2 * sqrt(p / n)
+
+which(abs(dffits(model_adjusted)) > threshold )
+```
+
+```{r q15 DFBETAS}
+
+DFBETAS <- dfbetas(model_adjusted)
+
+dfbeta_flag <- which(abs(DFBETAS) > 1)
+
+
 
 ```
 
