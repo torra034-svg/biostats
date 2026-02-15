@@ -19,7 +19,9 @@ library(see)
 
 #import data
 ```{r}
-tomhs <- read.csv(file = "C:/Users/Lenovo/OneDrive/Documents/Biostats 2/Data Stuff/tomhs.csv", header = TRUE)
+url <- "https://raw.githubusercontent.com/torra034-svg/biostats/refs/heads/main/Biostats%202/Data%20Stuff/tomhs.csv"
+
+tomhs <- read.csv(url)
 ```
 
 #RQ1) What is the effect of weight change on total cholesterol change without adjusting for anything?
