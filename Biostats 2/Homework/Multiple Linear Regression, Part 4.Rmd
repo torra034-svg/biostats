@@ -96,3 +96,17 @@ summary(model1)
 
 ```
 
+```{r q12 - confint and standard error}
+
+confint(model1)
+
+emmeans(model1, ~ nowsmk1 | Current Smoking)
+```
+
+#Model 2: Model without an Interaction
+```{r unadjusted model}
+model_unadjusted <- lm(data = tomhs, cholchg ~ wtchg + nowsmk1)
+
+summary(model_unadjusted)
+```
+
