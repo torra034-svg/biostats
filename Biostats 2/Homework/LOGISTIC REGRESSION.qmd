@@ -1,0 +1,26 @@
+---
+title: "LOGISTIC REGRESSION Problem Set #2"
+author: "Patrick Torralba"
+format: html
+editor: visual
+---
+
+```{r load library, include=FALSE}
+library(tidyverse)
+
+```
+
+```{r import data, include=FALSE}
+url <- "https://raw.githubusercontent.com/torra034-svg/biostats/refs/heads/main/Biostats%202/Data%20Stuff/dekaf_dgf.csv"
+
+dekaf <- read.csv(url)
+```
+
+```{r remove url}
+
+rm(url)
+
+```
+
+
+#Exploratory Data Analysis
