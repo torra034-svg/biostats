@@ -5,22 +5,64 @@ format: html
 editor: visual
 ---
 
-```{r load library, include=FALSE}
+```{r load library, include=FALSE, echo=FALSE}
+library(epiDisplay)
 library(tidyverse)
-
 ```
 
-```{r import data, include=FALSE}
+```{r import data, include=FALSE, echo=FALSE}
 url <- "https://raw.githubusercontent.com/torra034-svg/biostats/refs/heads/main/Biostats%202/Data%20Stuff/dekaf_dgf.csv"
 
 dekaf <- read.csv(url)
 ```
 
-```{r remove url}
+```{r remove url, echo=FALSE}
 
 rm(url)
 
 ```
 
-
 #Exploratory Data Analysis
+
+```{r Table 1}
+
+table_1 <- dekaf %>% 
+  dplyr::select(pid, dgf, wit_unidist, daysondial, wtkg_donor, bmi_base) 
+
+table_1
+```
+
+# Odds and Odds Ratios
+
+```{r 2x2 table - use epiDisplay (more easy)}
+
+matrix_table <- cc(dekaf$dgf, dekaf$gender, graph = FALSE)
+
+
+matrix_table
+```
+
+note: odds means that we are comparing one portion to another portion. Not the total. AKA you divide exposed / unexposed or however the question asks you.
+
+other note: The odds ratio is taking the (odds of group 1) / (odds of group 2) \<-- depends on the question
+
+# MODEL 1: Logistic model for DGF by recipient gender
+
+```{r Logistic Regression Model by Gender}
+
+log_model <- glm(data = dekaf, dgf ~ gender, family = "binomial")
+
+
+summary(log_model)
+```
+
+log model note: To run a logistic regression in R, use the glm() function and make sure to specify the family as binomial.
+
+-   When writing down fitted model, you cannot simply write log(y) = intercept + (B1 x X1)
+-   You must write logit(\[P(Y = 1)\]) = intercept + (B1 x X1)
+-   logit means log of the odds
+-   You must write it in this form to since the we cannot simply take the log of a binary outcome, we must specify that the binary outcome is = 1 (or however it is coded)
+-   Make sure when interpreting the coefficient, you must convert the log coefficient back to normal back exponentiating it (e.g j raise to the power of e)
+-   Same thing when interpreting the odds ratio from the fitted formula. ALWAYS convert back to base by expatiating the values for interpretation.
+
+# MODEL 2: Logistic model for DGF by days on dialysis prior to transplant
