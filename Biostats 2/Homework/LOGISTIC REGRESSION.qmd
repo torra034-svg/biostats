@@ -66,3 +66,12 @@ log model note: To run a logistic regression in R, use the glm() function and ma
 -   Same thing when interpreting the odds ratio from the fitted formula. ALWAYS convert back to base by expatiating the values for interpretation.
 
 # MODEL 2: Logistic model for DGF by days on dialysis prior to transplant
+
+```{r logistic regresion model - DGF by days on dialysis}
+
+log_model_2 <- glm(data = dekaf, dgf ~ daysondial, family = "binomial")
+
+
+summary(log_model_2)
+```
+
