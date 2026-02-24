@@ -74,3 +74,22 @@ log_model_2 <- glm(data = dekaf, dgf ~ daysondial, family = "binomial")
 
 summary(log_model_2)
 ```
+
+
+```{r Confidence Interval of Odds Ratio}
+
+exp(confint(log_model_2))
+
+```
+
+* Make sure to exponentiate the confidence interval to convert from logg to normal values.
+* Hint: An Odds Ratio can never be negative. Thus, the confidence interval can only range from 0 to infinity in which 1 = no effect.
+
+
+# Model 3: Logistic model for DGF by days on dialysis adjusting for transfusions prior to transplant
+
+```{r logistic regression model - adjusted for transfusions prior to transplant}
+
+```
+
+* Note: since presence of transfusions may be a possible confounder, we must account for this interaction term.
