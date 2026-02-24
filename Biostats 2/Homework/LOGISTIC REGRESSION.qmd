@@ -88,8 +88,21 @@ exp(confint(log_model_2))
 
 # Model 3: Logistic model for DGF by days on dialysis adjusting for transfusions prior to transplant
 
-```{r logistic regression model - adjusted for transfusions prior to transplant}
+```{r data cleaning, echo=FALSE}
+
+dekaf <- dekaf %>% 
+  mutate(transfusions = if_else(transfusions_yn == 1, "Transfusion", "No Transfusion", missing = NULL))
 
 ```
 
+
+```{r logistic regression model - adjusted for transfusions prior to transplant}
+
+log_model_2_adjusted <- glm(data = dekaf, dgf ~ daysondial*transfusions, family = "binomial")
+
+summary(log_model_2_adjusted)
+```
+
 * Note: since presence of transfusions may be a possible confounder, we must account for this interaction term.
+* **Other note about glm and log: ONLY EXPONENTIATE THE COEFFICIENTS**
+* Also make sure to set **family = "binomial"** <-- this step is super important for glm
