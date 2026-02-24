@@ -74,4 +74,3 @@ log_model_2 <- glm(data = dekaf, dgf ~ daysondial, family = "binomial")
 
 summary(log_model_2)
 ```
-
