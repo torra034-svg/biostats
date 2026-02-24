@@ -8,6 +8,8 @@ editor: visual
 ```{r load library, include=FALSE, echo=FALSE}
 library(epiDisplay)
 library(tidyverse)
+library(broom)
+library(writexl)
 ```
 
 ```{r import data, include=FALSE, echo=FALSE}
@@ -75,16 +77,14 @@ log_model_2 <- glm(data = dekaf, dgf ~ daysondial, family = "binomial")
 summary(log_model_2)
 ```
 
-
 ```{r Confidence Interval of Odds Ratio}
 
 exp(confint(log_model_2))
 
 ```
 
-* Make sure to exponentiate the confidence interval to convert from logg to normal values.
-* Hint: An Odds Ratio can never be negative. Thus, the confidence interval can only range from 0 to infinity in which 1 = no effect.
-
+-   Make sure to exponentiate the confidence interval to convert from log to normal values.
+-   Hint: An Odds Ratio can never be negative. Thus, the confidence interval can only range from 0 to infinity in which 1 = no effect.
 
 # Model 3: Logistic model for DGF by days on dialysis adjusting for transfusions prior to transplant
 
@@ -95,7 +95,6 @@ dekaf <- dekaf %>%
 
 ```
 
-
 ```{r logistic regression model - adjusted for transfusions prior to transplant}
 
 log_model_2_adjusted <- glm(data = dekaf, dgf ~ daysondial*transfusions, family = "binomial")
@@ -103,6 +102,49 @@ log_model_2_adjusted <- glm(data = dekaf, dgf ~ daysondial*transfusions, family 
 summary(log_model_2_adjusted)
 ```
 
-* Note: since presence of transfusions may be a possible confounder, we must account for this interaction term.
-* **Other note about glm and log: ONLY EXPONENTIATE THE COEFFICIENTS**
-* Also make sure to set **family = "binomial"** <-- this step is super important for glm
+-   Note: since presence of transfusions may be a possible confounder, we must account for this interaction term.
+-   Other note about glm and log: **ONLY EXPONENTIATE THE COEFFICIENTS**
+-   Also make sure to set **family = "binomial"** \<-- this step is super important for glm
+-   To check if a variable is a confounder, make sure to look at both the coefficient change AND the p-value.
+
+```{r Use tidy function from broom package to make things tidy!}
+
+# tidy the adjusted log model
+tidy_log_model_2_adjusted <- tidy(log_model_2_adjusted, conf.int = TRUE, exponentiate = TRUE)
+
+tidy_log_model_2_adjusted
+```
+
+```{r export tidy adjusted log model into a clean excel file for hw purposes, include=FALSE, echo=FALSE}
+
+write_xlsx(tidy_log_model_2_adjusted, "DGF_adjusted_model.xlsx")
+
+```
+
+-   Note: I like the tidy function! It makes my output table look more neat and readable. I also don't need to manually exponentiate each coefficient estimate.
+-   Need to keep the summary() log version to write the logit fitted model.
+
+## what are the estimated odds of DGF for someone with a transfusion and with 30 days of dialysis prior to transplant?
+
+```{r q30 - use predict function and new data frame }
+
+q30 <- data.frame(daysondial = 30, transfusions = "Transfusion")
+
+q30_log_odds <- exp(predict(log_model_2_adjusted, newdata = q30, type = "link"))
+
+q30_log_odds
+```
+
+-   for this question, use the **original log model** since it's easier to input values.
+-   Do not forget to exponentiate values
+
+##Using Model 3, what are the estimated odds of DGF for someone without a transfusion and with 30 days of dialysis prior to transplant?
+```{r q31 - use predict function again}
+
+q31 <- data.frame(daysondial = 30, transfusions = "No Transfusion")
+
+q31_log_odds <- exp(predict(log_model_2_adjusted, newdata = q31, type = "link"))
+
+q31_log_odds
+```
+
