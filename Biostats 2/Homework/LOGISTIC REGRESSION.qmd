@@ -176,4 +176,56 @@ q31_log_odds <- exp(predict(log_model_2_adjusted, newdata = q31, type = "link"))
 q31_log_odds
 ```
 
-## 
+Calculate the odds ratio comparing the odds of DGF for someone with a transfusion to someone without a transfusion, both having had 30 days of dialysis prior to transplant
+
+```{r odds ratio transfusion}
+
+odds_ratio_transfusion <- (q30_log_odds / q31_log_odds)
+
+odds_ratio_transfusion
+```
+
+Provide an estimate of the adjusted odds ratio comparing those with a transfusion compared to those without, adjusting for days on dialysis, together with its 95% confidence interval.
+
+```{r adjusted odds ratio estimate calculation}
+
+log_model_adj_final <- glm(data = dekaf, 
+                           dgf ~ transfusions*daysondial,
+                           family = "binomial")
+
+log_model_adj_final
+```
+
+```{r tidy adjusted odds-ratio model}
+
+tidy_final <- tidy(log_model_adj_final,
+                   conf.int = TRUE,
+                   exponentiate = TRUE)
+
+
+tidy_final
+```
+
+Provide an estimate of the adjusted odds ratio comparing the contribution of an additional day on dialysis, adjusted for the presence of transfusions, and its 95% confidence interval.
+```{r adjusted odds-ratio daysondial*transfusions}
+
+log_model_adj_day_trans <- glm(
+  data = dekaf,
+  dgf ~ daysondial*transfusions,
+  family = "binomial"
+)
+
+log_model_adj_day_trans
+
+```
+
+```{r tidy log_model_adj_day_trans}
+
+tidy_adj_model_day_trans <- tidy(log_model_adj_day_trans,
+                                 conf.int = TRUE,
+                                 exponentiate = TRUE)
+
+
+tidy_adj_model_day_trans
+```
+
