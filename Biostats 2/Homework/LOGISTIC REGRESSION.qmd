@@ -5,6 +5,33 @@ format: html
 editor: visual
 ---
 
+# Logistic Regression Notes
+
+## Which of the assumptions are checked for Logistic Regression?
+
+-   Linearity
+
+-   Independent observations
+
+-   Normal distribution
+
+-   Equal variance
+
+-   basically LINE but on the log scale
+
+## What is the null hypothesis for a coefficient in a logistic regression model...
+
+On the log-odds scale? H0: beta = 0; beta is log(odds)
+
+On the odds ratio scale? H0: exp(beta) = 1; exp(beta) = odds ratio
+
+## What are two ways we can determine statistical significance of a coefficient in a logistic regression model?
+
+1.  Confidence Interval does not include 1
+2.  There is a dramatic change in the parameter coefficient
+
+# Homework
+
 ```{r load library, include=FALSE, echo=FALSE}
 library(epiDisplay)
 library(tidyverse)
@@ -24,7 +51,7 @@ rm(url)
 
 ```
 
-#Exploratory Data Analysis
+# Exploratory Data Analysis
 
 ```{r Table 1}
 
@@ -124,7 +151,7 @@ write_xlsx(tidy_log_model_2_adjusted, "DGF_adjusted_model.xlsx")
 -   Note: I like the tidy function! It makes my output table look more neat and readable. I also don't need to manually exponentiate each coefficient estimate.
 -   Need to keep the summary() log version to write the logit fitted model.
 
-## what are the estimated odds of DGF for someone with a transfusion and with 30 days of dialysis prior to transplant?
+## What are the estimated odds of DGF for someone with a transfusion and with 30 days of dialysis prior to transplant?
 
 ```{r q30 - use predict function and new data frame }
 
@@ -138,7 +165,8 @@ q30_log_odds
 -   for this question, use the **original log model** since it's easier to input values.
 -   Do not forget to exponentiate values
 
-##Using Model 3, what are the estimated odds of DGF for someone without a transfusion and with 30 days of dialysis prior to transplant?
+## Using Model 3, what are the estimated odds of DGF for someone without a transfusion and with 30 days of dialysis prior to transplant?
+
 ```{r q31 - use predict function again}
 
 q31 <- data.frame(daysondial = 30, transfusions = "No Transfusion")
@@ -148,3 +176,4 @@ q31_log_odds <- exp(predict(log_model_2_adjusted, newdata = q31, type = "link"))
 q31_log_odds
 ```
 
+## 
