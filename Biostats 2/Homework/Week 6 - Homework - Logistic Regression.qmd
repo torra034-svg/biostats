@@ -14,8 +14,11 @@ library(tidyverse)
 library(broom) #for aesthetic clean tables
 library(flextable) # export tables
 library(ResourceSelection) # for hosmer-lemeshow test
-library(car) #for multicollinearity
+library(car) #for multicollinearity and linearity
 library(gtsummary)
+library(performance) # Diagnostic plots for logistic regression
+library(see)
+library(DHARMa) #Makes it easier to see QQ plot
 ```
 
 ```{r import data, include=FALSE, echo=FALSE}
@@ -49,7 +52,8 @@ table_1 <-dekaf %>%
   mutate(Race = if_else(raceblack == 1, "African American", "Other", missing = NULL),
          Gender = if_else(gender == 1, "Male", "Female", missing = NULL),
          Delayed_Graft_Function = if_else(dgf == 1, "Yes", "No", missing = NULL)) %>% 
-  select(Race, Gender, Delayed_Graft_Function, cardiac_death)
+  dplyr::select(Race, Gender, Delayed_Graft_Function, cardiac_death)
+
 ```
 
 ```{r table 1 - table summary}
@@ -66,7 +70,7 @@ table_1 <- table_1 %>%
 table_1
 ```
 
-```{r table 1 export, echo=FALSE, include=FALSE, message=FALSE}
+```{r table 1 export, eval=FALSE}
 
 table_1 %>%
   as_flex_table() %>%
@@ -123,7 +127,7 @@ tidy_rq1 <- tidy(rq1,
 tidy_rq1
 ```
 
-```{r tidy_rq1 export, echo=FALSE, include=FALSE, message = FALSE}
+```{r tidy_rq1 export, eval=FALSE}
 
 tidy_rq1 %>% 
   write.csv(file = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table2.csv")
@@ -147,15 +151,55 @@ tidy_rq2 <- tidy(rq2,
                  exponentiate = TRUE) %>% 
   mutate(across(where(is.numeric), ~ round(.x, 2))) %>% 
   mutate(conf_interval = paste0("(", conf.low, ", ", conf.high, ")")) %>%
-  select(term, estimate, std.error, conf_interval, p.value)
+  dplyr::select(term, estimate, std.error, conf_interval, p.value)
 
 tidy_rq2
 
 ```
 
-```{r tidy_rq2 export, echo=FALSE, include=FALSE, message=FALSE}
+```{r tidy_rq2 export, eval=FALSE}
 
 tidy_rq2 %>% 
   write.csv(file = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table3.csv", row.names = FALSE)
+
+```
+
+### Diagnostic Checks
+* Note: for a logistic regression model, you cannot use the linear diagnostic plot functions.
+* You must use the **Box-Tidwell** test to verify against the logit values.
+* Highly recommend using the check_model() function because it provides a binned residual plot for logistic regression model
+
+
+####RQ1
+```{r rq1 diagnostic plots}
+
+check_model(rq1)
+
+```
+
+```{r rq1 hoslem.test}
+
+hoslem.test(dekaf$dgf, fitted(rq1))
+
+```
+
+```{r rq1 testing linearity}
+
+boxTidwell(dgf ~ donorage16, data = dekaf)
+
+```
+
+
+####RQ2
+```{r rq2 diagnostic plots}
+
+par(mfrow = c(2,2))
+plot(rq2)
+
+```
+
+```{r rq2 hoslem.test}
+
+hoslem.test(dekaf$dgf, fitted(rq2))
 
 ```
