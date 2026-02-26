@@ -1,7 +1,11 @@
 ---
 title: "LOGISTIC REGRESSION Problem Set #2"
 author: "Patrick Torralba"
-format: html
+format: 
+  html:
+    output-file: "Logistic Regression HW + Notes.html"
+project:
+    output-dir: "Homework/new_exports"
 editor: visual
 ---
 
@@ -39,6 +43,7 @@ library(broom) #for aesthetic clean tables
 library(writexl)
 library(ResourceSelection) # for hosmer-lemeshow test
 library(car) #for multicollinearity
+library(quarto) #for exporting hmtl notes
 ```
 
 ```{r import data, include=FALSE, echo=FALSE}
@@ -55,7 +60,7 @@ rm(url)
 
 # Exploratory Data Analysis
 
-```{r Table 1}
+```{r Table 1, echo=FALSE}
 
 table_1 <- dekaf %>% 
   dplyr::select(pid, dgf, wit_unidist, daysondial, wtkg_donor, bmi_base) 
@@ -270,3 +275,9 @@ hoslem.test(dekaf$dgf, fitted(log_model_adj_day_trans))
 vif(log_model_adj_day_trans)
 
 ```
+
+```{r save notes, echo=FALSE, include=FALSE, message=FALSE}
+
+quarto_render("LOGISTIC REGRESSION.qmd", output_file = "Homework/new_exports/Logistic Regression HW + Notes.html")
+```
+
