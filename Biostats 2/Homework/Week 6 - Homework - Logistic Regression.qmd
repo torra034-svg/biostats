@@ -66,7 +66,7 @@ table_1 <- table_1 %>%
 table_1
 ```
 
-```{r table 1 export, echo=FALSE, include=FALSE}
+```{r table 1 export, echo=FALSE, include=FALSE, message=FALSE}
 
 table_1 %>%
   as_flex_table() %>%
@@ -123,7 +123,7 @@ tidy_rq1 <- tidy(rq1,
 tidy_rq1
 ```
 
-```{r tidy_rq1 export, echo=FALSE, include=FALSE}
+```{r tidy_rq1 export, echo=FALSE, include=FALSE, message = FALSE}
 
 tidy_rq1 %>% 
   write.csv(file = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table2.csv")
@@ -153,7 +153,7 @@ tidy_rq2
 
 ```
 
-```{r tidy_rq2 export, echo=FALSE, include=FALSE}
+```{r tidy_rq2 export, echo=FALSE, include=FALSE, message=FALSE}
 
 tidy_rq2 %>% 
   write.csv(file = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table3.csv", row.names = FALSE)
