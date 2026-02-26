@@ -122,7 +122,10 @@ summary(rq1)
 
 tidy_rq1 <- tidy(rq1,
                  conf.int = TRUE,
-                 exponentiate = TRUE)
+                 exponentiate = TRUE) %>% 
+  mutate(across(where(is.numeric), ~ round(.x, 2))) %>% 
+  mutate(conf_interval = paste0("(", conf.low, ", ", conf.high, ")")) %>%
+  dplyr::select(term, estimate, std.error, conf_interval, p.value)
 
 tidy_rq1
 ```
@@ -165,12 +168,13 @@ tidy_rq2 %>%
 ```
 
 ### Diagnostic Checks
-* Note: for a logistic regression model, you cannot use the linear diagnostic plot functions.
-* You must use the **Box-Tidwell** test to verify against the logit values.
-* Highly recommend using the check_model() function because it provides a binned residual plot for logistic regression model
 
+-   Note: for a logistic regression model, you cannot use the linear diagnostic plot functions.
+-   You must use the **Box-Tidwell** test to verify against the logit values.
+-   Highly recommend using the check_model() function because it provides a binned residual plot for logistic regression model
 
 ####RQ1
+
 ```{r rq1 diagnostic plots}
 
 check_model(rq1)
@@ -183,14 +187,9 @@ hoslem.test(dekaf$dgf, fitted(rq1))
 
 ```
 
-```{r rq1 testing linearity}
-
-boxTidwell(dgf ~ cardiac_death, data = dekaf)
-
-```
-
 
 ####RQ2
+
 ```{r rq2 diagnostic plots}
 
 check_model(rq2)
@@ -200,12 +199,6 @@ check_model(rq2)
 ```{r rq2 hoslem.test}
 
 hoslem.test(dekaf$dgf, fitted(rq2))
-
-```
-
-```{r rq2 testing linearity}
-
-boxTidwell(dgf ~ agedonor16, data = dekaf)
 
 ```
 
