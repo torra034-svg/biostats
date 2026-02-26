@@ -103,3 +103,49 @@ ggplot(dekaf, aes(fill = DGF, x = cardiac_death)) +
 ## Results
 
 ### Table 2
+```{r logistic regression model - cardiac death * donor age}
+
+rq1 <- glm(data = dekaf,
+           dgf ~ cardiac_death*agedonor16,
+           family = "binomial")
+
+summary(rq1)
+```
+
+
+```{r rq1 exponentiated}
+
+tidy_rq1 <- tidy(rq1,
+                 conf.int = TRUE,
+                 exponentiate = TRUE)
+
+tidy_rq1
+```
+
+```{r tidy rq1 export, echo=FALSE, include=FALSE}
+
+tidy_rq1 %>% 
+  save_as_docx(path = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table_2.docx")
+
+```
+
+
+### Table 3
+```{r logistic regression model - cardiac death*donor age}
+rq2 <- glm(data = dekaf,
+           dgf ~ agedonor16*cardiac_death,
+           family = "binomial")
+
+summary(rq2)
+```
+
+```{r rq2 exponentiated}
+
+tidy_rq2 <- tidy(rq2,
+                 conf.int = TRUE,
+                 exponentiate = TRUE)
+
+tidy_rq2
+
+```
+
