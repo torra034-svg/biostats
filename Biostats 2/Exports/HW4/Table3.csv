@@ -1,0 +1,5 @@
+term,estimate,std.error,conf_interval,p.value
+(Intercept),0.16,0.21,"(0.11, 0.24)",0
+agedonor16,1.02,0.01,"(1.01, 1.03)",0
+cardiac_deathYes,2.57,0.61,"(0.73, 8.23)",0.12
+agedonor16:cardiac_deathYes,0.99,0.02,"(0.95, 1.04)",0.76

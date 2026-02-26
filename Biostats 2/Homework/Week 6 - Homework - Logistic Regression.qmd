@@ -8,6 +8,7 @@ editor: visual
 # Report
 
 ## Load and import data
+
 ```{r load library, include=FALSE, echo=FALSE}
 library(tidyverse)
 library(broom) #for aesthetic clean tables
@@ -30,6 +31,7 @@ rm(url)
 ```
 
 ## Dataset Data Cleaning
+
 ```{r create Cardiac Death variable}
 
 dekaf <- dekaf %>% 
@@ -41,6 +43,7 @@ dekaf <- dekaf %>%
 ## Exploratory Data Analysis
 
 ### Table 1: Participant Demographics
+
 ```{r table 1 - data cleaning}
 table_1 <-dekaf %>% 
   mutate(Race = if_else(raceblack == 1, "African American", "Other", missing = NULL),
@@ -48,7 +51,6 @@ table_1 <-dekaf %>%
          Delayed_Graft_Function = if_else(dgf == 1, "Yes", "No", missing = NULL)) %>% 
   select(Race, Gender, Delayed_Graft_Function, cardiac_death)
 ```
-
 
 ```{r table 1 - table summary}
 table_1 <- table_1 %>% 
@@ -64,7 +66,6 @@ table_1 <- table_1 %>%
 table_1
 ```
 
-
 ```{r table 1 export, echo=FALSE, include=FALSE}
 
 table_1 %>%
@@ -72,8 +73,8 @@ table_1 %>%
   save_as_docx(path = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/Table_1_Week6.docx")
 ```
 
-
 ### Figure 1: Relationship between Donor Age and DGF
+
 ```{r graph summary of donor age vs DGF}
 ggplot(dekaf, aes(x = DGF, y = agedonor16, fill = DGF)) +
   geom_boxplot() +
@@ -87,6 +88,7 @@ ggplot(dekaf, aes(x = DGF, y = agedonor16, fill = DGF)) +
 ```
 
 ### Figure 2: Relationship between Cardiac Death and DGF
+
 ```{r graph summary of Cardiac Death vs DGF}
 
 ggplot(dekaf, aes(fill = DGF, x = cardiac_death)) +
@@ -99,10 +101,10 @@ ggplot(dekaf, aes(fill = DGF, x = cardiac_death)) +
 
 ```
 
-
 ## Results
 
 ### Table 2
+
 ```{r logistic regression model - cardiac death * donor age}
 
 rq1 <- glm(data = dekaf,
@@ -111,7 +113,6 @@ rq1 <- glm(data = dekaf,
 
 summary(rq1)
 ```
-
 
 ```{r rq1 exponentiated}
 
@@ -122,15 +123,15 @@ tidy_rq1 <- tidy(rq1,
 tidy_rq1
 ```
 
-```{r tidy rq1 export, echo=FALSE, include=FALSE}
+```{r tidy_rq1 export, echo=FALSE, include=FALSE}
 
 tidy_rq1 %>% 
-  save_as_docx(path = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table_2.docx")
+  write.csv(file = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table2.csv")
 
 ```
 
-
 ### Table 3
+
 ```{r logistic regression model - cardiac death*donor age}
 rq2 <- glm(data = dekaf,
            dgf ~ agedonor16*cardiac_death,
@@ -143,9 +144,18 @@ summary(rq2)
 
 tidy_rq2 <- tidy(rq2,
                  conf.int = TRUE,
-                 exponentiate = TRUE)
+                 exponentiate = TRUE) %>% 
+  mutate(across(where(is.numeric), ~ round(.x, 2))) %>% 
+  mutate(conf_interval = paste0("(", conf.low, ", ", conf.high, ")")) %>%
+  select(term, estimate, std.error, conf_interval, p.value)
 
 tidy_rq2
 
 ```
 
+```{r tidy_rq2 export, echo=FALSE, include=FALSE}
+
+tidy_rq2 %>% 
+  write.csv(file = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table3.csv", row.names = FALSE)
+
+```
