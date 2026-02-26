@@ -1,0 +1,6 @@
+---
+title: "Week 6: Homework - Logistic Regression"
+author: "Patrick Torralba"
+format: html
+editor: visual
+---
