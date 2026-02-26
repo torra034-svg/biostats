@@ -185,7 +185,7 @@ hoslem.test(dekaf$dgf, fitted(rq1))
 
 ```{r rq1 testing linearity}
 
-boxTidwell(dgf ~ donorage16, data = dekaf)
+boxTidwell(dgf ~ cardiac_death, data = dekaf)
 
 ```
 
@@ -193,8 +193,7 @@ boxTidwell(dgf ~ donorage16, data = dekaf)
 ####RQ2
 ```{r rq2 diagnostic plots}
 
-par(mfrow = c(2,2))
-plot(rq2)
+check_model(rq2)
 
 ```
 
@@ -203,3 +202,10 @@ plot(rq2)
 hoslem.test(dekaf$dgf, fitted(rq2))
 
 ```
+
+```{r rq2 testing linearity}
+
+boxTidwell(dgf ~ agedonor16, data = dekaf)
+
+```
+
