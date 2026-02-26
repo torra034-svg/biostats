@@ -4,3 +4,53 @@ author: "Patrick Torralba"
 format: html
 editor: visual
 ---
+
+# Report
+
+## Load and import data
+```{r load library, include=FALSE, echo=FALSE}
+library(tidyverse)
+library(broom) #for aesthetic clean tables
+library(writexl)
+library(ResourceSelection) # for hosmer-lemeshow test
+library(car) #for multicollinearity
+library(gtsummary)
+```
+
+```{r import data, include=FALSE, echo=FALSE}
+url <- "https://raw.githubusercontent.com/torra034-svg/biostats/refs/heads/main/Biostats%202/Data%20Stuff/dekaf_dgf.csv"
+
+dekaf <- read.csv(url)
+```
+
+```{r remove url, echo=FALSE}
+
+rm(url)
+
+```
+
+## Dataset Data Cleaning
+```{r create Cardiac Death variable}
+
+dekaf <- dekaf %>% 
+  mutate(cardiac_death = if_else(dcd_yn == 1, "Yes", "No", missing = NULL))
+
+```
+
+## Exploratory Data Analysis
+```{r table 1 - group by dgf}
+table_1 <-dekaf %>% 
+  mutate(Race = if_else(raceblack == 1, "African American", "Other", missing = NULL),
+         Gender = if_else(gender == 1, "Male", "Female", missing = NULL),
+         Delayed_Graft_Function = if_else(dgf == 1, "Yes", "No", missing = NULL)) %>% 
+  select(Race, Gender, Delayed_Graft_Function, cardiac_death) %>%  
+  tbl_summary(by = Delayed_Graft_Function,
+              label = list(cardiac_death ~ "Cardiac Death")) %>% 
+  modify_caption(caption = "**Table 1. Participant Demographics**") %>% 
+  modify_header(label ~ "**Delayed Graft Function**")
+  
+  ## gender, race, cardiac after death
+
+table_1
+```
+
