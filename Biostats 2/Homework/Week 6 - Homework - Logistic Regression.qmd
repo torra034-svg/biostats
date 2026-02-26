@@ -11,7 +11,7 @@ editor: visual
 ```{r load library, include=FALSE, echo=FALSE}
 library(tidyverse)
 library(broom) #for aesthetic clean tables
-library(writexl)
+library(flextable) # export tables
 library(ResourceSelection) # for hosmer-lemeshow test
 library(car) #for multicollinearity
 library(gtsummary)
@@ -38,19 +38,43 @@ dekaf <- dekaf %>%
 ```
 
 ## Exploratory Data Analysis
-```{r table 1 - group by dgf}
+
+### Table 1: Participant Demographics
+```{r table 1 - data cleaning}
 table_1 <-dekaf %>% 
   mutate(Race = if_else(raceblack == 1, "African American", "Other", missing = NULL),
          Gender = if_else(gender == 1, "Male", "Female", missing = NULL),
          Delayed_Graft_Function = if_else(dgf == 1, "Yes", "No", missing = NULL)) %>% 
-  select(Race, Gender, Delayed_Graft_Function, cardiac_death) %>%  
+  select(Race, Gender, Delayed_Graft_Function, cardiac_death)
+```
+
+
+```{r table 1 - table summary}
+table_1 <- table_1 %>% 
   tbl_summary(by = Delayed_Graft_Function,
-              label = list(cardiac_death ~ "Cardiac Death")) %>% 
+              label = list(cardiac_death ~ "Donation After Cardiac Death")) %>% 
   modify_caption(caption = "**Table 1. Participant Demographics**") %>% 
-  modify_header(label ~ "**Delayed Graft Function**")
+  modify_header(label ~ "**Delayed Graft Function**") %>% 
+   add_overall()
+
   
   ## gender, race, cardiac after death
 
 table_1
+```
+
+
+```{r table 1 export, echo=FALSE, include=FALSE}
+
+table_1 %>%
+  as_flex_table() %>%
+  save_as_docx(path = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/Table_1_Week6.docx")
+```
+
+### Figure 1: Relationship between Cardiac Death and DGF
+```{r graph summary of Cardiac Death vs DGF}
+
+
+
 ```
 
