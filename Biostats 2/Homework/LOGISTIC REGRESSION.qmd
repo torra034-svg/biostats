@@ -237,15 +237,20 @@ tidy_adj_model_day_trans
 ### Notes:
 
 -   lrtest() for Likelihood Ratio Test
--   vif() for checking multicollinearity. Must use car package.
-* Remember - VIF = 1 means no correlation. VIF 1:5 means moderate correlation and VIF > 5 means high correlation.
-* ggplot of model-predicted logit vs continuous predictors = check for linearity assumption 
-* Hosmer-Lemeshow: hoslem.test(binary_outcome_variable, fitted(model_example)) = check for goodness-of-fit (similar to QQ plot; **null-hyp** means that model fits data well)
-* ^^ this comes from the ResourceSelection package and the binary outcome must be coded as 0/1
-* # Generate diagnostic plots
-par(mfrow = c(2, 2)) # Display plots in a 2x2 grid
-plot(my_model)
 
+-   vif() for checking multicollinearity. Must use car package.
+
+    -   Remember - VIF = 1 means no correlation. VIF 1:5 means moderate correlation and VIF \> 5 means high correlation.
+
+-   ggplot of model-predicted logit vs continuous predictors = check for linearity assumption
+
+-   Hosmer-Lemeshow: hoslem.test(binary_outcome_variable, fitted(model_example)) = check for goodness-of-fit (similar to QQ plot; **null-hyp** means that model fits data well)
+
+    -   This comes from the ResourceSelection package and the binary outcome must be coded as 0/1
+
+    # Generate diagnostic plots
+
+-   par(mfrow = c(2, 2)) \# Display plots in a 2x2 grid plot(my_model)
 
 ```{r LINE model diagnostic for logistic regression}
 
@@ -253,7 +258,6 @@ par(mfrow = c(2,2))
 plot(log_model_adj_day_trans)
 
 ```
-
 
 ```{r  Hosmer-Lemeshow goodness-of-fit}
 
@@ -266,4 +270,3 @@ hoslem.test(dekaf$dgf, fitted(log_model_adj_day_trans))
 vif(log_model_adj_day_trans)
 
 ```
-
