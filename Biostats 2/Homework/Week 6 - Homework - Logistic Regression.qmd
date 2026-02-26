@@ -33,7 +33,8 @@ rm(url)
 ```{r create Cardiac Death variable}
 
 dekaf <- dekaf %>% 
-  mutate(cardiac_death = if_else(dcd_yn == 1, "Yes", "No", missing = NULL))
+  mutate(cardiac_death = if_else(dcd_yn == 1, "Yes", "No", missing = NULL),
+         DGF = if_else(dgf == 1, "Yes", "No", missing = NULL))
 
 ```
 
@@ -71,10 +72,34 @@ table_1 %>%
   save_as_docx(path = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/Table_1_Week6.docx")
 ```
 
-### Figure 1: Relationship between Cardiac Death and DGF
-```{r graph summary of Cardiac Death vs DGF}
 
+### Figure 1: Relationship between Donor Age and DGF
+```{r graph summary of donor age vs DGF}
+ggplot(dekaf, aes(x = DGF, y = agedonor16, fill = DGF)) +
+  geom_boxplot() +
+  labs(fill = "Delayed Graft Function",
+       x = "",
+       y = "Donor Age",
+       title = "Figure 1. Distribution of Donor Age and Delayed Graft Function",
+       subtitle = "Donor age refers to years beyond 16 (i.e. 17=1)") 
 
 
 ```
 
+### Figure 2: Relationship between Cardiac Death and DGF
+```{r graph summary of Cardiac Death vs DGF}
+
+ggplot(dekaf, aes(fill = DGF, x = cardiac_death)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Donation after Cardiac Death",
+       y = "Percentage",
+       fill = "Delayed Graft Function",
+       title = "Figure 2. Proportion of Delayed Graft Function by Cardiac Death Donation Status")
+
+```
+
+
+## Results
+
+### Table 2
