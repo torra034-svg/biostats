@@ -33,10 +33,12 @@ On the odds ratio scale? H0: exp(beta) = 1; exp(beta) = odds ratio
 # Homework
 
 ```{r load library, include=FALSE, echo=FALSE}
-library(epiDisplay)
+library(epiDisplay) #to make 2x2 contigency table
 library(tidyverse)
-library(broom)
+library(broom) #for aesthetic clean tables
 library(writexl)
+library(ResourceSelection) # for hosmer-lemeshow test
+library(car) #for multicollinearity
 ```
 
 ```{r import data, include=FALSE, echo=FALSE}
@@ -207,6 +209,7 @@ tidy_final
 ```
 
 Provide an estimate of the adjusted odds ratio comparing the contribution of an additional day on dialysis, adjusted for the presence of transfusions, and its 95% confidence interval.
+
 ```{r adjusted odds-ratio daysondial*transfusions}
 
 log_model_adj_day_trans <- glm(
@@ -227,5 +230,40 @@ tidy_adj_model_day_trans <- tidy(log_model_adj_day_trans,
 
 
 tidy_adj_model_day_trans
+```
+
+## Model 3: Model Diagnostics
+
+### Notes:
+
+-   lrtest() for Likelihood Ratio Test
+-   vif() for checking multicollinearity. Must use car package.
+* Remember - VIF = 1 means no correlation. VIF 1:5 means moderate correlation and VIF > 5 means high correlation.
+* ggplot of model-predicted logit vs continuous predictors = check for linearity assumption 
+* Hosmer-Lemeshow: hoslem.test(binary_outcome_variable, fitted(model_example)) = check for goodness-of-fit (similar to QQ plot; **null-hyp** means that model fits data well)
+* ^^ this comes from the ResourceSelection package and the binary outcome must be coded as 0/1
+* # Generate diagnostic plots
+par(mfrow = c(2, 2)) # Display plots in a 2x2 grid
+plot(my_model)
+
+
+```{r LINE model diagnostic for logistic regression}
+
+par(mfrow = c(2,2))
+plot(log_model_adj_day_trans)
+
+```
+
+
+```{r  Hosmer-Lemeshow goodness-of-fit}
+
+hoslem.test(dekaf$dgf, fitted(log_model_adj_day_trans))
+
+```
+
+```{r multicollinearity}
+
+vif(log_model_adj_day_trans)
+
 ```
 
