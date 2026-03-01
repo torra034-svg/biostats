@@ -1,0 +1,112 @@
+---
+title: "Multiple Linear Regression, Part 4"
+author: "Patrick Torralba"
+date: "2026-02-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#library + import data
+```{r library}
+
+library(tidyverse)
+library(interactions)
+```
+
+
+```{r import data}
+
+url <- "https://raw.githubusercontent.com/torra034-svg/biostats/refs/heads/main/Biostats%202/Data%20Stuff/tomhs.csv"
+
+tomhs <- read.csv(url)
+
+```
+
+
+#data cleaning
+```{r data cleaning}
+
+tomhs <- tomhs %>% 
+  mutate(wtchg = wt12 - wtbl,
+         cholchg = chol12 - cholbl,
+         nowsmk1 = if_else(nowsmk == 1, "Current Smoker", "Non-current Smoker", missing = NA))
+
+```
+
+
+```{r remove values}
+
+
+rm(url)
+```
+
+
+#Questions
+```{r q1}
+
+tomhs$nowsmk
+
+```
+
+
+```{r model}
+
+model <- lm(data = tomhs, cholchg ~ wtchg * nowsmk1)
+
+```
+
+
+
+```{r q2 - interaction plot via interaction package}
+
+interact_plot(model, pred = wtchg, modx = nowsmk1,
+              interval = TRUE,
+              plot.points = TRUE,
+              x.label = "Weight Change",
+              y.label = "Cholesterol Change",
+              legend.main = "Current Smoking Status",
+              main.title = "Cholesterol Change vs Weight Change by Smoking Status")
+
+
+```
+
+
+
+```{r q5 - factor relevel}
+
+tomhs <- tomhs %>% 
+  mutate(nowsmk1 = fct_relevel(nowsmk1, "Non-current Smoker"))
+
+```
+
+
+```{r q5 model fit}
+
+
+model1 <- lm(data = tomhs, cholchg ~ wtchg * nowsmk1)
+
+```
+
+```{r q6 examine model1 output}
+
+summary(model1)
+
+```
+
+```{r q12 - confint and standard error}
+
+confint(model1)
+
+emmeans(model1, ~ nowsmk1 | Current Smoking)
+```
+
+#Model 2: Model without an Interaction
+```{r unadjusted model}
+model_unadjusted <- lm(data = tomhs, cholchg ~ wtchg + nowsmk1)
+
+summary(model_unadjusted)
+```
+

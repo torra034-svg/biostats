@@ -1,0 +1,283 @@
+---
+title: "LOGISTIC REGRESSION Problem Set #2"
+author: "Patrick Torralba"
+format: 
+  html:
+    output-file: "Logistic Regression HW + Notes.html"
+project:
+    output-dir: "Homework/new_exports"
+editor: visual
+---
+
+# Logistic Regression Notes
+
+## Which of the assumptions are checked for Logistic Regression?
+
+-   Linearity
+
+-   Independent observations
+
+-   Normal distribution
+
+-   Equal variance
+
+-   basically LINE but on the log scale
+
+## What is the null hypothesis for a coefficient in a logistic regression model...
+
+On the log-odds scale? H0: beta = 0; beta is log(odds)
+
+On the odds ratio scale? H0: exp(beta) = 1; exp(beta) = odds ratio
+
+## What are two ways we can determine statistical significance of a coefficient in a logistic regression model?
+
+1.  Confidence Interval does not include 1
+2.  There is a dramatic change in the parameter coefficient
+
+# Homework
+
+```{r load library, include=FALSE, echo=FALSE}
+library(epiDisplay) #to make 2x2 contigency table
+library(tidyverse)
+library(broom) #for aesthetic clean tables
+library(writexl)
+library(ResourceSelection) # for hosmer-lemeshow test
+library(car) #for multicollinearity
+library(quarto) #for exporting hmtl notes
+```
+
+```{r import data, include=FALSE, echo=FALSE}
+url <- "https://raw.githubusercontent.com/torra034-svg/biostats/refs/heads/main/Biostats%202/Data%20Stuff/dekaf_dgf.csv"
+
+dekaf <- read.csv(url)
+```
+
+```{r remove url, echo=FALSE}
+
+rm(url)
+
+```
+
+# Exploratory Data Analysis
+
+```{r Table 1, echo=FALSE}
+
+table_1 <- dekaf %>% 
+  dplyr::select(pid, dgf, wit_unidist, daysondial, wtkg_donor, bmi_base) 
+
+table_1
+```
+
+# Odds and Odds Ratios
+
+```{r 2x2 table - use epiDisplay (more easy)}
+
+matrix_table <- cc(dekaf$dgf, dekaf$gender, graph = FALSE)
+
+
+matrix_table
+```
+
+note: odds means that we are comparing one portion to another portion. Not the total. AKA you divide exposed / unexposed or however the question asks you.
+
+other note: The odds ratio is taking the (odds of group 1) / (odds of group 2) \<-- depends on the question
+
+# MODEL 1: Logistic model for DGF by recipient gender
+
+```{r Logistic Regression Model by Gender}
+
+log_model <- glm(data = dekaf, dgf ~ gender, family = "binomial")
+
+
+summary(log_model)
+```
+
+log model note: To run a logistic regression in R, use the glm() function and make sure to specify the family as binomial.
+
+-   When writing down fitted model, you cannot simply write log(y) = intercept + (B1 x X1)
+-   You must write logit(\[P(Y = 1)\]) = intercept + (B1 x X1)
+-   logit means log of the odds
+-   You must write it in this form to since the we cannot simply take the log of a binary outcome, we must specify that the binary outcome is = 1 (or however it is coded)
+-   Make sure when interpreting the coefficient, you must convert the log coefficient back to normal back exponentiating it (e.g j raise to the power of e)
+-   Same thing when interpreting the odds ratio from the fitted formula. ALWAYS convert back to base by expatiating the values for interpretation.
+
+# MODEL 2: Logistic model for DGF by days on dialysis prior to transplant
+
+```{r logistic regresion model - DGF by days on dialysis}
+
+log_model_2 <- glm(data = dekaf, dgf ~ daysondial, family = "binomial")
+
+
+summary(log_model_2)
+```
+
+```{r Confidence Interval of Odds Ratio}
+
+exp(confint(log_model_2))
+
+```
+
+-   Make sure to exponentiate the confidence interval to convert from log to normal values.
+-   Hint: An Odds Ratio can never be negative. Thus, the confidence interval can only range from 0 to infinity in which 1 = no effect.
+
+# Model 3: Logistic model for DGF by days on dialysis adjusting for transfusions prior to transplant
+
+```{r data cleaning, echo=FALSE}
+
+dekaf <- dekaf %>% 
+  mutate(transfusions = if_else(transfusions_yn == 1, "Transfusion", "No Transfusion", missing = NULL))
+
+```
+
+```{r logistic regression model - adjusted for transfusions prior to transplant}
+
+log_model_2_adjusted <- glm(data = dekaf, dgf ~ daysondial*transfusions, family = "binomial")
+
+summary(log_model_2_adjusted)
+```
+
+-   Note: since presence of transfusions may be a possible confounder, we must account for this interaction term.
+-   Other note about glm and log: **ONLY EXPONENTIATE THE COEFFICIENTS**
+-   Also make sure to set **family = "binomial"** \<-- this step is super important for glm
+-   To check if a variable is a confounder, make sure to look at both the coefficient change AND the p-value.
+
+```{r Use tidy function from broom package to make things tidy!}
+
+# tidy the adjusted log model
+tidy_log_model_2_adjusted <- tidy(log_model_2_adjusted, conf.int = TRUE, exponentiate = TRUE)
+
+tidy_log_model_2_adjusted
+```
+
+```{r export tidy adjusted log model into a clean excel file for hw purposes, include=FALSE, echo=FALSE}
+
+write_xlsx(tidy_log_model_2_adjusted, "DGF_adjusted_model.xlsx")
+
+```
+
+-   Note: I like the tidy function! It makes my output table look more neat and readable. I also don't need to manually exponentiate each coefficient estimate.
+-   Need to keep the summary() log version to write the logit fitted model.
+
+## What are the estimated odds of DGF for someone with a transfusion and with 30 days of dialysis prior to transplant?
+
+```{r q30 - use predict function and new data frame }
+
+q30 <- data.frame(daysondial = 30, transfusions = "Transfusion")
+
+q30_log_odds <- exp(predict(log_model_2_adjusted, newdata = q30, type = "link"))
+
+q30_log_odds
+```
+
+-   for this question, use the **original log model** since it's easier to input values.
+-   Do not forget to exponentiate values
+
+## Using Model 3, what are the estimated odds of DGF for someone without a transfusion and with 30 days of dialysis prior to transplant?
+
+```{r q31 - use predict function again}
+
+q31 <- data.frame(daysondial = 30, transfusions = "No Transfusion")
+
+q31_log_odds <- exp(predict(log_model_2_adjusted, newdata = q31, type = "link"))
+
+q31_log_odds
+```
+
+Calculate the odds ratio comparing the odds of DGF for someone with a transfusion to someone without a transfusion, both having had 30 days of dialysis prior to transplant
+
+```{r odds ratio transfusion}
+
+odds_ratio_transfusion <- (q30_log_odds / q31_log_odds)
+
+odds_ratio_transfusion
+```
+
+Provide an estimate of the adjusted odds ratio comparing those with a transfusion compared to those without, adjusting for days on dialysis, together with its 95% confidence interval.
+
+```{r adjusted odds ratio estimate calculation}
+
+log_model_adj_final <- glm(data = dekaf, 
+                           dgf ~ transfusions*daysondial,
+                           family = "binomial")
+
+log_model_adj_final
+```
+
+```{r tidy adjusted odds-ratio model}
+
+tidy_final <- tidy(log_model_adj_final,
+                   conf.int = TRUE,
+                   exponentiate = TRUE)
+
+
+tidy_final
+```
+
+Provide an estimate of the adjusted odds ratio comparing the contribution of an additional day on dialysis, adjusted for the presence of transfusions, and its 95% confidence interval.
+
+```{r adjusted odds-ratio daysondial*transfusions}
+
+log_model_adj_day_trans <- glm(
+  data = dekaf,
+  dgf ~ daysondial*transfusions,
+  family = "binomial"
+)
+
+log_model_adj_day_trans
+
+```
+
+```{r tidy log_model_adj_day_trans}
+
+tidy_adj_model_day_trans <- tidy(log_model_adj_day_trans,
+                                 conf.int = TRUE,
+                                 exponentiate = TRUE)
+
+
+tidy_adj_model_day_trans
+```
+
+## Model 3: Model Diagnostics
+
+### Notes:
+
+-   lrtest() for Likelihood Ratio Test
+
+-   vif() for checking multicollinearity. Must use car package.
+
+    -   Remember - VIF = 1 means no correlation. VIF 1:5 means moderate correlation and VIF \> 5 means high correlation.
+
+-   ggplot of model-predicted logit vs continuous predictors = check for linearity assumption
+
+-   Hosmer-Lemeshow: hoslem.test(binary_outcome_variable, fitted(model_example)) = check for goodness-of-fit (similar to QQ plot; **null-hyp** means that model fits data well)
+
+    -   This comes from the ResourceSelection package and the binary outcome must be coded as 0/1
+
+    # Generate diagnostic plots
+
+-   par(mfrow = c(2, 2)) \# Display plots in a 2x2 grid plot(my_model)
+
+```{r LINE model diagnostic for logistic regression}
+
+par(mfrow = c(2,2))
+plot(log_model_adj_day_trans)
+
+```
+
+```{r  Hosmer-Lemeshow goodness-of-fit}
+
+hoslem.test(dekaf$dgf, fitted(log_model_adj_day_trans))
+
+```
+
+```{r multicollinearity}
+
+vif(log_model_adj_day_trans)
+
+```
+
+```{r save notes, echo=FALSE, include=FALSE, message=FALSE}
+
+quarto_render("LOGISTIC REGRESSION.qmd", output_file = "Homework/new_exports/Logistic Regression HW + Notes.html")
+```
+
