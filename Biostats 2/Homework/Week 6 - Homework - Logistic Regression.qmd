@@ -112,7 +112,7 @@ ggplot(dekaf, aes(fill = DGF, x = cardiac_death)) +
 ```{r logistic regression model - cardiac death * donor age}
 
 rq1 <- glm(data = dekaf,
-           dgf ~ cardiac_death*agedonor16,
+           dgf ~ cardiac_death + agedonor16,
            family = "binomial")
 
 summary(rq1)
@@ -141,7 +141,7 @@ tidy_rq1 %>%
 
 ```{r logistic regression model - cardiac death*donor age}
 rq2 <- glm(data = dekaf,
-           dgf ~ agedonor16*cardiac_death,
+           dgf ~ agedonor16 + cardiac_death,
            family = "binomial")
 
 summary(rq2)
@@ -187,7 +187,6 @@ hoslem.test(dekaf$dgf, fitted(rq1))
 
 ```
 
-
 ####RQ2
 
 ```{r rq2 diagnostic plots}
@@ -201,4 +200,3 @@ check_model(rq2)
 hoslem.test(dekaf$dgf, fitted(rq2))
 
 ```
-
