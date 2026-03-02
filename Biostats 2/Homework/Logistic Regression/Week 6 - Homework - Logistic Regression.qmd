@@ -113,7 +113,7 @@ ggplot(dekaf, aes(fill = DGF, x = cardiac_death)) +
 ```{r logistic regression model - cardiac death + donor age}
 
 rq1 <- glm(data = dekaf,
-           dgf ~ as.factor(cardiac_death) + agedonor16,
+           as.factor(dgf) ~ as.factor(cardiac_death) + agedonor16,
            family = binomial(link = "logit"))
 
 ```
@@ -135,7 +135,7 @@ tidy_rq1 %>%
 
 ```{r logistic regression model - cardiac death + donor age}
 rq2 <- glm(data = dekaf,
-           dgf ~ agedonor16 + as.factor(cardiac_death),
+           as.factor(dgf) ~ agedonor16 + as.factor(cardiac_death),
            family = binomial(link = "logit"))
 
 ```
