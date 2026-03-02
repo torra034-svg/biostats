@@ -5,8 +5,6 @@ format: html
 editor: visual
 ---
 
-
-
 # Part 3: Carrying Out and Interpreting Analyses
 
 ```{r load data}
@@ -14,7 +12,6 @@ editor: visual
 f6 <- read.csv("first6.csv")
   
 ```
-
 
 ```{r library}
 library(tidyverse)
@@ -27,6 +24,7 @@ library(flextable) #save to docx
 ## Exploratory Data Analysis
 
 ### Data Cleaning
+
 ```{r data cleaning}
 f6 <- f6 %>% 
     mutate(gender = as.factor(if_else(GENDER == 1, "Male", "Female", missing = NULL)),
@@ -37,8 +35,8 @@ f6 <- f6 %>%
          two_class = as.factor(if_else(twoclass == 1, "Two Class", "Three Class", missing = NULL)))
 ```
 
-
 ### Table 1
+
 ```{r q1}
 table_1 <- f6 %>% 
   tbl_summary(by = two_class,
@@ -61,12 +59,48 @@ table_1 %>%
   save_as_docx(path = "Export/table_1.docx")
 
 ```
-* Note: need to add as_flex_table() function to convert from gt_table to save as document
-* Otherwise, the document will appear empty.
 
+-   Note: need to add as_flex_table() function to convert from gt_table to save as document
+    -   Otherwise, the document will appear empty.
 
-### Kaplan-Meier plot of primary endpoint
-```{r}
+### Kaplan-Meier plot: t2primary and primary vs twoclass
+
+```{r q3 survival calculation}
+
+q3 <- survfit(Surv(t2primary, primary) ~ two_class, data = f6)
 
 ```
 
+-   Note: Surv() uses the form y \~ x.
+    -   y = time to event outcome \<-- outcome variable
+    -   y1 = time variable
+    -   y2 = event indicator
+-   x = twoclass \<-- explanatory variable
+    -   Super important that you **calculate the survival first**
+-   According to the data document, t2primary = time of first censoring. And, primary = Death occurs
+
+```{r q3 graph}
+
+autoplot(q3, conf.int = FALSE, censor.shape = "X") +
+  labs(x  = "Time (in months)",
+       y = "Survival Percentage",
+       title = "Survival Analysis: Two-class vs Three-class",
+       color = "Exposure")
+
+```
+
+### Formal Testing and Analysis
+
+```{r q5 - use log_rank_test to determine significance between the two classes}
+
+survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 0)
+
+
+```
+
+-   Note: To determine if there's statistical significance between two groups in a survival analysis, you must do the survival calculation **and use survdiff() and set rho = 1 or rho = 0**
+-   rho = 0 \<-- log-rank test
+    -   This test weights all points equally
+-   rho = 1 \<-- Wilcoxon test
+    -   This test puts more weight on early events
+    -   both have the same null hyp. Null hyp: survival identical in both groups.
