@@ -72,9 +72,18 @@ q14_df <- as.data.frame(summary(q14)[c("time", "n.risk", "n.event", "surv")])
 ```{r calculate pct_event and pct_no_event}
 
 q14_df <- q14_df %>% 
-  mutate(pct_event = (n.event / n.risk),
-         pct_no_event = 100 - pct_event)
+  mutate(pct_event = round((n.event / n.risk)*100,1),
+         pct_no_event = (100 - pct_event)) %>% 
+  select(1:3, pct_event, pct_no_event, surv)
 
 q14_df
+```
+
+
+#### Graph
+```{r q15}
+
+ggplot()
+
 ```
 
