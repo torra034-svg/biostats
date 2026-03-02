@@ -204,8 +204,3 @@ vif(rq2)
 
 hoslem.test(dekaf$dgf, fitted(rq2))
 ```
-
-```{r rq2 graph}
-
-
-```
