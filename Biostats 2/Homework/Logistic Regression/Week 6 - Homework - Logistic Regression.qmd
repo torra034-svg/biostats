@@ -124,13 +124,6 @@ summ(rq1, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
 
 ```
 
-```{r tidy_rq1 export, eval=FALSE}
-
-tidy_rq1 %>% 
-  write.csv(file = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table2.csv")
-
-```
-
 ### Table 3
 
 ```{r logistic regression model - cardiac death + donor age}
@@ -140,18 +133,9 @@ rq2 <- glm(data = dekaf,
 
 ```
 
-
 ```{r rq2 summ}
 
 summ(rq2, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
-
-```
-
-
-```{r tidy_rq2 export, eval=FALSE}
-
-tidy_rq2 %>% 
-  write.csv(file = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table3.csv", row.names = FALSE)
 
 ```
 
@@ -159,7 +143,10 @@ tidy_rq2 %>%
 
 -   Note: for a logistic regression model, you cannot use the linear diagnostic plot functions.
 -   You must use the **Box-Tidwell** test to verify against the logit values.
--   Highly recommend using the check_model() function because it provides a binned residual plot for logistic regression model
+-   Must use the following tests:
+    -   Likelihood Ratio Test = lrtest()
+    -   Variance Inflation Factor = vif()
+    -   Linearity of continuous predictors (see software Lesson06-LogisticR.pdf)
 
 ####RQ1
 
