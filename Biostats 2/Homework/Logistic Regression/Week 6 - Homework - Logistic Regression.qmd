@@ -109,13 +109,18 @@ ggplot(dekaf, aes(fill = DGF, x = cardiac_death)) +
 
 ### Table 2
 
-```{r logistic regression model - cardiac death * donor age}
+```{r logistic regression model - cardiac death + donor age}
 
 rq1 <- glm(data = dekaf,
-           dgf ~ cardiac_death + agedonor16,
-           family = "binomial")
+           dgf ~ as.factor(cardiac_death) + agedonor16,
+           family = binomial(link = "logit"))
 
-summary(rq1)
+```
+
+```{r rq1 odds-ratio calculation}
+
+summ(rq1, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
+
 ```
 
 ```{r rq1 exponentiated}
@@ -139,13 +144,20 @@ tidy_rq1 %>%
 
 ### Table 3
 
-```{r logistic regression model - cardiac death*donor age}
+```{r logistic regression model - cardiac death + donor age}
 rq2 <- glm(data = dekaf,
-           dgf ~ agedonor16 + cardiac_death,
-           family = "binomial")
+           dgf ~ agedonor16 + as.factor(cardiac_death),
+           family = binomial(link = "logit"))
 
-summary(rq2)
 ```
+
+
+```{r rq2 summ}
+
+summ(rq2, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
+
+```
+
 
 ```{r rq2 exponentiated}
 
@@ -177,7 +189,6 @@ tidy_rq2 %>%
 
 ```{r rq1 diagnostic plots}
 
-check_model(rq1)
 
 ```
 
@@ -191,7 +202,6 @@ hoslem.test(dekaf$dgf, fitted(rq1))
 
 ```{r rq2 diagnostic plots}
 
-check_model(rq2)
 
 ```
 
