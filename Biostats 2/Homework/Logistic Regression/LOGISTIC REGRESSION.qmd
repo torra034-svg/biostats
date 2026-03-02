@@ -264,18 +264,8 @@ tidy_adj_model_day_trans
 
 -   Hosmer-Lemeshow: hoslem.test(binary_outcome_variable, fitted(model_example)) = check for goodness-of-fit (similar to QQ plot; **null-hyp** means that model fits data well)
 
-    -   This comes from the ResourceSelection package and the binary outcome must be coded as 0/1
+* Make sure to first subset the data. Then restructure the data for plotting. Adn then plotting logit vs continuous predictors.
 
-    # Generate diagnostic plots
-
--   par(mfrow = c(2, 2)) \# Display plots in a 2x2 grid plot(my_model)
-
-```{r LINE model diagnostic for logistic regression}
-
-par(mfrow = c(2,2))
-plot(log_model_adj_day_trans)
-
-```
 
 ```{r  Hosmer-Lemeshow goodness-of-fit}
 
