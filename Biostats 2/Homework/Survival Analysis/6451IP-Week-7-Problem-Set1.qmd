@@ -1,0 +1,89 @@
+---
+title: "6451IP-Week-7-Problem-Set1"
+author: "Patrick Torralba"
+format: html
+editor: visual
+---
+
+```{r library}
+library(tidyverse)
+library(survival)
+```
+
+```{r create dataset, echo=FALSE}
+
+survival_data <- data.frame(
+  time = c(0.00, 1.39, 4.07, 4.76, 5.89),
+  n_at_risk = c(4, 4, 3, 2, 1),
+  events = c(0, 1, 1, 1, 1),
+  surv_percent = c(100, 75, 50, 25, 0)
+)
+
+```
+
+
+# Questions
+
+## Cumulative Percent Survival vs time
+```{r q9}
+
+ggplot(survival_data, aes(x = time, y = surv_percent)) +
+  geom_col() +
+  labs(x = "Time (years)",
+       y = "Cumulative Percent Survival",
+       title = "Cumulative Percent Survival vs Time",
+       caption = "H. Motulsky, Intuitive Biostatistics, 3rd Ed (2014), page 44")
+
+```
+
+# Including Censored Cases
+
+## Survival Table
+```{r create censored dataset, echo=FALSE}
+
+survival_data_2 <- data.frame(
+  time = c(0.00, 1.39, 3.67, 4.07, 4.76, 5.89, 6.17, 6.54),
+  n_at_risk = c(7, 7, 6, 5, 4, 3, 2, 2),
+  events = c(0, 1, 0, 1, 1, 1, 0, 0)
+)
+
+```
+
+## Survival Analysis
+```{r q14 survival model}
+
+q14 <- survfit(Surv(time, events) ~ 1, data = survival_data_2)
+
+```
+
+```{r q14 analysis}
+
+summary(q14)
+
+```
+
+### Survival Analysis: Custom Table to show Percent who HAD event (d/n) and Percent who DID NOT have the event (100 - pct_event)
+```{r convert summary to data frame}
+
+q14_df <- as.data.frame(summary(q14)[c("time", "n.risk", "n.event", "surv")])
+
+```
+
+```{r calculate pct_event and pct_no_event}
+
+q14_df <- q14_df %>% 
+  mutate(pct_event = round((n.event / n.risk)*100,1),
+         pct_no_event = (100 - pct_event)) %>% 
+  select(1:3, pct_event, pct_no_event, surv)
+
+q14_df
+```
+
+
+#### Graph
+```{r q15}
+
+ggplot()
+
+```
+

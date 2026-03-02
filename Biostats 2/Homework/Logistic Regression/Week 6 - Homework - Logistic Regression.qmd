@@ -48,25 +48,26 @@ dekaf <- dekaf %>%
 ### Table 1: Participant Demographics
 
 ```{r table 1 - data cleaning}
-table_1 <-dekaf %>% 
+table_1 <- dekaf %>% 
   mutate(Race = if_else(raceblack == 1, "African American", "Other", missing = NULL),
          Gender = if_else(gender == 1, "Male", "Female", missing = NULL),
          Delayed_Graft_Function = if_else(dgf == 1, "Yes", "No", missing = NULL)) %>% 
-  dplyr::select(Race, Gender, Delayed_Graft_Function, cardiac_death)
+  dplyr::select(Race, Gender, Delayed_Graft_Function, cardiac_death, bmi_base, agedonor16)
 
 ```
 
 ```{r table 1 - table summary}
 table_1 <- table_1 %>% 
   tbl_summary(by = Delayed_Graft_Function,
-              label = list(cardiac_death ~ "Donation After Cardiac Death")) %>% 
+              label = list(cardiac_death ~ "Donation After Cardiac Death",
+                           bmi_base ~ "Recipient BMI at baseline (kg/m2)",
+                           agedonor16 ~ "Donor age (years beyond 16, i.e. 17=1)"
+                           )) %>% 
   modify_caption(caption = "**Table 1. Participant Demographics**") %>% 
   modify_header(label ~ "**Delayed Graft Function**") %>% 
    add_overall()
 
   
-  ## gender, race, cardiac after death
-
 table_1
 ```
 
@@ -74,7 +75,7 @@ table_1
 
 table_1 %>%
   as_flex_table() %>%
-  save_as_docx(path = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/Table_1_Week6.docx")
+  save_as_docx(path = "Exports/Table_1_Week6.docx")
 ```
 
 ### Figure 1: Relationship between Donor Age and DGF
@@ -109,81 +110,88 @@ ggplot(dekaf, aes(fill = DGF, x = cardiac_death)) +
 
 ### Table 2
 
-```{r logistic regression model - cardiac death * donor age}
+```{r logistic regression model - cardiac death + donor age}
 
 rq1 <- glm(data = dekaf,
-           dgf ~ cardiac_death*agedonor16,
-           family = "binomial")
+           as.factor(dgf) ~ as.factor(cardiac_death) + agedonor16,
+           family = binomial(link = "logit"))
 
-summary(rq1)
 ```
 
-```{r rq1 exponentiated}
+```{r rq1 odds-ratio calculation}
 
-tidy_rq1 <- tidy(rq1,
-                 conf.int = TRUE,
-                 exponentiate = TRUE) %>% 
-  mutate(across(where(is.numeric), ~ round(.x, 2))) %>% 
-  mutate(conf_interval = paste0("(", conf.low, ", ", conf.high, ")")) %>%
-  dplyr::select(term, estimate, std.error, conf_interval, p.value)
-
-tidy_rq1
-```
-
-```{r tidy_rq1 export, eval=FALSE}
-
-tidy_rq1 %>% 
-  write.csv(file = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table2.csv")
+summ(rq1, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
 
 ```
 
 ### Table 3
 
-```{r logistic regression model - cardiac death*donor age}
+```{r logistic regression model - cardiac death + donor age}
 rq2 <- glm(data = dekaf,
-           dgf ~ agedonor16*cardiac_death,
-           family = "binomial")
-
-summary(rq2)
-```
-
-```{r rq2 exponentiated}
-
-tidy_rq2 <- tidy(rq2,
-                 conf.int = TRUE,
-                 exponentiate = TRUE) %>% 
-  mutate(across(where(is.numeric), ~ round(.x, 2))) %>% 
-  mutate(conf_interval = paste0("(", conf.low, ", ", conf.high, ")")) %>%
-  dplyr::select(term, estimate, std.error, conf_interval, p.value)
-
-tidy_rq2
+           as.factor(dgf) ~ agedonor16 + as.factor(cardiac_death),
+           family = binomial(link = "logit"))
 
 ```
 
-```{r tidy_rq2 export, eval=FALSE}
+```{r rq2 summ}
 
-tidy_rq2 %>% 
-  write.csv(file = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/HW4/Table3.csv", row.names = FALSE)
+summ(rq2, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
 
 ```
 
 ### Diagnostic Checks
 
 -   Note: for a logistic regression model, you cannot use the linear diagnostic plot functions.
--   You must use the **Box-Tidwell** test to verify against the logit values.
--   Highly recommend using the check_model() function because it provides a binned residual plot for logistic regression model
+-   Must use the following tests:
+    -   Likelihood Ratio Test = lrtest()
+    -   Variance Inflation Factor = vif()
+        -   This checks multicollinearity
+    -   Linearity of continuous predictors (see software Lesson06-LogisticR.pdf)
+        -   This checks linearity. How the continuous predictors are related to the log odds of the binary outcome
+    -   Hosmer-Lemeshow test = hoslem.test()
+        -   This checks goodness-of-fit
 
 #### RQ1
 
-```{r rq1 diagnostic plots}
+```{r rq1 lrtest, vif, hoslem.test}
 
-check_model(rq1)
+lrtest(rq1,rq2)
+
+vif(rq1)
+
+hoslem.test(dekaf$dgf, fitted(rq1))
+```
+
+```{r rq1 graph prep}
+
+mydata_rq1 <- subset(dekaf, select = c(agedonor16)) ## only donor age bc this is the only continuous variable
+
+cont_predictors <- colnames(mydata_rq1)
+
+mydata_rq1$logit <- predict(rq1)
 
 ```
 
-```{r rq1 hoslem.test}
+```{r rq1 graph}
 
-hoslem.test(dekaf$dgf, fitted(rq1))
+rq1_graph <- pivot_longer(mydata_rq1, names_to = "predictors", values_to = "predictor.value", -logit) %>% 
+  ggplot(aes(x = predictor.value, y = logit)) +
+  geom_point(size = 0.5, alpha = 0.5) +
+  geom_smooth(method = "loess", color = "blue", se = FALSE) +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  facet_wrap(facets = ~ predictors, scales = "free_x") +
+  labs(x = "Donor Age",
+       y = "Logit",
+       title = "Figure 3. Logit vs Donor Age") +
+  theme_bw()
+  
+rq1_graph
+
+```
+
+
+```{r save graph}
+ggsave(filename = "rq1_graph.png", plot = rq1_graph, path = "Exports/")
 
 ```
 
@@ -191,12 +199,7 @@ hoslem.test(dekaf$dgf, fitted(rq1))
 
 ```{r rq2 diagnostic plots}
 
-check_model(rq2)
-
-```
-
-```{r rq2 hoslem.test}
+vif(rq2)
 
 hoslem.test(dekaf$dgf, fitted(rq2))
-
 ```
