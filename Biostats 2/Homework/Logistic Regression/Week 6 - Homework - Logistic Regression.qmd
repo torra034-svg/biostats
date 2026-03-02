@@ -142,34 +142,70 @@ summ(rq2, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
 ### Diagnostic Checks
 
 -   Note: for a logistic regression model, you cannot use the linear diagnostic plot functions.
--   You must use the **Box-Tidwell** test to verify against the logit values.
 -   Must use the following tests:
     -   Likelihood Ratio Test = lrtest()
     -   Variance Inflation Factor = vif()
+        -   This checks multicollinearity
     -   Linearity of continuous predictors (see software Lesson06-LogisticR.pdf)
+        -   This checks linearity. How the continuous predictors are related to the log odds of the binary outcome
+    -   Hosmer-Lemeshow test = hoslem.test()
+        -   This checks goodness-of-fit
 
 ####RQ1
 
-```{r rq1 diagnostic plots}
+```{r rq1 lrtest, vif, hoslem.test}
 
+lrtest(rq1,rq2)
 
-```
-
-```{r rq1 hoslem.test}
+vif(rq1)
 
 hoslem.test(dekaf$dgf, fitted(rq1))
+```
+
+```{r rq1 graph prep}
+
+mydata_rq1 <- subset(dekaf, select = c(agedonor16)) ## only donor age bc this is the only continuous variable
+
+cont_predictors <- colnames(mydata_rq1)
+
+mydata_rq1$logit <- predict(rq1)
 
 ```
+
+```{r rq1 graph}
+
+rq1_graph <- pivot_longer(mydata_rq1, names_to = "predictors", values_to = "predictor.value", -logit) %>% 
+  ggplot(aes(x = predictor.value, y = logit)) +
+  geom_point(size = 0.5, alpha = 0.5) +
+  geom_smooth(method = "loess", color = "blue", se = FALSE) +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  facet_wrap(facets = ~ predictors, scales = "free_x") +
+  labs(x = "Donor Age",
+       y = "Logit",
+       title = "Figure 3. Logit vs Donor Age") +
+  theme_bw()
+  
+rq1_graph
+
+```
+
+
+```{r save graph}
+ggsave(filename = "rq1_graph.png", plot = rq1_graph, path = "Exports/")
+
+```
+
 
 ####RQ2
 
 ```{r rq2 diagnostic plots}
 
-
-```
-
-```{r rq2 hoslem.test}
+vif(rq2)
 
 hoslem.test(dekaf$dgf, fitted(rq2))
+```
+
+```{r rq2 graph}
+
 
 ```
