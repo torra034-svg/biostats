@@ -48,25 +48,26 @@ dekaf <- dekaf %>%
 ### Table 1: Participant Demographics
 
 ```{r table 1 - data cleaning}
-table_1 <-dekaf %>% 
+table_1 <- dekaf %>% 
   mutate(Race = if_else(raceblack == 1, "African American", "Other", missing = NULL),
          Gender = if_else(gender == 1, "Male", "Female", missing = NULL),
          Delayed_Graft_Function = if_else(dgf == 1, "Yes", "No", missing = NULL)) %>% 
-  dplyr::select(Race, Gender, Delayed_Graft_Function, cardiac_death)
+  dplyr::select(Race, Gender, Delayed_Graft_Function, cardiac_death, bmi_base, agedonor16)
 
 ```
 
 ```{r table 1 - table summary}
 table_1 <- table_1 %>% 
   tbl_summary(by = Delayed_Graft_Function,
-              label = list(cardiac_death ~ "Donation After Cardiac Death")) %>% 
+              label = list(cardiac_death ~ "Donation After Cardiac Death",
+                           bmi_base ~ "Recipient BMI at baseline (kg/m2)",
+                           agedonor16 ~ "Donor age (years beyond 16, i.e. 17=1)"
+                           )) %>% 
   modify_caption(caption = "**Table 1. Participant Demographics**") %>% 
   modify_header(label ~ "**Delayed Graft Function**") %>% 
    add_overall()
 
   
-  ## gender, race, cardiac after death
-
 table_1
 ```
 
@@ -74,7 +75,7 @@ table_1
 
 table_1 %>%
   as_flex_table() %>%
-  save_as_docx(path = "C:/Users/Lenovo/OneDrive/Documents/githubb/biostats/Biostats 2/Exports/Table_1_Week6.docx")
+  save_as_docx(path = "Exports/Table_1_Week6.docx")
 ```
 
 ### Figure 1: Relationship between Donor Age and DGF
@@ -123,18 +124,6 @@ summ(rq1, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
 
 ```
 
-```{r rq1 exponentiated}
-
-tidy_rq1 <- tidy(rq1,
-                 conf.int = TRUE,
-                 exponentiate = TRUE) %>% 
-  mutate(across(where(is.numeric), ~ round(.x, 2))) %>% 
-  mutate(conf_interval = paste0("(", conf.low, ", ", conf.high, ")")) %>%
-  dplyr::select(term, estimate, std.error, conf_interval, p.value)
-
-tidy_rq1
-```
-
 ```{r tidy_rq1 export, eval=FALSE}
 
 tidy_rq1 %>% 
@@ -158,19 +147,6 @@ summ(rq2, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
 
 ```
 
-
-```{r rq2 exponentiated}
-
-tidy_rq2 <- tidy(rq2,
-                 conf.int = TRUE,
-                 exponentiate = TRUE) %>% 
-  mutate(across(where(is.numeric), ~ round(.x, 2))) %>% 
-  mutate(conf_interval = paste0("(", conf.low, ", ", conf.high, ")")) %>%
-  dplyr::select(term, estimate, std.error, conf_interval, p.value)
-
-tidy_rq2
-
-```
 
 ```{r tidy_rq2 export, eval=FALSE}
 
