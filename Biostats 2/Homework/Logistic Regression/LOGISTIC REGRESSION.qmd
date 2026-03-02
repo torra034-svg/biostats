@@ -44,6 +44,7 @@ library(writexl)
 library(ResourceSelection) # for hosmer-lemeshow test
 library(car) #for multicollinearity
 library(quarto) #for exporting hmtl notes
+library(jtools)
 ```
 
 ```{r import data, include=FALSE, echo=FALSE}
@@ -215,15 +216,21 @@ tidy_final
 
 Provide an estimate of the adjusted odds ratio comparing the contribution of an additional day on dialysis, adjusted for the presence of transfusions, and its 95% confidence interval.
 
-```{r adjusted odds-ratio daysondial*transfusions}
+```{r adjusted odds-ratio daysondial + factor(transfusions)}
 
 log_model_adj_day_trans <- glm(
   data = dekaf,
-  dgf ~ daysondial*transfusions,
-  family = "binomial"
+  dgf ~ daysondial + factor(transfusions),
+  family = binomial(link = "logit")
 )
 
 log_model_adj_day_trans
+
+```
+
+```{r odds-ratio calculation for log_model}
+
+jtools::summ(log_model_adj_day_trans, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
 
 ```
 
@@ -236,6 +243,12 @@ tidy_adj_model_day_trans <- tidy(log_model_adj_day_trans,
 
 tidy_adj_model_day_trans
 ```
+
+-   \*\*\*Important Edit\*\*\*: Turns out the correct way to calculate the odds ratio value is by adding additional variables AND using the summ() function
+
+    -   DO NOT calculate the interaction effect
+
+    -   Just make sure to add additional variables
 
 ## Model 3: Model Diagnostics
 
@@ -280,4 +293,3 @@ vif(log_model_adj_day_trans)
 
 quarto_render("LOGISTIC REGRESSION.qmd", output_file = "Homework/new_exports/Logistic Regression HW + Notes.html")
 ```
-
