@@ -5,23 +5,68 @@ format: html
 editor: visual
 ---
 
-## Quarto
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
-## Running Code
+# Part 3: Carrying Out and Interpreting Analyses
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+```{r load data}
 
-```{r}
-1 + 1
+f6 <- read.csv("first6.csv")
+  
 ```
 
-You can add options to executable code like this
 
-```{r}
-#| echo: false
-2 * 2
+```{r library}
+library(tidyverse)
+library(survival) #survival analysis
+library(ggfortify) #survival analysis
+library(gtsummary) #table 1
+library(flextable) #save to docx
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+## Exploratory Data Analysis
+
+### Data Cleaning
+```{r data cleaning}
+f6 <- f6 %>% 
+    mutate(gender = as.factor(if_else(GENDER == 1, "Male", "Female", missing = NULL)),
+         race = as.factor(case_when(RACE == 1 ~ "Latino",
+                                    RACE == 2 ~ "African American",
+                                    RACE == 3 ~ "White",
+                                    RACE == 4 ~ "Other")),
+         two_class = as.factor(if_else(twoclass == 1, "Two Class", "Three Class", missing = NULL)))
+```
+
+
+### Table 1
+```{r q1}
+table_1 <- f6 %>% 
+  tbl_summary(by = two_class,
+              include = c(AGE, CD4BL, gender, race, RNABL, two_class),
+              label = list(AGE = "Age",
+                           CD4BL = "Baseline CD4+",
+                           gender = "Gender",
+                           race = "Race",
+                           RNABL = "Baseline Viral Overload")) %>% 
+  modify_caption("**Table 1. Patient Characteristics**") %>% 
+  add_overall() %>% 
+  bold_labels()
+
+table_1
+```
+
+```{r table 1 save as docx, eval = FALSE}
+table_1 %>% 
+  as_flex_table() %>% 
+  save_as_docx(path = "Export/table_1.docx")
+
+```
+* Note: need to add as_flex_table() function to convert from gt_table to save as document
+* Otherwise, the document will appear empty.
+
+
+### Kaplan-Meier plot of primary endpoint
+```{r}
+
+```
+
