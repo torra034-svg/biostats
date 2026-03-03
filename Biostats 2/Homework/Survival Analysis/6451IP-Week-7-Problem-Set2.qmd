@@ -104,3 +104,24 @@ survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 0)
 -   rho = 1 \<-- Wilcoxon test
     -   This test puts more weight on early events
     -   both have the same null hyp. Null hyp: survival identical in both groups.
+
+### Estimate 25th percentile survival time
+
+```{r q8}
+
+quantile(q3)
+```
+
+### Estimate event survival at 4 years (48 months) and provide confidence interval
+
+```{r q9}
+
+summary(q3, times = c(48))
+
+```
+
+-   times argument refers to select time points.
+
+-   If the confidence intervals overlap, that indicates the groups **ARE NOT** statistically significant
+
+    -   Also make sure to check the p-value
