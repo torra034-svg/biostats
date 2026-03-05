@@ -125,3 +125,16 @@ summary(q3, times = c(48))
 -   If the confidence intervals overlap, that indicates the groups **ARE NOT** statistically significant
 
     -   Also make sure to check the p-value
+
+# Misc Notes
+
+## Questions for Laura
+
+-   interpreting Surv() function. Is the first argument the time variable and the second argument the event variable?
+-    when to use log-rank test vs Wilcoxon test?
+    -   -depends on number at risk and what plot looks like -
+-   Situations to calculate event-free survival? -
+    -   Survival curve hits 50%
+    -   we can calculate at any time before
+-   Situations we can't calculate event-free survival?
+    -    Survival curve does not hit 50% \<-- only applies to median
