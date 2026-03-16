@@ -1,0 +1,67 @@
+---
+title: "PROPORTIONAL HAZARDS REGRESSION"
+author: "Patrick Torralba"
+format: html
+editor: visual
+---
+
+# PART 3: Carrying out and Interpreting Analyses
+
+## library + load + dataclean
+```{r}
+#| label: library
+
+library(tidyverse)
+library(survival)
+library(ggfortify)
+library(survminer)
+library(multcomp)
+```
+
+
+```{r}
+#| label: load dataset
+
+f6 <- read.csv("first6.csv")
+
+```
+
+
+```{r}
+#| label: dataclean
+
+f6 <- f6 %>% 
+  mutate(twoclass = as.factor(twoclass),
+         primary = as.numeric(as.character(primary)))
+
+```
+
+
+## MODEL 1: Adjusted Cox proportional hazards model comparing three-class to two-class strategies
+
+```{r}
+#| label: Cox hazard model
+
+model1 <- coxph(Surv(t2primary, primary) ~ twoclass, data = f6)
+
+summary(model1)
+
+```
+* Note: inside the Surv() function, the first argument is the time variable and the second argument is the event indicator
+* the output of the first line (after n = ), shows us the regression coefficient estimates in **LOG FORM**
+** **the second line gives us the exp() values**
+
+
+### Proportional Hazards Assumption Test
+```{r}
+#| label:  Schoenfeld residuals vs time
+
+model1_resid <- cox.zph(model1)
+
+ggcoxzph(model1_resid)
+
+```
+
+* Note: To interpret the graph, look to see if there is a time trend
+** proportional hazard assumptions met if **there is lack of a time trend**
+** also make sure to look at p-value. high-pvalue means assumption is met
