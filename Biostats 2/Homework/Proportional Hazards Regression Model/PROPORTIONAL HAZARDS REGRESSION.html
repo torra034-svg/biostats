@@ -108,130 +108,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="library-load-dataclean" class="level2">
 <h2 class="anchored" data-anchor-id="library-load-dataclean">library + load + dataclean</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyverse' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tibble' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'readr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'purrr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'stringr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'forcats' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'lubridate' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.2.0
-✔ forcats   1.0.1     ✔ stringr   1.6.0
-✔ ggplot2   4.0.2     ✔ tibble    3.3.0
-✔ lubridate 1.9.5     ✔ tidyr     1.3.1
-✔ purrr     1.1.0     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'survival' was built under R version 4.4.3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggfortify' was built under R version 4.4.3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'survminer' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: ggpubr</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggpubr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'survminer'
-
-The following object is masked from 'package:survival':
-
-    myeloma</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'multcomp' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: mvtnorm</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'mvtnorm' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: TH.data</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'TH.data' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: MASS</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'MASS' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'MASS'
-
-The following object is masked from 'package:dplyr':
-
-    select
-
-
-Attaching package: 'TH.data'
-
-The following object is masked from 'package:MASS':
-
-    geyser</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fig_label <span class="ot">&lt;-</span> <span class="fu">captioner</span>(<span class="at">prefix =</span> <span class="st">"Figure"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>f6 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"first6.csv"</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>f6_twoclass <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"first6_twoclass.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>f6 <span class="ot">&lt;-</span> f6 <span class="sc">%&gt;%</span> </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">twoclass =</span> <span class="fu">as.factor</span>(twoclass),</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">primary =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(primary)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f6 <span class="ot">&lt;-</span> f6 <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">twoclass =</span> <span class="fu">as.factor</span>(twoclass),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">primary =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(primary)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="model-1-adjusted-cox-proportional-hazards-model-comparing-three-class-to-two-class-strategies" class="level2">
 <h2 class="anchored" data-anchor-id="model-1-adjusted-cox-proportional-hazards-model-comparing-three-class-to-two-class-strategies">MODEL 1: Adjusted Cox proportional hazards model comparing three-class to two-class strategies</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(t2primary, primary) <span class="sc">~</span> twoclass, <span class="at">data =</span> f6)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(t2primary, primary) <span class="sc">~</span> twoclass, <span class="at">data =</span> f6)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Call:
 coxph(formula = Surv(t2primary, primary) ~ twoclass, data = f6)
@@ -257,9 +147,11 @@ Score (logrank) test = 1.74  on 1 df,   p=0.2</code></pre>
 <section id="proportional-hazards-assumption-test" class="level3">
 <h3 class="anchored" data-anchor-id="proportional-hazards-assumption-test">Proportional Hazards Assumption Test</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>model1_resid <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(model1)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxzph</span>(model1_resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>model1_resid <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(model1)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>model1_title <span class="ot">&lt;-</span> <span class="fu">fig_label</span>(<span class="st">"plot1"</span>, <span class="st">"Model 1 Assumption: Schoenfeld residuals vs time"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxzph</span>(model1_resid, <span class="at">caption =</span> model1_title) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -276,18 +168,18 @@ Score (logrank) test = 1.74  on 1 df,   p=0.2</code></pre>
 <section id="model-2-comparing-the-nnrti-to-pi-strategies-by-age-subgroups" class="level2">
 <h2 class="anchored" data-anchor-id="model-2-comparing-the-nnrti-to-pi-strategies-by-age-subgroups">MODEL 2: Comparing the NNRTI to PI strategies by age subgroups</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>f6_twoclass <span class="ot">&lt;-</span> f6_twoclass <span class="sc">%&gt;%</span> </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">agege40 =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(AGE <span class="sc">&gt;=</span> <span class="dv">40</span>, <span class="dv">1</span>, <span class="dv">0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>f6_twoclass <span class="ot">&lt;-</span> f6_twoclass <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">agege40 =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(AGE <span class="sc">&gt;=</span> <span class="dv">40</span>, <span class="dv">1</span>, <span class="dv">0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Note: 1 = 40+ yo, 0 = &lt; 40 yo</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(f6_twoclass, <span class="fu">aes</span>(<span class="at">x =</span> agege40, <span class="at">fill =</span> agege40)) <span class="sc">+</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>,</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Age Distribution: Below/Above 40 Years Old"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(f6_twoclass, <span class="fu">aes</span>(<span class="at">x =</span> agege40, <span class="at">fill =</span> agege40)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">fig_label</span>(<span class="st">"plot2"</span>,<span class="st">"Age Distribution: Below/Above 40 Years Old"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
