@@ -8,6 +8,7 @@ editor: visual
 # PART 3: Carrying out and Interpreting Analyses
 
 ## library + load + dataclean
+
 ```{r}
 #| label: library
 
@@ -16,16 +17,17 @@ library(survival)
 library(ggfortify)
 library(survminer)
 library(multcomp)
+library(captioner) # for figures
 ```
 
-
 ```{r}
-#| label: load dataset
+#| label: load datasets
 
 f6 <- read.csv("first6.csv")
 
-```
+f6_twoclass <- read.csv("first6_twoclass.csv")
 
+```
 
 ```{r}
 #| label: dataclean
@@ -35,7 +37,6 @@ f6 <- f6 %>%
          primary = as.numeric(as.character(primary)))
 
 ```
-
 
 ## MODEL 1: Adjusted Cox proportional hazards model comparing three-class to two-class strategies
 
@@ -47,12 +48,12 @@ model1 <- coxph(Surv(t2primary, primary) ~ twoclass, data = f6)
 summary(model1)
 
 ```
-* Note: inside the Surv() function, the first argument is the time variable and the second argument is the event indicator
-* the output of the first line (after n = ), shows us the regression coefficient estimates in **LOG FORM**
-** **the second line gives us the exp() values**
 
+-   Note: inside the Surv() function, the first argument is the time variable and the second argument is the event indicator
+-   the output of the first line (after n = ), shows us the regression coefficient estimates in **LOG FORM** \*\* **the second line gives us the exp() values**
 
 ### Proportional Hazards Assumption Test
+
 ```{r}
 #| label:  Schoenfeld residuals vs time
 
@@ -62,6 +63,27 @@ ggcoxzph(model1_resid)
 
 ```
 
-* Note: To interpret the graph, look to see if there is a time trend
-** proportional hazard assumptions met if **there is lack of a time trend**
-** also make sure to look at p-value. high-pvalue means assumption is met
+-   Note: To interpret the graph, look to see if there is a time trend \*\* proportional hazard assumptions met if **there is lack of a time trend** \*\* also make sure to look at p-value. high-pvalue means assumption is met
+
+## MODEL 2: Comparing the NNRTI to PI strategies by age subgroups
+
+```{r}
+#| label: create indicator variable
+
+f6_twoclass <- f6_twoclass %>% 
+  mutate(agege40 = as.factor(if_else(AGE >= 40, 1, 0)))
+
+```
+* Note: 1 = 40+ yo, 0 = < 40 yo
+
+```{r indicator plot}
+#| fig-cap: "Age Distribution"
+
+ggplot(f6_twoclass, aes(x = agege40, fill = agege40)) +
+  geom_bar() +
+  labs(x = NULL,
+       y = "Count",
+       title = fig_nums("Age Distribution: Below/Above 40 Years Old")) 
+
+```
+
