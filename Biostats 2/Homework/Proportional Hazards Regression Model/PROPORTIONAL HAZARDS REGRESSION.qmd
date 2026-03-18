@@ -1,9 +1,10 @@
 ---
 title: "PROPORTIONAL HAZARDS REGRESSION"
 author: "Patrick Torralba"
-format: html
+format: 
+  html:
+    fig-cap-location: top
 editor: visual
-output: bookdown:html_document2
 ---
 
 # PART 3: Carrying out and Interpreting Analyses
@@ -19,16 +20,7 @@ library(survival)
 library(ggfortify)
 library(survminer)
 library(multcomp)
-library(captioner) # for figures
 ```
-
-```{r fig label}
-
-fig_label <- captioner(prefix = "Figure")
-
-```
-* Note: use the fig_label function **that we created** to automatically label
-** captioner is **NOT** a function we can j use. We must create a function using captioner()
 
 ```{r}
 #| label: load datasets
@@ -66,18 +58,19 @@ summary(model1)
 ### Proportional Hazards Assumption Test
 
 ```{r}
-#| label:  Schoenfeld residuals vs time
+#| label:  fig-schoenfeld-residuals
+#| fig-cap: "Schoenfeld residuals vs time"
 
 model1_resid <- cox.zph(model1)
 
-model1_title <- fig_label("plot1", "Model 1 Assumption: Schoenfeld residuals vs time")
-
-ggcoxzph(model1_resid, caption = model1_title) 
+ggcoxzph(model1_resid) 
 
 
 ```
 
--   Note: To interpret the graph, look to see if there is a time trend \*\* proportional hazard assumptions met if **there is lack of a time trend** \*\* also make sure to look at p-value. high-pvalue means assumption is met
+-   Note: To interpret the graph, look to see if there is a time trend 
+* proportional hazard assumptions met if **there is lack of a time trend**
+* also make sure to look at p-value. high-pvalue means assumption is met
 
 ## MODEL 2: Comparing the NNRTI to PI strategies by age subgroups
 
@@ -88,16 +81,18 @@ f6_twoclass <- f6_twoclass %>%
   mutate(agege40 = as.factor(if_else(AGE >= 40, 1, 0)))
 
 ```
-* Note: 1 = 40+ yo, 0 = < 40 yo
+
+-   Note: 1 = 40+ yo, 0 = \< 40 yo
 
 ```{r indicator plot}
+#| label: fig-age-dist
 #| fig-cap: "Age Distribution"
 
 ggplot(f6_twoclass, aes(x = agege40, fill = agege40)) +
   geom_bar() +
   labs(x = NULL,
-       y = "Count",
-       title = fig_label("plot2","Age Distribution: Below/Above 40 Years Old")) 
+       y = "Count")
 
 ```
-
+* Note: to add figure captions, I should use both label and fig-cap arguments at the top
+  * To make it look more professional, I can remove the title and j add it to the fig-cap argument
