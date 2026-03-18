@@ -1,7 +1,10 @@
 ---
 title: "Week 8: Homework - Proportional Hazards Regression"
 author: "Patrick Torralba"
-format: html
+format: 
+  html:
+    number-sections: true
+    fig-cap-location: top
 editor: visual
 ---
 
@@ -48,14 +51,17 @@ f6 <- f6 %>%
          Above200 = as.factor(if_else(above200 == 1, "Above 200 cell count", "Below 200 cell count")),
          Randgrp = as.factor(case_when(RANDGRP == 1 ~ "PI + NRTI",
                                        RANDGRP == 2 ~ "NNRTI + NRTI",
-                                       RANDGRP == 3 ~ "PI + NNRTI + NRTI")))
+                                       RANDGRP == 3 ~ "PI + NNRTI + NRTI")),
+         twoclass = as.factor(twoclass),
+         TwoClass = as.factor(case_when(twoclass == 1 ~ "Two Class",
+                                        twoclass == 2 ~ "Three Class")))
 
 ```
 * Note: added code fold option so that I can view this better in html
 
 ## Exploratory Data Analysis
 
-## Table 1: Study Population
+### Table 1: Study Population
 
 ```{r}
 #|label: table-study-pop
@@ -94,3 +100,27 @@ t1 %>%
     -   above200
 
     -   RANDGRP
+
+### Kaplan-Meier plot
+
+```{r km model}
+
+AIDS_fit <- survfit(Surv(t2qoi, qoi) ~ TwoClass, data = f6)
+
+```
+
+
+```{r}
+#| label: fig-kmplot
+#| fig-cap: "Kaplan-Meier: AIDS Survival Analysis"
+#| warning: false
+
+autoplot(AIDS_fit) +
+  xlab("Time (Months)") +
+  ylab("AIDS Survival Percentage") +
+  labs(title = "Time to AIDS",
+       subtitle = "By Treatment Type") +
+  theme_minimal()
+
+```
+

@@ -106,13 +106,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="proportional-hazards-regression-report" class="level1">
-<h1>Proportional Hazards Regression Report:</h1>
+<section id="proportional-hazards-regression-report" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Proportional Hazards Regression Report:</h1>
 </section>
-<section id="how-does-the-three-class-strategy-affect-the-hazard-of-aids-relative-to-the-two-class-strategy-after-adjusting-for-clinical-unit-and-whether-baseline-cd4-cell-count-was-above-200" class="level1">
-<h1>How does the three-class strategy affect the hazard of AIDS relative to the two-class strategy, after adjusting for clinical unit and whether baseline CD4 cell count was above 200?</h1>
-<section id="library" class="level2">
-<h2 class="anchored" data-anchor-id="library">Library</h2>
+<section id="how-does-the-three-class-strategy-affect-the-hazard-of-aids-relative-to-the-two-class-strategy-after-adjusting-for-clinical-unit-and-whether-baseline-cd4-cell-count-was-above-200" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> How does the three-class strategy affect the hazard of AIDS relative to the two-class strategy, after adjusting for clinical unit and whether baseline CD4 cell count was above 200?</h1>
+<section id="library" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="library"><span class="header-section-number">2.1</span> Library</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Click here to view loaded libraries</summary>
@@ -122,18 +122,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans) <span class="do">## to calculate hazard ratios</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary) <span class="do">## to make table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary) <span class="do">## to make table</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flextable) <span class="do">## export table 1 to word</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
-<section id="load-data" class="level2">
-<h2 class="anchored" data-anchor-id="load-data">load data</h2>
+<section id="load-data" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="load-data"><span class="header-section-number">2.2</span> load data</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f6 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"first6.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="data-cleaning" class="level2">
-<h2 class="anchored" data-anchor-id="data-cleaning">data cleaning</h2>
+<section id="data-cleaning" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="data-cleaning"><span class="header-section-number">2.3</span> data cleaning</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Click here to view data cleaning code</summary>
@@ -146,18 +147,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">Above200 =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(above200 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Above 200 cell count"</span>, <span class="st">"Below 200 cell count"</span>)),</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">Randgrp =</span> <span class="fu">as.factor</span>(<span class="fu">case_when</span>(RANDGRP <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"PI + NRTI"</span>,</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                                       RANDGRP <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"NNRTI + NRTI"</span>,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                                       RANDGRP <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"PI + NNRTI + NRTI"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                                       RANDGRP <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"PI + NNRTI + NRTI"</span>)),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">twoclass =</span> <span class="fu">as.factor</span>(twoclass),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">TwoClass =</span> <span class="fu">as.factor</span>(<span class="fu">case_when</span>(twoclass <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Two Class"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                                        twoclass <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"Three Class"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <ul>
 <li>Note: added code fold option so that I can view this better in html</li>
 </ul>
 </section>
-<section id="exploratory-data-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
-</section>
-<section id="table-1-study-population" class="level2">
-<h2 class="anchored" data-anchor-id="table-1-study-population">Table 1: Study Population</h2>
+<section id="exploratory-data-analysis" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="exploratory-data-analysis"><span class="header-section-number">2.4</span> Exploratory Data Analysis</h2>
+<section id="table-1-study-population" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="table-1-study-population"><span class="header-section-number">2.4.1</span> Table 1: Study Population</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: table-study-pop</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|tbl-cap: "Table 1: Study Population"</span></span>
@@ -167,27 +170,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> Randgrp,</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">list</span>(<span class="st">"AGE"</span> <span class="ot">=</span> <span class="st">"Age"</span>,</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Above200"</span> <span class="ot">=</span> <span class="st">"Cell Count"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>()</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>t1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_caption</span>(<span class="st">"**Table 1: Study Population**"</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>t1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="cnkdiargzt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cnkdiargzt table {
+<div id="culxvzoitu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#culxvzoitu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cnkdiargzt thead, #cnkdiargzt tbody, #cnkdiargzt tfoot, #cnkdiargzt tr, #cnkdiargzt td, #cnkdiargzt th {
+#culxvzoitu thead, #culxvzoitu tbody, #culxvzoitu tfoot, #culxvzoitu tr, #culxvzoitu td, #culxvzoitu th {
   border-style: none;
 }
 
-#cnkdiargzt p {
+#culxvzoitu p {
   margin: 0;
   padding: 0;
 }
 
-#cnkdiargzt .gt_table {
+#culxvzoitu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -213,12 +217,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#cnkdiargzt .gt_caption {
+#culxvzoitu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cnkdiargzt .gt_title {
+#culxvzoitu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -230,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#cnkdiargzt .gt_subtitle {
+#culxvzoitu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -242,7 +246,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#cnkdiargzt .gt_heading {
+#culxvzoitu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -254,13 +258,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cnkdiargzt .gt_bottom_border {
+#culxvzoitu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cnkdiargzt .gt_col_headings {
+#culxvzoitu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -275,7 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cnkdiargzt .gt_col_heading {
+#culxvzoitu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -295,7 +299,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#cnkdiargzt .gt_column_spanner_outer {
+#culxvzoitu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -307,15 +311,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#cnkdiargzt .gt_column_spanner_outer:first-child {
+#culxvzoitu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cnkdiargzt .gt_column_spanner_outer:last-child {
+#culxvzoitu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cnkdiargzt .gt_column_spanner {
+#culxvzoitu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -327,11 +331,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#cnkdiargzt .gt_spanner_row {
+#culxvzoitu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cnkdiargzt .gt_group_heading {
+#culxvzoitu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -357,7 +361,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#cnkdiargzt .gt_empty_group_heading {
+#culxvzoitu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -372,15 +376,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#cnkdiargzt .gt_from_md > :first-child {
+#culxvzoitu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cnkdiargzt .gt_from_md > :last-child {
+#culxvzoitu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cnkdiargzt .gt_row {
+#culxvzoitu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -399,7 +403,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#cnkdiargzt .gt_stub {
+#culxvzoitu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -412,7 +416,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cnkdiargzt .gt_stub_row_group {
+#culxvzoitu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -426,15 +430,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#cnkdiargzt .gt_row_group_first td {
+#culxvzoitu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cnkdiargzt .gt_row_group_first th {
+#culxvzoitu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cnkdiargzt .gt_summary_row {
+#culxvzoitu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -444,16 +448,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cnkdiargzt .gt_first_summary_row {
+#culxvzoitu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cnkdiargzt .gt_first_summary_row.thick {
+#culxvzoitu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cnkdiargzt .gt_last_summary_row {
+#culxvzoitu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -463,7 +467,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#cnkdiargzt .gt_grand_summary_row {
+#culxvzoitu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -473,7 +477,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cnkdiargzt .gt_first_grand_summary_row {
+#culxvzoitu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -483,7 +487,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#cnkdiargzt .gt_last_grand_summary_row_top {
+#culxvzoitu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -493,11 +497,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#cnkdiargzt .gt_striped {
+#culxvzoitu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cnkdiargzt .gt_table_body {
+#culxvzoitu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -506,7 +510,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#cnkdiargzt .gt_footnotes {
+#culxvzoitu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -520,7 +524,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cnkdiargzt .gt_footnote {
+#culxvzoitu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -529,7 +533,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cnkdiargzt .gt_sourcenotes {
+#culxvzoitu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -543,7 +547,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#cnkdiargzt .gt_sourcenote {
+#culxvzoitu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -551,77 +555,78 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#cnkdiargzt .gt_left {
+#culxvzoitu .gt_left {
   text-align: left;
 }
 
-#cnkdiargzt .gt_center {
+#culxvzoitu .gt_center {
   text-align: center;
 }
 
-#cnkdiargzt .gt_right {
+#culxvzoitu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cnkdiargzt .gt_font_normal {
+#culxvzoitu .gt_font_normal {
   font-weight: normal;
 }
 
-#cnkdiargzt .gt_font_bold {
+#culxvzoitu .gt_font_bold {
   font-weight: bold;
 }
 
-#cnkdiargzt .gt_font_italic {
+#culxvzoitu .gt_font_italic {
   font-style: italic;
 }
 
-#cnkdiargzt .gt_super {
+#culxvzoitu .gt_super {
   font-size: 65%;
 }
 
-#cnkdiargzt .gt_footnote_marks {
+#culxvzoitu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cnkdiargzt .gt_asterisk {
+#culxvzoitu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cnkdiargzt .gt_indent_1 {
+#culxvzoitu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cnkdiargzt .gt_indent_2 {
+#culxvzoitu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cnkdiargzt .gt_indent_3 {
+#culxvzoitu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cnkdiargzt .gt_indent_4 {
+#culxvzoitu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cnkdiargzt .gt_indent_5 {
+#culxvzoitu .gt_indent_5 {
   text-indent: 25px;
 }
 
-#cnkdiargzt .katex-display {
+#culxvzoitu .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#cnkdiargzt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#culxvzoitu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<caption><strong>Table 1: Study Population</strong></caption>
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -750,8 +755,16 @@ N = 470<span class="gt_footnote_marks" style="white-space:nowrap;font-style:ital
 </div>
 </div>
 </div>
+<div class="cell">
+<details class="code-fold">
+<summary>Click here to view table 1 export</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>t1 <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_flex_table</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">save_as_docx</span>(<span class="at">path =</span> <span class="st">"Exports/Table_1.docx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
 <ul>
-<li><p>Variables I should pull</p>
+<li><p>Note to self: Variables I should pull</p>
 <ul>
 <li><p>AGE</p></li>
 <li><p>GENDER</p></li>
@@ -760,6 +773,33 @@ N = 470<span class="gt_footnote_marks" style="white-space:nowrap;font-style:ital
 <li><p>RANDGRP</p></li>
 </ul></li>
 </ul>
+</section>
+<section id="kaplan-meier-plot" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="kaplan-meier-plot"><span class="header-section-number">2.4.2</span> Kaplan-Meier plot</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>AIDS_fit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(t2qoi, qoi) <span class="sc">~</span> TwoClass, <span class="at">data =</span> f6)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(AIDS_fit) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Time (Months)"</span>) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"AIDS Survival Percentage"</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Time to AIDS"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"By Treatment Type"</span>) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-kmplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-kmplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Kaplan-Meier: AIDS Survival Analysis
+</figcaption>
+<div aria-describedby="fig-kmplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Week-8---Homework---Proportional-Hazards-Regression_files/figure-html/fig-kmplot-1.png" class="img-fluid figure-img" width="672">
+</div>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 </section>
 
