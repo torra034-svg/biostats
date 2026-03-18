@@ -116,32 +116,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">primary =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(primary)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="fig_counter" class="level2">
-<h2 class="anchored" data-anchor-id="fig_counter">fig_counter</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig_counter <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>fig_caption <span class="ot">&lt;-</span> <span class="cf">function</span>(text){</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  fig_counter <span class="ot">&lt;&lt;-</span> fig_counter <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"Figure "</span>, fig_counter, <span class="st">". "</span>, text)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ul>
-<li>Note: This ^^ is super important for automatically generating Figure numbers to display in the image
-<ul>
-<li>Quarto has a built in way of doing this but cannot export the image with the Figure number.
-<ul>
-<li>Otherwise, another way is to j use the Quarto method, render an HTML file, and screenshot each image.</li>
-</ul></li>
-</ul></li>
-</ul>
-</section>
 <section id="model-1-adjusted-cox-proportional-hazards-model-comparing-three-class-to-two-class-strategies" class="level2">
 <h2 class="anchored" data-anchor-id="model-1-adjusted-cox-proportional-hazards-model-comparing-three-class-to-two-class-strategies">MODEL 1: Adjusted Cox proportional hazards model comparing three-class to two-class strategies</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(t2primary, primary) <span class="sc">~</span> twoclass, <span class="at">data =</span> f6)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(t2primary, primary) <span class="sc">~</span> twoclass, <span class="at">data =</span> f6)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Call:
 coxph(formula = Surv(t2primary, primary) ~ twoclass, data = f6)
@@ -162,14 +142,17 @@ Score (logrank) test = 1.74  on 1 df,   p=0.2</code></pre>
 </div>
 <ul>
 <li>Note: inside the Surv() function, the first argument is the time variable and the second argument is the event indicator</li>
-<li>the output of the first line (after n = ), shows us the regression coefficient estimates in <strong>LOG FORM</strong> ** <strong>the second line gives us the exp() values</strong></li>
+<li>the output of the first line (after n = ), shows us the regression coefficient estimates in <strong>LOG FORM</strong>
+<ul>
+<li><strong>the second line gives us the exp() values</strong></li>
+</ul></li>
 </ul>
 <section id="proportional-hazards-assumption-test" class="level3">
 <h3 class="anchored" data-anchor-id="proportional-hazards-assumption-test">Proportional Hazards Assumption Test</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>model1_resid <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(model1)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxzph</span>(model1_resid) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model1_resid <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(model1)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxzph</span>(model1_resid) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-schoenfeld-residuals" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -193,17 +176,17 @@ Figure&nbsp;1: Schoenfeld residuals vs time
 <section id="model-2-comparing-the-nnrti-to-pi-strategies-by-age-subgroups" class="level2">
 <h2 class="anchored" data-anchor-id="model-2-comparing-the-nnrti-to-pi-strategies-by-age-subgroups">MODEL 2: Comparing the NNRTI to PI strategies by age subgroups</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>f6_twoclass <span class="ot">&lt;-</span> f6_twoclass <span class="sc">%&gt;%</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">agege40 =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(AGE <span class="sc">&gt;=</span> <span class="dv">40</span>, <span class="dv">1</span>, <span class="dv">0</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f6_twoclass <span class="ot">&lt;-</span> f6_twoclass <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">agege40 =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(AGE <span class="sc">&gt;=</span> <span class="dv">40</span>, <span class="dv">1</span>, <span class="dv">0</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Note: 1 = 40+ yo, 0 = &lt; 40 yo</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(f6_twoclass, <span class="fu">aes</span>(<span class="at">x =</span> agege40, <span class="at">fill =</span> agege40)) <span class="sc">+</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(f6_twoclass, <span class="fu">aes</span>(<span class="at">x =</span> agege40, <span class="at">fill =</span> agege40)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-age-dist" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -221,7 +204,101 @@ Figure&nbsp;2: Age Distribution: Above/Below 40 Years Old
 <li>Note: to add figure captions, I should use both label and fig-cap arguments at the top
 <ul>
 <li>To make it look more professional, I can remove the title and j add it to the fig-cap argument</li>
+<li>The fig-path argument j specifies to R where the image should be downloaded to</li>
 </ul></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model_2 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(t2primary, primary) <span class="sc">~</span> twoclass <span class="sc">*</span> agege40 <span class="sc">+</span> UNIT <span class="sc">+</span> above200, <span class="at">data =</span> f6_twoclass)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(t2primary, primary) ~ twoclass * agege40 + 
+    UNIT + above200, data = f6_twoclass)
+
+  n= 933, number of events= 248 
+
+                       coef exp(coef)  se(coef)      z Pr(&gt;|z|)  
+twoclass                 NA        NA  0.000000     NA       NA  
+agege401           0.055113  1.056660  0.129182  0.427   0.6696  
+UNIT              -0.001814  0.998188  0.010117 -0.179   0.8577  
+above200          -0.308486  0.734558  0.132375 -2.330   0.0198 *
+twoclass:agege401        NA        NA  0.000000     NA       NA  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+                  exp(coef) exp(-coef) lower .95 upper .95
+twoclass                 NA         NA        NA        NA
+agege401             1.0567     0.9464    0.8203    1.3611
+UNIT                 0.9982     1.0018    0.9786    1.0182
+above200             0.7346     1.3614    0.5667    0.9521
+twoclass:agege401        NA         NA        NA        NA
+
+Concordance= 0.546  (se = 0.018 )
+Likelihood ratio test= 6.21  on 3 df,   p=0.1
+Wald test            = 6.08  on 3 df,   p=0.1
+Score (logrank) test = 6.13  on 3 df,   p=0.1</code></pre>
+</div>
+</div>
+<ul>
+<li>Note: first argument = time variable
+<ul>
+<li>2nd argument = outcome event</li>
+<li>since this question asks if treatment differs by age. I should calculate the interaction effect.</li>
+<li>to adjust for additional variables, j add them to the equation</li>
+</ul></li>
+<li>The above equation is for multiple Cox Regression variables. Make sure to convert the x variable(s) into a factorial.</li>
+</ul>
+</section>
+<section id="estimate-hazard-ratio" class="level2">
+<h2 class="anchored" data-anchor-id="estimate-hazard-ratio">Estimate hazard ratio</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>hr_age <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(model_2, pairwise <span class="sc">~</span> twoclass <span class="sc">|</span> agege40, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>hr_age</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+agege40 = 0:
+ twoclass response    SE  df asymp.LCL asymp.UCL
+        1    0.835 0.134 Inf     0.610      1.14
+
+agege40 = 1:
+ twoclass response    SE  df asymp.LCL asymp.UCL
+        1    0.882 0.184 Inf     0.586      1.33
+
+Results are averaged over the levels of: above200 
+Confidence level used: 0.95 
+Intervals are back-transformed from the log scale 
+
+$contrasts
+agege40 = 0:
+ contrast  estimate SE df z.ratio p.value
+ (nothing)   nonEst NA NA      NA      NA
+
+agege40 = 1:
+ contrast  estimate SE df z.ratio p.value
+ (nothing)   nonEst NA NA      NA      NA
+
+Results are averaged over the levels of: above200 
+Note: contrasts are still on the log scale. Consider using
+      regrid() if you want contrasts of back-transformed estimates. </code></pre>
+</div>
+</div>
+<ul>
+<li>Note: To estimate the hazard ratio, I need to consider the interaction effect.
+<ul>
+<li>the above equation is how to estimate the hazard ratios</li>
+</ul></li>
+<li>How to read output:
+<ul>
+<li>Output is already in normal form and <strong>NOT IN LOG FORM</strong>
+<ul>
+<li>Meaning that they are ready to be interpreted from the get-go.</li>
+</ul></li>
+<li>response = Hazard Ratio estimate</li>
+<li>asymp.LCL / asymp.UCL = Lower / Upper Confidence Level bounds</li>
+</ul></li>
+<li>Remember for this specific example, two-class is set to only those in the two-class group.</li>
 </ul>
 </section>
 </section>
