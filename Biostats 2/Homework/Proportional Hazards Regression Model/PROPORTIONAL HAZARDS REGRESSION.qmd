@@ -17,9 +17,10 @@ editor: visual
 
 library(tidyverse)
 library(survival)
-library(ggfortify)
+library(ggfortify) ## to calculate "Schoenfeld residuals vs time"
 library(survminer)
 library(multcomp)
+library(emmeans) ## to calculate hazard ratios
 ```
 
 ```{r}
@@ -41,8 +42,6 @@ f6 <- f6 %>%
 
 ```
 
-
-
 ## MODEL 1: Adjusted Cox proportional hazards model comparing three-class to two-class strategies
 
 ```{r}
@@ -55,7 +54,8 @@ summary(model1)
 ```
 
 -   Note: inside the Surv() function, the first argument is the time variable and the second argument is the event indicator
--   the output of the first line (after n = ), shows us the regression coefficient estimates in **LOG FORM** \*\* **the second line gives us the exp() values**
+-   the output of the first line (after n = ), shows us the regression coefficient estimates in **LOG FORM**
+    -   **the second line gives us the exp() values**
 
 ### Proportional Hazards Assumption Test
 
@@ -71,9 +71,9 @@ ggcoxzph(model1_resid)
 
 ```
 
--   Note: To interpret the graph, look to see if there is a time trend 
-* proportional hazard assumptions met if **there is lack of a time trend**
-* also make sure to look at p-value. high-pvalue means assumption is met
+-   Note: To interpret the graph, look to see if there is a time trend
+-   proportional hazard assumptions met if **there is lack of a time trend**
+-   also make sure to look at p-value. high-pvalue means assumption is met
 
 ## MODEL 2: Comparing the NNRTI to PI strategies by age subgroups
 
@@ -98,16 +98,37 @@ ggplot(f6_twoclass, aes(x = agege40, fill = agege40)) +
        y = "Count")
 
 ```
-* Note: to add figure captions, I should use both label and fig-cap arguments at the top
-  * To make it look more professional, I can remove the title and j add it to the fig-cap argument
-  * The fig-path argument j specifies to R where the image should be downloaded to
-  
-  
+
+-   Note: to add figure captions, I should use both label and fig-cap arguments at the top
+    -   To make it look more professional, I can remove the title and j add it to the fig-cap argument
+    -   The fig-path argument j specifies to R where the image should be downloaded to
+
 ```{r 17}
 
-model_2 <-
+model_2 <- coxph(Surv(t2primary, primary) ~ twoclass * agege40 + UNIT + above200, data = f6_twoclass)
 
-
+summary(model_2)
 ```
-  
+* Note: first argument = time variable
+  * 2nd argument = outcome event
+  * since this question asks if treatment differs by age. I should calculate the interaction effect. 
+  * to adjust for additional variables, j add them to the equation
+* The above equation is for multiple Cox Regression variables. Make sure to convert the x variable(s) into a factorial.
 
+## Estimate hazard ratio 
+```{r 21}
+
+hr_age <- emmeans(model_2, pairwise ~ twoclass | agege40, type = "response")
+
+hr_age
+```
+* Note: To estimate the hazard ratio, I need to consider the interaction effect. 
+  * the above equation is how to estimate the hazard ratios
+* How to read output:
+  * Output is already in normal form and **NOT IN LOG FORM**
+    * Meaning that they are ready to be interpreted from the get-go.
+  * response = Hazard Ratio estimate
+  * asymp.LCL / asymp.UCL = Lower / Upper Confidence Level bounds
+* Remember for this specific example, two-class is set to only those in the two-class group. 
+
+  
