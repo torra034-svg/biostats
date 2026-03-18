@@ -41,20 +41,6 @@ f6 <- f6 %>%
 
 ```
 
-## fig_counter
-```{r}
-
-fig_counter <- 0
-
-fig_caption <- function(text){
-  fig_counter <<- fig_counter + 1
-  paste0("Figure ", fig_counter, ". ", text)
-}
-
-```
-* Note: This ^^ is super important for automatically generating Figure numbers to display in the image
-  * Quarto has a built in way of doing this but cannot export the image with the Figure number.
-    * Otherwise, another way is to j use the Quarto method, render an HTML file, and screenshot each image.
 
 
 ## MODEL 1: Adjusted Cox proportional hazards model comparing three-class to two-class strategies
@@ -114,5 +100,14 @@ ggplot(f6_twoclass, aes(x = agege40, fill = agege40)) +
 ```
 * Note: to add figure captions, I should use both label and fig-cap arguments at the top
   * To make it look more professional, I can remove the title and j add it to the fig-cap argument
+  * The fig-path argument j specifies to R where the image should be downloaded to
+  
+  
+```{r 17}
+
+model_2 <-
+
+
+```
   
 
