@@ -116,84 +116,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Click here to view loaded libraries</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify) <span class="do">## to calculate "Schoenfeld residuals vs time"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans) <span class="do">## to calculate hazard ratios</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary) <span class="do">## to make table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.2.0     ✔ readr     2.2.0
-✔ forcats   1.0.1     ✔ stringr   1.6.0
-✔ ggplot2   4.0.2     ✔ tibble    3.3.1
-✔ lubridate 1.9.5     ✔ tidyr     1.3.2
-✔ purrr     1.2.1     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<details class="code-fold">
-<summary>Click here to view loaded libraries</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify) <span class="do">## to calculate "Schoenfeld residuals vs time"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: ggpubr
-
-Attaching package: 'survminer'
-
-The following object is masked from 'package:survival':
-
-    myeloma</code></pre>
-</div>
-<details class="code-fold">
-<summary>Click here to view loaded libraries</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: mvtnorm
-Loading required package: TH.data
-Loading required package: MASS
-
-Attaching package: 'MASS'
-
-The following object is masked from 'package:dplyr':
-
-    select
-
-
-Attaching package: 'TH.data'
-
-The following object is masked from 'package:MASS':
-
-    geyser</code></pre>
-</div>
-<details class="code-fold">
-<summary>Click here to view loaded libraries</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans) <span class="do">## to calculate hazard ratios</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Welcome to emmeans.
-Caution: You lose important information if you filter this package's results.
-See '? untidy'</code></pre>
-</div>
-<details class="code-fold">
-<summary>Click here to view loaded libraries</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary) <span class="do">## to make table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'gtsummary'
-
-The following object is masked from 'package:MASS':
-
-    select</code></pre>
-</div>
 </div>
 </section>
 <section id="load-data" class="level2">
 <h2 class="anchored" data-anchor-id="load-data">load data</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>f6 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"first6.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f6 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"first6.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="data-cleaning" class="level2">
@@ -201,16 +137,16 @@ The following object is masked from 'package:MASS':
 <div class="cell">
 <details class="code-fold">
 <summary>Click here to view data cleaning code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>f6 <span class="ot">&lt;-</span> f6 <span class="sc">%&gt;%</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Gender =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(GENDER <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Male"</span>, <span class="st">"Female"</span>, <span class="at">missing =</span> <span class="cn">NULL</span>)),</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Race =</span> <span class="fu">as.factor</span>(<span class="fu">case_when</span>(RACE <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Latino"</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                          RACE <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"African American"</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                          RACE <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"White"</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                          RACE <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Other"</span>)),</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">Above200 =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(above200 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Above 200 cell count"</span>, <span class="st">"Below 200 cell count"</span>)),</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">Randgrp =</span> <span class="fu">as.factor</span>(<span class="fu">case_when</span>(RANDGRP <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"PI + NRTI"</span>,</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                                       RANDGRP <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"NNRTI + NRTI"</span>,</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                                       RANDGRP <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"PI + NNRTI + NRTI"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>f6 <span class="ot">&lt;-</span> f6 <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Gender =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(GENDER <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Male"</span>, <span class="st">"Female"</span>, <span class="at">missing =</span> <span class="cn">NULL</span>)),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Race =</span> <span class="fu">as.factor</span>(<span class="fu">case_when</span>(RACE <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Latino"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                          RACE <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"African American"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                          RACE <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"White"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                          RACE <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Other"</span>)),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">Above200 =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(above200 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Above 200 cell count"</span>, <span class="st">"Below 200 cell count"</span>)),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">Randgrp =</span> <span class="fu">as.factor</span>(<span class="fu">case_when</span>(RANDGRP <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"PI + NRTI"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                                       RANDGRP <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"NNRTI + NRTI"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                                       RANDGRP <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"PI + NNRTI + NRTI"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <ul>
@@ -223,35 +159,35 @@ The following object is masked from 'package:MASS':
 <section id="table-1-study-population" class="level2">
 <h2 class="anchored" data-anchor-id="table-1-study-population">Table 1: Study Population</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: table-study-pop</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|tbl-cap: "Table 1: Study Population"</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> f6 <span class="sc">%&gt;%</span> </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(AGE, Gender, Race, Above200, Randgrp) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> Randgrp,</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">list</span>(<span class="st">"AGE"</span> <span class="ot">=</span> <span class="st">"Age"</span>,</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Above200"</span> <span class="ot">=</span> <span class="st">"Cell Count"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>()</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>t1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: table-study-pop</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#|tbl-cap: "Table 1: Study Population"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> f6 <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(AGE, Gender, Race, Above200, Randgrp) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> Randgrp,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">list</span>(<span class="st">"AGE"</span> <span class="ot">=</span> <span class="st">"Age"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Above200"</span> <span class="ot">=</span> <span class="st">"Cell Count"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>()</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>t1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="tkrshtblkd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tkrshtblkd table {
+<div id="cnkdiargzt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cnkdiargzt table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#tkrshtblkd thead, #tkrshtblkd tbody, #tkrshtblkd tfoot, #tkrshtblkd tr, #tkrshtblkd td, #tkrshtblkd th {
+#cnkdiargzt thead, #cnkdiargzt tbody, #cnkdiargzt tfoot, #cnkdiargzt tr, #cnkdiargzt td, #cnkdiargzt th {
   border-style: none;
 }
 
-#tkrshtblkd p {
+#cnkdiargzt p {
   margin: 0;
   padding: 0;
 }
 
-#tkrshtblkd .gt_table {
+#cnkdiargzt .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -277,12 +213,12 @@ The following object is masked from 'package:MASS':
   border-left-color: #D3D3D3;
 }
 
-#tkrshtblkd .gt_caption {
+#cnkdiargzt .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#tkrshtblkd .gt_title {
+#cnkdiargzt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -294,7 +230,7 @@ The following object is masked from 'package:MASS':
   border-bottom-width: 0;
 }
 
-#tkrshtblkd .gt_subtitle {
+#cnkdiargzt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -306,7 +242,7 @@ The following object is masked from 'package:MASS':
   border-top-width: 0;
 }
 
-#tkrshtblkd .gt_heading {
+#cnkdiargzt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -318,13 +254,13 @@ The following object is masked from 'package:MASS':
   border-right-color: #D3D3D3;
 }
 
-#tkrshtblkd .gt_bottom_border {
+#cnkdiargzt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tkrshtblkd .gt_col_headings {
+#cnkdiargzt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -339,7 +275,7 @@ The following object is masked from 'package:MASS':
   border-right-color: #D3D3D3;
 }
 
-#tkrshtblkd .gt_col_heading {
+#cnkdiargzt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -359,7 +295,7 @@ The following object is masked from 'package:MASS':
   overflow-x: hidden;
 }
 
-#tkrshtblkd .gt_column_spanner_outer {
+#cnkdiargzt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -371,15 +307,15 @@ The following object is masked from 'package:MASS':
   padding-right: 4px;
 }
 
-#tkrshtblkd .gt_column_spanner_outer:first-child {
+#cnkdiargzt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tkrshtblkd .gt_column_spanner_outer:last-child {
+#cnkdiargzt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tkrshtblkd .gt_column_spanner {
+#cnkdiargzt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -391,11 +327,11 @@ The following object is masked from 'package:MASS':
   width: 100%;
 }
 
-#tkrshtblkd .gt_spanner_row {
+#cnkdiargzt .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#tkrshtblkd .gt_group_heading {
+#cnkdiargzt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -421,7 +357,7 @@ The following object is masked from 'package:MASS':
   text-align: left;
 }
 
-#tkrshtblkd .gt_empty_group_heading {
+#cnkdiargzt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -436,15 +372,15 @@ The following object is masked from 'package:MASS':
   vertical-align: middle;
 }
 
-#tkrshtblkd .gt_from_md > :first-child {
+#cnkdiargzt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tkrshtblkd .gt_from_md > :last-child {
+#cnkdiargzt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tkrshtblkd .gt_row {
+#cnkdiargzt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -463,7 +399,7 @@ The following object is masked from 'package:MASS':
   overflow-x: hidden;
 }
 
-#tkrshtblkd .gt_stub {
+#cnkdiargzt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -476,7 +412,7 @@ The following object is masked from 'package:MASS':
   padding-right: 5px;
 }
 
-#tkrshtblkd .gt_stub_row_group {
+#cnkdiargzt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -490,15 +426,15 @@ The following object is masked from 'package:MASS':
   vertical-align: top;
 }
 
-#tkrshtblkd .gt_row_group_first td {
+#cnkdiargzt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tkrshtblkd .gt_row_group_first th {
+#cnkdiargzt .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#tkrshtblkd .gt_summary_row {
+#cnkdiargzt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -508,16 +444,16 @@ The following object is masked from 'package:MASS':
   padding-right: 5px;
 }
 
-#tkrshtblkd .gt_first_summary_row {
+#cnkdiargzt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tkrshtblkd .gt_first_summary_row.thick {
+#cnkdiargzt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tkrshtblkd .gt_last_summary_row {
+#cnkdiargzt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -527,7 +463,7 @@ The following object is masked from 'package:MASS':
   border-bottom-color: #D3D3D3;
 }
 
-#tkrshtblkd .gt_grand_summary_row {
+#cnkdiargzt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -537,7 +473,7 @@ The following object is masked from 'package:MASS':
   padding-right: 5px;
 }
 
-#tkrshtblkd .gt_first_grand_summary_row {
+#cnkdiargzt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -547,7 +483,7 @@ The following object is masked from 'package:MASS':
   border-top-color: #D3D3D3;
 }
 
-#tkrshtblkd .gt_last_grand_summary_row_top {
+#cnkdiargzt .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -557,11 +493,11 @@ The following object is masked from 'package:MASS':
   border-bottom-color: #D3D3D3;
 }
 
-#tkrshtblkd .gt_striped {
+#cnkdiargzt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tkrshtblkd .gt_table_body {
+#cnkdiargzt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -570,7 +506,7 @@ The following object is masked from 'package:MASS':
   border-bottom-color: #D3D3D3;
 }
 
-#tkrshtblkd .gt_footnotes {
+#cnkdiargzt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -584,7 +520,7 @@ The following object is masked from 'package:MASS':
   border-right-color: #D3D3D3;
 }
 
-#tkrshtblkd .gt_footnote {
+#cnkdiargzt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -593,7 +529,7 @@ The following object is masked from 'package:MASS':
   padding-right: 5px;
 }
 
-#tkrshtblkd .gt_sourcenotes {
+#cnkdiargzt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -607,7 +543,7 @@ The following object is masked from 'package:MASS':
   border-right-color: #D3D3D3;
 }
 
-#tkrshtblkd .gt_sourcenote {
+#cnkdiargzt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -615,72 +551,72 @@ The following object is masked from 'package:MASS':
   padding-right: 5px;
 }
 
-#tkrshtblkd .gt_left {
+#cnkdiargzt .gt_left {
   text-align: left;
 }
 
-#tkrshtblkd .gt_center {
+#cnkdiargzt .gt_center {
   text-align: center;
 }
 
-#tkrshtblkd .gt_right {
+#cnkdiargzt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tkrshtblkd .gt_font_normal {
+#cnkdiargzt .gt_font_normal {
   font-weight: normal;
 }
 
-#tkrshtblkd .gt_font_bold {
+#cnkdiargzt .gt_font_bold {
   font-weight: bold;
 }
 
-#tkrshtblkd .gt_font_italic {
+#cnkdiargzt .gt_font_italic {
   font-style: italic;
 }
 
-#tkrshtblkd .gt_super {
+#cnkdiargzt .gt_super {
   font-size: 65%;
 }
 
-#tkrshtblkd .gt_footnote_marks {
+#cnkdiargzt .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#tkrshtblkd .gt_asterisk {
+#cnkdiargzt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tkrshtblkd .gt_indent_1 {
+#cnkdiargzt .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tkrshtblkd .gt_indent_2 {
+#cnkdiargzt .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tkrshtblkd .gt_indent_3 {
+#cnkdiargzt .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tkrshtblkd .gt_indent_4 {
+#cnkdiargzt .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tkrshtblkd .gt_indent_5 {
+#cnkdiargzt .gt_indent_5 {
   text-indent: 25px;
 }
 
-#tkrshtblkd .katex-display {
+#cnkdiargzt .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#tkrshtblkd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#cnkdiargzt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>

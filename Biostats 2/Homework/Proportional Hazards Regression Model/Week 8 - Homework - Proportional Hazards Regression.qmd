@@ -14,6 +14,8 @@ editor: visual
 ```{r}
 #| code-fold: true
 #| code-summary: "Click here to view loaded libraries"
+#| message: false
+#| warning: false
 
 library(tidyverse)
 library(survival)
@@ -22,6 +24,7 @@ library(survminer)
 library(multcomp)
 library(emmeans) ## to calculate hazard ratios
 library(gtsummary) ## to make table
+library(flextable) ## export table 1 to word
 ```
 
 ## load data
@@ -63,12 +66,24 @@ t1 <- f6 %>%
   tbl_summary(by = Randgrp,
               label = list("AGE" = "Age",
                              "Above200" = "Cell Count")) %>% 
-  add_overall()
+  add_overall() %>%
+  modify_caption("**Table 1: Study Population**")
 
 t1
 ```
 
--   Variables I should pull
+```{r export table 1 to word}
+#| code-fold: true
+#| code-summary: "Click here to view table 1 export"
+
+
+t1 %>% 
+  as_flex_table() %>% 
+  save_as_docx(path = "Exports/Table_1.docx")
+
+```
+
+-   Note to self: Variables I should pull
 
     -   AGE
 
