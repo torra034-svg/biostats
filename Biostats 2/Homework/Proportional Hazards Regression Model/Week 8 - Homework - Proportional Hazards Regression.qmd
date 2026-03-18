@@ -5,23 +5,71 @@ format: html
 editor: visual
 ---
 
-## Quarto
+# Proportional Hazards Regression Report:
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+# How does the three-class strategy affect the hazard of AIDS relative to the two-class strategy, after adjusting for clinical unit and whether baseline CD4 cell count was above 200?
 
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Library
 
 ```{r}
-1 + 1
+library(tidyverse)
+library(survival)
+library(ggfortify) ## to calculate "Schoenfeld residuals vs time"
+library(survminer)
+library(multcomp)
+library(emmeans) ## to calculate hazard ratios
+library(gtsummary) ## to make table
 ```
 
-You can add options to executable code like this
+## load data
 
 ```{r}
-#| echo: false
-2 * 2
+f6 <- read.csv("first6.csv")
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+## data cleaning
+```{r}
+
+f6 <- f6 %>% 
+  mutate(Gender = as.factor(if_else(GENDER == 1, "Male", "Female", missing = NULL)),
+         Race = as.factor(case_when(RACE == 1 ~ "Latino",
+                          RACE == 2 ~ "African American",
+                          RACE == 3 ~ "White",
+                          RACE == 4 ~ "Other")),
+         Above200 = as.factor(if_else(above200 == 1, "Above 200 cell count", "Below 200 cell count")),
+         Randgrp = as.factor(case_when(RANDGRP == 1 ~ "PI + NRTI",
+                                       RANDGRP == 2 ~ "NNRTI + NRTI",
+                                       RANDGRP == 3 ~ "PI + NNRTI + NRTI")))
+
+```
+
+
+## Exploratory Data Analysis
+
+## Table 1: Study Population
+
+```{r}
+#|label: Table 1: Study Population
+#|tbl-cap: "Table 1: Study Population"
+
+t1 <- f6 %>% 
+  dplyr::select(AGE, Gender, Race, Above200, Randgrp) %>% 
+  tbl_summary(by = Randgrp,
+              label = list("AGE" = "Age",
+                             "Above200" = "Cell Count")) %>% 
+  add_overall()
+
+t1
+```
+
+-   Variables I should pull
+
+    -   AGE
+
+    -   GENDER
+
+    -   RACE
+
+    -   above200
+
+    -   RANDGRP
