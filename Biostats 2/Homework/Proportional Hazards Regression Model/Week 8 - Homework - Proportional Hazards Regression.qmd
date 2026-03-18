@@ -12,6 +12,9 @@ editor: visual
 ## Library
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Click here to view loaded libraries"
+
 library(tidyverse)
 library(survival)
 library(ggfortify) ## to calculate "Schoenfeld residuals vs time"
@@ -24,11 +27,14 @@ library(gtsummary) ## to make table
 ## load data
 
 ```{r}
+
 f6 <- read.csv("first6.csv")
 ```
 
 ## data cleaning
 ```{r}
+#| code-fold: true
+#| code-summary: "Click here to view data cleaning code"
 
 f6 <- f6 %>% 
   mutate(Gender = as.factor(if_else(GENDER == 1, "Male", "Female", missing = NULL)),
@@ -42,14 +48,14 @@ f6 <- f6 %>%
                                        RANDGRP == 3 ~ "PI + NNRTI + NRTI")))
 
 ```
-
+* Note: added code fold option so that I can view this better in html
 
 ## Exploratory Data Analysis
 
 ## Table 1: Study Population
 
 ```{r}
-#|label: Table 1: Study Population
+#|label: table-study-pop
 #|tbl-cap: "Table 1: Study Population"
 
 t1 <- f6 %>% 
