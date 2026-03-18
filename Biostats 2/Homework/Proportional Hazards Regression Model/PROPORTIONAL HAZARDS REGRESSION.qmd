@@ -13,7 +13,7 @@ editor: visual
 
 ```{r}
 #| label: library
-#| include: false
+#| results: 'hide'
 
 library(tidyverse)
 library(survival)
@@ -109,26 +109,27 @@ model_2 <- coxph(Surv(t2primary, primary) ~ twoclass * agege40 + UNIT + above200
 
 summary(model_2)
 ```
-* Note: first argument = time variable
-  * 2nd argument = outcome event
-  * since this question asks if treatment differs by age. I should calculate the interaction effect. 
-  * to adjust for additional variables, j add them to the equation
-* The above equation is for multiple Cox Regression variables. Make sure to convert the x variable(s) into a factorial.
 
-## Estimate hazard ratio 
+-   Note: first argument = time variable
+    -   2nd argument = outcome event
+    -   since this question asks if treatment differs by age. I should calculate the interaction effect.
+    -   to adjust for additional variables, j add them to the equation
+-   The above equation is for multiple Cox Regression variables. Make sure to convert the x variable(s) into a factorial.
+
+## Estimate hazard ratio
+
 ```{r 21}
 
 hr_age <- emmeans(model_2, pairwise ~ twoclass | agege40, type = "response")
 
 hr_age
 ```
-* Note: To estimate the hazard ratio, I need to consider the interaction effect. 
-  * the above equation is how to estimate the hazard ratios
-* How to read output:
-  * Output is already in normal form and **NOT IN LOG FORM**
-    * Meaning that they are ready to be interpreted from the get-go.
-  * response = Hazard Ratio estimate
-  * asymp.LCL / asymp.UCL = Lower / Upper Confidence Level bounds
-* Remember for this specific example, two-class is set to only those in the two-class group. 
 
-  
+-   Note: To estimate the hazard ratio, I need to consider the interaction effect.
+    -   the above equation is how to estimate the hazard ratios
+-   How to read output:
+    -   Output is already in normal form and **NOT IN LOG FORM**
+        -   Meaning that they are ready to be interpreted from the get-go.
+    -   response = Hazard Ratio estimate
+    -   asymp.LCL / asymp.UCL = Lower / Upper Confidence Level bounds
+-   Remember for this specific example, two-class is set to only those in the two-class group.
