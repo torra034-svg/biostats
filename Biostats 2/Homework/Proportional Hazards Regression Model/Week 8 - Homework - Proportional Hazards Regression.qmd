@@ -172,16 +172,24 @@ AIDS_table ## turns out I can copy-paste directly from the html render!!!
 
 ### Checking proportional hazards assumptions: Schoenfeld residuals vs time plot
 
+Create unadjusted model
+```{r}
+AIDS_model_unadj <- coxph(Surv(t2qoi, qoi) ~ TwoClass, data = f6)
+
+summary(AIDS_model_unadj)
+```
+
+
 ```{r}
 #| label: fig-schoenfeld
 #| fig-cap: " Schoenfeld Residuals vs Time Plot"
 #| fig-cap-location: top
 
 
-AIDS_resid <- cox.zph(AIDS_fit)
+AIDS_resid <- cox.zph(AIDS_model_unadj)
 
 ggcoxzph(AIDS_resid)
 
 ```
 
-The residuals were created by plotting the @fig-kmplot model values.
+
