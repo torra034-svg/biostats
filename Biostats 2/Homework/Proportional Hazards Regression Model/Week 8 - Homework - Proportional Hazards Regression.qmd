@@ -8,9 +8,9 @@ format:
 editor: visual
 ---
 
-# Proportional Hazards Regression Report:
+Proportional Hazards Regression Report:
 
-# How does the three-class strategy affect the hazard of AIDS relative to the two-class strategy, after adjusting for clinical unit and whether baseline CD4 cell count was above 200?
+Research Question: How does the three-class strategy affect the hazard of AIDS relative to the two-class strategy, after adjusting for clinical unit and whether baseline CD4 cell count was above 200?
 
 ## Library
 
@@ -53,30 +53,33 @@ f6 <- f6 %>%
                                        RANDGRP == 2 ~ "NNRTI + NRTI",
                                        RANDGRP == 3 ~ "PI + NNRTI + NRTI")),
          twoclass = as.factor(twoclass),
-         TwoClass = as.factor(case_when(twoclass == 1 ~ "Two Class",
-                                        twoclass == 2 ~ "Three Class")))
+         TwoClass = as.factor(
+           fct_relevel(case_when(twoclass == 1 ~ "Two Class",
+                                        twoclass == 2 ~ "Three Class"),"Two Class")))
 
 ```
 * Note: added code fold option so that I can view this better in html
 
-## Exploratory Data Analysis
+# Exploratory Data Analysis
 
 ### Table 1: Study Population
 
 ```{r}
-#|label: table-study-pop
-#|tbl-cap: "Table 1: Study Population"
+#| label: tbl-study-pop
+#| tbl-cap: "Table 1: Study Population"
+#| tbl-cap-location: top
 
 t1 <- f6 %>% 
   dplyr::select(AGE, Gender, Race, Above200, Randgrp) %>% 
   tbl_summary(by = Randgrp,
               label = list("AGE" = "Age",
                              "Above200" = "Cell Count")) %>% 
-  add_overall() %>%
-  modify_caption("**Table 1: Study Population**")
+  add_overall()
 
 t1
 ```
+* Note to self: I must type "tbl-..." exactly so R knows that the code chunk is explicitly referring to a table
+
 
 ```{r export table 1 to word}
 #| code-fold: true
@@ -124,7 +127,7 @@ autoplot(AIDS_fit) +
 
 ```
 
-## Methods
+# Results
 
 ### Multiple Cox Proportional Hazards Regression
 
@@ -132,13 +135,26 @@ Note to self: I am calculating the hazard proportion estimate of the Three-class
 
 ```{r}
 
-AIDS_model <- coxph(Surv(t2qoi, qoi) ~ TwoClass + UNIT + as.factor(above200), data = f6)
+AIDS_model <- coxph(Surv(t2qoi, qoi) ~ TwoClass + UNIT + Above200, data = f6)
 
 summary(AIDS_model)
 ```
 
-### Export AIDS Model Output
+### Create AIDS Table 
 ```{r}
+#| label: tbl-AIDS
+#| tbl-cap: "Multiple Cox Proportional Hazards Regression"
+#| tbl-cap-location: top
 
+AIDS_table <- tbl_regression(AIDS_model, exponentiate = TRUE) %>%
+  bold_labels() %>%
+  italicize_levels() %>% 
+  as_flex_table()  ## this is so I can copy-paste directly from the html render
+  
+
+AIDS_table ## turns out I can copy-paste directly from the html render!!! 
 ```
 
+
+
+### Schoenfeld residuals vs time plot
