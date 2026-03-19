@@ -38,6 +38,7 @@ f6 <- read.csv("first6.csv")
 ```
 
 ## data cleaning
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Click here to view data cleaning code"
@@ -55,10 +56,11 @@ f6 <- f6 %>%
          twoclass = as.factor(twoclass),
          TwoClass = as.factor(
            fct_relevel(case_when(twoclass == 1 ~ "Two Class",
-                                        twoclass == 2 ~ "Three Class"),"Two Class")))
+                                        twoclass == 2 ~ "Three Class"),"Two Class"))) ## adjust Two Class as reference level
 
 ```
-* Note: added code fold option so that I can view this better in html
+
+-   Note: added code fold option so that I can view this better in html
 
 # Exploratory Data Analysis
 
@@ -66,7 +68,7 @@ f6 <- f6 %>%
 
 ```{r}
 #| label: tbl-study-pop
-#| tbl-cap: "Table 1: Study Population"
+#| tbl-cap: "Study Population Characteristics"
 #| tbl-cap-location: top
 
 t1 <- f6 %>% 
@@ -74,20 +76,21 @@ t1 <- f6 %>%
   tbl_summary(by = Randgrp,
               label = list("AGE" = "Age",
                              "Above200" = "Cell Count")) %>% 
-  add_overall()
+  add_overall() %>% 
+  as_flex_table()
 
 t1
 ```
-* Note to self: I must type "tbl-..." exactly so R knows that the code chunk is explicitly referring to a table
 
+-   Note to self: I must type "tbl-..." exactly so R knows that the code chunk is explicitly referring to a table
 
 ```{r export table 1 to word}
 #| code-fold: true
 #| code-summary: "Click here to view table 1 export"
+#| eval: false
 
 
 t1 %>% 
-  as_flex_table() %>% 
   save_as_docx(path = "Exports/Table_1.docx")
 
 ```
@@ -111,7 +114,6 @@ t1 %>%
 AIDS_fit <- survfit(Surv(t2qoi, qoi) ~ TwoClass, data = f6)
 
 ```
-
 
 ```{r}
 #| label: fig-kmplot
@@ -140,7 +142,20 @@ AIDS_model <- coxph(Surv(t2qoi, qoi) ~ TwoClass + UNIT + Above200, data = f6)
 summary(AIDS_model)
 ```
 
-### Create AIDS Table 
+### Pairwise comparisons for multi-categorical predictors
+
+```{r}
+#| eval: false
+
+### I don't think this is necessary because we are only comparing two levels against each other.
+
+cox.multcomp <- glht(AIDS_model, linfct = mcp(m.f = "Tukey"))
+
+exp(confint(cox.multcomp)$confint)
+```
+
+### Create AIDS Table
+
 ```{r}
 #| label: tbl-AIDS
 #| tbl-cap: "Multiple Cox Proportional Hazards Regression"
@@ -155,6 +170,18 @@ AIDS_table <- tbl_regression(AIDS_model, exponentiate = TRUE) %>%
 AIDS_table ## turns out I can copy-paste directly from the html render!!! 
 ```
 
+### Checking proportional hazards assumptions: Schoenfeld residuals vs time plot
+
+```{r}
+#| label: fig-schoenfeld
+#| fig-cap: " Schoenfeld Residuals vs Time Plot"
+#| fig-cap-location: top
 
 
-### Schoenfeld residuals vs time plot
+AIDS_resid <- cox.zph(AIDS_fit)
+
+ggcoxzph(AIDS_resid)
+
+```
+
+The residuals were created by plotting the @fig-kmplot model values.
