@@ -27,7 +27,7 @@ library(survminer)
 library(multcomp)
 library(emmeans) ## to calculate hazard ratios
 library(gtsummary) ## to make table
-library(flextable) ## export table 1 to word
+library(flextable) ## export tables to Word
 ```
 
 ## load data
@@ -121,6 +121,24 @@ autoplot(AIDS_fit) +
   labs(title = "Time to AIDS",
        subtitle = "By Treatment Type") +
   theme_minimal()
+
+```
+
+## Methods
+
+### Multiple Cox Proportional Hazards Regression
+
+Note to self: I am calculating the hazard proportion estimate of the Three-class vs Two-class factors regarding AIDS while adjusting for UNIT + above200
+
+```{r}
+
+AIDS_model <- coxph(Surv(t2qoi, qoi) ~ TwoClass + UNIT + as.factor(above200), data = f6)
+
+summary(AIDS_model)
+```
+
+### Export AIDS Model Output
+```{r}
 
 ```
 
