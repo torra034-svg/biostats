@@ -37,7 +37,7 @@ surgery_timing <- surgery_timing %>%
          Asa_status = case_when(asa_status == 1 ~ "ASA 1-2",
                                 asa_status == 2 ~ "ASA 3",
                                 asa_status == 3 ~ "ASA 4-6"),
-         Mort_30 = if_else(mort30 == 0, "No", "Yes"))
+         Mort_30 = if_else(mort30 == 0, "No Mortality", "Mortality"))
   
 
 ```
