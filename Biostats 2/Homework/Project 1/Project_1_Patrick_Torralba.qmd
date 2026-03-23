@@ -5,4 +5,66 @@ format: html
 editor: visual
 ---
 
+```{r}
+#| label: library
+#| echo: false
+#| include: false
+#| warning: false
 
+library(tidyverse) # general
+library(gtsummary) # create tables
+library(flextable) # convert to flex table for copy-paste purposes
+```
+
+```{r}
+#| label: data
+#| echo: false
+
+surgery_timing <- read.csv("Surgery Timing.csv")
+
+```
+
+
+## Data cleaning
+```{r}
+#| label: data cleaning
+
+surgery_timing <- surgery_timing %>% 
+  mutate(Gender = if_else(gender == 1, "Male", "Female"),
+         Race = case_when(race == 1 ~ "Caucasian",
+                          race == 2 ~ "African American",
+                          race == 3 ~ "Other"),
+         Asa_status = case_when(asa_status == 1 ~ "ASA 1-2",
+                                asa_status == 2 ~ "ASA 3",
+                                asa_status == 3 ~ "ASA 4-6"),
+         Mort_30 = if_else(mort30 == 0, "No", "Yes"))
+  
+
+```
+
+## Exploratory Data Analysis
+
+-   Variables I should pull for table 1:
+    -   age
+    -   race
+    -   gender
+    -   bmi
+    -   asa_status
+        -   this refers to a patients physical health and combordities
+    -   mort30
+
+```{r}
+#| label: tbl-participant-demo
+#| tbl-cap: "Participant Demographics"
+#| warning: false
+
+table_1 <- surgery_timing %>% 
+  tbl_summary(by = Mort_30,
+              include = Gender:Mort_30,
+              label = "Asa_status" ~ "ASA Status") %>% 
+  add_overall() %>% 
+  modify_footnote(update = label ~ "ASA: American Society of Anesthesiologists physical status classification") %>% 
+  as_flex_table()
+
+table_1
+```
