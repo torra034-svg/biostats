@@ -56,7 +56,8 @@ f6 <- f6 %>%
          twoclass = as.factor(twoclass),
          TwoClass = as.factor(
            fct_relevel(case_when(twoclass == 1 ~ "Two Class",
-                                        twoclass == 2 ~ "Three Class"),"Two Class"))) ## adjust Two Class as reference level
+                                        twoclass == 2 ~ "Three Class"),"Two Class")), ## adjust Two Class as reference level
+         Unit = as.factor(UNIT)) # make UNIT into factor
 
 ```
 
@@ -137,7 +138,7 @@ Note to self: I am calculating the hazard proportion estimate of the Three-class
 
 ```{r}
 
-AIDS_model <- coxph(Surv(t2qoi, qoi) ~ TwoClass + UNIT + Above200, data = f6)
+AIDS_model <- coxph(Surv(t2qoi, qoi) ~ TwoClass + Unit + Above200, data = f6)
 
 summary(AIDS_model)
 ```
@@ -173,12 +174,12 @@ AIDS_table ## turns out I can copy-paste directly from the html render!!!
 ### Checking proportional hazards assumptions: Schoenfeld residuals vs time plot
 
 Create unadjusted model
+
 ```{r}
 AIDS_model_unadj <- coxph(Surv(t2qoi, qoi) ~ TwoClass, data = f6)
 
 summary(AIDS_model_unadj)
 ```
-
 
 ```{r}
 #| label: fig-schoenfeld
@@ -191,5 +192,3 @@ AIDS_resid <- cox.zph(AIDS_model_unadj)
 ggcoxzph(AIDS_resid)
 
 ```
-
-
