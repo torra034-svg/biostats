@@ -57,7 +57,7 @@ f6 <- f6 %>%
          TwoClass = as.factor(
            fct_relevel(case_when(twoclass == 1 ~ "Two Class",
                                         twoclass == 2 ~ "Three Class"),"Two Class")), ## adjust Two Class as reference level
-         Unit = as.factor(UNIT)) # make UNIT into factor
+         Unit = relevel(as.factor(Above200), ref = "Below 200 cell count")) # make UNIT into factor
 
 ```
 
