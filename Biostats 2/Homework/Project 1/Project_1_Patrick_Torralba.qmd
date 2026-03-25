@@ -49,21 +49,18 @@ surgery_timing <- surgery_timing %>%
 
 ## Exploratory Data Analysis
 
-```{r}
-#| label: table 1 memo
-#| include: false
-#| eval: false
+::: {.content-hidden}
 
--   # Variables I should pull for table 1:
+### Variables I should pull for table 1:
     -   age
     -   race
     -   gender
     -   bmi
     -   asa_status
-        -   # this refers to a patients physical health and combordities
+        -   this refers to a patients physical health and combordities
     -   mort30
-
-```
+    
+:::
 
 ```{r}
 #| label: tbl-participant-demo
