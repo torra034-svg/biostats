@@ -24,8 +24,8 @@ surgery_timing <- read.csv("Surgery Timing.csv")
 
 ```
 
-
 ## Data cleaning
+
 ```{r}
 #| label: data cleaning
 
@@ -37,30 +37,38 @@ surgery_timing <- surgery_timing %>%
          Asa_status = case_when(asa_status == 1 ~ "ASA 1-2",
                                 asa_status == 2 ~ "ASA 3",
                                 asa_status == 3 ~ "ASA 4-6"),
-         Mort_30 = if_else(mort30 == 0, "No Mortality", "Mortality"))
+         Complication = if_else(complication == 0, "No Complication", "Complication"))
   
 
 ```
 
 ## Exploratory Data Analysis
 
--   Variables I should pull for table 1:
+```{r}
+#| label: table 1 memo
+#| include: false
+#| eval: false
+
+-   # Variables I should pull for table 1:
     -   age
     -   race
     -   gender
     -   bmi
     -   asa_status
-        -   this refers to a patients physical health and combordities
+        -   # this refers to a patients physical health and combordities
     -   mort30
+
+```
 
 ```{r}
 #| label: tbl-participant-demo
 #| tbl-cap: "Participant Demographics"
+#| tbl-cap-location: top
 #| warning: false
 
 table_1 <- surgery_timing %>% 
-  tbl_summary(by = Mort_30,
-              include = Gender:Mort_30,
+  tbl_summary(by = Complication,
+              include = Gender:Complication,
               label = "Asa_status" ~ "ASA Status") %>% 
   add_overall() %>% 
   modify_footnote(update = label ~ "ASA: American Society of Anesthesiologists physical status classification") %>% 
@@ -68,3 +76,14 @@ table_1 <- surgery_timing %>%
 
 table_1
 ```
+
+```{r}
+#| label: fig-boxplot
+#| fig-cap: "Time of Day and Complications"
+#| fig-cap-location: top
+
+
+ggplot(surgery_timing, aes(x = hour, y = ))
+
+```
+
