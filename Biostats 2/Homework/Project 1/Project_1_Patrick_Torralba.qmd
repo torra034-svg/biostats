@@ -14,6 +14,8 @@ editor: visual
 library(tidyverse) # general
 library(gtsummary) # create tables
 library(flextable) # convert to flex table for copy-paste purposes
+library(jtools) # logistic regression
+library(ResourceSelection) # logistic regression
 ```
 
 ```{r}
@@ -115,6 +117,32 @@ ggplot(surgery_timing, aes(x = Dow, y = complication, fill = )) +
        y = "Complication Count")
 
 ## I do not include the title because I screenshot the figure-cap instead
+
+```
+
+## Methods
+
+We are doing a logistic regression because the outcome is binary (complication vs no complication).
+
+ 
+### Hour vs Complication model
+```{r}
+#| label: hour-comp-model
+
+
+hour_comp_model <- glm(Complication ~ hour + age + Gender + bmi + Asa_status, data = surgery_timing, family = binomial(link = "logit"))
+
+summ(hour_comp_model, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
+
+```
+
+### Dow vs Complication model
+```{r}
+#| label: Dow-comp-model
+
+Dow_comp_model <- glm(Complication ~ Dow + age + Gender + bmi + Asa_status, data = surgery_timing, family = binomial(link = "logit"))
+
+summ(Dow_comp_model, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
 
 ```
 
