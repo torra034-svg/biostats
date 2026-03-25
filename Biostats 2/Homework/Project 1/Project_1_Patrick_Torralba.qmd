@@ -18,6 +18,7 @@ library(jtools) # logistic regression
 library(ResourceSelection) # logistic regression
 library(gtsummary) # make models into object for best copy-pasting
 library(lmtest) # Likelihood ratio test 
+library(car) # for vif and multicollinearity
 ```
 
 ```{r}
@@ -182,7 +183,7 @@ tbl_regression(Dow_comp_model_full, exponentiate = TRUE) %>%
 
 ```
 
-### Model Diagnostics
+## Model Diagnostics
 
 ### Hour vs Comp Diagnostics
 
@@ -190,11 +191,11 @@ Likelihood Ratio Test
 ```{r}
 #| label: Hr vs Comp- Likelihood Ratio Test
 
-lrtest(hour_comp_model_reduced, hour_comp_model_full)
+lrtest(hour_comp_model_reduced, hour_comp_model_full) ## look for different diagnostic. Look at w6 software lesson.
 
 ```
 
-Variance Inflation Factor
+Variance Inflation Factor to check for Multicollinearity
 ```{r}
 #| label: Hr vs Comp - Variance Inflation Factor
 
@@ -234,3 +235,32 @@ pivot_longer(hour_comp_data, names_to = "predictors", values_to = "predictor.val
 ```
 
 ### Dow vs Comp Diagnostics
+
+Likelihood Ratio Test
+```{r}
+#| label: Dow vs Comp - Likelihood Ratio Test
+
+
+```
+
+
+Variance Inflation Factor to check for Multicollinearity
+```{r}
+#| label: Dow vs Comp - VIF
+
+```
+
+
+Linearity Assumption
+```{r}
+#| label: subset - dow vs comp
+
+```
+
+```{r}
+#| label: fig-dow-comp-linearity
+#| fig-cap: "Day of Week Linearity Assumption"
+#| fig-cap-location: top
+
+```
+
