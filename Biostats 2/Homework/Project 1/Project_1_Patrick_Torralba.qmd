@@ -30,19 +30,19 @@ surgery_timing <- read.csv("Surgery Timing.csv")
 #| label: data cleaning
 
 surgery_timing <- surgery_timing %>% 
-  mutate(Gender = if_else(gender == 1, "Male", "Female"),
-         Race = case_when(race == 1 ~ "Caucasian",
+  mutate(Gender = as.factor(if_else(gender == 1, "Male", "Female")),
+         Race = as.factor(case_when(race == 1 ~ "Caucasian",
                           race == 2 ~ "African American",
-                          race == 3 ~ "Other"),
-         Asa_status = case_when(asa_status == 1 ~ "ASA 1-2",
+                          race == 3 ~ "Other")),
+         Asa_status = as.factor(case_when(asa_status == 1 ~ "ASA 1-2",
                                 asa_status == 2 ~ "ASA 3",
-                                asa_status == 3 ~ "ASA 4-6"),
-         Complication = if_else(complication == 0, "No Complication", "Complication"),
-         Dow = case_when(dow == 1 ~ "Monday",
+                                asa_status == 3 ~ "ASA 4-6")),
+         Complication = as.factor(if_else(complication == 0, "No Complication", "Complication")),
+         Dow = as.factor(case_when(dow == 1 ~ "Monday",
                          dow == 2 ~ "Tuesday",
                          dow == 3 ~ "Wednesday",
                          dow == 4 ~ "Thursday",
-                         dow == 5 ~ "Friday" ))
+                         dow == 5 ~ "Friday" )))
   
 
 ```
