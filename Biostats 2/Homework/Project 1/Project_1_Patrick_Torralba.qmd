@@ -17,6 +17,7 @@ library(flextable) # convert to flex table for copy-paste purposes
 library(jtools) # logistic regression
 library(ResourceSelection) # logistic regression
 library(gtsummary) # make models into object for best copy-pasting
+library(lmtest) # Likelihood ratio test 
 ```
 
 ```{r}
@@ -129,27 +130,44 @@ We are doing a logistic regression because the outcome is binary (complication v
 ### Hour vs Complication model
 
 ```{r}
-#| label: hour-comp-model
+#| label: hour-comp-model-full
 
-hour_comp_model <- glm(Complication ~ hour + age + Gender + bmi + Asa_status, data = surgery_timing, family = binomial(link = "logit"))
+hour_comp_model_full <- glm(Complication ~ hour + age + Gender + bmi + Asa_status, data = surgery_timing, family = binomial(link = "logit"))
 
 ```
+
+```{r}
+#| label: hour-comp-model-reduced
+
+hour_comp_model_reduced <- glm(Complication ~ hour, data = surgery_timing, family = binomial(link = "logit"))
+
+
+
+```
+
 
 ```{r}
 #| label: tbl-hour-comp-model
 #| tbl-cap: "Complication by Hour"
 #| tbl-cap-location: "top"
 
-tbl_regression(hour_comp_model, exponentiate = TRUE) %>% 
+tbl_regression(hour_comp_model_full, exponentiate = TRUE) %>% 
   bold_labels()
 
 ```
 
 ### Dow vs Complication model
 ```{r}
-#| label: Dow-comp-model
+#| label: Dow-comp-model-full
 
-Dow_comp_model <- glm(Complication ~ Dow + age + Gender + bmi + Asa_status, data = surgery_timing, family = binomial(link = "logit"))
+Dow_comp_model_full <- glm(Complication ~ Dow + age + Gender + bmi + Asa_status, data = surgery_timing, family = binomial(link = "logit"))
+
+```
+
+```{r}
+#| label: dow-comp-model-reduced
+
+Dow_comp_model_reduced <- glm(Complication ~ Dow, data = surgery_timing, family = binomial(link = "logit"))
 
 ```
 
@@ -159,7 +177,7 @@ Dow_comp_model <- glm(Complication ~ Dow + age + Gender + bmi + Asa_status, data
 #| tbl-cap-location: "top"
 
 
-tbl_regression(Dow_comp_model, exponentiate = TRUE) %>% 
+tbl_regression(Dow_comp_model_full, exponentiate = TRUE) %>% 
   bold_labels()
 
 ```
@@ -167,14 +185,36 @@ tbl_regression(Dow_comp_model, exponentiate = TRUE) %>%
 ### Model Diagnostics
 
 ### Hour vs Comp Diagnostics
+
+Likelihood Ratio Test
 ```{r}
 #| label: Hr vs Comp- Likelihood Ratio Test
+
+lrtest(hour_comp_model_reduced, hour_comp_model_full)
+
+```
+
+Variance Inflation Factor
+```{r}
+#| label: Hr vs Comp - Variance Inflation Factor
+
+vif(hour_comp_model_full)
 
 ```
 
 
+Linearity Assumption
+
 ```{r}
-#| label: Hr vs Comp - Variance Inflation Factor
+#| label: subset hour vs comp
+
+hour_comp_data <- subset(surgery_timing, select = c(age, bmi, hour))
+
+hour_comp_predictors <- colnames(hour_comp_data)
+
+hour_comp_data$logit <- predict(hour_comp_model_full)
+
+
 
 ```
 
@@ -183,7 +223,14 @@ tbl_regression(Dow_comp_model, exponentiate = TRUE) %>%
 #| fig-cap: "Linearity Assumption Check for Hour vs Complication Model"
 #| fig-cap-location: top
 
-
+pivot_longer(hour_comp_data, names_to = "predictors", values_to = "predictor.value", -logit) %>% 
+  ggplot(aes(x = predictor.value, y = logit)) +
+  geom_point(size = 0.5, alpha = 0.5) +
+  geom_smooth(method = "loess", color = "blue", se = FALSE) +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  facet_wrap(facets = ~ predictors, scales = "free_x") +
+  theme_bw()
 
 ```
 
+### Dow vs Comp Diagnostics
