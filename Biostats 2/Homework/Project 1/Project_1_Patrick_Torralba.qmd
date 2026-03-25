@@ -37,7 +37,12 @@ surgery_timing <- surgery_timing %>%
          Asa_status = case_when(asa_status == 1 ~ "ASA 1-2",
                                 asa_status == 2 ~ "ASA 3",
                                 asa_status == 3 ~ "ASA 4-6"),
-         Complication = if_else(complication == 0, "No Complication", "Complication"))
+         Complication = if_else(complication == 0, "No Complication", "Complication"),
+         Dow = case_when(dow == 1 ~ "Monday",
+                         dow == 2 ~ "Tuesday",
+                         dow == 3 ~ "Wednesday",
+                         dow == 4 ~ "Thursday",
+                         dow == 5 ~ "Friday" ))
   
 
 ```
