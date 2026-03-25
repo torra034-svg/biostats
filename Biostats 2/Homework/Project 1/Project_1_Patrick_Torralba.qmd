@@ -42,7 +42,8 @@ surgery_timing <- surgery_timing %>%
                          dow == 2 ~ "Tuesday",
                          dow == 3 ~ "Wednesday",
                          dow == 4 ~ "Thursday",
-                         dow == 5 ~ "Friday" )))
+                         dow == 5 ~ "Friday" )),
+         Dow = fct_relevel(Dow, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"))
   
 
 ```
@@ -62,6 +63,7 @@ surgery_timing <- surgery_timing %>%
     
 :::
 
+### Table - Participant Demographics
 ```{r}
 #| label: tbl-participant-demo
 #| tbl-cap: "Participant Demographics"
@@ -79,6 +81,9 @@ table_1 <- surgery_timing %>%
 table_1
 ```
 
+
+
+### Figure - Surgeries and Complications by Hour Histogram
 ```{r}
 #| label: fig-hist-hour-comp
 #| fig-cap: "Surgeries and Complications by Hour"
@@ -94,6 +99,22 @@ ggplot(surgery_timing, aes(x = hour,  fill = Complication)) +
        y = "Surgery Count",
        fill = "Patient Status")
 
+
+```
+
+### Figure - Complications by Day of Week 
+```{r}
+#| label: fig-comp-dow
+#| fig-cap: "Surgical In-hospital Complications by Day of Week"
+#| fig-cap-location: top
+
+
+ggplot(surgery_timing, aes(x = Dow, y = complication, fill = )) +
+  geom_col() +
+  labs(x = NULL,
+       y = "Complication Count")
+
+## I do not include the title because I screenshot the figure-cap instead
 
 ```
 
