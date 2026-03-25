@@ -16,6 +16,7 @@ library(gtsummary) # create tables
 library(flextable) # convert to flex table for copy-paste purposes
 library(jtools) # logistic regression
 library(ResourceSelection) # logistic regression
+library(gtsummary) # make models into object for best copy-pasting
 ```
 
 ```{r}
@@ -126,13 +127,21 @@ We are doing a logistic regression because the outcome is binary (complication v
 
  
 ### Hour vs Complication model
+
 ```{r}
 #| label: hour-comp-model
 
-
 hour_comp_model <- glm(Complication ~ hour + age + Gender + bmi + Asa_status, data = surgery_timing, family = binomial(link = "logit"))
 
-summ(hour_comp_model, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
+```
+
+```{r}
+#| label: tbl-hour-comp-model
+#| tbl-cap: "Complication by Hour"
+#| tbl-cap-location: "top"
+
+tbl_regression(hour_comp_model, exponentiate = TRUE) %>% 
+  bold_labels()
 
 ```
 
@@ -142,7 +151,39 @@ summ(hour_comp_model, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
 
 Dow_comp_model <- glm(Complication ~ Dow + age + Gender + bmi + Asa_status, data = surgery_timing, family = binomial(link = "logit"))
 
-summ(Dow_comp_model, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
+```
+
+```{r}
+#| label: tbl-dow-comp-model
+#| tbl-cap: "Complication by Day of Week"
+#| tbl-cap-location: "top"
+
+
+tbl_regression(Dow_comp_model, exponentiate = TRUE) %>% 
+  bold_labels()
+
+```
+
+### Model Diagnostics
+
+### Hour vs Comp Diagnostics
+```{r}
+#| label: Hr vs Comp- Likelihood Ratio Test
+
+```
+
+
+```{r}
+#| label: Hr vs Comp - Variance Inflation Factor
+
+```
+
+```{r}
+#| label: fig-hr-comp-linearity
+#| fig-cap: "Linearity Assumption Check for Hour vs Complication Model"
+#| fig-cap-location: top
+
+
 
 ```
 
