@@ -42,8 +42,7 @@ surgery_timing <- surgery_timing %>%
                          dow == 2 ~ "Tuesday",
                          dow == 3 ~ "Wednesday",
                          dow == 4 ~ "Thursday",
-                         dow == 5 ~ "Friday" )),
-         Hour = as.factor(hour))
+                         dow == 5 ~ "Friday" )))
   
 
 ```
@@ -89,7 +88,7 @@ table_1
 #| fig-cap-location: top
 
 
-ggplot(surgery_timing, aes(x = hour, y = Complication)) +
+ggplot(surgery_timing, aes(x = Hour, y = Complication)) +
   geom_boxplot()
 
 ```
