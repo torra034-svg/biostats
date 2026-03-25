@@ -83,13 +83,20 @@ table_1
 ```
 
 ```{r}
-#| label: fig-boxplot
-#| fig-cap: "Time of Day and Complications"
+#| label: fig-hist-hour-comp
+#| fig-cap: "Surgeries and Complications by Hour"
 #| fig-cap-location: top
 
 
-ggplot(surgery_timing, aes(x = Hour, y = Complication)) +
-  geom_boxplot()
+ggplot(surgery_timing, aes(x = hour,  fill = Complication)) +
+  geom_histogram(binwidth = 1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 24, by = 4)) +
+  theme_minimal() +
+  theme(legend.position = "top") + 
+  labs(x = "Hour (24-Hour Time)",
+       y = "Surgery Count",
+       fill = "Patient Status")
+
 
 ```
 
