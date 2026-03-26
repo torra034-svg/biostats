@@ -136,7 +136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this dataset does not have any missing values. This is needed for the likelihood ratio test </span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>surgery_analysis <span class="ot">&lt;-</span> surgery_timing <span class="sc">%&gt;%</span> </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Complication, hour, Dow, age, Gender, bmi, Asa_status) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(complication, hour, Dow, age, Gender, bmi, Asa_status) <span class="sc">%&gt;%</span> </span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
@@ -161,7 +161,7 @@ Table&nbsp;1: Participant Demographics
 </figcaption>
 <div aria-describedby="tbl-participant-demo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div class="tabwid"><style>.cl-d8964c80{}.cl-d88ecd2a{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-d88ecd3e{font-family:'Arial';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;vertical-align:super;}.cl-d88ecd3f{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-d891c85e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d891c868{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d891c869{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d891c872{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d891c873{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:15pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d891c874{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d891f5b8{width:1.634in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5c2{width:1.202in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5c3{width:1.584in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5c4{width:1.338in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5cc{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5cd{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5ce{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5cf{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5d6{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5e0{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5e1{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5ea{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5eb{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5ec{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5f4{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5f5{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5f6{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5fe{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f5ff{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f600{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f608{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f609{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f612{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f613{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f614{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f61c{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f61d{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f61e{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f61f{width:1.634in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f626{width:1.202in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f627{width:1.584in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d891f628{width:1.338in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-d8964c80"><thead><tr style="overflow-wrap:break-word;"><th class="cl-d891f5b8"><p class="cl-d891c85e"><span class="cl-d88ecd2a">Characteristic</span><span class="cl-d88ecd3e">1</span></p></th><th class="cl-d891f5c2"><p class="cl-d891c868"><span class="cl-d88ecd2a">Overall</span><span class="cl-d88ecd3f">  </span><br><span class="cl-d88ecd3f">N = 32,001</span><span class="cl-d88ecd3e">2</span></p></th><th class="cl-d891f5c3"><p class="cl-d891c868"><span class="cl-d88ecd2a">No Complication</span><span class="cl-d88ecd3f">  </span><br><span class="cl-d88ecd3f">N = 27,737</span><span class="cl-d88ecd3e">2</span></p></th><th class="cl-d891f5c4"><p class="cl-d891c868"><span class="cl-d88ecd2a">Complication</span><span class="cl-d88ecd3f">  </span><br><span class="cl-d88ecd3f">N = 4,264</span><span class="cl-d88ecd3e">2</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-d891f5cc"><p class="cl-d891c869"><span class="cl-d88ecd3f">Gender</span></p></td><td class="cl-d891f5cd"><p class="cl-d891c872"><span class="cl-d88ecd3f"></span></p></td><td class="cl-d891f5ce"><p class="cl-d891c872"><span class="cl-d88ecd3f"></span></p></td><td class="cl-d891f5cf"><p class="cl-d891c872"><span class="cl-d88ecd3f"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f5d6"><p class="cl-d891c873"><span class="cl-d88ecd3f">Female</span></p></td><td class="cl-d891f5e0"><p class="cl-d891c872"><span class="cl-d88ecd3f">17,230 (54%)</span></p></td><td class="cl-d891f5e1"><p class="cl-d891c872"><span class="cl-d88ecd3f">15,059 (54%)</span></p></td><td class="cl-d891f5ea"><p class="cl-d891c872"><span class="cl-d88ecd3f">2,171 (51%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f5d6"><p class="cl-d891c873"><span class="cl-d88ecd3f">Male</span></p></td><td class="cl-d891f5e0"><p class="cl-d891c872"><span class="cl-d88ecd3f">14,768 (46%)</span></p></td><td class="cl-d891f5e1"><p class="cl-d891c872"><span class="cl-d88ecd3f">12,675 (46%)</span></p></td><td class="cl-d891f5ea"><p class="cl-d891c872"><span class="cl-d88ecd3f">2,093 (49%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f5eb"><p class="cl-d891c873"><span class="cl-d88ecd3f">Unknown</span></p></td><td class="cl-d891f5ec"><p class="cl-d891c872"><span class="cl-d88ecd3f">3</span></p></td><td class="cl-d891f5f4"><p class="cl-d891c872"><span class="cl-d88ecd3f">3</span></p></td><td class="cl-d891f5f5"><p class="cl-d891c872"><span class="cl-d88ecd3f">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f5f6"><p class="cl-d891c869"><span class="cl-d88ecd3f">Race</span></p></td><td class="cl-d891f5fe"><p class="cl-d891c872"><span class="cl-d88ecd3f"></span></p></td><td class="cl-d891f5ff"><p class="cl-d891c872"><span class="cl-d88ecd3f"></span></p></td><td class="cl-d891f600"><p class="cl-d891c872"><span class="cl-d88ecd3f"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f5d6"><p class="cl-d891c873"><span class="cl-d88ecd3f">African American</span></p></td><td class="cl-d891f5e0"><p class="cl-d891c872"><span class="cl-d88ecd3f">3,790 (12%)</span></p></td><td class="cl-d891f5e1"><p class="cl-d891c872"><span class="cl-d88ecd3f">3,314 (12%)</span></p></td><td class="cl-d891f5ea"><p class="cl-d891c872"><span class="cl-d88ecd3f">476 (11%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f5d6"><p class="cl-d891c873"><span class="cl-d88ecd3f">Caucasian</span></p></td><td class="cl-d891f5e0"><p class="cl-d891c872"><span class="cl-d88ecd3f">26,488 (84%)</span></p></td><td class="cl-d891f5e1"><p class="cl-d891c872"><span class="cl-d88ecd3f">22,949 (84%)</span></p></td><td class="cl-d891f5ea"><p class="cl-d891c872"><span class="cl-d88ecd3f">3,539 (84%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f5d6"><p class="cl-d891c873"><span class="cl-d88ecd3f">Other</span></p></td><td class="cl-d891f5e0"><p class="cl-d891c872"><span class="cl-d88ecd3f">1,243 (3.9%)</span></p></td><td class="cl-d891f5e1"><p class="cl-d891c872"><span class="cl-d88ecd3f">1,068 (3.9%)</span></p></td><td class="cl-d891f5ea"><p class="cl-d891c872"><span class="cl-d88ecd3f">175 (4.2%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f608"><p class="cl-d891c873"><span class="cl-d88ecd3f">Unknown</span></p></td><td class="cl-d891f609"><p class="cl-d891c872"><span class="cl-d88ecd3f">480</span></p></td><td class="cl-d891f612"><p class="cl-d891c872"><span class="cl-d88ecd3f">406</span></p></td><td class="cl-d891f613"><p class="cl-d891c872"><span class="cl-d88ecd3f">74</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f5cc"><p class="cl-d891c869"><span class="cl-d88ecd3f">ASA Status</span></p></td><td class="cl-d891f5cd"><p class="cl-d891c872"><span class="cl-d88ecd3f"></span></p></td><td class="cl-d891f5ce"><p class="cl-d891c872"><span class="cl-d88ecd3f"></span></p></td><td class="cl-d891f5cf"><p class="cl-d891c872"><span class="cl-d88ecd3f"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f5d6"><p class="cl-d891c873"><span class="cl-d88ecd3f">ASA 1-2</span></p></td><td class="cl-d891f5e0"><p class="cl-d891c872"><span class="cl-d88ecd3f">17,261 (54%)</span></p></td><td class="cl-d891f5e1"><p class="cl-d891c872"><span class="cl-d88ecd3f">15,468 (56%)</span></p></td><td class="cl-d891f5ea"><p class="cl-d891c872"><span class="cl-d88ecd3f">1,793 (42%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f5d6"><p class="cl-d891c873"><span class="cl-d88ecd3f">ASA 3</span></p></td><td class="cl-d891f5e0"><p class="cl-d891c872"><span class="cl-d88ecd3f">13,677 (43%)</span></p></td><td class="cl-d891f5e1"><p class="cl-d891c872"><span class="cl-d88ecd3f">11,448 (41%)</span></p></td><td class="cl-d891f5ea"><p class="cl-d891c872"><span class="cl-d88ecd3f">2,229 (52%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f5d6"><p class="cl-d891c873"><span class="cl-d88ecd3f">ASA 4-6</span></p></td><td class="cl-d891f5e0"><p class="cl-d891c872"><span class="cl-d88ecd3f">1,055 (3.3%)</span></p></td><td class="cl-d891f5e1"><p class="cl-d891c872"><span class="cl-d88ecd3f">815 (2.9%)</span></p></td><td class="cl-d891f5ea"><p class="cl-d891c872"><span class="cl-d88ecd3f">240 (5.6%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d891f614"><p class="cl-d891c873"><span class="cl-d88ecd3f">Unknown</span></p></td><td class="cl-d891f61c"><p class="cl-d891c872"><span class="cl-d88ecd3f">8</span></p></td><td class="cl-d891f61d"><p class="cl-d891c872"><span class="cl-d88ecd3f">6</span></p></td><td class="cl-d891f61e"><p class="cl-d891c872"><span class="cl-d88ecd3f">2</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="4" class="cl-d891f61f"><p class="cl-d891c874"><span class="cl-d88ecd3e">1</span><span class="cl-d88ecd3f">ASA: American Society of Anesthesiologists physical status classification</span></p></td></tr><tr style="overflow-wrap:break-word;"><td colspan="4" class="cl-d891f61f"><p class="cl-d891c874"><span class="cl-d88ecd3e">2</span><span class="cl-d88ecd3f">n (%)</span></p></td></tr></tfoot></table></div>
+<div class="tabwid"><style>.cl-5e6ba5ec{}.cl-5e641d72{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-5e641d90{font-family:'Arial';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;vertical-align:super;}.cl-5e641d9a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-5e671b3a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e671b3b{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e671b44{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e671b45{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e671b4e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:15pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e671b58{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e674916{width:1.634in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674920{width:1.202in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674921{width:1.584in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674922{width:1.338in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67492a{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67492b{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674934{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674935{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67493e{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67493f{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674940{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674941{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674948{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674952{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674953{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674954{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67495c{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67495d{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67495e{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67495f{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674960{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674966{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674967{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674968{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674969{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67496a{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674970{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674971{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674972{width:1.634in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674973{width:1.202in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67497a{width:1.584in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67497b{width:1.338in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-5e6ba5ec"><thead><tr style="overflow-wrap:break-word;"><th class="cl-5e674916"><p class="cl-5e671b3a"><span class="cl-5e641d72">Characteristic</span><span class="cl-5e641d90">1</span></p></th><th class="cl-5e674920"><p class="cl-5e671b3b"><span class="cl-5e641d72">Overall</span><span class="cl-5e641d9a">  </span><br><span class="cl-5e641d9a">N = 32,001</span><span class="cl-5e641d90">2</span></p></th><th class="cl-5e674921"><p class="cl-5e671b3b"><span class="cl-5e641d72">No Complication</span><span class="cl-5e641d9a">  </span><br><span class="cl-5e641d9a">N = 27,737</span><span class="cl-5e641d90">2</span></p></th><th class="cl-5e674922"><p class="cl-5e671b3b"><span class="cl-5e641d72">Complication</span><span class="cl-5e641d9a">  </span><br><span class="cl-5e641d9a">N = 4,264</span><span class="cl-5e641d90">2</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-5e67492a"><p class="cl-5e671b44"><span class="cl-5e641d9a">Gender</span></p></td><td class="cl-5e67492b"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e674934"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e674935"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Female</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">17,230 (54%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">15,059 (54%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">2,171 (51%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Male</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">14,768 (46%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">12,675 (46%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">2,093 (49%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e674948"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Unknown</span></p></td><td class="cl-5e674952"><p class="cl-5e671b45"><span class="cl-5e641d9a">3</span></p></td><td class="cl-5e674953"><p class="cl-5e671b45"><span class="cl-5e641d9a">3</span></p></td><td class="cl-5e674954"><p class="cl-5e671b45"><span class="cl-5e641d9a">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67495c"><p class="cl-5e671b44"><span class="cl-5e641d9a">Race</span></p></td><td class="cl-5e67495d"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e67495e"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e67495f"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">African American</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">3,790 (12%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">3,314 (12%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">476 (11%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Caucasian</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">26,488 (84%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">22,949 (84%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">3,539 (84%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Other</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">1,243 (3.9%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">1,068 (3.9%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">175 (4.2%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e674960"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Unknown</span></p></td><td class="cl-5e674966"><p class="cl-5e671b45"><span class="cl-5e641d9a">480</span></p></td><td class="cl-5e674967"><p class="cl-5e671b45"><span class="cl-5e641d9a">406</span></p></td><td class="cl-5e674968"><p class="cl-5e671b45"><span class="cl-5e641d9a">74</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67492a"><p class="cl-5e671b44"><span class="cl-5e641d9a">ASA Status</span></p></td><td class="cl-5e67492b"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e674934"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e674935"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">ASA 1-2</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">17,261 (54%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">15,468 (56%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">1,793 (42%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">ASA 3</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">13,677 (43%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">11,448 (41%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">2,229 (52%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">ASA 4-6</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">1,055 (3.3%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">815 (2.9%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">240 (5.6%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e674969"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Unknown</span></p></td><td class="cl-5e67496a"><p class="cl-5e671b45"><span class="cl-5e641d9a">8</span></p></td><td class="cl-5e674970"><p class="cl-5e671b45"><span class="cl-5e641d9a">6</span></p></td><td class="cl-5e674971"><p class="cl-5e671b45"><span class="cl-5e641d9a">2</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="4" class="cl-5e674972"><p class="cl-5e671b58"><span class="cl-5e641d90">1</span><span class="cl-5e641d9a">ASA: American Society of Anesthesiologists physical status classification</span></p></td></tr><tr style="overflow-wrap:break-word;"><td colspan="4" class="cl-5e674972"><p class="cl-5e671b58"><span class="cl-5e641d90">2</span><span class="cl-5e641d9a">n (%)</span></p></td></tr></tfoot></table></div>
 </div>
 </div>
 </figure>
@@ -224,11 +224,11 @@ Figure&nbsp;2: Surgical In-hospital Complications by Day of Week
 <h3 class="anchored" data-anchor-id="hour-vs-complication-model">Hour vs Complication model</h3>
 <p>Full Model</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hour_comp_model_full <span class="ot">&lt;-</span> <span class="fu">glm</span>(Complication <span class="sc">~</span> hour <span class="sc">+</span> age <span class="sc">+</span> Gender <span class="sc">+</span> bmi <span class="sc">+</span> Asa_status, <span class="at">data =</span> surgery_analysis, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hour_comp_model_full <span class="ot">&lt;-</span> <span class="fu">glm</span>(complication <span class="sc">~</span> hour <span class="sc">+</span> age <span class="sc">+</span> Gender <span class="sc">+</span> bmi <span class="sc">+</span> Asa_status, <span class="at">data =</span> surgery_analysis, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Reduced Model</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>hour_comp_model_reduced <span class="ot">&lt;-</span> <span class="fu">glm</span>(Complication <span class="sc">~</span> hour, <span class="at">data =</span> surgery_analysis, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>hour_comp_model_reduced <span class="ot">&lt;-</span> <span class="fu">glm</span>(complication <span class="sc">~</span> hour, <span class="at">data =</span> surgery_analysis, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Logistic Regression Analysis</p>
 <div class="cell" data-tbl-cap-location="top">
@@ -241,23 +241,23 @@ Table&nbsp;2: Complication by Hour
 </figcaption>
 <div aria-describedby="tbl-hour-comp-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="cqrehnkmbl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cqrehnkmbl table {
+<div id="agjtoefuut" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#agjtoefuut table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cqrehnkmbl thead, #cqrehnkmbl tbody, #cqrehnkmbl tfoot, #cqrehnkmbl tr, #cqrehnkmbl td, #cqrehnkmbl th {
+#agjtoefuut thead, #agjtoefuut tbody, #agjtoefuut tfoot, #agjtoefuut tr, #agjtoefuut td, #agjtoefuut th {
   border-style: none;
 }
 
-#cqrehnkmbl p {
+#agjtoefuut p {
   margin: 0;
   padding: 0;
 }
 
-#cqrehnkmbl .gt_table {
+#agjtoefuut .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -283,12 +283,12 @@ Table&nbsp;2: Complication by Hour
   border-left-color: #D3D3D3;
 }
 
-#cqrehnkmbl .gt_caption {
+#agjtoefuut .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cqrehnkmbl .gt_title {
+#agjtoefuut .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -300,7 +300,7 @@ Table&nbsp;2: Complication by Hour
   border-bottom-width: 0;
 }
 
-#cqrehnkmbl .gt_subtitle {
+#agjtoefuut .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -312,7 +312,7 @@ Table&nbsp;2: Complication by Hour
   border-top-width: 0;
 }
 
-#cqrehnkmbl .gt_heading {
+#agjtoefuut .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -324,13 +324,13 @@ Table&nbsp;2: Complication by Hour
   border-right-color: #D3D3D3;
 }
 
-#cqrehnkmbl .gt_bottom_border {
+#agjtoefuut .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cqrehnkmbl .gt_col_headings {
+#agjtoefuut .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -345,7 +345,7 @@ Table&nbsp;2: Complication by Hour
   border-right-color: #D3D3D3;
 }
 
-#cqrehnkmbl .gt_col_heading {
+#agjtoefuut .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -365,7 +365,7 @@ Table&nbsp;2: Complication by Hour
   overflow-x: hidden;
 }
 
-#cqrehnkmbl .gt_column_spanner_outer {
+#agjtoefuut .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -377,15 +377,15 @@ Table&nbsp;2: Complication by Hour
   padding-right: 4px;
 }
 
-#cqrehnkmbl .gt_column_spanner_outer:first-child {
+#agjtoefuut .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cqrehnkmbl .gt_column_spanner_outer:last-child {
+#agjtoefuut .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cqrehnkmbl .gt_column_spanner {
+#agjtoefuut .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -397,11 +397,11 @@ Table&nbsp;2: Complication by Hour
   width: 100%;
 }
 
-#cqrehnkmbl .gt_spanner_row {
+#agjtoefuut .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cqrehnkmbl .gt_group_heading {
+#agjtoefuut .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -427,7 +427,7 @@ Table&nbsp;2: Complication by Hour
   text-align: left;
 }
 
-#cqrehnkmbl .gt_empty_group_heading {
+#agjtoefuut .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -442,15 +442,15 @@ Table&nbsp;2: Complication by Hour
   vertical-align: middle;
 }
 
-#cqrehnkmbl .gt_from_md > :first-child {
+#agjtoefuut .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cqrehnkmbl .gt_from_md > :last-child {
+#agjtoefuut .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cqrehnkmbl .gt_row {
+#agjtoefuut .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -469,7 +469,7 @@ Table&nbsp;2: Complication by Hour
   overflow-x: hidden;
 }
 
-#cqrehnkmbl .gt_stub {
+#agjtoefuut .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -482,7 +482,7 @@ Table&nbsp;2: Complication by Hour
   padding-right: 5px;
 }
 
-#cqrehnkmbl .gt_stub_row_group {
+#agjtoefuut .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -496,15 +496,15 @@ Table&nbsp;2: Complication by Hour
   vertical-align: top;
 }
 
-#cqrehnkmbl .gt_row_group_first td {
+#agjtoefuut .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cqrehnkmbl .gt_row_group_first th {
+#agjtoefuut .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cqrehnkmbl .gt_summary_row {
+#agjtoefuut .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -514,16 +514,16 @@ Table&nbsp;2: Complication by Hour
   padding-right: 5px;
 }
 
-#cqrehnkmbl .gt_first_summary_row {
+#agjtoefuut .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cqrehnkmbl .gt_first_summary_row.thick {
+#agjtoefuut .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cqrehnkmbl .gt_last_summary_row {
+#agjtoefuut .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -533,7 +533,7 @@ Table&nbsp;2: Complication by Hour
   border-bottom-color: #D3D3D3;
 }
 
-#cqrehnkmbl .gt_grand_summary_row {
+#agjtoefuut .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -543,7 +543,7 @@ Table&nbsp;2: Complication by Hour
   padding-right: 5px;
 }
 
-#cqrehnkmbl .gt_first_grand_summary_row {
+#agjtoefuut .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -553,7 +553,7 @@ Table&nbsp;2: Complication by Hour
   border-top-color: #D3D3D3;
 }
 
-#cqrehnkmbl .gt_last_grand_summary_row_top {
+#agjtoefuut .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -563,11 +563,11 @@ Table&nbsp;2: Complication by Hour
   border-bottom-color: #D3D3D3;
 }
 
-#cqrehnkmbl .gt_striped {
+#agjtoefuut .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cqrehnkmbl .gt_table_body {
+#agjtoefuut .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -576,7 +576,7 @@ Table&nbsp;2: Complication by Hour
   border-bottom-color: #D3D3D3;
 }
 
-#cqrehnkmbl .gt_footnotes {
+#agjtoefuut .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -590,7 +590,7 @@ Table&nbsp;2: Complication by Hour
   border-right-color: #D3D3D3;
 }
 
-#cqrehnkmbl .gt_footnote {
+#agjtoefuut .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -599,7 +599,7 @@ Table&nbsp;2: Complication by Hour
   padding-right: 5px;
 }
 
-#cqrehnkmbl .gt_sourcenotes {
+#agjtoefuut .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -613,7 +613,7 @@ Table&nbsp;2: Complication by Hour
   border-right-color: #D3D3D3;
 }
 
-#cqrehnkmbl .gt_sourcenote {
+#agjtoefuut .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -621,72 +621,72 @@ Table&nbsp;2: Complication by Hour
   padding-right: 5px;
 }
 
-#cqrehnkmbl .gt_left {
+#agjtoefuut .gt_left {
   text-align: left;
 }
 
-#cqrehnkmbl .gt_center {
+#agjtoefuut .gt_center {
   text-align: center;
 }
 
-#cqrehnkmbl .gt_right {
+#agjtoefuut .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cqrehnkmbl .gt_font_normal {
+#agjtoefuut .gt_font_normal {
   font-weight: normal;
 }
 
-#cqrehnkmbl .gt_font_bold {
+#agjtoefuut .gt_font_bold {
   font-weight: bold;
 }
 
-#cqrehnkmbl .gt_font_italic {
+#agjtoefuut .gt_font_italic {
   font-style: italic;
 }
 
-#cqrehnkmbl .gt_super {
+#agjtoefuut .gt_super {
   font-size: 65%;
 }
 
-#cqrehnkmbl .gt_footnote_marks {
+#agjtoefuut .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cqrehnkmbl .gt_asterisk {
+#agjtoefuut .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cqrehnkmbl .gt_indent_1 {
+#agjtoefuut .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cqrehnkmbl .gt_indent_2 {
+#agjtoefuut .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cqrehnkmbl .gt_indent_3 {
+#agjtoefuut .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cqrehnkmbl .gt_indent_4 {
+#agjtoefuut .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cqrehnkmbl .gt_indent_5 {
+#agjtoefuut .gt_indent_5 {
   text-indent: 25px;
 }
 
-#cqrehnkmbl .katex-display {
+#agjtoefuut .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#cqrehnkmbl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#agjtoefuut div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -794,11 +794,12 @@ Table&nbsp;2: Complication by Hour
 <h3 class="anchored" data-anchor-id="dow-vs-complication-model">Dow vs Complication model</h3>
 <p>Dow Full Model</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Dow_comp_model_full <span class="ot">&lt;-</span> <span class="fu">glm</span>(Complication <span class="sc">~</span> Dow <span class="sc">+</span> age <span class="sc">+</span> Gender <span class="sc">+</span> bmi <span class="sc">+</span> Asa_status, <span class="at">data =</span> surgery_analysis, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Dow_comp_model_full <span class="ot">&lt;-</span> <span class="fu">glm</span>(complication <span class="sc">~</span> Dow <span class="sc">+</span> age <span class="sc">+</span> Gender <span class="sc">+</span> bmi <span class="sc">+</span> Asa_status, <span class="at">data =</span> surgery_analysis, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>Note to self: the binary outcome <strong>needs</strong> to be in a binary form and <strong>cannot</strong> be a factor.</p>
 <p>Dow Reduced Model</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Dow_comp_model_reduced <span class="ot">&lt;-</span> <span class="fu">glm</span>(Complication <span class="sc">~</span> Dow, <span class="at">data =</span> surgery_analysis, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Dow_comp_model_reduced <span class="ot">&lt;-</span> <span class="fu">glm</span>(complication <span class="sc">~</span> Dow, <span class="at">data =</span> surgery_analysis, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Dow Logistic Regression</p>
 <div class="cell" data-tbl-cap-location="top">
@@ -811,23 +812,23 @@ Table&nbsp;3: Complication by Day of Week
 </figcaption>
 <div aria-describedby="tbl-dow-comp-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="qtmiapyygd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qtmiapyygd table {
+<div id="cqwrxgszte" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cqwrxgszte table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qtmiapyygd thead, #qtmiapyygd tbody, #qtmiapyygd tfoot, #qtmiapyygd tr, #qtmiapyygd td, #qtmiapyygd th {
+#cqwrxgszte thead, #cqwrxgszte tbody, #cqwrxgszte tfoot, #cqwrxgszte tr, #cqwrxgszte td, #cqwrxgszte th {
   border-style: none;
 }
 
-#qtmiapyygd p {
+#cqwrxgszte p {
   margin: 0;
   padding: 0;
 }
 
-#qtmiapyygd .gt_table {
+#cqwrxgszte .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -853,12 +854,12 @@ Table&nbsp;3: Complication by Day of Week
   border-left-color: #D3D3D3;
 }
 
-#qtmiapyygd .gt_caption {
+#cqwrxgszte .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qtmiapyygd .gt_title {
+#cqwrxgszte .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -870,7 +871,7 @@ Table&nbsp;3: Complication by Day of Week
   border-bottom-width: 0;
 }
 
-#qtmiapyygd .gt_subtitle {
+#cqwrxgszte .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -882,7 +883,7 @@ Table&nbsp;3: Complication by Day of Week
   border-top-width: 0;
 }
 
-#qtmiapyygd .gt_heading {
+#cqwrxgszte .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -894,13 +895,13 @@ Table&nbsp;3: Complication by Day of Week
   border-right-color: #D3D3D3;
 }
 
-#qtmiapyygd .gt_bottom_border {
+#cqwrxgszte .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qtmiapyygd .gt_col_headings {
+#cqwrxgszte .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -915,7 +916,7 @@ Table&nbsp;3: Complication by Day of Week
   border-right-color: #D3D3D3;
 }
 
-#qtmiapyygd .gt_col_heading {
+#cqwrxgszte .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -935,7 +936,7 @@ Table&nbsp;3: Complication by Day of Week
   overflow-x: hidden;
 }
 
-#qtmiapyygd .gt_column_spanner_outer {
+#cqwrxgszte .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -947,15 +948,15 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 4px;
 }
 
-#qtmiapyygd .gt_column_spanner_outer:first-child {
+#cqwrxgszte .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qtmiapyygd .gt_column_spanner_outer:last-child {
+#cqwrxgszte .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qtmiapyygd .gt_column_spanner {
+#cqwrxgszte .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -967,11 +968,11 @@ Table&nbsp;3: Complication by Day of Week
   width: 100%;
 }
 
-#qtmiapyygd .gt_spanner_row {
+#cqwrxgszte .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qtmiapyygd .gt_group_heading {
+#cqwrxgszte .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -997,7 +998,7 @@ Table&nbsp;3: Complication by Day of Week
   text-align: left;
 }
 
-#qtmiapyygd .gt_empty_group_heading {
+#cqwrxgszte .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1012,15 +1013,15 @@ Table&nbsp;3: Complication by Day of Week
   vertical-align: middle;
 }
 
-#qtmiapyygd .gt_from_md > :first-child {
+#cqwrxgszte .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qtmiapyygd .gt_from_md > :last-child {
+#cqwrxgszte .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qtmiapyygd .gt_row {
+#cqwrxgszte .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1039,7 +1040,7 @@ Table&nbsp;3: Complication by Day of Week
   overflow-x: hidden;
 }
 
-#qtmiapyygd .gt_stub {
+#cqwrxgszte .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1052,7 +1053,7 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 5px;
 }
 
-#qtmiapyygd .gt_stub_row_group {
+#cqwrxgszte .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1066,15 +1067,15 @@ Table&nbsp;3: Complication by Day of Week
   vertical-align: top;
 }
 
-#qtmiapyygd .gt_row_group_first td {
+#cqwrxgszte .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qtmiapyygd .gt_row_group_first th {
+#cqwrxgszte .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qtmiapyygd .gt_summary_row {
+#cqwrxgszte .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1084,16 +1085,16 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 5px;
 }
 
-#qtmiapyygd .gt_first_summary_row {
+#cqwrxgszte .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qtmiapyygd .gt_first_summary_row.thick {
+#cqwrxgszte .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qtmiapyygd .gt_last_summary_row {
+#cqwrxgszte .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1103,7 +1104,7 @@ Table&nbsp;3: Complication by Day of Week
   border-bottom-color: #D3D3D3;
 }
 
-#qtmiapyygd .gt_grand_summary_row {
+#cqwrxgszte .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1113,7 +1114,7 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 5px;
 }
 
-#qtmiapyygd .gt_first_grand_summary_row {
+#cqwrxgszte .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1123,7 +1124,7 @@ Table&nbsp;3: Complication by Day of Week
   border-top-color: #D3D3D3;
 }
 
-#qtmiapyygd .gt_last_grand_summary_row_top {
+#cqwrxgszte .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1133,11 +1134,11 @@ Table&nbsp;3: Complication by Day of Week
   border-bottom-color: #D3D3D3;
 }
 
-#qtmiapyygd .gt_striped {
+#cqwrxgszte .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qtmiapyygd .gt_table_body {
+#cqwrxgszte .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1146,7 +1147,7 @@ Table&nbsp;3: Complication by Day of Week
   border-bottom-color: #D3D3D3;
 }
 
-#qtmiapyygd .gt_footnotes {
+#cqwrxgszte .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1160,7 +1161,7 @@ Table&nbsp;3: Complication by Day of Week
   border-right-color: #D3D3D3;
 }
 
-#qtmiapyygd .gt_footnote {
+#cqwrxgszte .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1169,7 +1170,7 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 5px;
 }
 
-#qtmiapyygd .gt_sourcenotes {
+#cqwrxgszte .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1183,7 +1184,7 @@ Table&nbsp;3: Complication by Day of Week
   border-right-color: #D3D3D3;
 }
 
-#qtmiapyygd .gt_sourcenote {
+#cqwrxgszte .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1191,72 +1192,72 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 5px;
 }
 
-#qtmiapyygd .gt_left {
+#cqwrxgszte .gt_left {
   text-align: left;
 }
 
-#qtmiapyygd .gt_center {
+#cqwrxgszte .gt_center {
   text-align: center;
 }
 
-#qtmiapyygd .gt_right {
+#cqwrxgszte .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qtmiapyygd .gt_font_normal {
+#cqwrxgszte .gt_font_normal {
   font-weight: normal;
 }
 
-#qtmiapyygd .gt_font_bold {
+#cqwrxgszte .gt_font_bold {
   font-weight: bold;
 }
 
-#qtmiapyygd .gt_font_italic {
+#cqwrxgszte .gt_font_italic {
   font-style: italic;
 }
 
-#qtmiapyygd .gt_super {
+#cqwrxgszte .gt_super {
   font-size: 65%;
 }
 
-#qtmiapyygd .gt_footnote_marks {
+#cqwrxgszte .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qtmiapyygd .gt_asterisk {
+#cqwrxgszte .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qtmiapyygd .gt_indent_1 {
+#cqwrxgszte .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qtmiapyygd .gt_indent_2 {
+#cqwrxgszte .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qtmiapyygd .gt_indent_3 {
+#cqwrxgszte .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qtmiapyygd .gt_indent_4 {
+#cqwrxgszte .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qtmiapyygd .gt_indent_5 {
+#cqwrxgszte .gt_indent_5 {
   text-indent: 25px;
 }
 
-#qtmiapyygd .katex-display {
+#cqwrxgszte .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#qtmiapyygd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#cqwrxgszte div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1401,12 +1402,12 @@ Table&nbsp;3: Complication by Day of Week
 <h3 class="anchored" data-anchor-id="hour-vs-comp-diagnostics">Hour vs Comp Diagnostics</h3>
 <p>Likelihood Ratio Test</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lrtest</span>(hour_comp_model_reduced, hour_comp_model_full) <span class="do">## look for different diagnostic. Look at w6 software lesson.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lrtest</span>(hour_comp_model_reduced, hour_comp_model_full) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Likelihood ratio test
 
-Model 1: Complication ~ hour
-Model 2: Complication ~ hour + age + Gender + bmi + Asa_status
+Model 1: complication ~ hour
+Model 2: complication ~ hour + age + Gender + bmi + Asa_status
   #Df LogLik Df  Chisq Pr(&gt;Chisq)    
 1   2 -11223                         
 2   7 -11070  5 306.53  &lt; 2.2e-16 ***
@@ -1428,7 +1429,7 @@ Asa_status 1.252185  2        1.057833</code></pre>
 </div>
 <p>Linearity Assumption</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>hour_comp_data <span class="ot">&lt;-</span> <span class="fu">subset</span>(surgery_timing, <span class="at">select =</span> <span class="fu">c</span>(age, bmi, hour))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>hour_comp_data <span class="ot">&lt;-</span> <span class="fu">subset</span>(surgery_analysis, <span class="at">select =</span> <span class="fu">c</span>(age, bmi, hour))</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>hour_comp_predictors <span class="ot">&lt;-</span> <span class="fu">colnames</span>(hour_comp_data)</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1442,18 +1443,45 @@ Asa_status 1.252185  2        1.057833</code></pre>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets =</span> <span class="sc">~</span> predictors, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre data-cap-location="top"><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div id="fig-hr-comp-linearity" class="quarto-float quarto-figure quarto-figure-center anchored" data-cap-location="top">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-hr-comp-linearity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Linearity Assumption Check for Hour vs Complication Model
+</figcaption>
+<div aria-describedby="fig-hr-comp-linearity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Project_1_Patrick_Torralba_files/figure-html/fig-hr-comp-linearity-1.png" class="img-fluid figure-img" width="672">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>Hosmer-Lemeshow Goodness of Fit Test</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hoslem.test</span>(surgery_analysis<span class="sc">$</span>complication, <span class="fu">fitted</span>(hour_comp_model_full))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Hosmer and Lemeshow goodness of fit (GOF) test
+
+data:  surgery_analysis$complication, fitted(hour_comp_model_full)
+X-squared = 10.638, df = 8, p-value = 0.2231</code></pre>
+</div>
 </div>
 </section>
 <section id="dow-vs-comp-diagnostics" class="level3">
 <h3 class="anchored" data-anchor-id="dow-vs-comp-diagnostics">Dow vs Comp Diagnostics</h3>
 <p>Likelihood Ratio Test</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lrtest</span>(Dow_comp_model_reduced, Dow_comp_model_full)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lrtest</span>(Dow_comp_model_reduced, Dow_comp_model_full)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Likelihood ratio test
 
-Model 1: Complication ~ Dow
-Model 2: Complication ~ Dow + age + Gender + bmi + Asa_status
+Model 1: complication ~ Dow
+Model 2: complication ~ Dow + age + Gender + bmi + Asa_status
   #Df LogLik Df Chisq Pr(&gt;Chisq)    
 1   5 -11210                        
 2  10 -11056  5   307  &lt; 2.2e-16 ***
@@ -1466,6 +1494,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell fig-cap-location-top">
 
 </div>
+<p>Hosmer-Lemeshow Goodness of Fit Test</p>
 </section>
 </section>
 
