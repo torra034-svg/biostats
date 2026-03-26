@@ -36,13 +36,16 @@ surgery_timing <- read.csv("Surgery Timing.csv")
 
 surgery_timing <- surgery_timing %>% 
   mutate(Gender = as.factor(if_else(gender == 1, "Male", "Female")),
-         Race = as.factor(case_when(race == 1 ~ "Caucasian",
+         Race = as.factor(case_when(
+                          race == 1 ~ "Caucasian",
                           race == 2 ~ "African American",
                           race == 3 ~ "Other")),
-         Asa_status = as.factor(case_when(asa_status == 1 ~ "ASA 1-2",
+         Asa_status = as.factor(case_when(
+                                asa_status == 1 ~ "ASA 1-2",
                                 asa_status == 2 ~ "ASA 3",
                                 asa_status == 3 ~ "ASA 4-6")),
-         Complication = as.factor(if_else(complication == 0, "No Complication", "Complication")),
+         Complication = factor(if_else(complication == 0, "No Complication", "Complication"),
+                               levels = c("No Complication", "Complication")),
          Dow = as.factor(case_when(dow == 1 ~ "Monday",
                          dow == 2 ~ "Tuesday",
                          dow == 3 ~ "Wednesday",
@@ -52,6 +55,17 @@ surgery_timing <- surgery_timing %>%
   
 
 ```
+
+```{r}
+#| label: surgery_timing_1
+
+# this dataset does not have any missing values. This is needed for the likelihood ratio test 
+
+surgery_analysis <- surgery_timing %>% 
+  dplyr::select(Complication, hour, Dow, age, Gender, bmi, Asa_status) %>% 
+  na.omit()
+```
+
 
 ## Exploratory Data Analysis
 
@@ -123,29 +137,33 @@ ggplot(surgery_timing, aes(x = Dow, y = complication, fill = )) +
 
 ```
 
-## Methods
+## Results
 
 We are doing a logistic regression because the outcome is binary (complication vs no complication).
 
  
 ### Hour vs Complication model
 
+Full Model
 ```{r}
 #| label: hour-comp-model-full
 
-hour_comp_model_full <- glm(Complication ~ hour + age + Gender + bmi + Asa_status, data = surgery_timing, family = binomial(link = "logit"))
+hour_comp_model_full <- glm(Complication ~ hour + age + Gender + bmi + Asa_status, data = surgery_analysis, family = binomial(link = "logit"))
 
 ```
 
+
+Reduced Model
 ```{r}
 #| label: hour-comp-model-reduced
 
-hour_comp_model_reduced <- glm(Complication ~ hour, data = surgery_timing, family = binomial(link = "logit"))
+hour_comp_model_reduced <- glm(Complication ~ hour, data = surgery_analysis, family = binomial(link = "logit"))
 
 
 
 ```
 
+Logistic Regression Analysis
 
 ```{r}
 #| label: tbl-hour-comp-model
@@ -158,20 +176,26 @@ tbl_regression(hour_comp_model_full, exponentiate = TRUE) %>%
 ```
 
 ### Dow vs Complication model
+
+Dow Full Model
 ```{r}
 #| label: Dow-comp-model-full
 
-Dow_comp_model_full <- glm(Complication ~ Dow + age + Gender + bmi + Asa_status, data = surgery_timing, family = binomial(link = "logit"))
+Dow_comp_model_full <- glm(Complication ~ Dow + age + Gender + bmi + Asa_status, data = surgery_analysis, family = binomial(link = "logit"))
 
 ```
 
+
+Dow Reduced Model
 ```{r}
 #| label: dow-comp-model-reduced
 
-Dow_comp_model_reduced <- glm(Complication ~ Dow, data = surgery_timing, family = binomial(link = "logit"))
+Dow_comp_model_reduced <- glm(Complication ~ Dow, data = surgery_analysis, family = binomial(link = "logit"))
 
 ```
 
+
+Dow Logistic Regression
 ```{r}
 #| label: tbl-dow-comp-model
 #| tbl-cap: "Complication by Day of Week"
@@ -240,7 +264,7 @@ Likelihood Ratio Test
 ```{r}
 #| label: Dow vs Comp - Likelihood Ratio Test
 
-
+lrtest(Dow_comp_model_reduced, Dow_comp_model_full)
 ```
 
 
