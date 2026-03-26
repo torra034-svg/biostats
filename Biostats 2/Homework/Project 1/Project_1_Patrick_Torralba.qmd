@@ -62,7 +62,7 @@ surgery_timing <- surgery_timing %>%
 # this dataset does not have any missing values. This is needed for the likelihood ratio test 
 
 surgery_analysis <- surgery_timing %>% 
-  dplyr::select(Complication, hour, Dow, age, Gender, bmi, Asa_status) %>% 
+  dplyr::select(complication, hour, Dow, age, Gender, bmi, Asa_status) %>% 
   na.omit()
 ```
 
@@ -181,16 +181,19 @@ Dow Full Model
 ```{r}
 #| label: Dow-comp-model-full
 
-Dow_comp_model_full <- glm(Complication ~ Dow + age + Gender + bmi + Asa_status, data = surgery_analysis, family = binomial(link = "logit"))
+Dow_comp_model_full <- glm(complication ~ Dow + age + Gender + bmi + Asa_status, data = surgery_analysis, family = binomial(link = "logit"))
+
 
 ```
+
+Note to self: the binary outcome **needs** to be in a binary form and **cannot** be a factor.
 
 
 Dow Reduced Model
 ```{r}
 #| label: dow-comp-model-reduced
 
-Dow_comp_model_reduced <- glm(Complication ~ Dow, data = surgery_analysis, family = binomial(link = "logit"))
+Dow_comp_model_reduced <- glm(complication ~ Dow, data = surgery_analysis, family = binomial(link = "logit"))
 
 ```
 
@@ -215,7 +218,7 @@ Likelihood Ratio Test
 ```{r}
 #| label: Hr vs Comp- Likelihood Ratio Test
 
-lrtest(hour_comp_model_reduced, hour_comp_model_full) ## look for different diagnostic. Look at w6 software lesson.
+lrtest(hour_comp_model_reduced, hour_comp_model_full) 
 
 ```
 
@@ -232,8 +235,9 @@ Linearity Assumption
 
 ```{r}
 #| label: subset hour vs comp
+#| eval: true
 
-hour_comp_data <- subset(surgery_timing, select = c(age, bmi, hour))
+hour_comp_data <- subset(surgery_analysis, select = c(age, bmi, hour))
 
 hour_comp_predictors <- colnames(hour_comp_data)
 
@@ -247,6 +251,7 @@ hour_comp_data$logit <- predict(hour_comp_model_full)
 #| label: fig-hr-comp-linearity
 #| fig-cap: "Linearity Assumption Check for Hour vs Complication Model"
 #| fig-cap-location: top
+#| eval: true
 
 pivot_longer(hour_comp_data, names_to = "predictors", values_to = "predictor.value", -logit) %>% 
   ggplot(aes(x = predictor.value, y = logit)) +
@@ -257,6 +262,14 @@ pivot_longer(hour_comp_data, names_to = "predictors", values_to = "predictor.val
   theme_bw()
 
 ```
+
+
+Hosmer-Lemeshow Goodness of Fit Test
+```{r}
+hoslem.test(surgery_analysis$complication, fitted(hour_comp_model_full))
+```
+
+
 
 ### Dow vs Comp Diagnostics
 
@@ -287,4 +300,7 @@ Linearity Assumption
 #| fig-cap-location: top
 
 ```
+
+
+Hosmer-Lemeshow Goodness of Fit Test
 
