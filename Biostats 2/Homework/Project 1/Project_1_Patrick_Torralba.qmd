@@ -20,6 +20,7 @@ library(ResourceSelection) # logistic regression
 library(gtsummary) # make models into object for best copy-pasting
 library(lmtest) # Likelihood ratio test 
 library(car) # for vif and multicollinearity
+library(broom) # clean up statistical tests
 ```
 
 ```{r}
@@ -223,6 +224,7 @@ Likelihood Ratio Test
 ```{r}
 #| label: tbl-hour-comp-likelihood-ratio-test
 #| tbl-cap: "Complication by Hour - Likelihood Ratio Test"
+#| tbl-cap-location: top  
 
 lrtest(hour_comp_model_reduced, hour_comp_model_full)
 
@@ -242,7 +244,10 @@ lrtest(hour_comp_model_reduced, hour_comp_model_full) %>%
 Variance Inflation Factor to check for Multicollinearity
 
 ```{r}
-#| label: Hr vs Comp - Variance Inflation Factor
+#| label: tbl-hr-comp-vif
+#| tbl-cap: "Hr vs Comp - Variance Inflation Factor"
+#| tbl-cap-location: top
+
 
 vif(hour_comp_model_full)
 
@@ -297,7 +302,23 @@ pivot_longer(hour_comp_data, names_to = "predictors", values_to = "predictor.val
 Hosmer-Lemeshow Goodness of Fit Test
 
 ```{r}
+#| label: tbl-hour-comp-hosmer-lemeshow
+#| tbl-cap: "Complications by Hour - Hosmer-Lemeshow Goodness of Fit Test"
+
 hoslem.test(surgery_analysis$complication, fitted(hour_comp_model_full))
+
+hoslem.test(surgery_analysis$complication, fitted(hour_comp_model_full)) %>%
+  tidy() %>% 
+  flextable() %>% 
+  set_header_labels(
+    "statistic" = "Chi-squared",
+    "p.value" = "p-value",
+    "parameter" = "df",
+    "method" = "Method"
+  ) %>%
+  colformat_double(digits = 2) %>% 
+  autofit() %>% 
+  theme_vanilla()
 ```
 
 ### Dow vs Comp Diagnostics
@@ -341,7 +362,9 @@ Dow_comp_data$logit <- predict(Dow_comp_model_full)
 #| fig-cap-location: top
 #| eval: true
 
-pivot_longer(Dow_comp_data, names_to = "predictors", values_to = "predictor.value", -logit) %>% 
+Dow_comp_data %>%
+  dplyr::select(logit, age, bmi) %>% 
+  pivot_longer(names_to = "predictors", values_to = "predictor.value", -logit) %>%
   ggplot(aes(x = predictor.value, y = logit)) +
   geom_point(size = 0.5, alpha = 0.5) +
   geom_smooth(method = "loess", color = "blue", se = FALSE) +
