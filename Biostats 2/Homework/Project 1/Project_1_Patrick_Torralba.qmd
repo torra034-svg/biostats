@@ -1,13 +1,12 @@
 ---
 title: "Project 1"
 author: "Patrick Torralba"
-format: 
-  html:
+format:
+  html: 
     toc: true
     toc-depth: 3
-    toc-expand: true
+    toc-expand: 3
     toc-location: right
-editor: visual
 ---
 
 ```{r}
@@ -462,3 +461,6 @@ pairs(emmeans(Dow_comp_model_full, "Dow"), type = "response") %>%
 
 ```
 
+# Test Level 1
+## Test Level 2
+### Test Level 3
