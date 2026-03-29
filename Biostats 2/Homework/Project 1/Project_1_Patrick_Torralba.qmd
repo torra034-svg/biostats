@@ -1,9 +1,13 @@
 ---
 title: "Project 1"
 author: "Patrick Torralba"
-format: html
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    toc-expand: true
+    toc-location: right
 editor: visual
-toc: true
 ---
 
 ```{r}
@@ -21,6 +25,7 @@ library(gtsummary) # make models into object for best copy-pasting
 library(lmtest) # Likelihood ratio test 
 library(car) # for vif and multicollinearity
 library(broom) # clean up statistical tests
+library(emmeans) # perform pairwise comparison test
 ```
 
 ```{r}
@@ -427,6 +432,32 @@ hoslem.test(surgery_analysis$complication, fitted(Dow_comp_model_full)) %>%
   autofit() %>% 
   theme_vanilla()
 
+
+
+```
+
+## Which Day of the Week is statistically significant?
+```{r}
+#| label: tbl-dow-pairwise
+#| tbl-cap: "Complications by Day of the Week - Pairwise Comparison Test Results"
+
+
+pairs(emmeans(Dow_comp_model_full, "Dow"), type = "response")
+
+
+pairs(emmeans(Dow_comp_model_full, "Dow"), type = "response") %>% 
+  tidy() %>% 
+  dplyr::select(contrast, odds.ratio, std.error, adj.p.value) %>% 
+  flextable() %>% 
+  set_header_labels(
+    "contrast" = "Reference Level Comparison",
+    "std.error" = "Standard Error",
+    "odds.ratio" = "Odds Ratio",
+    "adj.p.value" = "p-value"
+  ) %>% 
+  colformat_double(digits = 2) %>% 
+  autofit() %>% 
+  theme_vanilla()
 
 
 ```
