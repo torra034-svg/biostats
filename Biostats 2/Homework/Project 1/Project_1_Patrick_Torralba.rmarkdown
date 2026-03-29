@@ -352,3 +352,4 @@ pivot_longer(Dow_comp_data, names_to = "predictors", values_to = "predictor.valu
 ```
 
 Hosmer-Lemeshow Goodness of Fit Test
+
