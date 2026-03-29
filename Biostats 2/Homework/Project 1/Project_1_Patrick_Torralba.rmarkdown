@@ -431,3 +431,4 @@ hoslem.test(surgery_analysis$complication, fitted(Dow_comp_model_full)) %>%
 
 ```
 
+
