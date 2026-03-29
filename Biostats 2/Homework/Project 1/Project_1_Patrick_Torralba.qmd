@@ -3,6 +3,7 @@ title: "Project 1"
 author: "Patrick Torralba"
 format: html
 editor: visual
+toc: true
 ---
 
 ```{r}
@@ -66,23 +67,24 @@ surgery_analysis <- surgery_timing %>%
   na.omit()
 ```
 
-
 ## Exploratory Data Analysis
 
-::: {.content-hidden}
-
+::: content-hidden
 ### Variables I should pull for table 1:
-    -   age
-    -   race
-    -   gender
-    -   bmi
-    -   asa_status
-        -   this refers to a patients physical health and combordities
-    -   mort30
-    
+
+```         
+-   age
+-   race
+-   gender
+-   bmi
+-   asa_status
+    -   this refers to a patients physical health and combordities
+-   mort30
+```
 :::
 
 ### Table - Participant Demographics
+
 ```{r}
 #| label: tbl-participant-demo
 #| tbl-cap: "Participant Demographics"
@@ -100,9 +102,8 @@ table_1 <- surgery_timing %>%
 table_1
 ```
 
-
-
 ### Figure - Surgeries and Complications by Hour Histogram
+
 ```{r}
 #| label: fig-hist-hour-comp
 #| fig-cap: "Surgeries and Complications by Hour"
@@ -121,7 +122,8 @@ ggplot(surgery_timing, aes(x = hour,  fill = Complication)) +
 
 ```
 
-### Figure - Complications by Day of Week 
+### Figure - Complications by Day of Week
+
 ```{r}
 #| label: fig-comp-dow
 #| fig-cap: "Surgical In-hospital Complications by Day of Week"
@@ -141,10 +143,10 @@ ggplot(surgery_timing, aes(x = Dow, y = complication, fill = )) +
 
 We are doing a logistic regression because the outcome is binary (complication vs no complication).
 
- 
 ### Hour vs Complication model
 
 Full Model
+
 ```{r}
 #| label: hour-comp-model-full
 
@@ -152,8 +154,8 @@ hour_comp_model_full <- glm(complication ~ hour + age + Gender + bmi + Asa_statu
 
 ```
 
-
 Reduced Model
+
 ```{r}
 #| label: hour-comp-model-reduced
 
@@ -178,6 +180,7 @@ tbl_regression(hour_comp_model_full, exponentiate = TRUE) %>%
 ### Dow vs Complication model
 
 Dow Full Model
+
 ```{r}
 #| label: Dow-comp-model-full
 
@@ -188,8 +191,8 @@ Dow_comp_model_full <- glm(complication ~ Dow + age + Gender + bmi + Asa_status,
 
 Note to self: the binary outcome **needs** to be in a binary form and **cannot** be a factor.
 
-
 Dow Reduced Model
+
 ```{r}
 #| label: dow-comp-model-reduced
 
@@ -197,8 +200,8 @@ Dow_comp_model_reduced <- glm(complication ~ Dow, data = surgery_analysis, famil
 
 ```
 
-
 Dow Logistic Regression
+
 ```{r}
 #| label: tbl-dow-comp-model
 #| tbl-cap: "Complication by Day of Week"
@@ -215,6 +218,7 @@ tbl_regression(Dow_comp_model_full, exponentiate = TRUE) %>%
 ### Hour vs Comp Diagnostics
 
 Likelihood Ratio Test
+
 ```{r}
 #| label: Hr vs Comp- Likelihood Ratio Test
 
@@ -223,13 +227,13 @@ lrtest(hour_comp_model_reduced, hour_comp_model_full)
 ```
 
 Variance Inflation Factor to check for Multicollinearity
+
 ```{r}
 #| label: Hr vs Comp - Variance Inflation Factor
 
 vif(hour_comp_model_full)
 
 ```
-
 
 Linearity Assumption
 
@@ -263,32 +267,33 @@ pivot_longer(hour_comp_data, names_to = "predictors", values_to = "predictor.val
 
 ```
 
-
 Hosmer-Lemeshow Goodness of Fit Test
+
 ```{r}
 hoslem.test(surgery_analysis$complication, fitted(hour_comp_model_full))
 ```
 
-
-
 ### Dow vs Comp Diagnostics
 
 Likelihood Ratio Test
+
 ```{r}
 #| label: Dow vs Comp - Likelihood Ratio Test
 
 lrtest(Dow_comp_model_reduced, Dow_comp_model_full)
 ```
 
-
 Variance Inflation Factor to check for Multicollinearity
+
 ```{r}
 #| label: Dow vs Comp - VIF
 
+
+
 ```
 
-
 Linearity Assumption
+
 ```{r}
 #| label: subset - dow vs comp
 
@@ -301,6 +306,4 @@ Linearity Assumption
 
 ```
 
-
 Hosmer-Lemeshow Goodness of Fit Test
-

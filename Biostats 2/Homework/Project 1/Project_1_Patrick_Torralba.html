@@ -79,10 +79,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link active" data-scroll-target="#data-cleaning">Data cleaning</a></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a>
+  <ul class="collapse">
+  <li><a href="#table---participant-demographics" id="toc-table---participant-demographics" class="nav-link" data-scroll-target="#table---participant-demographics">Table - Participant Demographics</a></li>
+  <li><a href="#figure---surgeries-and-complications-by-hour-histogram" id="toc-figure---surgeries-and-complications-by-hour-histogram" class="nav-link" data-scroll-target="#figure---surgeries-and-complications-by-hour-histogram">Figure - Surgeries and Complications by Hour Histogram</a></li>
+  <li><a href="#figure---complications-by-day-of-week" id="toc-figure---complications-by-day-of-week" class="nav-link" data-scroll-target="#figure---complications-by-day-of-week">Figure - Complications by Day of Week</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#hour-vs-complication-model" id="toc-hour-vs-complication-model" class="nav-link" data-scroll-target="#hour-vs-complication-model">Hour vs Complication model</a></li>
+  <li><a href="#dow-vs-complication-model" id="toc-dow-vs-complication-model" class="nav-link" data-scroll-target="#dow-vs-complication-model">Dow vs Complication model</a></li>
+  </ul></li>
+  <li><a href="#model-diagnostics" id="toc-model-diagnostics" class="nav-link" data-scroll-target="#model-diagnostics">Model Diagnostics</a>
+  <ul class="collapse">
+  <li><a href="#hour-vs-comp-diagnostics" id="toc-hour-vs-comp-diagnostics" class="nav-link" data-scroll-target="#hour-vs-comp-diagnostics">Hour vs Comp Diagnostics</a></li>
+  <li><a href="#dow-vs-comp-diagnostics" id="toc-dow-vs-comp-diagnostics" class="nav-link" data-scroll-target="#dow-vs-comp-diagnostics">Dow vs Comp Diagnostics</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -161,7 +185,7 @@ Table&nbsp;1: Participant Demographics
 </figcaption>
 <div aria-describedby="tbl-participant-demo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div class="tabwid"><style>.cl-5e6ba5ec{}.cl-5e641d72{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-5e641d90{font-family:'Arial';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;vertical-align:super;}.cl-5e641d9a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-5e671b3a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e671b3b{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e671b44{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e671b45{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e671b4e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:15pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e671b58{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5e674916{width:1.634in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674920{width:1.202in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674921{width:1.584in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674922{width:1.338in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67492a{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67492b{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674934{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674935{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67493e{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67493f{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674940{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674941{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674948{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674952{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674953{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674954{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67495c{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67495d{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67495e{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67495f{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674960{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674966{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674967{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674968{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674969{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67496a{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674970{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674971{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674972{width:1.634in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e674973{width:1.202in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67497a{width:1.584in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5e67497b{width:1.338in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-5e6ba5ec"><thead><tr style="overflow-wrap:break-word;"><th class="cl-5e674916"><p class="cl-5e671b3a"><span class="cl-5e641d72">Characteristic</span><span class="cl-5e641d90">1</span></p></th><th class="cl-5e674920"><p class="cl-5e671b3b"><span class="cl-5e641d72">Overall</span><span class="cl-5e641d9a">  </span><br><span class="cl-5e641d9a">N = 32,001</span><span class="cl-5e641d90">2</span></p></th><th class="cl-5e674921"><p class="cl-5e671b3b"><span class="cl-5e641d72">No Complication</span><span class="cl-5e641d9a">  </span><br><span class="cl-5e641d9a">N = 27,737</span><span class="cl-5e641d90">2</span></p></th><th class="cl-5e674922"><p class="cl-5e671b3b"><span class="cl-5e641d72">Complication</span><span class="cl-5e641d9a">  </span><br><span class="cl-5e641d9a">N = 4,264</span><span class="cl-5e641d90">2</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-5e67492a"><p class="cl-5e671b44"><span class="cl-5e641d9a">Gender</span></p></td><td class="cl-5e67492b"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e674934"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e674935"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Female</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">17,230 (54%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">15,059 (54%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">2,171 (51%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Male</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">14,768 (46%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">12,675 (46%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">2,093 (49%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e674948"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Unknown</span></p></td><td class="cl-5e674952"><p class="cl-5e671b45"><span class="cl-5e641d9a">3</span></p></td><td class="cl-5e674953"><p class="cl-5e671b45"><span class="cl-5e641d9a">3</span></p></td><td class="cl-5e674954"><p class="cl-5e671b45"><span class="cl-5e641d9a">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67495c"><p class="cl-5e671b44"><span class="cl-5e641d9a">Race</span></p></td><td class="cl-5e67495d"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e67495e"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e67495f"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">African American</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">3,790 (12%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">3,314 (12%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">476 (11%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Caucasian</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">26,488 (84%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">22,949 (84%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">3,539 (84%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Other</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">1,243 (3.9%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">1,068 (3.9%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">175 (4.2%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e674960"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Unknown</span></p></td><td class="cl-5e674966"><p class="cl-5e671b45"><span class="cl-5e641d9a">480</span></p></td><td class="cl-5e674967"><p class="cl-5e671b45"><span class="cl-5e641d9a">406</span></p></td><td class="cl-5e674968"><p class="cl-5e671b45"><span class="cl-5e641d9a">74</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67492a"><p class="cl-5e671b44"><span class="cl-5e641d9a">ASA Status</span></p></td><td class="cl-5e67492b"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e674934"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td><td class="cl-5e674935"><p class="cl-5e671b45"><span class="cl-5e641d9a"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">ASA 1-2</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">17,261 (54%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">15,468 (56%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">1,793 (42%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">ASA 3</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">13,677 (43%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">11,448 (41%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">2,229 (52%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e67493e"><p class="cl-5e671b4e"><span class="cl-5e641d9a">ASA 4-6</span></p></td><td class="cl-5e67493f"><p class="cl-5e671b45"><span class="cl-5e641d9a">1,055 (3.3%)</span></p></td><td class="cl-5e674940"><p class="cl-5e671b45"><span class="cl-5e641d9a">815 (2.9%)</span></p></td><td class="cl-5e674941"><p class="cl-5e671b45"><span class="cl-5e641d9a">240 (5.6%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5e674969"><p class="cl-5e671b4e"><span class="cl-5e641d9a">Unknown</span></p></td><td class="cl-5e67496a"><p class="cl-5e671b45"><span class="cl-5e641d9a">8</span></p></td><td class="cl-5e674970"><p class="cl-5e671b45"><span class="cl-5e641d9a">6</span></p></td><td class="cl-5e674971"><p class="cl-5e671b45"><span class="cl-5e641d9a">2</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="4" class="cl-5e674972"><p class="cl-5e671b58"><span class="cl-5e641d90">1</span><span class="cl-5e641d9a">ASA: American Society of Anesthesiologists physical status classification</span></p></td></tr><tr style="overflow-wrap:break-word;"><td colspan="4" class="cl-5e674972"><p class="cl-5e671b58"><span class="cl-5e641d90">2</span><span class="cl-5e641d9a">n (%)</span></p></td></tr></tfoot></table></div>
+<div class="tabwid"><style>.cl-98306148{}.cl-98263a10{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-98263a24{font-family:'Arial';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;vertical-align:super;}.cl-98263a2e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-982a4fa6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-982a4fb0{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-982a4fb1{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-982a4fc4{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-982a4fc5{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:15pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-982a4fce{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-982a9196{width:1.634in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91a0{width:1.202in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91aa{width:1.584in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91b4{width:1.338in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91b5{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91b6{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91be{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91c8{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91c9{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91d2{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91d3{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91d4{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91d5{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91dc{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91dd{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91e6{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91e7{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91f0{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a91fa{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a9236{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a9237{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a9240{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a9241{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a927c{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a927d{width:1.634in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a927e{width:1.202in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a9286{width:1.584in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a9287{width:1.338in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a9290{width:1.634in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a9291{width:1.202in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a9292{width:1.584in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-982a929a{width:1.338in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-98306148"><thead><tr style="overflow-wrap:break-word;"><th class="cl-982a9196"><p class="cl-982a4fa6"><span class="cl-98263a10">Characteristic</span><span class="cl-98263a24">1</span></p></th><th class="cl-982a91a0"><p class="cl-982a4fb0"><span class="cl-98263a10">Overall</span><span class="cl-98263a2e">  </span><br><span class="cl-98263a2e">N = 32,001</span><span class="cl-98263a24">2</span></p></th><th class="cl-982a91aa"><p class="cl-982a4fb0"><span class="cl-98263a10">No Complication</span><span class="cl-98263a2e">  </span><br><span class="cl-98263a2e">N = 27,737</span><span class="cl-98263a24">2</span></p></th><th class="cl-982a91b4"><p class="cl-982a4fb0"><span class="cl-98263a10">Complication</span><span class="cl-98263a2e">  </span><br><span class="cl-98263a2e">N = 4,264</span><span class="cl-98263a24">2</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-982a91b5"><p class="cl-982a4fb1"><span class="cl-98263a2e">Gender</span></p></td><td class="cl-982a91b6"><p class="cl-982a4fc4"><span class="cl-98263a2e"></span></p></td><td class="cl-982a91be"><p class="cl-982a4fc4"><span class="cl-98263a2e"></span></p></td><td class="cl-982a91c8"><p class="cl-982a4fc4"><span class="cl-98263a2e"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a91c9"><p class="cl-982a4fc5"><span class="cl-98263a2e">Female</span></p></td><td class="cl-982a91d2"><p class="cl-982a4fc4"><span class="cl-98263a2e">17,230 (54%)</span></p></td><td class="cl-982a91d3"><p class="cl-982a4fc4"><span class="cl-98263a2e">15,059 (54%)</span></p></td><td class="cl-982a91d4"><p class="cl-982a4fc4"><span class="cl-98263a2e">2,171 (51%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a91c9"><p class="cl-982a4fc5"><span class="cl-98263a2e">Male</span></p></td><td class="cl-982a91d2"><p class="cl-982a4fc4"><span class="cl-98263a2e">14,768 (46%)</span></p></td><td class="cl-982a91d3"><p class="cl-982a4fc4"><span class="cl-98263a2e">12,675 (46%)</span></p></td><td class="cl-982a91d4"><p class="cl-982a4fc4"><span class="cl-98263a2e">2,093 (49%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a91d5"><p class="cl-982a4fc5"><span class="cl-98263a2e">Unknown</span></p></td><td class="cl-982a91dc"><p class="cl-982a4fc4"><span class="cl-98263a2e">3</span></p></td><td class="cl-982a91dd"><p class="cl-982a4fc4"><span class="cl-98263a2e">3</span></p></td><td class="cl-982a91e6"><p class="cl-982a4fc4"><span class="cl-98263a2e">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a91e7"><p class="cl-982a4fb1"><span class="cl-98263a2e">Race</span></p></td><td class="cl-982a91f0"><p class="cl-982a4fc4"><span class="cl-98263a2e"></span></p></td><td class="cl-982a91fa"><p class="cl-982a4fc4"><span class="cl-98263a2e"></span></p></td><td class="cl-982a9236"><p class="cl-982a4fc4"><span class="cl-98263a2e"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a91c9"><p class="cl-982a4fc5"><span class="cl-98263a2e">African American</span></p></td><td class="cl-982a91d2"><p class="cl-982a4fc4"><span class="cl-98263a2e">3,790 (12%)</span></p></td><td class="cl-982a91d3"><p class="cl-982a4fc4"><span class="cl-98263a2e">3,314 (12%)</span></p></td><td class="cl-982a91d4"><p class="cl-982a4fc4"><span class="cl-98263a2e">476 (11%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a91c9"><p class="cl-982a4fc5"><span class="cl-98263a2e">Caucasian</span></p></td><td class="cl-982a91d2"><p class="cl-982a4fc4"><span class="cl-98263a2e">26,488 (84%)</span></p></td><td class="cl-982a91d3"><p class="cl-982a4fc4"><span class="cl-98263a2e">22,949 (84%)</span></p></td><td class="cl-982a91d4"><p class="cl-982a4fc4"><span class="cl-98263a2e">3,539 (84%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a91c9"><p class="cl-982a4fc5"><span class="cl-98263a2e">Other</span></p></td><td class="cl-982a91d2"><p class="cl-982a4fc4"><span class="cl-98263a2e">1,243 (3.9%)</span></p></td><td class="cl-982a91d3"><p class="cl-982a4fc4"><span class="cl-98263a2e">1,068 (3.9%)</span></p></td><td class="cl-982a91d4"><p class="cl-982a4fc4"><span class="cl-98263a2e">175 (4.2%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a9237"><p class="cl-982a4fc5"><span class="cl-98263a2e">Unknown</span></p></td><td class="cl-982a9240"><p class="cl-982a4fc4"><span class="cl-98263a2e">480</span></p></td><td class="cl-982a9241"><p class="cl-982a4fc4"><span class="cl-98263a2e">406</span></p></td><td class="cl-982a927c"><p class="cl-982a4fc4"><span class="cl-98263a2e">74</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a91b5"><p class="cl-982a4fb1"><span class="cl-98263a2e">ASA Status</span></p></td><td class="cl-982a91b6"><p class="cl-982a4fc4"><span class="cl-98263a2e"></span></p></td><td class="cl-982a91be"><p class="cl-982a4fc4"><span class="cl-98263a2e"></span></p></td><td class="cl-982a91c8"><p class="cl-982a4fc4"><span class="cl-98263a2e"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a91c9"><p class="cl-982a4fc5"><span class="cl-98263a2e">ASA 1-2</span></p></td><td class="cl-982a91d2"><p class="cl-982a4fc4"><span class="cl-98263a2e">17,261 (54%)</span></p></td><td class="cl-982a91d3"><p class="cl-982a4fc4"><span class="cl-98263a2e">15,468 (56%)</span></p></td><td class="cl-982a91d4"><p class="cl-982a4fc4"><span class="cl-98263a2e">1,793 (42%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a91c9"><p class="cl-982a4fc5"><span class="cl-98263a2e">ASA 3</span></p></td><td class="cl-982a91d2"><p class="cl-982a4fc4"><span class="cl-98263a2e">13,677 (43%)</span></p></td><td class="cl-982a91d3"><p class="cl-982a4fc4"><span class="cl-98263a2e">11,448 (41%)</span></p></td><td class="cl-982a91d4"><p class="cl-982a4fc4"><span class="cl-98263a2e">2,229 (52%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a91c9"><p class="cl-982a4fc5"><span class="cl-98263a2e">ASA 4-6</span></p></td><td class="cl-982a91d2"><p class="cl-982a4fc4"><span class="cl-98263a2e">1,055 (3.3%)</span></p></td><td class="cl-982a91d3"><p class="cl-982a4fc4"><span class="cl-98263a2e">815 (2.9%)</span></p></td><td class="cl-982a91d4"><p class="cl-982a4fc4"><span class="cl-98263a2e">240 (5.6%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-982a927d"><p class="cl-982a4fc5"><span class="cl-98263a2e">Unknown</span></p></td><td class="cl-982a927e"><p class="cl-982a4fc4"><span class="cl-98263a2e">8</span></p></td><td class="cl-982a9286"><p class="cl-982a4fc4"><span class="cl-98263a2e">6</span></p></td><td class="cl-982a9287"><p class="cl-982a4fc4"><span class="cl-98263a2e">2</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="4" class="cl-982a9290"><p class="cl-982a4fce"><span class="cl-98263a24">1</span><span class="cl-98263a2e">ASA: American Society of Anesthesiologists physical status classification</span></p></td></tr><tr style="overflow-wrap:break-word;"><td colspan="4" class="cl-982a9290"><p class="cl-982a4fce"><span class="cl-98263a24">2</span><span class="cl-98263a2e">n (%)</span></p></td></tr></tfoot></table></div>
 </div>
 </div>
 </figure>
@@ -241,23 +265,23 @@ Table&nbsp;2: Complication by Hour
 </figcaption>
 <div aria-describedby="tbl-hour-comp-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="agjtoefuut" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#agjtoefuut table {
+<div id="eyfshsqedk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#eyfshsqedk table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#agjtoefuut thead, #agjtoefuut tbody, #agjtoefuut tfoot, #agjtoefuut tr, #agjtoefuut td, #agjtoefuut th {
+#eyfshsqedk thead, #eyfshsqedk tbody, #eyfshsqedk tfoot, #eyfshsqedk tr, #eyfshsqedk td, #eyfshsqedk th {
   border-style: none;
 }
 
-#agjtoefuut p {
+#eyfshsqedk p {
   margin: 0;
   padding: 0;
 }
 
-#agjtoefuut .gt_table {
+#eyfshsqedk .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -283,12 +307,12 @@ Table&nbsp;2: Complication by Hour
   border-left-color: #D3D3D3;
 }
 
-#agjtoefuut .gt_caption {
+#eyfshsqedk .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#agjtoefuut .gt_title {
+#eyfshsqedk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -300,7 +324,7 @@ Table&nbsp;2: Complication by Hour
   border-bottom-width: 0;
 }
 
-#agjtoefuut .gt_subtitle {
+#eyfshsqedk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -312,7 +336,7 @@ Table&nbsp;2: Complication by Hour
   border-top-width: 0;
 }
 
-#agjtoefuut .gt_heading {
+#eyfshsqedk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -324,13 +348,13 @@ Table&nbsp;2: Complication by Hour
   border-right-color: #D3D3D3;
 }
 
-#agjtoefuut .gt_bottom_border {
+#eyfshsqedk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#agjtoefuut .gt_col_headings {
+#eyfshsqedk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -345,7 +369,7 @@ Table&nbsp;2: Complication by Hour
   border-right-color: #D3D3D3;
 }
 
-#agjtoefuut .gt_col_heading {
+#eyfshsqedk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -365,7 +389,7 @@ Table&nbsp;2: Complication by Hour
   overflow-x: hidden;
 }
 
-#agjtoefuut .gt_column_spanner_outer {
+#eyfshsqedk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -377,15 +401,15 @@ Table&nbsp;2: Complication by Hour
   padding-right: 4px;
 }
 
-#agjtoefuut .gt_column_spanner_outer:first-child {
+#eyfshsqedk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#agjtoefuut .gt_column_spanner_outer:last-child {
+#eyfshsqedk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#agjtoefuut .gt_column_spanner {
+#eyfshsqedk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -397,11 +421,11 @@ Table&nbsp;2: Complication by Hour
   width: 100%;
 }
 
-#agjtoefuut .gt_spanner_row {
+#eyfshsqedk .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#agjtoefuut .gt_group_heading {
+#eyfshsqedk .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -427,7 +451,7 @@ Table&nbsp;2: Complication by Hour
   text-align: left;
 }
 
-#agjtoefuut .gt_empty_group_heading {
+#eyfshsqedk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -442,15 +466,15 @@ Table&nbsp;2: Complication by Hour
   vertical-align: middle;
 }
 
-#agjtoefuut .gt_from_md > :first-child {
+#eyfshsqedk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#agjtoefuut .gt_from_md > :last-child {
+#eyfshsqedk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#agjtoefuut .gt_row {
+#eyfshsqedk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -469,7 +493,7 @@ Table&nbsp;2: Complication by Hour
   overflow-x: hidden;
 }
 
-#agjtoefuut .gt_stub {
+#eyfshsqedk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -482,7 +506,7 @@ Table&nbsp;2: Complication by Hour
   padding-right: 5px;
 }
 
-#agjtoefuut .gt_stub_row_group {
+#eyfshsqedk .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -496,15 +520,15 @@ Table&nbsp;2: Complication by Hour
   vertical-align: top;
 }
 
-#agjtoefuut .gt_row_group_first td {
+#eyfshsqedk .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#agjtoefuut .gt_row_group_first th {
+#eyfshsqedk .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#agjtoefuut .gt_summary_row {
+#eyfshsqedk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -514,16 +538,16 @@ Table&nbsp;2: Complication by Hour
   padding-right: 5px;
 }
 
-#agjtoefuut .gt_first_summary_row {
+#eyfshsqedk .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#agjtoefuut .gt_first_summary_row.thick {
+#eyfshsqedk .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#agjtoefuut .gt_last_summary_row {
+#eyfshsqedk .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -533,7 +557,7 @@ Table&nbsp;2: Complication by Hour
   border-bottom-color: #D3D3D3;
 }
 
-#agjtoefuut .gt_grand_summary_row {
+#eyfshsqedk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -543,7 +567,7 @@ Table&nbsp;2: Complication by Hour
   padding-right: 5px;
 }
 
-#agjtoefuut .gt_first_grand_summary_row {
+#eyfshsqedk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -553,7 +577,7 @@ Table&nbsp;2: Complication by Hour
   border-top-color: #D3D3D3;
 }
 
-#agjtoefuut .gt_last_grand_summary_row_top {
+#eyfshsqedk .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -563,11 +587,11 @@ Table&nbsp;2: Complication by Hour
   border-bottom-color: #D3D3D3;
 }
 
-#agjtoefuut .gt_striped {
+#eyfshsqedk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#agjtoefuut .gt_table_body {
+#eyfshsqedk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -576,7 +600,7 @@ Table&nbsp;2: Complication by Hour
   border-bottom-color: #D3D3D3;
 }
 
-#agjtoefuut .gt_footnotes {
+#eyfshsqedk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -590,7 +614,7 @@ Table&nbsp;2: Complication by Hour
   border-right-color: #D3D3D3;
 }
 
-#agjtoefuut .gt_footnote {
+#eyfshsqedk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -599,7 +623,7 @@ Table&nbsp;2: Complication by Hour
   padding-right: 5px;
 }
 
-#agjtoefuut .gt_sourcenotes {
+#eyfshsqedk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -613,7 +637,7 @@ Table&nbsp;2: Complication by Hour
   border-right-color: #D3D3D3;
 }
 
-#agjtoefuut .gt_sourcenote {
+#eyfshsqedk .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -621,72 +645,72 @@ Table&nbsp;2: Complication by Hour
   padding-right: 5px;
 }
 
-#agjtoefuut .gt_left {
+#eyfshsqedk .gt_left {
   text-align: left;
 }
 
-#agjtoefuut .gt_center {
+#eyfshsqedk .gt_center {
   text-align: center;
 }
 
-#agjtoefuut .gt_right {
+#eyfshsqedk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#agjtoefuut .gt_font_normal {
+#eyfshsqedk .gt_font_normal {
   font-weight: normal;
 }
 
-#agjtoefuut .gt_font_bold {
+#eyfshsqedk .gt_font_bold {
   font-weight: bold;
 }
 
-#agjtoefuut .gt_font_italic {
+#eyfshsqedk .gt_font_italic {
   font-style: italic;
 }
 
-#agjtoefuut .gt_super {
+#eyfshsqedk .gt_super {
   font-size: 65%;
 }
 
-#agjtoefuut .gt_footnote_marks {
+#eyfshsqedk .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#agjtoefuut .gt_asterisk {
+#eyfshsqedk .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#agjtoefuut .gt_indent_1 {
+#eyfshsqedk .gt_indent_1 {
   text-indent: 5px;
 }
 
-#agjtoefuut .gt_indent_2 {
+#eyfshsqedk .gt_indent_2 {
   text-indent: 10px;
 }
 
-#agjtoefuut .gt_indent_3 {
+#eyfshsqedk .gt_indent_3 {
   text-indent: 15px;
 }
 
-#agjtoefuut .gt_indent_4 {
+#eyfshsqedk .gt_indent_4 {
   text-indent: 20px;
 }
 
-#agjtoefuut .gt_indent_5 {
+#eyfshsqedk .gt_indent_5 {
   text-indent: 25px;
 }
 
-#agjtoefuut .katex-display {
+#eyfshsqedk .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#agjtoefuut div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#eyfshsqedk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -812,23 +836,23 @@ Table&nbsp;3: Complication by Day of Week
 </figcaption>
 <div aria-describedby="tbl-dow-comp-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="cqwrxgszte" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cqwrxgszte table {
+<div id="hkwpdliwht" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hkwpdliwht table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cqwrxgszte thead, #cqwrxgszte tbody, #cqwrxgszte tfoot, #cqwrxgszte tr, #cqwrxgszte td, #cqwrxgszte th {
+#hkwpdliwht thead, #hkwpdliwht tbody, #hkwpdliwht tfoot, #hkwpdliwht tr, #hkwpdliwht td, #hkwpdliwht th {
   border-style: none;
 }
 
-#cqwrxgszte p {
+#hkwpdliwht p {
   margin: 0;
   padding: 0;
 }
 
-#cqwrxgszte .gt_table {
+#hkwpdliwht .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -854,12 +878,12 @@ Table&nbsp;3: Complication by Day of Week
   border-left-color: #D3D3D3;
 }
 
-#cqwrxgszte .gt_caption {
+#hkwpdliwht .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cqwrxgszte .gt_title {
+#hkwpdliwht .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -871,7 +895,7 @@ Table&nbsp;3: Complication by Day of Week
   border-bottom-width: 0;
 }
 
-#cqwrxgszte .gt_subtitle {
+#hkwpdliwht .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -883,7 +907,7 @@ Table&nbsp;3: Complication by Day of Week
   border-top-width: 0;
 }
 
-#cqwrxgszte .gt_heading {
+#hkwpdliwht .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -895,13 +919,13 @@ Table&nbsp;3: Complication by Day of Week
   border-right-color: #D3D3D3;
 }
 
-#cqwrxgszte .gt_bottom_border {
+#hkwpdliwht .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cqwrxgszte .gt_col_headings {
+#hkwpdliwht .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -916,7 +940,7 @@ Table&nbsp;3: Complication by Day of Week
   border-right-color: #D3D3D3;
 }
 
-#cqwrxgszte .gt_col_heading {
+#hkwpdliwht .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -936,7 +960,7 @@ Table&nbsp;3: Complication by Day of Week
   overflow-x: hidden;
 }
 
-#cqwrxgszte .gt_column_spanner_outer {
+#hkwpdliwht .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -948,15 +972,15 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 4px;
 }
 
-#cqwrxgszte .gt_column_spanner_outer:first-child {
+#hkwpdliwht .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cqwrxgszte .gt_column_spanner_outer:last-child {
+#hkwpdliwht .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cqwrxgszte .gt_column_spanner {
+#hkwpdliwht .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -968,11 +992,11 @@ Table&nbsp;3: Complication by Day of Week
   width: 100%;
 }
 
-#cqwrxgszte .gt_spanner_row {
+#hkwpdliwht .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cqwrxgszte .gt_group_heading {
+#hkwpdliwht .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -998,7 +1022,7 @@ Table&nbsp;3: Complication by Day of Week
   text-align: left;
 }
 
-#cqwrxgszte .gt_empty_group_heading {
+#hkwpdliwht .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1013,15 +1037,15 @@ Table&nbsp;3: Complication by Day of Week
   vertical-align: middle;
 }
 
-#cqwrxgszte .gt_from_md > :first-child {
+#hkwpdliwht .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cqwrxgszte .gt_from_md > :last-child {
+#hkwpdliwht .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cqwrxgszte .gt_row {
+#hkwpdliwht .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1040,7 +1064,7 @@ Table&nbsp;3: Complication by Day of Week
   overflow-x: hidden;
 }
 
-#cqwrxgszte .gt_stub {
+#hkwpdliwht .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1053,7 +1077,7 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 5px;
 }
 
-#cqwrxgszte .gt_stub_row_group {
+#hkwpdliwht .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1067,15 +1091,15 @@ Table&nbsp;3: Complication by Day of Week
   vertical-align: top;
 }
 
-#cqwrxgszte .gt_row_group_first td {
+#hkwpdliwht .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cqwrxgszte .gt_row_group_first th {
+#hkwpdliwht .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cqwrxgszte .gt_summary_row {
+#hkwpdliwht .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1085,16 +1109,16 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 5px;
 }
 
-#cqwrxgszte .gt_first_summary_row {
+#hkwpdliwht .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cqwrxgszte .gt_first_summary_row.thick {
+#hkwpdliwht .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cqwrxgszte .gt_last_summary_row {
+#hkwpdliwht .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1104,7 +1128,7 @@ Table&nbsp;3: Complication by Day of Week
   border-bottom-color: #D3D3D3;
 }
 
-#cqwrxgszte .gt_grand_summary_row {
+#hkwpdliwht .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1114,7 +1138,7 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 5px;
 }
 
-#cqwrxgszte .gt_first_grand_summary_row {
+#hkwpdliwht .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1124,7 +1148,7 @@ Table&nbsp;3: Complication by Day of Week
   border-top-color: #D3D3D3;
 }
 
-#cqwrxgszte .gt_last_grand_summary_row_top {
+#hkwpdliwht .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1134,11 +1158,11 @@ Table&nbsp;3: Complication by Day of Week
   border-bottom-color: #D3D3D3;
 }
 
-#cqwrxgszte .gt_striped {
+#hkwpdliwht .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cqwrxgszte .gt_table_body {
+#hkwpdliwht .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1147,7 +1171,7 @@ Table&nbsp;3: Complication by Day of Week
   border-bottom-color: #D3D3D3;
 }
 
-#cqwrxgszte .gt_footnotes {
+#hkwpdliwht .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1161,7 +1185,7 @@ Table&nbsp;3: Complication by Day of Week
   border-right-color: #D3D3D3;
 }
 
-#cqwrxgszte .gt_footnote {
+#hkwpdliwht .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1170,7 +1194,7 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 5px;
 }
 
-#cqwrxgszte .gt_sourcenotes {
+#hkwpdliwht .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1184,7 +1208,7 @@ Table&nbsp;3: Complication by Day of Week
   border-right-color: #D3D3D3;
 }
 
-#cqwrxgszte .gt_sourcenote {
+#hkwpdliwht .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1192,72 +1216,72 @@ Table&nbsp;3: Complication by Day of Week
   padding-right: 5px;
 }
 
-#cqwrxgszte .gt_left {
+#hkwpdliwht .gt_left {
   text-align: left;
 }
 
-#cqwrxgszte .gt_center {
+#hkwpdliwht .gt_center {
   text-align: center;
 }
 
-#cqwrxgszte .gt_right {
+#hkwpdliwht .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cqwrxgszte .gt_font_normal {
+#hkwpdliwht .gt_font_normal {
   font-weight: normal;
 }
 
-#cqwrxgszte .gt_font_bold {
+#hkwpdliwht .gt_font_bold {
   font-weight: bold;
 }
 
-#cqwrxgszte .gt_font_italic {
+#hkwpdliwht .gt_font_italic {
   font-style: italic;
 }
 
-#cqwrxgszte .gt_super {
+#hkwpdliwht .gt_super {
   font-size: 65%;
 }
 
-#cqwrxgszte .gt_footnote_marks {
+#hkwpdliwht .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cqwrxgszte .gt_asterisk {
+#hkwpdliwht .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cqwrxgszte .gt_indent_1 {
+#hkwpdliwht .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cqwrxgszte .gt_indent_2 {
+#hkwpdliwht .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cqwrxgszte .gt_indent_3 {
+#hkwpdliwht .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cqwrxgszte .gt_indent_4 {
+#hkwpdliwht .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cqwrxgszte .gt_indent_5 {
+#hkwpdliwht .gt_indent_5 {
   text-indent: 25px;
 }
 
-#cqwrxgszte .katex-display {
+#hkwpdliwht .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#cqwrxgszte div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hkwpdliwht div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
