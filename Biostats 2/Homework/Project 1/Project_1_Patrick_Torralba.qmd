@@ -292,7 +292,7 @@ hour_comp_data$logit <- predict(hour_comp_model_full)
 
 ```{r}
 #| label: fig-hr-comp-linearity
-#| fig-cap: "Linearity Assumption Check"
+#| fig-cap: "Linearity Assumption Check of Complications by Hour Model"
 #| fig-cap-location: top
 #| eval: true
 
@@ -397,7 +397,7 @@ Dow_comp_data$logit <- predict(Dow_comp_model_full)
 
 ```{r}
 #| label: fig-dow-comp-linearity
-#| fig-cap: "Linearity Assumption Check for Dow vs Complication Model"
+#| fig-cap: "Linearity Assumption Check for Complications by Day of Week Model"
 #| fig-cap-location: top
 #| eval: true
 
