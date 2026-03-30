@@ -90,7 +90,7 @@ lhs %>%
 
 # Exploratory Data Analysis (EDA)
 
-::: {hidden-content}
+::: {.content-hidden when-format="html"}
 
 Variables to pull for participant table:
 
