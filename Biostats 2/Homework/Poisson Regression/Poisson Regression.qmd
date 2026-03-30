@@ -19,6 +19,8 @@ Set-up
 library(tidyverse)
 library(flextable) ## for table extraction
 library(gtsummary) ## for making tables
+library(psych) ## calculate descriptive statistics
+
 
 ```
 
@@ -145,6 +147,63 @@ tbl_1 <- lhs %>%
   bold_labels()
 
 tbl_1 ## I do not need to make it into a flex table because I am copy-pasting directly from the html to google docs
+
+
+```
+
+## cigs5 Histogram
+```{r}
+#| label: fig-cigs5-hist
+#| fig-cap: "cigs5 Histogram"
+#| fig-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+ggplot(lhs, aes(x = cigs5)) +
+  geom_histogram() + 
+  labs(x = "Cigarettes Per Day at Annual Visit (Year 5)",
+       y = "Count",
+       title = "Distribution of Cigarettes Per Day at Annual Visit (Year 5)") +
+  theme_minimal()
+
+
+```
+
+
+## cigs5 Descriptive Statistics
+```{r}
+#| label: tbl-cigs5-desc-stats
+#| tbl-cap: "cigs5 Descriptive Statistics"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+describe(lhs$cigs5)
+
+
+describe(lhs$cigs5,
+         IQR = TRUE) %>% 
+  as.data.frame() %>% 
+  select(n, mean, median, IQR, sd, min, max, skew, kurtosis) %>%
+  flextable() %>% 
+  colformat_double(digits = 2) %>% 
+  theme_booktabs() %>% 
+  autofit() %>% 
+  bold(part = "header") %>% 
+  set_header_labels(            
+    Variable = "Variable",
+    n = "N",
+    mean = "Mean",
+    median = "Median",
+    sd = "Std. Dev.",
+    min = "Min",
+    max = "Max",
+    skew = "Skew",
+    kurtosis = "Kurtosis"
+  )
 
 
 ```
