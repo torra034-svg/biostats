@@ -38,7 +38,7 @@ lhs <- read.csv("lhs.csv")
 #| label: data-cln
 #| warning: false
 #| message: false
-#| echo: false
+#| echo: true
 
 lhs <- lhs %>% 
   mutate(cigs5 = if_else(AV5CIGS == 0.5, 1.0, AV5CIGS))
