@@ -210,3 +210,30 @@ describe(lhs$cigs5,
 ```
 
 # Model 1: Effect of Treatment Group
+
+
+## Poisson Regression Model
+```{r}
+#| label: tbl-trt-group-vs-cigs5
+#| tbl-cap: "Poission Regression Model: The Effect of Treatment Group on Cigarette Smoking at 5 Years"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+trt_group_cigs5_model <- glm(cigs5 ~ TreatmentGroup, 
+                             data = lhs,
+                             family = poisson(link = "log"))
+
+trt_group_cigs5_model 
+
+trt_group_cigs5_model %>% 
+  tbl_regression(
+    exponentiate = TRUE,
+    label = list(TreatmentGroup ~ "Treatment Group")
+  )
+
+
+```
+
