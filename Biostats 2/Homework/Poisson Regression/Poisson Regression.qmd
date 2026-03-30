@@ -130,14 +130,16 @@ tbl_1 <- lhs %>%
            alphagroup, 
            Gender, 
            Marital, 
-           DRINKSBL) %>% 
+           DRINKSBL,
+          days2ded) %>% 
   tbl_summary(by = alphagroup,
               label = list(
                 "f10cigs" = "Cigarettes Per Day at Baseline",
                 "yeareduc" = "Years of Education",
                 "age" = "Age",
                 "bmi" = "BMI",
-                "DRINKSBL" = "Alcoholic Drinks per Week at Baseline")
+                "DRINKSBL" = "Alcoholic Drinks per Week at Baseline",
+                "days2ded" = "Time (days) from baseline to death")
               ) %>% 
   add_overall() %>% 
   bold_labels()
