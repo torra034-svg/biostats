@@ -1,9 +1,10 @@
 ---
 title: "Poisson Regression"
 author: "Patrick Torralba"
-format: html
-  toc: true
-  smooth-scroll: true
+format: 
+  html:
+    toc: true
+    smooth-scroll: true
 editor: visual
 ---
 
@@ -34,8 +35,13 @@ lhs <- read.csv("lhs.csv")
 
 ## data cleaning
 ```{r}
-#| label: 
+#| label: data-cln
+#| warning: false
+#| message: false
+#| echo: false
 
+lhs <- lhs %>% 
+  mutate(cigs5 = if_else(AV5CIGS == 0.5, 1.0, AV5CIGS))
 
 
 ```
