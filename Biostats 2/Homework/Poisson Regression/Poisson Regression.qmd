@@ -1,0 +1,42 @@
+---
+title: "Poisson Regression"
+author: "Patrick Torralba"
+format: html
+  toc: true
+  smooth-scroll: true
+editor: visual
+---
+
+# set-up
+```{r}
+#| label: library
+#| message: false
+#| warning: false
+#| echo: false
+
+library(tidyverse)
+
+```
+
+```{r}
+#| label: load data
+#| message: false
+#| warning: false
+#| echo: false
+
+lhs <- read.csv("lhs.csv")
+
+
+```
+
+
+# Section A. Count Data with Fixed Denominator (No Offset Term)
+
+## data cleaning
+```{r}
+#| label: 
+
+
+
+```
+
