@@ -96,6 +96,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#cigs5-histogram" id="toc-cigs5-histogram" class="nav-link" data-scroll-target="#cigs5-histogram"><span class="header-section-number">2.2</span> cigs5 Histogram</a></li>
   <li><a href="#cigs5-descriptive-statistics" id="toc-cigs5-descriptive-statistics" class="nav-link" data-scroll-target="#cigs5-descriptive-statistics"><span class="header-section-number">2.3</span> cigs5 Descriptive Statistics</a></li>
   </ul></li>
+  <li><a href="#model-1-effect-of-treatment-group" id="toc-model-1-effect-of-treatment-group" class="nav-link" data-scroll-target="#model-1-effect-of-treatment-group"><span class="header-section-number">3</span> Model 1: Effect of Treatment Group</a>
+  <ul class="collapse">
+  <li><a href="#poisson-regression-model" id="toc-poisson-regression-model" class="nav-link" data-scroll-target="#poisson-regression-model"><span class="header-section-number">3.1</span> Poisson Regression Model</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -156,8 +160,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>          marital0 <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"Widowed"</span>,</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>          marital0 <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Separated"</span>,</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>          marital0 <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"Divorced"</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>         ),</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">TreatmentGroup =</span> <span class="fu">fct_relevel</span>(alphagroup, <span class="st">"UC"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="cigs5-table" class="level2" data-number="1.2">
@@ -175,7 +180,7 @@ Table&nbsp;1: Cigs 5
 </figcaption>
 <div aria-describedby="tbl-cigs5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div class="tabwid"><style>.cl-5c8accb4{}.cl-5c832108{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-5c865710{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5c866d04{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-5c8accb4"><thead><tr style="overflow-wrap:break-word;"><th class="cl-5c866d04"><p class="cl-5c865710"><span class="cl-5c832108">cigs5</span></p></th></tr></thead></table></div>
+<div class="tabwid"><style>.cl-b4fb7b3a{}.cl-b4f29c4a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-b4f5daea{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-b4f62928{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-b4fb7b3a"><thead><tr style="overflow-wrap:break-word;"><th class="cl-b4f62928"><p class="cl-b4f5daea"><span class="cl-b4f29c4a">cigs5</span></p></th></tr></thead></table></div>
 </div>
 </div>
 </figure>
@@ -219,23 +224,23 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
 </figcaption>
 <div aria-describedby="tbl-pt-demo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="kvadceerri" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kvadceerri table {
+<div id="nwlgytaoaw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nwlgytaoaw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#kvadceerri thead, #kvadceerri tbody, #kvadceerri tfoot, #kvadceerri tr, #kvadceerri td, #kvadceerri th {
+#nwlgytaoaw thead, #nwlgytaoaw tbody, #nwlgytaoaw tfoot, #nwlgytaoaw tr, #nwlgytaoaw td, #nwlgytaoaw th {
   border-style: none;
 }
 
-#kvadceerri p {
+#nwlgytaoaw p {
   margin: 0;
   padding: 0;
 }
 
-#kvadceerri .gt_table {
+#nwlgytaoaw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -261,12 +266,12 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-left-color: #D3D3D3;
 }
 
-#kvadceerri .gt_caption {
+#nwlgytaoaw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#kvadceerri .gt_title {
+#nwlgytaoaw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -278,7 +283,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-width: 0;
 }
 
-#kvadceerri .gt_subtitle {
+#nwlgytaoaw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -290,7 +295,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-top-width: 0;
 }
 
-#kvadceerri .gt_heading {
+#nwlgytaoaw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -302,13 +307,13 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#kvadceerri .gt_bottom_border {
+#nwlgytaoaw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#kvadceerri .gt_col_headings {
+#nwlgytaoaw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -323,7 +328,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#kvadceerri .gt_col_heading {
+#nwlgytaoaw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -343,7 +348,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   overflow-x: hidden;
 }
 
-#kvadceerri .gt_column_spanner_outer {
+#nwlgytaoaw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -355,15 +360,15 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 4px;
 }
 
-#kvadceerri .gt_column_spanner_outer:first-child {
+#nwlgytaoaw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#kvadceerri .gt_column_spanner_outer:last-child {
+#nwlgytaoaw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#kvadceerri .gt_column_spanner {
+#nwlgytaoaw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -375,11 +380,11 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   width: 100%;
 }
 
-#kvadceerri .gt_spanner_row {
+#nwlgytaoaw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#kvadceerri .gt_group_heading {
+#nwlgytaoaw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -405,7 +410,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   text-align: left;
 }
 
-#kvadceerri .gt_empty_group_heading {
+#nwlgytaoaw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -420,15 +425,15 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   vertical-align: middle;
 }
 
-#kvadceerri .gt_from_md > :first-child {
+#nwlgytaoaw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kvadceerri .gt_from_md > :last-child {
+#nwlgytaoaw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kvadceerri .gt_row {
+#nwlgytaoaw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -447,7 +452,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   overflow-x: hidden;
 }
 
-#kvadceerri .gt_stub {
+#nwlgytaoaw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -460,7 +465,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#kvadceerri .gt_stub_row_group {
+#nwlgytaoaw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -474,15 +479,15 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   vertical-align: top;
 }
 
-#kvadceerri .gt_row_group_first td {
+#nwlgytaoaw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#kvadceerri .gt_row_group_first th {
+#nwlgytaoaw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#kvadceerri .gt_summary_row {
+#nwlgytaoaw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -492,16 +497,16 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#kvadceerri .gt_first_summary_row {
+#nwlgytaoaw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#kvadceerri .gt_first_summary_row.thick {
+#nwlgytaoaw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#kvadceerri .gt_last_summary_row {
+#nwlgytaoaw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -511,7 +516,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-color: #D3D3D3;
 }
 
-#kvadceerri .gt_grand_summary_row {
+#nwlgytaoaw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -521,7 +526,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#kvadceerri .gt_first_grand_summary_row {
+#nwlgytaoaw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -531,7 +536,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-top-color: #D3D3D3;
 }
 
-#kvadceerri .gt_last_grand_summary_row_top {
+#nwlgytaoaw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -541,11 +546,11 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-color: #D3D3D3;
 }
 
-#kvadceerri .gt_striped {
+#nwlgytaoaw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#kvadceerri .gt_table_body {
+#nwlgytaoaw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -554,7 +559,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-color: #D3D3D3;
 }
 
-#kvadceerri .gt_footnotes {
+#nwlgytaoaw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -568,7 +573,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#kvadceerri .gt_footnote {
+#nwlgytaoaw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -577,7 +582,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#kvadceerri .gt_sourcenotes {
+#nwlgytaoaw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -591,7 +596,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#kvadceerri .gt_sourcenote {
+#nwlgytaoaw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -599,72 +604,72 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#kvadceerri .gt_left {
+#nwlgytaoaw .gt_left {
   text-align: left;
 }
 
-#kvadceerri .gt_center {
+#nwlgytaoaw .gt_center {
   text-align: center;
 }
 
-#kvadceerri .gt_right {
+#nwlgytaoaw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kvadceerri .gt_font_normal {
+#nwlgytaoaw .gt_font_normal {
   font-weight: normal;
 }
 
-#kvadceerri .gt_font_bold {
+#nwlgytaoaw .gt_font_bold {
   font-weight: bold;
 }
 
-#kvadceerri .gt_font_italic {
+#nwlgytaoaw .gt_font_italic {
   font-style: italic;
 }
 
-#kvadceerri .gt_super {
+#nwlgytaoaw .gt_super {
   font-size: 65%;
 }
 
-#kvadceerri .gt_footnote_marks {
+#nwlgytaoaw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#kvadceerri .gt_asterisk {
+#nwlgytaoaw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#kvadceerri .gt_indent_1 {
+#nwlgytaoaw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#kvadceerri .gt_indent_2 {
+#nwlgytaoaw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#kvadceerri .gt_indent_3 {
+#nwlgytaoaw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#kvadceerri .gt_indent_4 {
+#nwlgytaoaw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#kvadceerri .gt_indent_5 {
+#nwlgytaoaw .gt_indent_5 {
   text-indent: 25px;
 }
 
-#kvadceerri .katex-display {
+#nwlgytaoaw .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#kvadceerri div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#nwlgytaoaw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -997,7 +1002,553 @@ Table&nbsp;3: cigs5 Descriptive Statistics
 </figcaption>
 <div aria-describedby="tbl-cigs5-desc-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div class="tabwid"><style>.cl-61a12400{}.cl-619885f2{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-61988688{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-619baa7a{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-619c0d6c{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d76{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d77{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d78{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d80{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d81{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d82{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d8a{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d8b{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d8c{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d94{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d95{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d96{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-619c0d9e{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-61a12400"><thead><tr style="overflow-wrap:break-word;"><th class="cl-619c0d6c"><p class="cl-619baa7a"><span class="cl-619885f2">N</span></p></th><th class="cl-619c0d76"><p class="cl-619baa7a"><span class="cl-619885f2">Mean</span></p></th><th class="cl-619c0d77"><p class="cl-619baa7a"><span class="cl-619885f2">Median</span></p></th><th class="cl-619c0d76"><p class="cl-619baa7a"><span class="cl-619885f2">IQR</span></p></th><th class="cl-619c0d76"><p class="cl-619baa7a"><span class="cl-619885f2">Std. Dev.</span></p></th><th class="cl-619c0d78"><p class="cl-619baa7a"><span class="cl-619885f2">Min</span></p></th><th class="cl-619c0d80"><p class="cl-619baa7a"><span class="cl-619885f2">Max</span></p></th><th class="cl-619c0d81"><p class="cl-619baa7a"><span class="cl-619885f2">Skew</span></p></th><th class="cl-619c0d82"><p class="cl-619baa7a"><span class="cl-619885f2">Kurtosis</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-619c0d8a"><p class="cl-619baa7a"><span class="cl-61988688">5,555.00</span></p></td><td class="cl-619c0d8b"><p class="cl-619baa7a"><span class="cl-61988688">13.93</span></p></td><td class="cl-619c0d8c"><p class="cl-619baa7a"><span class="cl-61988688">10.00</span></p></td><td class="cl-619c0d8b"><p class="cl-619baa7a"><span class="cl-61988688">20.00</span></p></td><td class="cl-619c0d8b"><p class="cl-619baa7a"><span class="cl-61988688">14.75</span></p></td><td class="cl-619c0d94"><p class="cl-619baa7a"><span class="cl-61988688">0.00</span></p></td><td class="cl-619c0d95"><p class="cl-619baa7a"><span class="cl-61988688">100.00</span></p></td><td class="cl-619c0d96"><p class="cl-619baa7a"><span class="cl-61988688">0.86</span></p></td><td class="cl-619c0d9e"><p class="cl-619baa7a"><span class="cl-61988688">0.18</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-bb4569a6{}.cl-bb3c51cc{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-bb3c51d6{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-bb3f9cec{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-bb3fd45a{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd464{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd465{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd46e{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd46f{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd470{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd478{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd479{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd482{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd483{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd484{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd48c{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd48d{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bb3fd48e{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-bb4569a6"><thead><tr style="overflow-wrap:break-word;"><th class="cl-bb3fd45a"><p class="cl-bb3f9cec"><span class="cl-bb3c51cc">N</span></p></th><th class="cl-bb3fd464"><p class="cl-bb3f9cec"><span class="cl-bb3c51cc">Mean</span></p></th><th class="cl-bb3fd465"><p class="cl-bb3f9cec"><span class="cl-bb3c51cc">Median</span></p></th><th class="cl-bb3fd464"><p class="cl-bb3f9cec"><span class="cl-bb3c51cc">IQR</span></p></th><th class="cl-bb3fd464"><p class="cl-bb3f9cec"><span class="cl-bb3c51cc">Std. Dev.</span></p></th><th class="cl-bb3fd46e"><p class="cl-bb3f9cec"><span class="cl-bb3c51cc">Min</span></p></th><th class="cl-bb3fd46f"><p class="cl-bb3f9cec"><span class="cl-bb3c51cc">Max</span></p></th><th class="cl-bb3fd470"><p class="cl-bb3f9cec"><span class="cl-bb3c51cc">Skew</span></p></th><th class="cl-bb3fd478"><p class="cl-bb3f9cec"><span class="cl-bb3c51cc">Kurtosis</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-bb3fd479"><p class="cl-bb3f9cec"><span class="cl-bb3c51d6">5,555.00</span></p></td><td class="cl-bb3fd482"><p class="cl-bb3f9cec"><span class="cl-bb3c51d6">13.93</span></p></td><td class="cl-bb3fd483"><p class="cl-bb3f9cec"><span class="cl-bb3c51d6">10.00</span></p></td><td class="cl-bb3fd482"><p class="cl-bb3f9cec"><span class="cl-bb3c51d6">20.00</span></p></td><td class="cl-bb3fd482"><p class="cl-bb3f9cec"><span class="cl-bb3c51d6">14.75</span></p></td><td class="cl-bb3fd484"><p class="cl-bb3f9cec"><span class="cl-bb3c51d6">0.00</span></p></td><td class="cl-bb3fd48c"><p class="cl-bb3f9cec"><span class="cl-bb3c51d6">100.00</span></p></td><td class="cl-bb3fd48d"><p class="cl-bb3f9cec"><span class="cl-bb3c51d6">0.86</span></p></td><td class="cl-bb3fd48e"><p class="cl-bb3f9cec"><span class="cl-bb3c51d6">0.18</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="model-1-effect-of-treatment-group" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Model 1: Effect of Treatment Group</h1>
+<section id="poisson-regression-model" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="poisson-regression-model"><span class="header-section-number">3.1</span> Poisson Regression Model</h2>
+<div class="cell" data-tbl-cap-location="top">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>trt_group_cigs5_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(cigs5 <span class="sc">~</span> TreatmentGroup, </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">data =</span> lhs,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>trt_group_cigs5_model </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:  glm(formula = cigs5 ~ TreatmentGroup, family = poisson(link = "log"), 
+    data = lhs)
+
+Coefficients:
+       (Intercept)  TreatmentGroupSI-A  TreatmentGroupSI-P  
+            2.8925             -0.4282             -0.4035  
+
+Degrees of Freedom: 5554 Total (i.e. Null);  5552 Residual
+  (332 observations deleted due to missingness)
+Null Deviance:      99470 
+Residual Deviance: 96270    AIC: 112600</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>trt_group_cigs5_model <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(TreatmentGroup <span class="sc">~</span> <span class="st">"Treatment Group"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-trt-group-vs-cigs5" class="cell quarto-float anchored" data-tbl-cap-location="top">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-trt-group-vs-cigs5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigarette Smoking at 5 Years
+</figcaption>
+<div aria-describedby="tbl-trt-group-vs-cigs5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="zsyfbrmwrs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zsyfbrmwrs table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#zsyfbrmwrs thead, #zsyfbrmwrs tbody, #zsyfbrmwrs tfoot, #zsyfbrmwrs tr, #zsyfbrmwrs td, #zsyfbrmwrs th {
+  border-style: none;
+}
+
+#zsyfbrmwrs p {
+  margin: 0;
+  padding: 0;
+}
+
+#zsyfbrmwrs .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#zsyfbrmwrs .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#zsyfbrmwrs .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#zsyfbrmwrs .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#zsyfbrmwrs .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zsyfbrmwrs .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zsyfbrmwrs .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zsyfbrmwrs .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#zsyfbrmwrs .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#zsyfbrmwrs .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#zsyfbrmwrs .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#zsyfbrmwrs .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#zsyfbrmwrs .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#zsyfbrmwrs .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#zsyfbrmwrs .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#zsyfbrmwrs .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#zsyfbrmwrs .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#zsyfbrmwrs .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#zsyfbrmwrs .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zsyfbrmwrs .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#zsyfbrmwrs .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#zsyfbrmwrs .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#zsyfbrmwrs .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zsyfbrmwrs .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#zsyfbrmwrs .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#zsyfbrmwrs .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zsyfbrmwrs .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zsyfbrmwrs .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#zsyfbrmwrs .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zsyfbrmwrs .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#zsyfbrmwrs .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zsyfbrmwrs .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zsyfbrmwrs .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zsyfbrmwrs .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zsyfbrmwrs .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zsyfbrmwrs .gt_left {
+  text-align: left;
+}
+
+#zsyfbrmwrs .gt_center {
+  text-align: center;
+}
+
+#zsyfbrmwrs .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#zsyfbrmwrs .gt_font_normal {
+  font-weight: normal;
+}
+
+#zsyfbrmwrs .gt_font_bold {
+  font-weight: bold;
+}
+
+#zsyfbrmwrs .gt_font_italic {
+  font-style: italic;
+}
+
+#zsyfbrmwrs .gt_super {
+  font-size: 65%;
+}
+
+#zsyfbrmwrs .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#zsyfbrmwrs .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#zsyfbrmwrs .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#zsyfbrmwrs .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#zsyfbrmwrs .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#zsyfbrmwrs .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#zsyfbrmwrs .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#zsyfbrmwrs .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#zsyfbrmwrs div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header gt_col_headings">
+<th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
+<th id="estimate" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>IRR</strong></th>
+<th id="conf.low" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>95% CI</strong></th>
+<th id="p.value" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>p-value</strong></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">Treatment Group</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;UC</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;SI-A</td>
+<td class="gt_row gt_center" headers="estimate">0.65</td>
+<td class="gt_row gt_center" headers="conf.low">0.64, 0.66</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;SI-P</td>
+<td class="gt_row gt_center" headers="estimate">0.67</td>
+<td class="gt_row gt_center" headers="conf.low">0.66, 0.68</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+</tbody><tfoot>
+<tr class="odd gt_sourcenotes">
+<td colspan="4" class="gt_sourcenote">Abbreviations: CI = Confidence Interval, IRR = Incidence Rate Ratio</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
 </div>
 </div>
 </figure>

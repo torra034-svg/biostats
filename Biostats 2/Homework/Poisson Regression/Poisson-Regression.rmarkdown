@@ -9,7 +9,9 @@ format:
 editor: visual
 ---
 
+
 Set-up
+
 ```{r}
 #| label: library
 #| message: false
@@ -36,9 +38,11 @@ lhs <- read.csv("lhs.csv")
 ```
 
 
+
 # Section A. Count Data with Fixed Denominator (No Offset Term)
 
 ## Data Cleaning
+
 ```{r}
 #| label: data-cln
 #| warning: false
@@ -71,7 +75,9 @@ lhs <- lhs %>%
 
 ```
 
+
 ## cigs5 table
+
 ```{r}
 #| label: tbl-cigs5
 #| tbl-cap: "Cigs 5"
@@ -90,6 +96,7 @@ lhs %>%
 
 
 ```
+
 
 # Exploratory Data Analysis (EDA)
 
@@ -115,6 +122,7 @@ I should make table 1 by treatment group. Make sure to show key demographics and
 :::
 
 ## Participant Demographic Table
+
 ```{r}
 #| label: tbl-pt-demo
 #| tbl-cap: "Participant Demographics and Baseline Characteristics"
@@ -152,7 +160,9 @@ tbl_1 ## I do not need to make it into a flex table because I am copy-pasting di
 
 ```
 
+
 ## cigs5 Histogram
+
 ```{r}
 #| label: fig-cigs5-hist
 #| fig-cap: "cigs5 Histogram"
@@ -172,7 +182,9 @@ ggplot(lhs, aes(x = cigs5)) +
 ```
 
 
+
 ## cigs5 Descriptive Statistics
+
 ```{r}
 #| label: tbl-cigs5-desc-stats
 #| tbl-cap: "cigs5 Descriptive Statistics"
@@ -209,10 +221,12 @@ describe(lhs$cigs5,
 
 ```
 
+
 # Model 1: Effect of Treatment Group
 
 
 ## Poisson Regression Model
+
 ```{r}
 #| label: tbl-trt-group-vs-cigs5
 #| tbl-cap: "Poission Regression Model: The Effect of Treatment Group on Cigarette Smoking at 5 Years"
