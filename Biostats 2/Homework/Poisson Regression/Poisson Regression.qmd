@@ -63,7 +63,8 @@ lhs <- lhs %>%
           marital0 == 3 ~ "Widowed",
           marital0 == 4 ~ "Separated",
           marital0 == 5 ~ "Divorced"
-         ),
+        ),
+        TreatmentGroup = fct_relevel(alphagroup, "UC")
   )
         
 
@@ -208,3 +209,4 @@ describe(lhs$cigs5,
 
 ```
 
+# Model 1: Effect of Treatment Group
