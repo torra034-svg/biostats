@@ -69,6 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="Poisson Regression_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Poisson Regression_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <style>html{ scroll-behavior: smooth; }</style>
+<link href="Poisson Regression_files/libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
+
+<script src="Poisson Regression_files/libs/tabwid-1.1.3/tabwid.js"></script>
+
 
 
 </head>
@@ -81,10 +85,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#set-up" id="toc-set-up" class="nav-link active" data-scroll-target="#set-up">set-up</a></li>
-  <li><a href="#section-a.-count-data-with-fixed-denominator-no-offset-term" id="toc-section-a.-count-data-with-fixed-denominator-no-offset-term" class="nav-link" data-scroll-target="#section-a.-count-data-with-fixed-denominator-no-offset-term">Section A. Count Data with Fixed Denominator (No Offset Term)</a>
+  <li><a href="#section-a.-count-data-with-fixed-denominator-no-offset-term" id="toc-section-a.-count-data-with-fixed-denominator-no-offset-term" class="nav-link active" data-scroll-target="#section-a.-count-data-with-fixed-denominator-no-offset-term"><span class="header-section-number">1</span> Section A. Count Data with Fixed Denominator (No Offset Term)</a>
   <ul class="collapse">
-  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">data cleaning</a></li>
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning"><span class="header-section-number">1.1</span> Data Cleaning</a></li>
+  <li><a href="#cigs5-table" id="toc-cigs5-table" class="nav-link" data-scroll-target="#cigs5-table"><span class="header-section-number">1.2</span> cigs5 table</a></li>
+  </ul></li>
+  <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda"><span class="header-section-number">2</span> Exploratory Data Analysis (EDA)</a>
+  <ul class="collapse">
+  <li><a href="#participant-demographic-table" id="toc-participant-demographic-table" class="nav-link" data-scroll-target="#participant-demographic-table"><span class="header-section-number">2.1</span> Participant Demographic Table</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -116,16 +124,818 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="set-up" class="level1">
-<h1>set-up</h1>
-</section>
-<section id="section-a.-count-data-with-fixed-denominator-no-offset-term" class="level1">
-<h1>Section A. Count Data with Fixed Denominator (No Offset Term)</h1>
-<section id="data-cleaning" class="level2">
-<h2 class="anchored" data-anchor-id="data-cleaning">data cleaning</h2>
+<p>Set-up</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>lhs <span class="ot">&lt;-</span> lhs <span class="sc">%&gt;%</span> </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cigs5 =</span> <span class="fu">if_else</span>(AV5CIGS <span class="sc">==</span> <span class="fl">0.5</span>, <span class="fl">1.0</span>, AV5CIGS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flextable) <span class="do">## for table extraction</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary) <span class="do">## for making tables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="section-a.-count-data-with-fixed-denominator-no-offset-term" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Section A. Count Data with Fixed Denominator (No Offset Term)</h1>
+<section id="data-cleaning" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="data-cleaning"><span class="header-section-number">1.1</span> Data Cleaning</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lhs <span class="ot">&lt;-</span> lhs <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cigs5 =</span> <span class="fu">if_else</span>(AV5CIGS <span class="sc">==</span> <span class="fl">0.5</span>, <span class="fl">1.0</span>, AV5CIGS),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Race =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>           race <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"White"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>           race <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"Black"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>           race <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"Asian"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>           race <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Native American"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>           race <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"Other"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>         ),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">Gender =</span> <span class="fu">if_else</span>(</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>           AGENDER <span class="sc">==</span> <span class="st">"M"</span>, <span class="st">"Males"</span>, <span class="st">"Females"</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>         ),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">Marital =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>          marital0 <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Never Married"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>          marital0 <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"Married"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>          marital0 <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"Widowed"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>          marital0 <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Separated"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>          marital0 <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"Divorced"</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>         ),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="cigs5-table" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="cigs5-table"><span class="header-section-number">1.2</span> cigs5 table</h2>
+<div class="cell" data-tbl-cap-location="top">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lhs <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cigs5) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cigs5 <span class="sc">==</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flextable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-cigs5" class="cell quarto-float anchored" data-tbl-cap-location="top">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cigs5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Cigs 5
+</figcaption>
+<div aria-describedby="tbl-cigs5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="tabwid"><style>.cl-5c55a49a{}.cl-5c4f11e8{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-5c51d36a{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5c51e562{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-5c55a49a"><thead><tr style="overflow-wrap:break-word;"><th class="cl-5c51e562"><p class="cl-5c51d36a"><span class="cl-5c4f11e8">cigs5</span></p></th></tr></thead></table></div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="exploratory-data-analysis-eda" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Exploratory Data Analysis (EDA)</h1>
+<div class="{hidden-content}">
+<p>Variables to pull for participant table:</p>
+<ul>
+<li>race</li>
+<li>f10cigs [cigs per day at baseline]</li>
+<li>yeareduc [years of education]</li>
+<li>age</li>
+<li>bmi</li>
+<li>WEIGHT</li>
+<li>BLCIGAR</li>
+<li>alphagroup [randomized intervention groups]</li>
+<li>AGENDER</li>
+<li>martial0</li>
+<li>DRINKS BL</li>
+<li>CO0 (expired carbon monoxide level at baseline)</li>
+</ul>
+<p>I should make table 1 by treatment group. Make sure to show key demographics and baseline characteristics</p>
+</div>
+<section id="participant-demographic-table" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="participant-demographic-table"><span class="header-section-number">2.1</span> Participant Demographic Table</h2>
+<div class="cell" data-tbl-cap-location="top">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tbl_1 <span class="ot">&lt;-</span> lhs <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>( Race, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>           f10cigs, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>           yeareduc, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>           age, </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>           bmi, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>           alphagroup, </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>           Gender, </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>           Marital, </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>           DRINKSBL) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">by =</span> alphagroup,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">list</span>(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">"f10cigs"</span> <span class="ot">=</span> <span class="st">"Cigarettes Per Day at Baseline"</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"yeareduc"</span> <span class="ot">=</span> <span class="st">"Years of Education"</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"age"</span> <span class="ot">=</span> <span class="st">"Age"</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">"bmi"</span> <span class="ot">=</span> <span class="st">"BMI"</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">"DRINKSBL"</span> <span class="ot">=</span> <span class="st">"Alcoholic Drinks per Week at Baseline"</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>              ) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>()</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>tbl_1 <span class="do">## I do not need to make it into a flex table because I am copy-pasting directly from the html to google docs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-pt-demo" class="cell quarto-float anchored" data-tbl-cap-location="top">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pt-demo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Participant Demographics and Baseline Characteristics
+</figcaption>
+<div aria-describedby="tbl-pt-demo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="jqggmfisjf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jqggmfisjf table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#jqggmfisjf thead, #jqggmfisjf tbody, #jqggmfisjf tfoot, #jqggmfisjf tr, #jqggmfisjf td, #jqggmfisjf th {
+  border-style: none;
+}
+
+#jqggmfisjf p {
+  margin: 0;
+  padding: 0;
+}
+
+#jqggmfisjf .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jqggmfisjf .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#jqggmfisjf .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jqggmfisjf .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jqggmfisjf .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jqggmfisjf .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jqggmfisjf .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jqggmfisjf .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jqggmfisjf .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jqggmfisjf .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jqggmfisjf .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jqggmfisjf .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jqggmfisjf .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#jqggmfisjf .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#jqggmfisjf .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jqggmfisjf .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jqggmfisjf .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jqggmfisjf .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jqggmfisjf .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jqggmfisjf .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#jqggmfisjf .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#jqggmfisjf .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#jqggmfisjf .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jqggmfisjf .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#jqggmfisjf .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#jqggmfisjf .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jqggmfisjf .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jqggmfisjf .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jqggmfisjf .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jqggmfisjf .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jqggmfisjf .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jqggmfisjf .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jqggmfisjf .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jqggmfisjf .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jqggmfisjf .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jqggmfisjf .gt_left {
+  text-align: left;
+}
+
+#jqggmfisjf .gt_center {
+  text-align: center;
+}
+
+#jqggmfisjf .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jqggmfisjf .gt_font_normal {
+  font-weight: normal;
+}
+
+#jqggmfisjf .gt_font_bold {
+  font-weight: bold;
+}
+
+#jqggmfisjf .gt_font_italic {
+  font-style: italic;
+}
+
+#jqggmfisjf .gt_super {
+  font-size: 65%;
+}
+
+#jqggmfisjf .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#jqggmfisjf .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#jqggmfisjf .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#jqggmfisjf .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#jqggmfisjf .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#jqggmfisjf .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#jqggmfisjf .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#jqggmfisjf .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#jqggmfisjf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header gt_col_headings">
+<th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
+<th id="stat_0" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>Overall</strong><br>
+N = 5,887<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+<th id="stat_1" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>SI-A</strong><br>
+N = 1,961<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+<th id="stat_2" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>SI-P</strong><br>
+N = 1,962<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+<th id="stat_3" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>UC</strong><br>
+N = 1,964<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Race</td>
+<td class="gt_row gt_center" headers="stat_0"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_1"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_2"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_3"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Asian</td>
+<td class="gt_row gt_center" headers="stat_0">8 (0.1%)</td>
+<td class="gt_row gt_center" headers="stat_1">0 (0%)</td>
+<td class="gt_row gt_center" headers="stat_2">7 (0.4%)</td>
+<td class="gt_row gt_center" headers="stat_3">1 (&lt;0.1%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Black</td>
+<td class="gt_row gt_center" headers="stat_0">225 (3.8%)</td>
+<td class="gt_row gt_center" headers="stat_1">76 (3.9%)</td>
+<td class="gt_row gt_center" headers="stat_2">72 (3.7%)</td>
+<td class="gt_row gt_center" headers="stat_3">77 (3.9%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Native American</td>
+<td class="gt_row gt_center" headers="stat_0">7 (0.1%)</td>
+<td class="gt_row gt_center" headers="stat_1">1 (&lt;0.1%)</td>
+<td class="gt_row gt_center" headers="stat_2">1 (&lt;0.1%)</td>
+<td class="gt_row gt_center" headers="stat_3">5 (0.3%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Other</td>
+<td class="gt_row gt_center" headers="stat_0">9 (0.2%)</td>
+<td class="gt_row gt_center" headers="stat_1">3 (0.2%)</td>
+<td class="gt_row gt_center" headers="stat_2">3 (0.2%)</td>
+<td class="gt_row gt_center" headers="stat_3">3 (0.2%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;White</td>
+<td class="gt_row gt_center" headers="stat_0">5,638 (96%)</td>
+<td class="gt_row gt_center" headers="stat_1">1,881 (96%)</td>
+<td class="gt_row gt_center" headers="stat_2">1,879 (96%)</td>
+<td class="gt_row gt_center" headers="stat_3">1,878 (96%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Cigarettes Per Day at Baseline</td>
+<td class="gt_row gt_center" headers="stat_0">30 (20, 40)</td>
+<td class="gt_row gt_center" headers="stat_1">30 (20, 40)</td>
+<td class="gt_row gt_center" headers="stat_2">30 (20, 40)</td>
+<td class="gt_row gt_center" headers="stat_3">30 (20, 40)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Years of Education</td>
+<td class="gt_row gt_center" headers="stat_0"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_1"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_2"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_3"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;4</td>
+<td class="gt_row gt_center" headers="stat_0">100 (1.7%)</td>
+<td class="gt_row gt_center" headers="stat_1">37 (1.9%)</td>
+<td class="gt_row gt_center" headers="stat_2">35 (1.8%)</td>
+<td class="gt_row gt_center" headers="stat_3">28 (1.4%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;8</td>
+<td class="gt_row gt_center" headers="stat_0">28 (0.5%)</td>
+<td class="gt_row gt_center" headers="stat_1">10 (0.5%)</td>
+<td class="gt_row gt_center" headers="stat_2">9 (0.5%)</td>
+<td class="gt_row gt_center" headers="stat_3">9 (0.5%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;10</td>
+<td class="gt_row gt_center" headers="stat_0">592 (10%)</td>
+<td class="gt_row gt_center" headers="stat_1">194 (9.9%)</td>
+<td class="gt_row gt_center" headers="stat_2">201 (10%)</td>
+<td class="gt_row gt_center" headers="stat_3">197 (10%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;12</td>
+<td class="gt_row gt_center" headers="stat_0">1,754 (30%)</td>
+<td class="gt_row gt_center" headers="stat_1">587 (30%)</td>
+<td class="gt_row gt_center" headers="stat_2">597 (30%)</td>
+<td class="gt_row gt_center" headers="stat_3">570 (29%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;14</td>
+<td class="gt_row gt_center" headers="stat_0">2,053 (35%)</td>
+<td class="gt_row gt_center" headers="stat_1">686 (35%)</td>
+<td class="gt_row gt_center" headers="stat_2">679 (35%)</td>
+<td class="gt_row gt_center" headers="stat_3">688 (35%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;16</td>
+<td class="gt_row gt_center" headers="stat_0">696 (12%)</td>
+<td class="gt_row gt_center" headers="stat_1">234 (12%)</td>
+<td class="gt_row gt_center" headers="stat_2">223 (11%)</td>
+<td class="gt_row gt_center" headers="stat_3">239 (12%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;18</td>
+<td class="gt_row gt_center" headers="stat_0">316 (5.4%)</td>
+<td class="gt_row gt_center" headers="stat_1">100 (5.1%)</td>
+<td class="gt_row gt_center" headers="stat_2">99 (5.0%)</td>
+<td class="gt_row gt_center" headers="stat_3">117 (6.0%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;20</td>
+<td class="gt_row gt_center" headers="stat_0">348 (5.9%)</td>
+<td class="gt_row gt_center" headers="stat_1">113 (5.8%)</td>
+<td class="gt_row gt_center" headers="stat_2">119 (6.1%)</td>
+<td class="gt_row gt_center" headers="stat_3">116 (5.9%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Age</td>
+<td class="gt_row gt_center" headers="stat_0">49 (43, 54)</td>
+<td class="gt_row gt_center" headers="stat_1">49 (43, 54)</td>
+<td class="gt_row gt_center" headers="stat_2">49 (43, 54)</td>
+<td class="gt_row gt_center" headers="stat_3">49 (43, 54)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">BMI</td>
+<td class="gt_row gt_center" headers="stat_0">25.2 (22.7, 27.9)</td>
+<td class="gt_row gt_center" headers="stat_1">25.1 (22.7, 27.9)</td>
+<td class="gt_row gt_center" headers="stat_2">25.4 (22.9, 28.0)</td>
+<td class="gt_row gt_center" headers="stat_3">25.1 (22.6, 27.9)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Unknown</td>
+<td class="gt_row gt_center" headers="stat_0">1</td>
+<td class="gt_row gt_center" headers="stat_1">0</td>
+<td class="gt_row gt_center" headers="stat_2">0</td>
+<td class="gt_row gt_center" headers="stat_3">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Gender</td>
+<td class="gt_row gt_center" headers="stat_0"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_1"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_2"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_3"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Females</td>
+<td class="gt_row gt_center" headers="stat_0">2,185 (37%)</td>
+<td class="gt_row gt_center" headers="stat_1">769 (39%)</td>
+<td class="gt_row gt_center" headers="stat_2">706 (36%)</td>
+<td class="gt_row gt_center" headers="stat_3">710 (36%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Males</td>
+<td class="gt_row gt_center" headers="stat_0">3,702 (63%)</td>
+<td class="gt_row gt_center" headers="stat_1">1,192 (61%)</td>
+<td class="gt_row gt_center" headers="stat_2">1,256 (64%)</td>
+<td class="gt_row gt_center" headers="stat_3">1,254 (64%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Marital</td>
+<td class="gt_row gt_center" headers="stat_0"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_1"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_2"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_3"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Divorced</td>
+<td class="gt_row gt_center" headers="stat_0">1,082 (18%)</td>
+<td class="gt_row gt_center" headers="stat_1">364 (19%)</td>
+<td class="gt_row gt_center" headers="stat_2">333 (17%)</td>
+<td class="gt_row gt_center" headers="stat_3">385 (20%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Married</td>
+<td class="gt_row gt_center" headers="stat_0">4,188 (71%)</td>
+<td class="gt_row gt_center" headers="stat_1">1,394 (71%)</td>
+<td class="gt_row gt_center" headers="stat_2">1,430 (73%)</td>
+<td class="gt_row gt_center" headers="stat_3">1,364 (69%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Never Married</td>
+<td class="gt_row gt_center" headers="stat_0">288 (4.9%)</td>
+<td class="gt_row gt_center" headers="stat_1">87 (4.4%)</td>
+<td class="gt_row gt_center" headers="stat_2">97 (4.9%)</td>
+<td class="gt_row gt_center" headers="stat_3">104 (5.3%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Separated</td>
+<td class="gt_row gt_center" headers="stat_0">152 (2.6%)</td>
+<td class="gt_row gt_center" headers="stat_1">57 (2.9%)</td>
+<td class="gt_row gt_center" headers="stat_2">45 (2.3%)</td>
+<td class="gt_row gt_center" headers="stat_3">50 (2.5%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Widowed</td>
+<td class="gt_row gt_center" headers="stat_0">177 (3.0%)</td>
+<td class="gt_row gt_center" headers="stat_1">59 (3.0%)</td>
+<td class="gt_row gt_center" headers="stat_2">57 (2.9%)</td>
+<td class="gt_row gt_center" headers="stat_3">61 (3.1%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Alcoholic Drinks per Week at Baseline</td>
+<td class="gt_row gt_center" headers="stat_0">2 (0, 6)</td>
+<td class="gt_row gt_center" headers="stat_1">2 (0, 6)</td>
+<td class="gt_row gt_center" headers="stat_2">2 (0, 6)</td>
+<td class="gt_row gt_center" headers="stat_3">2 (0, 6)</td>
+</tr>
+</tbody><tfoot>
+<tr class="even gt_footnotes">
+<td colspan="5" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> n (%); Median (Q1, Q3)</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
 </div>
 </section>
 </section>

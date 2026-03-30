@@ -5,17 +5,20 @@ format:
   html:
     toc: true
     smooth-scroll: true
+    number-sections: true
 editor: visual
 ---
 
-# set-up
+Set-up
 ```{r}
 #| label: library
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 library(tidyverse)
+library(flextable) ## for table extraction
+library(gtsummary) ## for making tables
 
 ```
 
@@ -33,7 +36,7 @@ lhs <- read.csv("lhs.csv")
 
 # Section A. Count Data with Fixed Denominator (No Offset Term)
 
-## data cleaning
+## Data Cleaning
 ```{r}
 #| label: data-cln
 #| warning: false
@@ -41,7 +44,105 @@ lhs <- read.csv("lhs.csv")
 #| echo: true
 
 lhs <- lhs %>% 
-  mutate(cigs5 = if_else(AV5CIGS == 0.5, 1.0, AV5CIGS))
+  mutate(cigs5 = if_else(AV5CIGS == 0.5, 1.0, AV5CIGS),
+         Race = case_when(
+           race == 1 ~ "White",
+           race == 2 ~ "Black",
+           race == 3 ~ "Asian",
+           race == 4 ~ "Native American",
+           race == 5 ~ "Other"
+         ),
+         Gender = if_else(
+           AGENDER == "M", "Males", "Females"
+         ),
+        Marital = case_when(
+          marital0 == 1 ~ "Never Married",
+          marital0 == 2 ~ "Married",
+          marital0 == 3 ~ "Widowed",
+          marital0 == 4 ~ "Separated",
+          marital0 == 5 ~ "Divorced"
+         ),
+  )
+        
+
+
+```
+
+## cigs5 table
+```{r}
+#| label: tbl-cigs5
+#| tbl-cap: "Cigs 5"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+lhs %>% 
+  select(cigs5) %>% 
+  filter(cigs5 == 0.5) %>% 
+  tibble() %>% 
+  flextable()
+
+
+
+```
+
+# Exploratory Data Analysis (EDA)
+
+::: {hidden-content}
+
+Variables to pull for participant table:
+
+* race
+* f10cigs [cigs per day at baseline]
+* yeareduc [years of education]
+* age
+* bmi
+* WEIGHT
+* BLCIGAR
+* alphagroup [randomized intervention groups]
+* AGENDER
+* martial0
+* DRINKS BL
+* CO0 (expired carbon monoxide level at baseline)
+
+I should make table 1 by treatment group. Make sure to show key demographics and baseline characteristics
+
+:::
+
+## Participant Demographic Table
+```{r}
+#| label: tbl-pt-demo
+#| tbl-cap: "Participant Demographics and Baseline Characteristics"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+tbl_1 <- lhs %>% 
+  select( Race, 
+           f10cigs, 
+           yeareduc, 
+           age, 
+           bmi, 
+           alphagroup, 
+           Gender, 
+           Marital, 
+           DRINKSBL) %>% 
+  tbl_summary(by = alphagroup,
+              label = list(
+                "f10cigs" = "Cigarettes Per Day at Baseline",
+                "yeareduc" = "Years of Education",
+                "age" = "Age",
+                "bmi" = "BMI",
+                "DRINKSBL" = "Alcoholic Drinks per Week at Baseline")
+              ) %>% 
+  add_overall() %>% 
+  bold_labels()
+
+tbl_1 ## I do not need to make it into a flex table because I am copy-pasting directly from the html to google docs
 
 
 ```
