@@ -33,6 +33,8 @@ library(psych) ## calculate descriptive statistics
 lhs <- read.csv("lhs.csv")
 
 
+fh <- read.csv("Framingham_dataset.csv")
+
 ```
 
 
@@ -40,7 +42,7 @@ lhs <- read.csv("lhs.csv")
 
 ## Data Cleaning
 ```{r}
-#| label: data-cln
+#| label: data-cln-lhs
 #| warning: false
 #| message: false
 #| echo: true
@@ -240,6 +242,82 @@ trt_group_cigs5_model %>% ## this is the expected log form
     exponentiate = FALSE,
     label = list(TreatmentGroup ~ "Treatment Group")
   )
+
+```
+
+The effect of the SI-P smoking intervention group is 0.67 relative to the usual group at year 5. In other words, the estimated Incidence Rate Ratio (IRR) is 0.67, meaning that the SI-P group smoked at a rate 33% lower than the usual care group. This finding is statistically significant given that our p-value is lower than alpha and the 95% confidence interval does not include 1.0 (p-value < 0.001, CI: 0.66 - 0.68).
+
+## Model Evaluation for Overdispersion Test
+
+To evaluate the poisson regression, we need to review the ratio of the **residual deviance** to its **degree of freedoms**. **If the model ratio is super super greater than 1 then that is a sign of overdispersion.**
+
+```{r}
+#| label: overdispersion-test
+
+
+model_ratio <- (trt_group_cigs5_model$deviance
+/ trt_group_cigs5_model$df.residual)
+
+model_ratio
+
+model_ratio > 10
+
+```
+
+
+# Model 2: Effect of Treatment Group, Allowing for Overdispersion
+
+How to deal with overdispersion? - 2 ways 
+ * Quasi-Poisson Regression
+ * Negative Binomial Regression
+
+## Quasi-Poisson Regression Model for Overdispersed Data
+
+Use the Quasi-Possion Regression model to handle overdispersion
+```{r}
+#| label: tbl-quasi-possion-regression-model
+#| tbl-cap: "Quasi-Poisson Regression Model"
+#| tbl-cap-location: top
+
+
+model1.qp <- glm(cigs5 ~ TreatmentGroup,
+                 data = lhs,
+                 family = quasipoisson(link = "log"))
+
+model1.qp
+
+model1.qp %>%  ## exponentiated form
+  tbl_regression(
+    exponentiate = TRUE,
+    label = (TreatmentGroup ~ "Treatment Group")
+  )
+
+model1.qp %>%  ## expected log form
+    tbl_regression(
+    exponentiate = FALSE,
+    label = (TreatmentGroup ~ "Treatment Group")
+  )
+
+```
+
+
+
+# Section C. Binary Data Treated as Rates (With an Offset Term)
+```{r}
+#| label: data-cln-fh
+
+
+fh <- fh %>% 
+  mutate(followupYR = followup / 365.25)
+
+
+```
+
+```{r}
+#| label: follow-up-verify
+
+
+
 
 ```
 
