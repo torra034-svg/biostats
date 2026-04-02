@@ -390,6 +390,8 @@ model_3 <- glm(chdfate ~ Sex_women_ref,
                data = fh,
                family = poisson(link = "log"))
 
+model_3
+
 model_3 %>% ## Exponentiated Form
   tbl_regression(
     exponentiate = TRUE,
