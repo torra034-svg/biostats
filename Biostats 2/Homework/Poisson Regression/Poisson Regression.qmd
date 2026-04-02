@@ -379,7 +379,7 @@ Women are the reference group.
 
 ```{r}
 #| label: tbl-model-3
-#| tbl-cap: "Poisson Regression Model: Sex on Coronary Heart DiseaseIncidence Rate"
+#| tbl-cap: "Poisson Regression Model: Sex on Coronary Heart Disease Incidence Rate"
 #| tbl-cap-location: top
 #| warning: false
 #| message: false
@@ -388,9 +388,16 @@ Women are the reference group.
 
 model_3 <- glm(chdfate ~ Sex_women_ref,
                data = fh,
-               family = poisson(link = "log")) %>% 
+               family = poisson(link = "log"))
+
+model_3 %>% ## Exponentiated Form
   tbl_regression(
     exponentiate = TRUE,
+    label = list(Sex_women_ref ~ "Sex"))
+
+model_3 %>% ## Log Form
+  tbl_regression(
+    exponentiate = FALSE,
     label = list(Sex_women_ref ~ "Sex"))
 
 model_3
