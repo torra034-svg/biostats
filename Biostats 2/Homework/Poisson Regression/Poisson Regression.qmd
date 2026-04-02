@@ -10,6 +10,7 @@ editor: visual
 ---
 
 Set-up
+
 ```{r}
 #| label: library
 #| message: false
@@ -19,7 +20,10 @@ Set-up
 library(tidyverse)
 library(flextable) ## for table extraction
 library(gtsummary) ## for making tables
+library(gt) ## for making tables
 library(psych) ## calculate descriptive statistics
+library(knitr) ## for making tables easily from
+library(janitor) ## clean tables
 
 
 ```
@@ -37,10 +41,10 @@ fh <- read.csv("Framingham_dataset.csv")
 
 ```
 
-
 # Section A. Count Data with Fixed Denominator (No Offset Term)
 
 ## Data Cleaning
+
 ```{r}
 #| label: data-cln-lhs
 #| warning: false
@@ -74,6 +78,7 @@ lhs <- lhs %>%
 ```
 
 ## cigs5 table
+
 ```{r}
 #| label: tbl-cigs5
 #| tbl-cap: "Cigs 5"
@@ -96,27 +101,26 @@ lhs %>%
 # Exploratory Data Analysis (EDA)
 
 ::: {.content-hidden when-format="html"}
-
 Variables to pull for participant table:
 
-* race
-* f10cigs [cigs per day at baseline]
-* yeareduc [years of education]
-* age
-* bmi
-* WEIGHT
-* BLCIGAR
-* alphagroup [randomized intervention groups]
-* AGENDER
-* martial0
-* DRINKS BL
-* CO0 (expired carbon monoxide level at baseline)
+-   race
+-   f10cigs \[cigs per day at baseline\]
+-   yeareduc \[years of education\]
+-   age
+-   bmi
+-   WEIGHT
+-   BLCIGAR
+-   alphagroup \[randomized intervention groups\]
+-   AGENDER
+-   martial0
+-   DRINKS BL
+-   CO0 (expired carbon monoxide level at baseline)
 
 I should make table 1 by treatment group. Make sure to show key demographics and baseline characteristics
-
 :::
 
 ## Participant Demographic Table
+
 ```{r}
 #| label: tbl-pt-demo
 #| tbl-cap: "Participant Demographics and Baseline Characteristics"
@@ -155,6 +159,7 @@ tbl_1 ## I do not need to make it into a flex table because I am copy-pasting di
 ```
 
 ## cigs5 Histogram
+
 ```{r}
 #| label: fig-cigs5-hist
 #| fig-cap: "cigs5 Histogram"
@@ -173,8 +178,8 @@ ggplot(lhs, aes(x = cigs5)) +
 
 ```
 
-
 ## cigs5 Descriptive Statistics
+
 ```{r}
 #| label: tbl-cigs5-desc-stats
 #| tbl-cap: "cigs5 Descriptive Statistics"
@@ -213,8 +218,8 @@ describe(lhs$cigs5,
 
 # Model 1: Effect of Treatment Group
 
-
 ## Poisson Regression Model
+
 ```{r}
 #| label: tbl-trt-group-vs-cigs5
 #| tbl-cap: "Poission Regression Model: The Effect of Treatment Group on Cigarette Smoking at 5 Years"
@@ -245,7 +250,7 @@ trt_group_cigs5_model %>% ## this is the expected log form
 
 ```
 
-The effect of the SI-P smoking intervention group is 0.67 relative to the usual group at year 5. In other words, the estimated Incidence Rate Ratio (IRR) is 0.67, meaning that the SI-P group smoked at a rate 33% lower than the usual care group. This finding is statistically significant given that our p-value is lower than alpha and the 95% confidence interval does not include 1.0 (p-value < 0.001, CI: 0.66 - 0.68).
+The effect of the SI-P smoking intervention group is 0.67 relative to the usual group at year 5. In other words, the estimated Incidence Rate Ratio (IRR) is 0.67, meaning that the SI-P group smoked at a rate 33% lower than the usual care group. This finding is statistically significant given that our p-value is lower than alpha and the 95% confidence interval does not include 1.0 (p-value \< 0.001, CI: 0.66 - 0.68).
 
 ## Model Evaluation for Overdispersion Test
 
@@ -264,16 +269,14 @@ model_ratio > 10
 
 ```
 
-
 # Model 2: Effect of Treatment Group, Allowing for Overdispersion
 
-How to deal with overdispersion? - 2 ways 
- * Quasi-Poisson Regression
- * Negative Binomial Regression
+How to deal with overdispersion? - 2 ways \* Quasi-Poisson Regression \* Negative Binomial Regression
 
 ## Quasi-Poisson Regression Model for Overdispersed Data
 
 Use the Quasi-Possion Regression model to handle overdispersion
+
 ```{r}
 #| label: tbl-quasi-possion-regression-model
 #| tbl-cap: "Quasi-Poisson Regression Model"
@@ -300,23 +303,65 @@ model1.qp %>%  ## expected log form
 
 ```
 
-
-
 # Section C. Binary Data Treated as Rates (With an Offset Term)
+
 ```{r}
 #| label: data-cln-fh
 
 
 fh <- fh %>% 
-  mutate(followupYR = followup / 365.25)
+  mutate(followupYR = followup / 365.25,
+         CHD = as.factor(if_else(chdfate == 1, "Developed CHD", "No CHD")),
+         Sex = as.factor(if_else(sex == 1, "Male", "Female")))
+         
 
 
 ```
 
+## Exploratory Data Analysis (EDA)
+
+I need to have the following information:
+ * Cases of CHD
+ * Follow-up time in person-years
+ * CHD Incidence Rate per 100 person-years
+
+
 ```{r}
-#| label: follow-up-verify
+#| label: tbl-fh-IR
+#| tbl-cap: "Incidence Rate Table for Framingham Dataset"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
 
 
+fh_ir_tbl <- fh %>% 
+  select(CHD, Sex, followupYR) %>% 
+  group_by(Sex) %>% 
+  summarize(
+    CHD_cases = sum(CHD == "Developed CHD"),
+    ft_py = sum(followupYR),
+    CHD_IR = ((CHD_cases / ft_py)*100) ## CH Incidence rate calculation
+            )  %>% 
+  gt() %>% ## convert into gt() table
+  tab_header(
+      title = "Coronary Heart Disease Incidence Metrics") %>% 
+  cols_label(
+    CHD_cases = "Total Cases",
+    ft_py = "Person-Years",
+    CHD_IR = "Incidence Rate per 100 person-years"
+            ) %>% 
+  fmt_number( ## format Incidence Ratio
+    columns = c(CHD_IR),
+    decimals = 2
+            ) %>% 
+  fmt_number( ## format person-years
+    columns = ft_py,
+    decimals = 0
+            ) 
+  
+
+fh_ir_tbl
 
 
 ```

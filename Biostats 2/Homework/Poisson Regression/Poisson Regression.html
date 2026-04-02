@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,8 +22,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -59,15 +60,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="Poisson Regression_files/libs/clipboard/clipboard.min.js"></script>
-<script src="Poisson Regression_files/libs/quarto-html/quarto.js"></script>
+<script src="Poisson Regression_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Poisson Regression_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Poisson Regression_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="Poisson Regression_files/libs/quarto-html/popper.min.js"></script>
 <script src="Poisson Regression_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="Poisson Regression_files/libs/quarto-html/anchor.min.js"></script>
 <link href="Poisson Regression_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Poisson Regression_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="Poisson Regression_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="Poisson Regression_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Poisson Regression_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Poisson Regression_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="Poisson Regression_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <style>html{ scroll-behavior: smooth; }</style>
 <link href="Poisson Regression_files/libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
 
@@ -77,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body>
+<body class="quarto-light">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -104,6 +107,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#model-2-effect-of-treatment-group-allowing-for-overdispersion" id="toc-model-2-effect-of-treatment-group-allowing-for-overdispersion" class="nav-link" data-scroll-target="#model-2-effect-of-treatment-group-allowing-for-overdispersion"><span class="header-section-number">4</span> Model 2: Effect of Treatment Group, Allowing for Overdispersion</a>
   <ul class="collapse">
   <li><a href="#quasi-poisson-regression-model-for-overdispersed-data" id="toc-quasi-poisson-regression-model-for-overdispersed-data" class="nav-link" data-scroll-target="#quasi-poisson-regression-model-for-overdispersed-data"><span class="header-section-number">4.1</span> Quasi-Poisson Regression Model for Overdispersed Data</a></li>
+  </ul></li>
+  <li><a href="#section-c.-binary-data-treated-as-rates-with-an-offset-term" id="toc-section-c.-binary-data-treated-as-rates-with-an-offset-term" class="nav-link" data-scroll-target="#section-c.-binary-data-treated-as-rates-with-an-offset-term"><span class="header-section-number">5</span> Section C. Binary Data Treated as Rates (With an Offset Term)</a>
+  <ul class="collapse">
+  <li><a href="#exploratory-data-analysis-eda-1" id="toc-exploratory-data-analysis-eda-1" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda-1"><span class="header-section-number">5.1</span> Exploratory Data Analysis (EDA)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -137,17 +144,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Set-up</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flextable) <span class="do">## for table extraction</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary) <span class="do">## for making tables</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="do">## calculate descriptive statistics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt) <span class="do">## for making tables</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="do">## calculate descriptive statistics</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr) <span class="do">## for making tables easily from</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor) <span class="do">## clean tables</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="section-a.-count-data-with-fixed-denominator-no-offset-term" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Section A. Count Data with Fixed Denominator (No Offset Term)</h1>
 <section id="data-cleaning" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="data-cleaning"><span class="header-section-number">1.1</span> Data Cleaning</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lhs <span class="ot">&lt;-</span> lhs <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lhs <span class="ot">&lt;-</span> lhs <span class="sc">%&gt;%</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cigs5 =</span> <span class="fu">if_else</span>(AV5CIGS <span class="sc">==</span> <span class="fl">0.5</span>, <span class="fl">1.0</span>, AV5CIGS),</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Race =</span> <span class="fu">case_when</span>(</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>           race <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"White"</span>,</span>
@@ -167,25 +177,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>          marital0 <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"Divorced"</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        ),</span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">TreatmentGroup =</span> <span class="fu">fct_relevel</span>(alphagroup, <span class="st">"UC"</span>)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="cigs5-table" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="cigs5-table"><span class="header-section-number">1.2</span> cigs5 table</h2>
 <div class="cell" data-tbl-cap-location="top">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lhs <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lhs <span class="sc">%&gt;%</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cigs5) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cigs5 <span class="sc">==</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flextable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="tbl-cigs5" class="cell quarto-float anchored" data-tbl-cap-location="top">
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">flextable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-cigs5" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="top">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cigs5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Cigs 5
 </figcaption>
 <div aria-describedby="tbl-cigs5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div class="tabwid"><style>.cl-e3841772{}.cl-e37d4014{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e380331e{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e38047be{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-e3841772"><thead><tr style="overflow-wrap:break-word;"><th class="cl-e38047be"><p class="cl-e380331e"><span class="cl-e37d4014">cigs5</span></p></th></tr></thead></table></div>
+<div class="tabwid"><style>.cl-ec0754a4{}.cl-ebff80ee{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ec02c7fe{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ec02de9c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-ec0754a4"><thead><tr style="overflow-wrap:break-word;"><th class="cl-ec02de9c"><p class="cl-ec02c7fe"><span class="cl-ebff80ee">cigs5</span></p></th></tr></thead></table></div>
 </div>
 </div>
 </figure>
@@ -198,7 +208,7 @@ Table&nbsp;1: Cigs 5
 <section id="participant-demographic-table" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="participant-demographic-table"><span class="header-section-number">2.1</span> Participant Demographic Table</h2>
 <div class="cell" data-tbl-cap-location="top">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tbl_1 <span class="ot">&lt;-</span> lhs <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tbl_1 <span class="ot">&lt;-</span> lhs <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>( Race, </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>           f10cigs, </span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>           yeareduc, </span>
@@ -221,31 +231,31 @@ Table&nbsp;1: Cigs 5
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>()</span>
 <span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>tbl_1 <span class="do">## I do not need to make it into a flex table because I am copy-pasting directly from the html to google docs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="tbl-pt-demo" class="cell quarto-float anchored" data-tbl-cap-location="top">
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>tbl_1 <span class="do">## I do not need to make it into a flex table because I am copy-pasting directly from the html to google docs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-pt-demo" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="top">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pt-demo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: Participant Demographics and Baseline Characteristics
 </figcaption>
 <div aria-describedby="tbl-pt-demo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="ywoabwxrfg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ywoabwxrfg table {
+<div id="mrjgcpkkmg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mrjgcpkkmg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ywoabwxrfg thead, #ywoabwxrfg tbody, #ywoabwxrfg tfoot, #ywoabwxrfg tr, #ywoabwxrfg td, #ywoabwxrfg th {
+#mrjgcpkkmg thead, #mrjgcpkkmg tbody, #mrjgcpkkmg tfoot, #mrjgcpkkmg tr, #mrjgcpkkmg td, #mrjgcpkkmg th {
   border-style: none;
 }
 
-#ywoabwxrfg p {
+#mrjgcpkkmg p {
   margin: 0;
   padding: 0;
 }
 
-#ywoabwxrfg .gt_table {
+#mrjgcpkkmg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -271,12 +281,12 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-left-color: #D3D3D3;
 }
 
-#ywoabwxrfg .gt_caption {
+#mrjgcpkkmg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ywoabwxrfg .gt_title {
+#mrjgcpkkmg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -288,7 +298,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-width: 0;
 }
 
-#ywoabwxrfg .gt_subtitle {
+#mrjgcpkkmg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -300,7 +310,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-top-width: 0;
 }
 
-#ywoabwxrfg .gt_heading {
+#mrjgcpkkmg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -312,13 +322,13 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#ywoabwxrfg .gt_bottom_border {
+#mrjgcpkkmg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ywoabwxrfg .gt_col_headings {
+#mrjgcpkkmg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -333,7 +343,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#ywoabwxrfg .gt_col_heading {
+#mrjgcpkkmg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -353,7 +363,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   overflow-x: hidden;
 }
 
-#ywoabwxrfg .gt_column_spanner_outer {
+#mrjgcpkkmg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -365,15 +375,15 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 4px;
 }
 
-#ywoabwxrfg .gt_column_spanner_outer:first-child {
+#mrjgcpkkmg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ywoabwxrfg .gt_column_spanner_outer:last-child {
+#mrjgcpkkmg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ywoabwxrfg .gt_column_spanner {
+#mrjgcpkkmg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -385,11 +395,11 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   width: 100%;
 }
 
-#ywoabwxrfg .gt_spanner_row {
+#mrjgcpkkmg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ywoabwxrfg .gt_group_heading {
+#mrjgcpkkmg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -415,7 +425,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   text-align: left;
 }
 
-#ywoabwxrfg .gt_empty_group_heading {
+#mrjgcpkkmg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -430,15 +440,15 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   vertical-align: middle;
 }
 
-#ywoabwxrfg .gt_from_md > :first-child {
+#mrjgcpkkmg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ywoabwxrfg .gt_from_md > :last-child {
+#mrjgcpkkmg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ywoabwxrfg .gt_row {
+#mrjgcpkkmg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -457,7 +467,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   overflow-x: hidden;
 }
 
-#ywoabwxrfg .gt_stub {
+#mrjgcpkkmg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -470,7 +480,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#ywoabwxrfg .gt_stub_row_group {
+#mrjgcpkkmg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -484,15 +494,15 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   vertical-align: top;
 }
 
-#ywoabwxrfg .gt_row_group_first td {
+#mrjgcpkkmg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ywoabwxrfg .gt_row_group_first th {
+#mrjgcpkkmg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ywoabwxrfg .gt_summary_row {
+#mrjgcpkkmg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -502,16 +512,16 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#ywoabwxrfg .gt_first_summary_row {
+#mrjgcpkkmg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ywoabwxrfg .gt_first_summary_row.thick {
+#mrjgcpkkmg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ywoabwxrfg .gt_last_summary_row {
+#mrjgcpkkmg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -521,7 +531,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-color: #D3D3D3;
 }
 
-#ywoabwxrfg .gt_grand_summary_row {
+#mrjgcpkkmg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -531,7 +541,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#ywoabwxrfg .gt_first_grand_summary_row {
+#mrjgcpkkmg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -541,7 +551,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-top-color: #D3D3D3;
 }
 
-#ywoabwxrfg .gt_last_grand_summary_row_top {
+#mrjgcpkkmg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -551,11 +561,11 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-color: #D3D3D3;
 }
 
-#ywoabwxrfg .gt_striped {
+#mrjgcpkkmg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ywoabwxrfg .gt_table_body {
+#mrjgcpkkmg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -564,7 +574,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-color: #D3D3D3;
 }
 
-#ywoabwxrfg .gt_footnotes {
+#mrjgcpkkmg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -578,7 +588,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#ywoabwxrfg .gt_footnote {
+#mrjgcpkkmg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -587,7 +597,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#ywoabwxrfg .gt_sourcenotes {
+#mrjgcpkkmg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -601,7 +611,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#ywoabwxrfg .gt_sourcenote {
+#mrjgcpkkmg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -609,77 +619,77 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#ywoabwxrfg .gt_left {
+#mrjgcpkkmg .gt_left {
   text-align: left;
 }
 
-#ywoabwxrfg .gt_center {
+#mrjgcpkkmg .gt_center {
   text-align: center;
 }
 
-#ywoabwxrfg .gt_right {
+#mrjgcpkkmg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ywoabwxrfg .gt_font_normal {
+#mrjgcpkkmg .gt_font_normal {
   font-weight: normal;
 }
 
-#ywoabwxrfg .gt_font_bold {
+#mrjgcpkkmg .gt_font_bold {
   font-weight: bold;
 }
 
-#ywoabwxrfg .gt_font_italic {
+#mrjgcpkkmg .gt_font_italic {
   font-style: italic;
 }
 
-#ywoabwxrfg .gt_super {
+#mrjgcpkkmg .gt_super {
   font-size: 65%;
 }
 
-#ywoabwxrfg .gt_footnote_marks {
+#mrjgcpkkmg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ywoabwxrfg .gt_asterisk {
+#mrjgcpkkmg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ywoabwxrfg .gt_indent_1 {
+#mrjgcpkkmg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ywoabwxrfg .gt_indent_2 {
+#mrjgcpkkmg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ywoabwxrfg .gt_indent_3 {
+#mrjgcpkkmg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ywoabwxrfg .gt_indent_4 {
+#mrjgcpkkmg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ywoabwxrfg .gt_indent_5 {
+#mrjgcpkkmg .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ywoabwxrfg .katex-display {
+#mrjgcpkkmg .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ywoabwxrfg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#mrjgcpkkmg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -688,7 +698,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
 <col style="width: 20%">
 </colgroup>
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
 <th id="stat_0" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>Overall</strong><br>
 N = 5,887<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
@@ -935,7 +945,7 @@ N = 1,964<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 <td class="gt_row gt_center" headers="stat_3">1,848</td>
 </tr>
 </tbody><tfoot>
-<tr class="even gt_footnotes">
+<tr class="gt_footnotes odd">
 <td colspan="5" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> n (%); Median (Q1, Q3)</td>
 </tr>
 </tfoot>
@@ -952,14 +962,14 @@ N = 1,964<span class="gt_footnote_marks" style="white-space:nowrap;font-style:it
 <section id="cigs5-histogram" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="cigs5-histogram"><span class="header-section-number">2.2</span> cigs5 Histogram</h2>
 <div class="cell fig-cap-location-top">
-<div class="sourceCode cell-code" id="cb5" data-cap-location="top"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lhs, <span class="fu">aes</span>(<span class="at">x =</span> cigs5)) <span class="sc">+</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" data-cap-location="top"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lhs, <span class="fu">aes</span>(<span class="at">x =</span> cigs5)) <span class="sc">+</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Cigarettes Per Day at Annual Visit (Year 5)"</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>,</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Distribution of Cigarettes Per Day at Annual Visit (Year 5)"</span>) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="fig-cigs5-hist" class="quarto-figure quarto-figure-center quarto-float anchored" data-cap-location="top">
+<div id="fig-cigs5-hist" class="quarto-float quarto-figure quarto-figure-center anchored" data-cap-location="top">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-cigs5-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: cigs5 Histogram
@@ -975,12 +985,12 @@ Figure&nbsp;1: cigs5 Histogram
 <section id="cigs5-descriptive-statistics" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="cigs5-descriptive-statistics"><span class="header-section-number">2.3</span> cigs5 Descriptive Statistics</h2>
 <div class="cell" data-tbl-cap-location="top">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(lhs<span class="sc">$</span>cigs5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(lhs<span class="sc">$</span>cigs5)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   vars    n  mean    sd median trimmed   mad min max range skew kurtosis  se
 X1    1 5555 13.93 14.75     10   11.94 14.83   0 100   100 0.86     0.18 0.2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(lhs<span class="sc">$</span>cigs5,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(lhs<span class="sc">$</span>cigs5,</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">IQR =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(n, mean, median, IQR, sd, min, max, skew, kurtosis) <span class="sc">%&gt;%</span></span>
@@ -999,15 +1009,15 @@ X1    1 5555 13.93 14.75     10   11.94 14.83   0 100   100 0.86     0.18 0.2</c
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">max =</span> <span class="st">"Max"</span>,</span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">skew =</span> <span class="st">"Skew"</span>,</span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">kurtosis =</span> <span class="st">"Kurtosis"</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="tbl-cigs5-desc-stats" class="cell quarto-float anchored" data-tbl-cap-location="top">
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-cigs5-desc-stats" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="top">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cigs5-desc-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3: cigs5 Descriptive Statistics
 </figcaption>
 <div aria-describedby="tbl-cigs5-desc-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div class="tabwid"><style>.cl-eb192036{}.cl-eb11a3a6{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-eb11a3c4{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-eb147cfc{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-eb14af60{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af6a{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af6b{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af74{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af75{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af76{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af7e{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af7f{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af88{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af89{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af8a{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af8b{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af92{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-eb14af93{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-eb192036"><thead><tr style="overflow-wrap:break-word;"><th class="cl-eb14af60"><p class="cl-eb147cfc"><span class="cl-eb11a3a6">N</span></p></th><th class="cl-eb14af6a"><p class="cl-eb147cfc"><span class="cl-eb11a3a6">Mean</span></p></th><th class="cl-eb14af6b"><p class="cl-eb147cfc"><span class="cl-eb11a3a6">Median</span></p></th><th class="cl-eb14af6a"><p class="cl-eb147cfc"><span class="cl-eb11a3a6">IQR</span></p></th><th class="cl-eb14af6a"><p class="cl-eb147cfc"><span class="cl-eb11a3a6">Std. Dev.</span></p></th><th class="cl-eb14af74"><p class="cl-eb147cfc"><span class="cl-eb11a3a6">Min</span></p></th><th class="cl-eb14af75"><p class="cl-eb147cfc"><span class="cl-eb11a3a6">Max</span></p></th><th class="cl-eb14af76"><p class="cl-eb147cfc"><span class="cl-eb11a3a6">Skew</span></p></th><th class="cl-eb14af7e"><p class="cl-eb147cfc"><span class="cl-eb11a3a6">Kurtosis</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-eb14af7f"><p class="cl-eb147cfc"><span class="cl-eb11a3c4">5,555.00</span></p></td><td class="cl-eb14af88"><p class="cl-eb147cfc"><span class="cl-eb11a3c4">13.93</span></p></td><td class="cl-eb14af89"><p class="cl-eb147cfc"><span class="cl-eb11a3c4">10.00</span></p></td><td class="cl-eb14af88"><p class="cl-eb147cfc"><span class="cl-eb11a3c4">20.00</span></p></td><td class="cl-eb14af88"><p class="cl-eb147cfc"><span class="cl-eb11a3c4">14.75</span></p></td><td class="cl-eb14af8a"><p class="cl-eb147cfc"><span class="cl-eb11a3c4">0.00</span></p></td><td class="cl-eb14af8b"><p class="cl-eb147cfc"><span class="cl-eb11a3c4">100.00</span></p></td><td class="cl-eb14af92"><p class="cl-eb147cfc"><span class="cl-eb11a3c4">0.86</span></p></td><td class="cl-eb14af93"><p class="cl-eb147cfc"><span class="cl-eb11a3c4">0.18</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-edb924a8{}.cl-edb13054{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-edb1305e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-edb52484{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-edb54054{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb54055{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb54056{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb5405e{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb5405f{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb54060{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb54061{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb54068{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb54069{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb5406a{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb5406b{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb54072{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb54073{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-edb54074{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-edb924a8"><thead><tr style="overflow-wrap:break-word;"><th class="cl-edb54054"><p class="cl-edb52484"><span class="cl-edb13054">N</span></p></th><th class="cl-edb54055"><p class="cl-edb52484"><span class="cl-edb13054">Mean</span></p></th><th class="cl-edb54056"><p class="cl-edb52484"><span class="cl-edb13054">Median</span></p></th><th class="cl-edb54055"><p class="cl-edb52484"><span class="cl-edb13054">IQR</span></p></th><th class="cl-edb54055"><p class="cl-edb52484"><span class="cl-edb13054">Std. Dev.</span></p></th><th class="cl-edb5405e"><p class="cl-edb52484"><span class="cl-edb13054">Min</span></p></th><th class="cl-edb5405f"><p class="cl-edb52484"><span class="cl-edb13054">Max</span></p></th><th class="cl-edb54060"><p class="cl-edb52484"><span class="cl-edb13054">Skew</span></p></th><th class="cl-edb54061"><p class="cl-edb52484"><span class="cl-edb13054">Kurtosis</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-edb54068"><p class="cl-edb52484"><span class="cl-edb1305e">5,555.00</span></p></td><td class="cl-edb54069"><p class="cl-edb52484"><span class="cl-edb1305e">13.93</span></p></td><td class="cl-edb5406a"><p class="cl-edb52484"><span class="cl-edb1305e">10.00</span></p></td><td class="cl-edb54069"><p class="cl-edb52484"><span class="cl-edb1305e">20.00</span></p></td><td class="cl-edb54069"><p class="cl-edb52484"><span class="cl-edb1305e">14.75</span></p></td><td class="cl-edb5406b"><p class="cl-edb52484"><span class="cl-edb1305e">0.00</span></p></td><td class="cl-edb54072"><p class="cl-edb52484"><span class="cl-edb1305e">100.00</span></p></td><td class="cl-edb54073"><p class="cl-edb52484"><span class="cl-edb1305e">0.86</span></p></td><td class="cl-edb54074"><p class="cl-edb52484"><span class="cl-edb1305e">0.18</span></p></td></tr></tbody></table></div>
 </div>
 </div>
 </figure>
@@ -1020,11 +1030,11 @@ Table&nbsp;3: cigs5 Descriptive Statistics
 <section id="poisson-regression-model" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="poisson-regression-model"><span class="header-section-number">3.1</span> Poisson Regression Model</h2>
 <div class="cell" data-tbl-cap-location="top">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>trt_group_cigs5_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(cigs5 <span class="sc">~</span> TreatmentGroup, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>trt_group_cigs5_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(cigs5 <span class="sc">~</span> TreatmentGroup, </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">data =</span> lhs,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>))</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>trt_group_cigs5_model </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>trt_group_cigs5_model </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:  glm(formula = cigs5 ~ TreatmentGroup, family = poisson(link = "log"), 
@@ -1039,7 +1049,7 @@ Degrees of Freedom: 5554 Total (i.e. Null);  5552 Residual
 Null Deviance:      99470 
 Residual Deviance: 96270    AIC: 112600</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>trt_group_cigs5_model <span class="sc">%&gt;%</span> <span class="do">## this is the exponentiated form</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>trt_group_cigs5_model <span class="sc">%&gt;%</span> <span class="do">## this is the exponentiated form</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(TreatmentGroup <span class="sc">~</span> <span class="st">"Treatment Group"</span>)</span>
@@ -1048,31 +1058,31 @@ Residual Deviance: 96270    AIC: 112600</code></pre>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(TreatmentGroup <span class="sc">~</span> <span class="st">"Treatment Group"</span>)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="tbl-trt-group-vs-cigs5" class="cell quarto-float anchored" data-tbl-cap-location="top">
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-trt-group-vs-cigs5" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="top">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-trt-group-vs-cigs5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigarette Smoking at 5 Years
 </figcaption>
 <div aria-describedby="tbl-trt-group-vs-cigs5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="fktznochhk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#fktznochhk table {
+<div id="mwoarkbsji" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mwoarkbsji table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#fktznochhk thead, #fktznochhk tbody, #fktznochhk tfoot, #fktznochhk tr, #fktznochhk td, #fktznochhk th {
+#mwoarkbsji thead, #mwoarkbsji tbody, #mwoarkbsji tfoot, #mwoarkbsji tr, #mwoarkbsji td, #mwoarkbsji th {
   border-style: none;
 }
 
-#fktznochhk p {
+#mwoarkbsji p {
   margin: 0;
   padding: 0;
 }
 
-#fktznochhk .gt_table {
+#mwoarkbsji .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1098,12 +1108,12 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-left-color: #D3D3D3;
 }
 
-#fktznochhk .gt_caption {
+#mwoarkbsji .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#fktznochhk .gt_title {
+#mwoarkbsji .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1115,7 +1125,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-width: 0;
 }
 
-#fktznochhk .gt_subtitle {
+#mwoarkbsji .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1127,7 +1137,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-top-width: 0;
 }
 
-#fktznochhk .gt_heading {
+#mwoarkbsji .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1139,13 +1149,13 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#fktznochhk .gt_bottom_border {
+#mwoarkbsji .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#fktznochhk .gt_col_headings {
+#mwoarkbsji .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1160,7 +1170,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#fktznochhk .gt_col_heading {
+#mwoarkbsji .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1180,7 +1190,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   overflow-x: hidden;
 }
 
-#fktznochhk .gt_column_spanner_outer {
+#mwoarkbsji .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1192,15 +1202,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 4px;
 }
 
-#fktznochhk .gt_column_spanner_outer:first-child {
+#mwoarkbsji .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#fktznochhk .gt_column_spanner_outer:last-child {
+#mwoarkbsji .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#fktznochhk .gt_column_spanner {
+#mwoarkbsji .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1212,11 +1222,11 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   width: 100%;
 }
 
-#fktznochhk .gt_spanner_row {
+#mwoarkbsji .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#fktznochhk .gt_group_heading {
+#mwoarkbsji .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1242,7 +1252,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   text-align: left;
 }
 
-#fktznochhk .gt_empty_group_heading {
+#mwoarkbsji .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1257,15 +1267,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   vertical-align: middle;
 }
 
-#fktznochhk .gt_from_md > :first-child {
+#mwoarkbsji .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#fktznochhk .gt_from_md > :last-child {
+#mwoarkbsji .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#fktznochhk .gt_row {
+#mwoarkbsji .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1284,7 +1294,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   overflow-x: hidden;
 }
 
-#fktznochhk .gt_stub {
+#mwoarkbsji .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1297,7 +1307,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#fktznochhk .gt_stub_row_group {
+#mwoarkbsji .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1311,15 +1321,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   vertical-align: top;
 }
 
-#fktznochhk .gt_row_group_first td {
+#mwoarkbsji .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#fktznochhk .gt_row_group_first th {
+#mwoarkbsji .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#fktznochhk .gt_summary_row {
+#mwoarkbsji .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1329,16 +1339,16 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#fktznochhk .gt_first_summary_row {
+#mwoarkbsji .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#fktznochhk .gt_first_summary_row.thick {
+#mwoarkbsji .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#fktznochhk .gt_last_summary_row {
+#mwoarkbsji .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1348,7 +1358,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#fktznochhk .gt_grand_summary_row {
+#mwoarkbsji .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1358,7 +1368,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#fktznochhk .gt_first_grand_summary_row {
+#mwoarkbsji .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1368,7 +1378,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-top-color: #D3D3D3;
 }
 
-#fktznochhk .gt_last_grand_summary_row_top {
+#mwoarkbsji .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1378,11 +1388,11 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#fktznochhk .gt_striped {
+#mwoarkbsji .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#fktznochhk .gt_table_body {
+#mwoarkbsji .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1391,7 +1401,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#fktznochhk .gt_footnotes {
+#mwoarkbsji .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1405,7 +1415,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#fktznochhk .gt_footnote {
+#mwoarkbsji .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1414,7 +1424,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#fktznochhk .gt_sourcenotes {
+#mwoarkbsji .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1428,7 +1438,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#fktznochhk .gt_sourcenote {
+#mwoarkbsji .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1436,77 +1446,77 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#fktznochhk .gt_left {
+#mwoarkbsji .gt_left {
   text-align: left;
 }
 
-#fktznochhk .gt_center {
+#mwoarkbsji .gt_center {
   text-align: center;
 }
 
-#fktznochhk .gt_right {
+#mwoarkbsji .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#fktznochhk .gt_font_normal {
+#mwoarkbsji .gt_font_normal {
   font-weight: normal;
 }
 
-#fktznochhk .gt_font_bold {
+#mwoarkbsji .gt_font_bold {
   font-weight: bold;
 }
 
-#fktznochhk .gt_font_italic {
+#mwoarkbsji .gt_font_italic {
   font-style: italic;
 }
 
-#fktznochhk .gt_super {
+#mwoarkbsji .gt_super {
   font-size: 65%;
 }
 
-#fktznochhk .gt_footnote_marks {
+#mwoarkbsji .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#fktznochhk .gt_asterisk {
+#mwoarkbsji .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#fktznochhk .gt_indent_1 {
+#mwoarkbsji .gt_indent_1 {
   text-indent: 5px;
 }
 
-#fktznochhk .gt_indent_2 {
+#mwoarkbsji .gt_indent_2 {
   text-indent: 10px;
 }
 
-#fktznochhk .gt_indent_3 {
+#mwoarkbsji .gt_indent_3 {
   text-indent: 15px;
 }
 
-#fktznochhk .gt_indent_4 {
+#mwoarkbsji .gt_indent_4 {
   text-indent: 20px;
 }
 
-#fktznochhk .gt_indent_5 {
+#mwoarkbsji .gt_indent_5 {
   text-indent: 25px;
 }
 
-#fktznochhk .katex-display {
+#mwoarkbsji .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#fktznochhk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#mwoarkbsji div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <colgroup>
 <col style="width: 25%">
 <col style="width: 25%">
@@ -1514,7 +1524,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
 <col style="width: 25%">
 </colgroup>
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
 <th id="estimate" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>IRR</strong></th>
 <th id="conf.low" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>95% CI</strong></th>
@@ -1551,7 +1561,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 </tbody><tfoot>
-<tr class="odd gt_sourcenotes">
+<tr class="gt_sourcenotes odd">
 <td colspan="4" class="gt_sourcenote">Abbreviations: CI = Confidence Interval, IRR = Incidence Rate Ratio</td>
 </tr>
 </tfoot>
@@ -1561,23 +1571,23 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
 </div>
 </div>
 <div class="cell-output-display">
-<div id="cbbzkwfbjb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cbbzkwfbjb table {
+<div id="yftfdxokzf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#yftfdxokzf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cbbzkwfbjb thead, #cbbzkwfbjb tbody, #cbbzkwfbjb tfoot, #cbbzkwfbjb tr, #cbbzkwfbjb td, #cbbzkwfbjb th {
+#yftfdxokzf thead, #yftfdxokzf tbody, #yftfdxokzf tfoot, #yftfdxokzf tr, #yftfdxokzf td, #yftfdxokzf th {
   border-style: none;
 }
 
-#cbbzkwfbjb p {
+#yftfdxokzf p {
   margin: 0;
   padding: 0;
 }
 
-#cbbzkwfbjb .gt_table {
+#yftfdxokzf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1603,12 +1613,12 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-left-color: #D3D3D3;
 }
 
-#cbbzkwfbjb .gt_caption {
+#yftfdxokzf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cbbzkwfbjb .gt_title {
+#yftfdxokzf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1620,7 +1630,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-width: 0;
 }
 
-#cbbzkwfbjb .gt_subtitle {
+#yftfdxokzf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1632,7 +1642,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-top-width: 0;
 }
 
-#cbbzkwfbjb .gt_heading {
+#yftfdxokzf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1644,13 +1654,13 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#cbbzkwfbjb .gt_bottom_border {
+#yftfdxokzf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cbbzkwfbjb .gt_col_headings {
+#yftfdxokzf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1665,7 +1675,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#cbbzkwfbjb .gt_col_heading {
+#yftfdxokzf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1685,7 +1695,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   overflow-x: hidden;
 }
 
-#cbbzkwfbjb .gt_column_spanner_outer {
+#yftfdxokzf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1697,15 +1707,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 4px;
 }
 
-#cbbzkwfbjb .gt_column_spanner_outer:first-child {
+#yftfdxokzf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cbbzkwfbjb .gt_column_spanner_outer:last-child {
+#yftfdxokzf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cbbzkwfbjb .gt_column_spanner {
+#yftfdxokzf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1717,11 +1727,11 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   width: 100%;
 }
 
-#cbbzkwfbjb .gt_spanner_row {
+#yftfdxokzf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cbbzkwfbjb .gt_group_heading {
+#yftfdxokzf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1747,7 +1757,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   text-align: left;
 }
 
-#cbbzkwfbjb .gt_empty_group_heading {
+#yftfdxokzf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1762,15 +1772,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   vertical-align: middle;
 }
 
-#cbbzkwfbjb .gt_from_md > :first-child {
+#yftfdxokzf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cbbzkwfbjb .gt_from_md > :last-child {
+#yftfdxokzf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cbbzkwfbjb .gt_row {
+#yftfdxokzf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1789,7 +1799,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   overflow-x: hidden;
 }
 
-#cbbzkwfbjb .gt_stub {
+#yftfdxokzf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1802,7 +1812,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#cbbzkwfbjb .gt_stub_row_group {
+#yftfdxokzf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1816,15 +1826,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   vertical-align: top;
 }
 
-#cbbzkwfbjb .gt_row_group_first td {
+#yftfdxokzf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cbbzkwfbjb .gt_row_group_first th {
+#yftfdxokzf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cbbzkwfbjb .gt_summary_row {
+#yftfdxokzf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1834,16 +1844,16 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#cbbzkwfbjb .gt_first_summary_row {
+#yftfdxokzf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cbbzkwfbjb .gt_first_summary_row.thick {
+#yftfdxokzf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cbbzkwfbjb .gt_last_summary_row {
+#yftfdxokzf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1853,7 +1863,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#cbbzkwfbjb .gt_grand_summary_row {
+#yftfdxokzf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1863,7 +1873,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#cbbzkwfbjb .gt_first_grand_summary_row {
+#yftfdxokzf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1873,7 +1883,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-top-color: #D3D3D3;
 }
 
-#cbbzkwfbjb .gt_last_grand_summary_row_top {
+#yftfdxokzf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1883,11 +1893,11 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#cbbzkwfbjb .gt_striped {
+#yftfdxokzf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cbbzkwfbjb .gt_table_body {
+#yftfdxokzf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1896,7 +1906,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#cbbzkwfbjb .gt_footnotes {
+#yftfdxokzf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1910,7 +1920,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#cbbzkwfbjb .gt_footnote {
+#yftfdxokzf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1919,7 +1929,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#cbbzkwfbjb .gt_sourcenotes {
+#yftfdxokzf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1933,7 +1943,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#cbbzkwfbjb .gt_sourcenote {
+#yftfdxokzf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1941,77 +1951,77 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#cbbzkwfbjb .gt_left {
+#yftfdxokzf .gt_left {
   text-align: left;
 }
 
-#cbbzkwfbjb .gt_center {
+#yftfdxokzf .gt_center {
   text-align: center;
 }
 
-#cbbzkwfbjb .gt_right {
+#yftfdxokzf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cbbzkwfbjb .gt_font_normal {
+#yftfdxokzf .gt_font_normal {
   font-weight: normal;
 }
 
-#cbbzkwfbjb .gt_font_bold {
+#yftfdxokzf .gt_font_bold {
   font-weight: bold;
 }
 
-#cbbzkwfbjb .gt_font_italic {
+#yftfdxokzf .gt_font_italic {
   font-style: italic;
 }
 
-#cbbzkwfbjb .gt_super {
+#yftfdxokzf .gt_super {
   font-size: 65%;
 }
 
-#cbbzkwfbjb .gt_footnote_marks {
+#yftfdxokzf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cbbzkwfbjb .gt_asterisk {
+#yftfdxokzf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cbbzkwfbjb .gt_indent_1 {
+#yftfdxokzf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cbbzkwfbjb .gt_indent_2 {
+#yftfdxokzf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cbbzkwfbjb .gt_indent_3 {
+#yftfdxokzf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cbbzkwfbjb .gt_indent_4 {
+#yftfdxokzf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cbbzkwfbjb .gt_indent_5 {
+#yftfdxokzf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#cbbzkwfbjb .katex-display {
+#yftfdxokzf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#cbbzkwfbjb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#yftfdxokzf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <colgroup>
 <col style="width: 25%">
 <col style="width: 25%">
@@ -2019,7 +2029,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
 <col style="width: 25%">
 </colgroup>
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
 <th id="estimate" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>log(IRR)</strong></th>
 <th id="conf.low" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>95% CI</strong></th>
@@ -2056,7 +2066,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 </tbody><tfoot>
-<tr class="odd gt_sourcenotes">
+<tr class="gt_sourcenotes odd">
 <td colspan="4" class="gt_sourcenote">Abbreviations: CI = Confidence Interval, IRR = Incidence Rate Ratio</td>
 </tr>
 </tfoot>
@@ -2075,14 +2085,14 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
 <h2 data-number="3.2" class="anchored" data-anchor-id="model-evaluation-for-overdispersion-test"><span class="header-section-number">3.2</span> Model Evaluation for Overdispersion Test</h2>
 <p>To evaluate the poisson regression, we need to review the ratio of the <strong>residual deviance</strong> to its <strong>degree of freedoms</strong>. <strong>If the model ratio is super super greater than 1 then that is a sign of overdispersion.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model_ratio <span class="ot">&lt;-</span> (trt_group_cigs5_model<span class="sc">$</span>deviance</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model_ratio <span class="ot">&lt;-</span> (trt_group_cigs5_model<span class="sc">$</span>deviance</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span> trt_group_cigs5_model<span class="sc">$</span>df.residual)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>model_ratio</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>model_ratio</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 17.33978</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model_ratio <span class="sc">&gt;</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model_ratio <span class="sc">&gt;</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -2096,11 +2106,11 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
 <h2 data-number="4.1" class="anchored" data-anchor-id="quasi-poisson-regression-model-for-overdispersed-data"><span class="header-section-number">4.1</span> Quasi-Poisson Regression Model for Overdispersed Data</h2>
 <p>Use the Quasi-Possion Regression model to handle overdispersion</p>
 <div class="cell" data-tbl-cap-location="top">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model1.qp <span class="ot">&lt;-</span> <span class="fu">glm</span>(cigs5 <span class="sc">~</span> TreatmentGroup,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model1.qp <span class="ot">&lt;-</span> <span class="fu">glm</span>(cigs5 <span class="sc">~</span> TreatmentGroup,</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> lhs,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">quasipoisson</span>(<span class="at">link =</span> <span class="st">"log"</span>))</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>model1.qp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>model1.qp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:  glm(formula = cigs5 ~ TreatmentGroup, family = quasipoisson(link = "log"), 
@@ -2115,7 +2125,7 @@ Degrees of Freedom: 5554 Total (i.e. Null);  5552 Residual
 Null Deviance:      99470 
 Residual Deviance: 96270    AIC: NA</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model1.qp <span class="sc">%&gt;%</span>  <span class="do">## exponentiated form</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model1.qp <span class="sc">%&gt;%</span>  <span class="do">## exponentiated form</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> (TreatmentGroup <span class="sc">~</span> <span class="st">"Treatment Group"</span>)</span>
@@ -2124,31 +2134,31 @@ Residual Deviance: 96270    AIC: NA</code></pre>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tbl_regression</span>(</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> (TreatmentGroup <span class="sc">~</span> <span class="st">"Treatment Group"</span>)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="tbl-quasi-possion-regression-model" class="cell quarto-float anchored" data-tbl-cap-location="top">
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-quasi-possion-regression-model" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="top">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-quasi-possion-regression-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;5: Quasi-Poisson Regression Model
 </figcaption>
 <div aria-describedby="tbl-quasi-possion-regression-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="zelgwvmoeq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zelgwvmoeq table {
+<div id="ogrbsbwalx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ogrbsbwalx table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zelgwvmoeq thead, #zelgwvmoeq tbody, #zelgwvmoeq tfoot, #zelgwvmoeq tr, #zelgwvmoeq td, #zelgwvmoeq th {
+#ogrbsbwalx thead, #ogrbsbwalx tbody, #ogrbsbwalx tfoot, #ogrbsbwalx tr, #ogrbsbwalx td, #ogrbsbwalx th {
   border-style: none;
 }
 
-#zelgwvmoeq p {
+#ogrbsbwalx p {
   margin: 0;
   padding: 0;
 }
 
-#zelgwvmoeq .gt_table {
+#ogrbsbwalx .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2174,12 +2184,12 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-left-color: #D3D3D3;
 }
 
-#zelgwvmoeq .gt_caption {
+#ogrbsbwalx .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zelgwvmoeq .gt_title {
+#ogrbsbwalx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2191,7 +2201,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-width: 0;
 }
 
-#zelgwvmoeq .gt_subtitle {
+#ogrbsbwalx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2203,7 +2213,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-top-width: 0;
 }
 
-#zelgwvmoeq .gt_heading {
+#ogrbsbwalx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2215,13 +2225,13 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#zelgwvmoeq .gt_bottom_border {
+#ogrbsbwalx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zelgwvmoeq .gt_col_headings {
+#ogrbsbwalx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2236,7 +2246,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#zelgwvmoeq .gt_col_heading {
+#ogrbsbwalx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2256,7 +2266,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   overflow-x: hidden;
 }
 
-#zelgwvmoeq .gt_column_spanner_outer {
+#ogrbsbwalx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2268,15 +2278,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 4px;
 }
 
-#zelgwvmoeq .gt_column_spanner_outer:first-child {
+#ogrbsbwalx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zelgwvmoeq .gt_column_spanner_outer:last-child {
+#ogrbsbwalx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zelgwvmoeq .gt_column_spanner {
+#ogrbsbwalx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2288,11 +2298,11 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   width: 100%;
 }
 
-#zelgwvmoeq .gt_spanner_row {
+#ogrbsbwalx .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zelgwvmoeq .gt_group_heading {
+#ogrbsbwalx .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2318,7 +2328,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   text-align: left;
 }
 
-#zelgwvmoeq .gt_empty_group_heading {
+#ogrbsbwalx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2333,15 +2343,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   vertical-align: middle;
 }
 
-#zelgwvmoeq .gt_from_md > :first-child {
+#ogrbsbwalx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zelgwvmoeq .gt_from_md > :last-child {
+#ogrbsbwalx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zelgwvmoeq .gt_row {
+#ogrbsbwalx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2360,7 +2370,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   overflow-x: hidden;
 }
 
-#zelgwvmoeq .gt_stub {
+#ogrbsbwalx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2373,7 +2383,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#zelgwvmoeq .gt_stub_row_group {
+#ogrbsbwalx .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2387,15 +2397,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   vertical-align: top;
 }
 
-#zelgwvmoeq .gt_row_group_first td {
+#ogrbsbwalx .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zelgwvmoeq .gt_row_group_first th {
+#ogrbsbwalx .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zelgwvmoeq .gt_summary_row {
+#ogrbsbwalx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2405,16 +2415,16 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#zelgwvmoeq .gt_first_summary_row {
+#ogrbsbwalx .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zelgwvmoeq .gt_first_summary_row.thick {
+#ogrbsbwalx .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zelgwvmoeq .gt_last_summary_row {
+#ogrbsbwalx .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2424,7 +2434,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#zelgwvmoeq .gt_grand_summary_row {
+#ogrbsbwalx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2434,7 +2444,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#zelgwvmoeq .gt_first_grand_summary_row {
+#ogrbsbwalx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2444,7 +2454,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-top-color: #D3D3D3;
 }
 
-#zelgwvmoeq .gt_last_grand_summary_row_top {
+#ogrbsbwalx .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2454,11 +2464,11 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#zelgwvmoeq .gt_striped {
+#ogrbsbwalx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zelgwvmoeq .gt_table_body {
+#ogrbsbwalx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2467,7 +2477,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#zelgwvmoeq .gt_footnotes {
+#ogrbsbwalx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2481,7 +2491,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#zelgwvmoeq .gt_footnote {
+#ogrbsbwalx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2490,7 +2500,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#zelgwvmoeq .gt_sourcenotes {
+#ogrbsbwalx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2504,7 +2514,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#zelgwvmoeq .gt_sourcenote {
+#ogrbsbwalx .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2512,77 +2522,77 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#zelgwvmoeq .gt_left {
+#ogrbsbwalx .gt_left {
   text-align: left;
 }
 
-#zelgwvmoeq .gt_center {
+#ogrbsbwalx .gt_center {
   text-align: center;
 }
 
-#zelgwvmoeq .gt_right {
+#ogrbsbwalx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zelgwvmoeq .gt_font_normal {
+#ogrbsbwalx .gt_font_normal {
   font-weight: normal;
 }
 
-#zelgwvmoeq .gt_font_bold {
+#ogrbsbwalx .gt_font_bold {
   font-weight: bold;
 }
 
-#zelgwvmoeq .gt_font_italic {
+#ogrbsbwalx .gt_font_italic {
   font-style: italic;
 }
 
-#zelgwvmoeq .gt_super {
+#ogrbsbwalx .gt_super {
   font-size: 65%;
 }
 
-#zelgwvmoeq .gt_footnote_marks {
+#ogrbsbwalx .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zelgwvmoeq .gt_asterisk {
+#ogrbsbwalx .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zelgwvmoeq .gt_indent_1 {
+#ogrbsbwalx .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zelgwvmoeq .gt_indent_2 {
+#ogrbsbwalx .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zelgwvmoeq .gt_indent_3 {
+#ogrbsbwalx .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zelgwvmoeq .gt_indent_4 {
+#ogrbsbwalx .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zelgwvmoeq .gt_indent_5 {
+#ogrbsbwalx .gt_indent_5 {
   text-indent: 25px;
 }
 
-#zelgwvmoeq .katex-display {
+#ogrbsbwalx .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#zelgwvmoeq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ogrbsbwalx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <colgroup>
 <col style="width: 25%">
 <col style="width: 25%">
@@ -2590,7 +2600,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
 <col style="width: 25%">
 </colgroup>
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
 <th id="estimate" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>IRR</strong></th>
 <th id="conf.low" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>95% CI</strong></th>
@@ -2627,7 +2637,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 </tbody><tfoot>
-<tr class="odd gt_sourcenotes">
+<tr class="gt_sourcenotes odd">
 <td colspan="4" class="gt_sourcenote">Abbreviations: CI = Confidence Interval, IRR = Incidence Rate Ratio</td>
 </tr>
 </tfoot>
@@ -2637,23 +2647,23 @@ Table&nbsp;5: Quasi-Poisson Regression Model
 </div>
 </div>
 <div class="cell-output-display">
-<div id="wodlfithev" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wodlfithev table {
+<div id="fhlniisbtk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fhlniisbtk table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wodlfithev thead, #wodlfithev tbody, #wodlfithev tfoot, #wodlfithev tr, #wodlfithev td, #wodlfithev th {
+#fhlniisbtk thead, #fhlniisbtk tbody, #fhlniisbtk tfoot, #fhlniisbtk tr, #fhlniisbtk td, #fhlniisbtk th {
   border-style: none;
 }
 
-#wodlfithev p {
+#fhlniisbtk p {
   margin: 0;
   padding: 0;
 }
 
-#wodlfithev .gt_table {
+#fhlniisbtk .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2679,12 +2689,12 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-left-color: #D3D3D3;
 }
 
-#wodlfithev .gt_caption {
+#fhlniisbtk .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wodlfithev .gt_title {
+#fhlniisbtk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2696,7 +2706,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-width: 0;
 }
 
-#wodlfithev .gt_subtitle {
+#fhlniisbtk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2708,7 +2718,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-top-width: 0;
 }
 
-#wodlfithev .gt_heading {
+#fhlniisbtk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2720,13 +2730,13 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#wodlfithev .gt_bottom_border {
+#fhlniisbtk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wodlfithev .gt_col_headings {
+#fhlniisbtk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2741,7 +2751,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#wodlfithev .gt_col_heading {
+#fhlniisbtk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2761,7 +2771,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   overflow-x: hidden;
 }
 
-#wodlfithev .gt_column_spanner_outer {
+#fhlniisbtk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2773,15 +2783,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 4px;
 }
 
-#wodlfithev .gt_column_spanner_outer:first-child {
+#fhlniisbtk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wodlfithev .gt_column_spanner_outer:last-child {
+#fhlniisbtk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wodlfithev .gt_column_spanner {
+#fhlniisbtk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2793,11 +2803,11 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   width: 100%;
 }
 
-#wodlfithev .gt_spanner_row {
+#fhlniisbtk .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wodlfithev .gt_group_heading {
+#fhlniisbtk .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2823,7 +2833,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   text-align: left;
 }
 
-#wodlfithev .gt_empty_group_heading {
+#fhlniisbtk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2838,15 +2848,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   vertical-align: middle;
 }
 
-#wodlfithev .gt_from_md > :first-child {
+#fhlniisbtk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wodlfithev .gt_from_md > :last-child {
+#fhlniisbtk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wodlfithev .gt_row {
+#fhlniisbtk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2865,7 +2875,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   overflow-x: hidden;
 }
 
-#wodlfithev .gt_stub {
+#fhlniisbtk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2878,7 +2888,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#wodlfithev .gt_stub_row_group {
+#fhlniisbtk .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2892,15 +2902,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   vertical-align: top;
 }
 
-#wodlfithev .gt_row_group_first td {
+#fhlniisbtk .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wodlfithev .gt_row_group_first th {
+#fhlniisbtk .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wodlfithev .gt_summary_row {
+#fhlniisbtk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2910,16 +2920,16 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#wodlfithev .gt_first_summary_row {
+#fhlniisbtk .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wodlfithev .gt_first_summary_row.thick {
+#fhlniisbtk .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wodlfithev .gt_last_summary_row {
+#fhlniisbtk .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2929,7 +2939,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#wodlfithev .gt_grand_summary_row {
+#fhlniisbtk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2939,7 +2949,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#wodlfithev .gt_first_grand_summary_row {
+#fhlniisbtk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2949,7 +2959,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-top-color: #D3D3D3;
 }
 
-#wodlfithev .gt_last_grand_summary_row_top {
+#fhlniisbtk .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2959,11 +2969,11 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#wodlfithev .gt_striped {
+#fhlniisbtk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wodlfithev .gt_table_body {
+#fhlniisbtk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2972,7 +2982,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#wodlfithev .gt_footnotes {
+#fhlniisbtk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2986,7 +2996,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#wodlfithev .gt_footnote {
+#fhlniisbtk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2995,7 +3005,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#wodlfithev .gt_sourcenotes {
+#fhlniisbtk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3009,7 +3019,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#wodlfithev .gt_sourcenote {
+#fhlniisbtk .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3017,77 +3027,77 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#wodlfithev .gt_left {
+#fhlniisbtk .gt_left {
   text-align: left;
 }
 
-#wodlfithev .gt_center {
+#fhlniisbtk .gt_center {
   text-align: center;
 }
 
-#wodlfithev .gt_right {
+#fhlniisbtk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wodlfithev .gt_font_normal {
+#fhlniisbtk .gt_font_normal {
   font-weight: normal;
 }
 
-#wodlfithev .gt_font_bold {
+#fhlniisbtk .gt_font_bold {
   font-weight: bold;
 }
 
-#wodlfithev .gt_font_italic {
+#fhlniisbtk .gt_font_italic {
   font-style: italic;
 }
 
-#wodlfithev .gt_super {
+#fhlniisbtk .gt_super {
   font-size: 65%;
 }
 
-#wodlfithev .gt_footnote_marks {
+#fhlniisbtk .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wodlfithev .gt_asterisk {
+#fhlniisbtk .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wodlfithev .gt_indent_1 {
+#fhlniisbtk .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wodlfithev .gt_indent_2 {
+#fhlniisbtk .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wodlfithev .gt_indent_3 {
+#fhlniisbtk .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wodlfithev .gt_indent_4 {
+#fhlniisbtk .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wodlfithev .gt_indent_5 {
+#fhlniisbtk .gt_indent_5 {
   text-indent: 25px;
 }
 
-#wodlfithev .katex-display {
+#fhlniisbtk .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#wodlfithev div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#fhlniisbtk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
-<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <colgroup>
 <col style="width: 25%">
 <col style="width: 25%">
@@ -3095,7 +3105,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
 <col style="width: 25%">
 </colgroup>
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
 <th id="estimate" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>log(IRR)</strong></th>
 <th id="conf.low" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>95% CI</strong></th>
@@ -3132,7 +3142,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
 </tbody><tfoot>
-<tr class="odd gt_sourcenotes">
+<tr class="gt_sourcenotes odd">
 <td colspan="4" class="gt_sourcenote">Abbreviations: CI = Confidence Interval, IRR = Incidence Rate Ratio</td>
 </tr>
 </tfoot>
@@ -3147,47 +3157,594 @@ Table&nbsp;5: Quasi-Poisson Regression Model
 </div>
 </section>
 </section>
+<section id="section-c.-binary-data-treated-as-rates-with-an-offset-term" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Section C. Binary Data Treated as Rates (With an Offset Term)</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fh <span class="ot">&lt;-</span> fh <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">followupYR =</span> followup <span class="sc">/</span> <span class="fl">365.25</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">CHD =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(chdfate <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Developed CHD"</span>, <span class="st">"No CHD"</span>)),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Sex =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(sex <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Male"</span>, <span class="st">"Female"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="exploratory-data-analysis-eda-1" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="exploratory-data-analysis-eda-1"><span class="header-section-number">5.1</span> Exploratory Data Analysis (EDA)</h2>
+<p>I need to have the following information: * Cases of CHD * Follow-up time in person-years * CHD Incidence Rate per 100 person-years</p>
+<div class="cell" data-tbl-cap-location="top">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fh_ir_tbl <span class="ot">&lt;-</span> fh <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CHD, Sex, followupYR) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Sex) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">CHD_cases =</span> <span class="fu">sum</span>(CHD <span class="sc">==</span> <span class="st">"Developed CHD"</span>),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ft_py =</span> <span class="fu">sum</span>(followupYR),</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">CHD_IR =</span> ((CHD_cases <span class="sc">/</span> ft_py)<span class="sc">*</span><span class="dv">100</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>            )  <span class="sc">%&gt;%</span> </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span> <span class="do">## convert into gt() table</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Coronary Heart Disease Incidence Metrics"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">CHD_cases =</span> <span class="st">"Total Cases"</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">ft_py =</span> <span class="st">"Person-Years"</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">CHD_IR =</span> <span class="st">"Incidence Rate per 100 person-years"</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>( <span class="do">## format Incidence Ratio</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(CHD_IR),</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">2</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>( <span class="do">## format person-years</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> ft_py,</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">0</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>            ) </span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>fh_ir_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-fh-IR" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-cap-location="top">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fh-IR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6: Incidence Rate Table for Framingham Dataset
+</figcaption>
+<div aria-describedby="tbl-fh-IR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="ffzpvjnxoz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ffzpvjnxoz table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ffzpvjnxoz thead, #ffzpvjnxoz tbody, #ffzpvjnxoz tfoot, #ffzpvjnxoz tr, #ffzpvjnxoz td, #ffzpvjnxoz th {
+  border-style: none;
+}
+
+#ffzpvjnxoz p {
+  margin: 0;
+  padding: 0;
+}
+
+#ffzpvjnxoz .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ffzpvjnxoz .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ffzpvjnxoz .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ffzpvjnxoz .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ffzpvjnxoz .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ffzpvjnxoz .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ffzpvjnxoz .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ffzpvjnxoz .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ffzpvjnxoz .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ffzpvjnxoz .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ffzpvjnxoz .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ffzpvjnxoz .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ffzpvjnxoz .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ffzpvjnxoz .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ffzpvjnxoz .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ffzpvjnxoz .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ffzpvjnxoz .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ffzpvjnxoz .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ffzpvjnxoz .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ffzpvjnxoz .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ffzpvjnxoz .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ffzpvjnxoz .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ffzpvjnxoz .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ffzpvjnxoz .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ffzpvjnxoz .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ffzpvjnxoz .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ffzpvjnxoz .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ffzpvjnxoz .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ffzpvjnxoz .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ffzpvjnxoz .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ffzpvjnxoz .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ffzpvjnxoz .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ffzpvjnxoz .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ffzpvjnxoz .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ffzpvjnxoz .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ffzpvjnxoz .gt_left {
+  text-align: left;
+}
+
+#ffzpvjnxoz .gt_center {
+  text-align: center;
+}
+
+#ffzpvjnxoz .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ffzpvjnxoz .gt_font_normal {
+  font-weight: normal;
+}
+
+#ffzpvjnxoz .gt_font_bold {
+  font-weight: bold;
+}
+
+#ffzpvjnxoz .gt_font_italic {
+  font-style: italic;
+}
+
+#ffzpvjnxoz .gt_super {
+  font-size: 65%;
+}
+
+#ffzpvjnxoz .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ffzpvjnxoz .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ffzpvjnxoz .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ffzpvjnxoz .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ffzpvjnxoz .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ffzpvjnxoz .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ffzpvjnxoz .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#ffzpvjnxoz .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#ffzpvjnxoz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border">Coronary Heart Disease Incidence Metrics</td>
+</tr>
+<tr class="gt_col_headings even">
+<th id="Sex" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Sex</th>
+<th id="CHD_cases" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Total Cases</th>
+<th id="ft_py" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Person-Years</th>
+<th id="CHD_IR" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Incidence Rate per 100 person-years</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_center" headers="Sex">Female</td>
+<td class="gt_row gt_right" headers="CHD_cases">650</td>
+<td class="gt_row gt_right" headers="ft_py">61,451</td>
+<td class="gt_row gt_right" headers="CHD_IR">1.06</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="Sex">Male</td>
+<td class="gt_row gt_right" headers="CHD_cases">823</td>
+<td class="gt_row gt_right" headers="ft_py">42,259</td>
+<td class="gt_row gt_right" headers="CHD_IR">1.95</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+</section>
 
 </main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
@@ -3195,184 +3752,184 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
       return codeEl.innerText;
     }
-  });
-  clipboard.on('success', function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -3380,185 +3937,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 
 
