@@ -312,7 +312,8 @@ model1.qp %>%  ## expected log form
 fh <- fh %>% 
   mutate(followupYR = followup / 365.25,
          CHD = as.factor(if_else(chdfate == 1, "Developed CHD", "No CHD")),
-         Sex = as.factor(if_else(sex == 1, "Male", "Female")))
+         Sex = as.factor(if_else(sex == 1, "Male", "Female")),
+         Sex_women_ref = fct_relevel(Sex, "Female"))
          
 
 
@@ -363,6 +364,36 @@ fh_ir_tbl <- fh %>%
 
 fh_ir_tbl
 
+
+```
+
+# Model 3: Effect of Sex
+
+**Offset Term Note**: In the context of Poisson regression, the offset variable will **always** be the time variable (e.g follow-up).
+  * An offset term is needed to account for the different variations in follow-up time (e.g 10 years follow-up vs 1-year; the Poisson model helps distinguish who's more at risk)
+  
+  
+## Poisson Regression Model: Sex on Incidence Rate 
+
+Women are the reference group.
+
+```{r}
+#| label: tbl-model-3
+#| tbl-cap: "Poisson Regression Model: Sex on Coronary Heart DiseaseIncidence Rate"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+model_3 <- glm(chdfate ~ Sex_women_ref,
+               data = fh,
+               family = poisson(link = "log")) %>% 
+  tbl_regression(
+    exponentiate = TRUE,
+    label = list(Sex_women_ref ~ "Sex"))
+
+model_3
 
 ```
 
