@@ -20,9 +20,10 @@ editor: visual
 #| echo: true
 
 library(tidyverse)
-library(epiR) ## Make 2x2 tables
+library(epitools) ## Make 2x2 tables
 library(gtsummary) ## convert results into table
 library(broom) ## convert baseR results into tibbles
+library(tidymodels) ## generate log models via tidyverse
 
 ```
 
@@ -42,9 +43,9 @@ dekaf_dgf <- read.csv("dekaf_dgf (1).csv")
 #| label: dekaf-dgf-df-clean
 
 dekaf_dgf <- dekaf_dgf %>% 
-  mutate(Gender = if_else(gender == 1, "Male", "Female"),
-         DGF = if_else(dgf == 1, "Yes", "No")
-  )
+  mutate(Gender = as.factor(if_else(gender == 1, "Male", "Female")),
+         DGF = as.factor(if_else(dgf == 1, "Yes", "No")),
+         Gender_women_ref = fct_relevel(Gender, "Female"))
 
 
 
@@ -70,7 +71,70 @@ table_gender_dgf <- dekaf_dgf %>%
 table_gender_dgf
   
 
-  
+```
+
+
+Note: tbl_uvregression() can calculate the odds-ratio in an html table.
+```{r}
+#| label: tbl-gender-dgf-odds-ratio
+#| tbl-cap: "2x2 Table: Gender by DGF Odds-Ratio"
+#| tbl-cap-location: top
+#| eval: !expr packageVersion("dplyr") >= "1.2.0"
+#| warning: false
+#| message: false
+#| echo: true
+
+
+dekaf_dgf %>% 
+  dplyr::select(Gender, DGF) %>% 
+  tbl_uvregression(
+    method = glm,
+    y = DGF,
+    method.args = list(family = binomial),
+    exponentiate = TRUE
+  ) %>% 
+  bold_labels() %>% 
+  italicize_levels() 
+
+
+
+```
+
+
+# Model 1: Logistic model for DGF by recipient gender
+
+```{r}
+#| label: tbl-logistic-reg-model
+#| tbl-cap: "Logistic Regression Model: DGF Outcome by Gender"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+model_1 <- logistic_reg() %>% 
+  set_engine("glm") %>% 
+  set_mode("classification") %>% 
+  fit(DGF ~ Gender, data = dekaf_dgf)
+
+tidy(model_1) ## this is to make the output readable
+
+
+model_1 %>% ## exponent form
+  tbl_regression(
+    intercept = TRUE,
+    exponent = TRUE
+  ) %>% 
+  bold_labels() %>% 
+  italicize_labels()
+
+model_1 %>% ## log form
+  tbl_regression(
+    intercept = TRUE,
+    exponent = FALSE
+  ) %>% 
+  bold_labels() %>% 
+  italicize_labels()
 
 ```
 
