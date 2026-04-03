@@ -21,6 +21,8 @@ editor: visual
 
 library(tidyverse)
 library(epiR) ## Make 2x2 tables
+library(gtsummary) ## convert results into table
+library(broom) ## convert baseR results into tibbles
 
 ```
 
@@ -32,6 +34,42 @@ library(epiR) ## Make 2x2 tables
 #| echo: false
 
 dekaf_dgf <- read.csv("dekaf_dgf (1).csv")
+
+```
+
+# Data Clean
+```{r}
+#| label: dekaf-dgf-df-clean
+
+
+
+
+
+```
+
+
+
+# 2x2 Table: Gender by DGF
+
+Note: tbl_cross() is used to make really good 2x2 tables in html via the gtsummary package
+```{r}
+#| label: tbl-gender-dgf
+#| tbl-cap: "2x2 Table: Gender by DGF"
+#| tbl-cap-location: top
+
+
+table_gender_dgf <- dekaf_dgf %>% 
+  tbl_cross( 
+    row = gender,
+    col = dgf,
+    label = list(gender ~ "Gender",
+                 dgf ~ "DGF Status")) %>% 
+      bold_labels()
+    
+table_gender_dgf
+  
+
+  
 
 ```
 
