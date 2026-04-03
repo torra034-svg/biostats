@@ -1,0 +1,37 @@
+---
+title: "Log Binomial Regression"
+author: "Patrick Torralba"
+format:
+  html:
+    theme: flatly
+    self_contained: true
+    embed-resources: true
+    toc: true
+    smooth-scroll: true
+    number-sections: true
+editor: visual
+---
+
+# Library + Load Data
+```{r}
+#| label: library
+#| message: false
+#| warning: false
+#| echo: true
+
+library(tidyverse)
+library(epiR) ## Make 2x2 tables
+
+```
+
+
+```{r}
+#| label: load data
+#| warning: false
+#| message: false
+#| echo: false
+
+dekaf_dgf <- read.csv("dekaf_dgf (1).csv")
+
+```
+
