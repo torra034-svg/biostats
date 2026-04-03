@@ -237,6 +237,7 @@ trt_group_cigs5_model
 
 trt_group_cigs5_model %>% ## this is the exponentiated form
   tbl_regression(
+    intercept = TRUE,
     exponentiate = TRUE,
     label = list(TreatmentGroup ~ "Treatment Group")
   )
@@ -244,6 +245,7 @@ trt_group_cigs5_model %>% ## this is the exponentiated form
 
 trt_group_cigs5_model %>% ## this is the expected log form
   tbl_regression(
+    intercept = TRUE,
     exponentiate = FALSE,
     label = list(TreatmentGroup ~ "Treatment Group")
   )
@@ -394,15 +396,17 @@ model_3
 
 model_3 %>% ## Exponentiated Form
   tbl_regression(
+    intercept = TRUE,
     exponentiate = TRUE,
     label = list(Sex_women_ref ~ "Sex"))
 
 model_3 %>% ## Log Form
   tbl_regression(
+    intercept = TRUE,
     exponentiate = FALSE,
     label = list(Sex_women_ref ~ "Sex"))
 
-model_3
+
 
 ```
 
