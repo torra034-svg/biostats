@@ -377,6 +377,8 @@ fh_ir_tbl
   
 ## Poisson Regression Model: Sex on Incidence Rate 
 
+**Super Important Interpretation Note**: When writing the fitted equation, use the log values. And, when **interpreting** the values use the exponentiated form.
+
 Women are the reference group.
 
 ```{r}
@@ -410,3 +412,4 @@ model_3 %>% ## Log Form
 
 ```
 
+# Summary:
