@@ -13,6 +13,7 @@ editor: visual
 ---
 
 # Library + Load Data
+
 ```{r}
 #| label: library
 #| message: false
@@ -27,7 +28,6 @@ library(tidymodels) ## generate log models via tidyverse
 
 ```
 
-
 ```{r}
 #| label: load data
 #| warning: false
@@ -39,6 +39,7 @@ dekaf_dgf <- read.csv("dekaf_dgf (1).csv")
 ```
 
 # Data Clean
+
 ```{r}
 #| label: dekaf-dgf-df-clean
 
@@ -51,11 +52,10 @@ dekaf_dgf <- dekaf_dgf %>%
 
 ```
 
-
-
 # 2x2 Table: Gender by DGF
 
 Note: tbl_cross() is used to make really good 2x2 tables in html via the gtsummary package
+
 ```{r}
 #| label: tbl-gender-dgf
 #| tbl-cap: "2x2 Table: Gender by DGF"
@@ -73,8 +73,8 @@ table_gender_dgf
 
 ```
 
-
 Note: tbl_uvregression() can calculate the odds-ratio in an html table.
+
 ```{r}
 #| label: tbl-gender-dgf-odds-ratio
 #| tbl-cap: "2x2 Table: Gender by DGF Odds-Ratio"
@@ -100,8 +100,7 @@ dekaf_dgf %>%
 
 ```
 
-
-# Model 1: Logistic model for DGF by recipient gender
+# Model 1: Logistic model for DGF by recipient gender {#sec-logistic-reg-ex}
 
 ```{r}
 #| label: tbl-logistic-reg-model
@@ -138,3 +137,12 @@ model_1 %>% ## log form
 
 ```
 
+## Model 1: Fitted Equation {#sec-fitted-equation-ex}
+
+When writing the fitted equation, make sure to use the log form.
+
+$$log(DGF) = -1.6 + (0.63\times \text{Gender}_{\text{male}}) $$
+
+::: hidden
+-   I can use the "\$\$" characters to make equations via LaTex syntax
+:::
