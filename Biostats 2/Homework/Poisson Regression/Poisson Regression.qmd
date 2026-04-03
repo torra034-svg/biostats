@@ -3,6 +3,8 @@ title: "Poisson Regression"
 author: "Patrick Torralba"
 format: 
   html:
+    self_contained: true
+    theme: flatly
     toc: true
     smooth-scroll: true
     number-sections: true
@@ -254,7 +256,7 @@ trt_group_cigs5_model %>% ## this is the expected log form
 
 The effect of the SI-P smoking intervention group is 0.67 relative to the usual group at year 5. In other words, the estimated Incidence Rate Ratio (IRR) is 0.67, meaning that the SI-P group smoked at a rate 33% lower than the usual care group. This finding is statistically significant given that our p-value is lower than alpha and the 95% confidence interval does not include 1.0 (p-value \< 0.001, CI: 0.66 - 0.68).
 
-## Model Evaluation for Overdispersion Test
+## Model Evaluation for Overdispersion Test {#sec-evaluation}
 
 To evaluate the poisson regression, we need to review the ratio of the **residual deviance** to its **degree of freedoms**. **If the model ratio is super super greater than 1 then that is a sign of overdispersion.**
 
@@ -273,9 +275,13 @@ model_ratio > 10
 
 # Model 2: Effect of Treatment Group, Allowing for Overdispersion
 
-How to deal with overdispersion? - 2 ways \* Quasi-Poisson Regression \* Negative Binomial Regression
+How to deal with overdispersion? - 2 ways
 
-## Quasi-Poisson Regression Model for Overdispersed Data
+-   Quasi-Poisson Regression
+
+-   Negative Binomial Regression
+
+## Quasi-Poisson Regression Model for Overdispersed Data {#sec-Quasi-Poisson-reg-model}
 
 Use the Quasi-Possion Regression model to handle overdispersion
 
@@ -323,11 +329,7 @@ fh <- fh %>%
 
 ## Exploratory Data Analysis (EDA)
 
-I need to have the following information:
- * Cases of CHD
- * Follow-up time in person-years
- * CHD Incidence Rate per 100 person-years
-
+I need to have the following information: \* Cases of CHD \* Follow-up time in person-years \* CHD Incidence Rate per 100 person-years
 
 ```{r}
 #| label: tbl-fh-IR
@@ -371,11 +373,9 @@ fh_ir_tbl
 
 # Model 3: Effect of Sex
 
-**Offset Term Note**: In the context of Poisson regression, the offset variable will **always** be the time variable (e.g follow-up).
-  * An offset term is needed to account for the different variations in follow-up time (e.g 10 years follow-up vs 1-year; the Poisson model helps distinguish who's more at risk)
-  
-  
-## Poisson Regression Model: Sex on Incidence Rate 
+**Offset Term Note**: In the context of Poisson regression, the offset variable will **always** be the time variable (e.g follow-up). \* An offset term is needed to account for the different variations in follow-up time (e.g 10 years follow-up vs 1-year; the Poisson model helps distinguish who's more at risk)
+
+## Poisson Regression Model: Sex on Incidence Rate
 
 **Super Important Interpretation Note**: When writing the fitted equation, use the log values. And, when **interpreting** the values use the exponentiated form.
 
@@ -412,4 +412,61 @@ model_3 %>% ## Log Form
 
 ```
 
-# Summary:
+# Notes / Summary:
+
+-   When writing the fitted equation, use the log values.
+    -   We log the outcome to account for variations in follow-up time.
+-   When **interpreting** the values use the exponentiated form.
+    -   We use the exponent form bc it's easier to interpret rather than saying "The male sex increases CHD incidence log-rate by XYZ"
+    -   And, make sure to subtract for the interpretation:
+        -   Do 1.0 - exponentiated value \<-- If exponentiated value is less than 1
+        -   Do exponentiated value - 1 \<-- if exponentiated value is greater than 1
+-   The offset term is only needed if we are SPECIFICALLY looking at the RATE.
+    -   If it is a count, do not include the log(follow-up) in the fitted equation
+-   How to determine if something is statistically significant? - 2 criteria
+    -   p-value \< alpha
+        -   (alpha is usually 0.05 or 0.001)
+    -   Confidence Interval (CI) does not include 1.0
+        -   1.0 is the null hyp
+-   Model evaluation for overdispersion test
+    -   What is overdispersion?
+        -   To evaluate the poisson regression, we need to review the ratio of the **residual deviance** to its **degree of freedoms**. **If the model ratio is super super greater than 1 then that is a sign of overdispersion**
+        -   @sec-evaluation
+    -   Then use either **Quasi-Poisson Regression** or **Negative Binomial Regression** to account for overdispersion.
+        -   @sec-Quasi-Poisson-reg-model
+-   Key Examples
+    -   **Question**: Provide an answer to the research question for this section: What is the effect of sex on coronary heart disease (CHD) incidence rate? That is, describe the magnitude and direction of the effect AND its statistical significance in the context of this problem. Use evidence from the previous questions to support your answer.
+    -   **Answer**: In terms of sex, males have a 64% higher CHD incidence rate than females while holding all else constant (IRR = 1.64). This is statistically significant given that p-value is less than alpha and the 95% confidence interval does not contain 1.0 (p-value \< 0.001, CI: 1.48 to 1.82).
+    -   @tbl-model-3
+
+# .qmd Notes
+
+-   code chunk tips
+
+    -   Use "fig-" or "tbl-" to explicitly tell R this chunk generates a figure or table.
+
+        -   You can use the "tbl/fig-caption" argument in R to then name the table or figure in the html render.
+
+-   References
+
+    -   Use {#sec-xyz...} next to a header to create a reference
+
+    -   Then use "@sec-xyz" to create a link to whichever header you did that to.
+
+        -   On html, there will be a question mark because R thinks this is a real link. Ignore that.
+
+-   Generating tables
+
+    -   Use the tbl_regression() function from the gtsummary() package to generate really good looking tables in the html render
+
+        -   Make sure to specify the "intercept = TRUE" argument to include the intercept in the output.
+
+        -   See @sec-Quasi-Poisson-reg-model as an example
+
+    -   Use the tidy() function from the broom package to automatically turn model outputs into data frames
+
+        -   Sadly I do not have an example of that in this hw
+
+    -   Use a callout block to make hidden notes for coding
+
+        -   The syntax is "::: {.hidden} blah blah blah :::"

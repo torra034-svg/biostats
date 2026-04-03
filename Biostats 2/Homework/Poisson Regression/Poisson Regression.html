@@ -70,7 +70,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="Poisson Regression_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="Poisson Regression_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Poisson Regression_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Poisson Regression_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="Poisson Regression_files/libs/bootstrap/bootstrap-0b716d6fe31096b8dc5b1cb48462c79f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <style>html{ scroll-behavior: smooth; }</style>
 <link href="Poisson Regression_files/libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
 
@@ -102,11 +102,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#model-1-effect-of-treatment-group" id="toc-model-1-effect-of-treatment-group" class="nav-link" data-scroll-target="#model-1-effect-of-treatment-group"><span class="header-section-number">3</span> Model 1: Effect of Treatment Group</a>
   <ul class="collapse">
   <li><a href="#poisson-regression-model" id="toc-poisson-regression-model" class="nav-link" data-scroll-target="#poisson-regression-model"><span class="header-section-number">3.1</span> Poisson Regression Model</a></li>
-  <li><a href="#model-evaluation-for-overdispersion-test" id="toc-model-evaluation-for-overdispersion-test" class="nav-link" data-scroll-target="#model-evaluation-for-overdispersion-test"><span class="header-section-number">3.2</span> Model Evaluation for Overdispersion Test</a></li>
+  <li><a href="#sec-evaluation" id="toc-sec-evaluation" class="nav-link" data-scroll-target="#sec-evaluation"><span class="header-section-number">3.2</span> Model Evaluation for Overdispersion Test</a></li>
   </ul></li>
   <li><a href="#model-2-effect-of-treatment-group-allowing-for-overdispersion" id="toc-model-2-effect-of-treatment-group-allowing-for-overdispersion" class="nav-link" data-scroll-target="#model-2-effect-of-treatment-group-allowing-for-overdispersion"><span class="header-section-number">4</span> Model 2: Effect of Treatment Group, Allowing for Overdispersion</a>
   <ul class="collapse">
-  <li><a href="#quasi-poisson-regression-model-for-overdispersed-data" id="toc-quasi-poisson-regression-model-for-overdispersed-data" class="nav-link" data-scroll-target="#quasi-poisson-regression-model-for-overdispersed-data"><span class="header-section-number">4.1</span> Quasi-Poisson Regression Model for Overdispersed Data</a></li>
+  <li><a href="#sec-Quasi-Poisson-reg-model" id="toc-sec-Quasi-Poisson-reg-model" class="nav-link" data-scroll-target="#sec-Quasi-Poisson-reg-model"><span class="header-section-number">4.1</span> Quasi-Poisson Regression Model for Overdispersed Data</a></li>
   </ul></li>
   <li><a href="#section-c.-binary-data-treated-as-rates-with-an-offset-term" id="toc-section-c.-binary-data-treated-as-rates-with-an-offset-term" class="nav-link" data-scroll-target="#section-c.-binary-data-treated-as-rates-with-an-offset-term"><span class="header-section-number">5</span> Section C. Binary Data Treated as Rates (With an Offset Term)</a>
   <ul class="collapse">
@@ -116,7 +116,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#poisson-regression-model-sex-on-incidence-rate" id="toc-poisson-regression-model-sex-on-incidence-rate" class="nav-link" data-scroll-target="#poisson-regression-model-sex-on-incidence-rate"><span class="header-section-number">6.1</span> Poisson Regression Model: Sex on Incidence Rate</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">7</span> Summary:</a></li>
+  <li><a href="#notes-summary" id="toc-notes-summary" class="nav-link" data-scroll-target="#notes-summary"><span class="header-section-number">7</span> Notes / Summary:</a></li>
+  <li><a href="#qmd-notes" id="toc-qmd-notes" class="nav-link" data-scroll-target="#qmd-notes"><span class="header-section-number">8</span> .qmd Notes</a></li>
   </ul>
 </nav>
 </div>
@@ -200,7 +201,7 @@ Table&nbsp;1: Cigs 5
 </figcaption>
 <div aria-describedby="tbl-cigs5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div class="tabwid"><style>.cl-e41b924a{}.cl-e41400e8{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e4172dcc{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e417494c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-e41b924a"><thead><tr style="overflow-wrap:break-word;"><th class="cl-e417494c"><p class="cl-e4172dcc"><span class="cl-e41400e8">cigs5</span></p></th></tr></thead></table></div>
+<div class="tabwid"><style>.cl-64ae17fa{}.cl-64a6a880{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-64a9bfde{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-64a9d6a4{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-64ae17fa"><thead><tr style="overflow-wrap:break-word;"><th class="cl-64a9d6a4"><p class="cl-64a9bfde"><span class="cl-64a6a880">cigs5</span></p></th></tr></thead></table></div>
 </div>
 </div>
 </figure>
@@ -244,23 +245,23 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
 </figcaption>
 <div aria-describedby="tbl-pt-demo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="osoykzvddq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#osoykzvddq table {
+<div id="umemlqxxef" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#umemlqxxef table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#osoykzvddq thead, #osoykzvddq tbody, #osoykzvddq tfoot, #osoykzvddq tr, #osoykzvddq td, #osoykzvddq th {
+#umemlqxxef thead, #umemlqxxef tbody, #umemlqxxef tfoot, #umemlqxxef tr, #umemlqxxef td, #umemlqxxef th {
   border-style: none;
 }
 
-#osoykzvddq p {
+#umemlqxxef p {
   margin: 0;
   padding: 0;
 }
 
-#osoykzvddq .gt_table {
+#umemlqxxef .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -286,12 +287,12 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-left-color: #D3D3D3;
 }
 
-#osoykzvddq .gt_caption {
+#umemlqxxef .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#osoykzvddq .gt_title {
+#umemlqxxef .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -303,7 +304,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-width: 0;
 }
 
-#osoykzvddq .gt_subtitle {
+#umemlqxxef .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -315,7 +316,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-top-width: 0;
 }
 
-#osoykzvddq .gt_heading {
+#umemlqxxef .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -327,13 +328,13 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#osoykzvddq .gt_bottom_border {
+#umemlqxxef .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#osoykzvddq .gt_col_headings {
+#umemlqxxef .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -348,7 +349,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#osoykzvddq .gt_col_heading {
+#umemlqxxef .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -368,7 +369,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   overflow-x: hidden;
 }
 
-#osoykzvddq .gt_column_spanner_outer {
+#umemlqxxef .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -380,15 +381,15 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 4px;
 }
 
-#osoykzvddq .gt_column_spanner_outer:first-child {
+#umemlqxxef .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#osoykzvddq .gt_column_spanner_outer:last-child {
+#umemlqxxef .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#osoykzvddq .gt_column_spanner {
+#umemlqxxef .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -400,11 +401,11 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   width: 100%;
 }
 
-#osoykzvddq .gt_spanner_row {
+#umemlqxxef .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#osoykzvddq .gt_group_heading {
+#umemlqxxef .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -430,7 +431,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   text-align: left;
 }
 
-#osoykzvddq .gt_empty_group_heading {
+#umemlqxxef .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -445,15 +446,15 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   vertical-align: middle;
 }
 
-#osoykzvddq .gt_from_md > :first-child {
+#umemlqxxef .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#osoykzvddq .gt_from_md > :last-child {
+#umemlqxxef .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#osoykzvddq .gt_row {
+#umemlqxxef .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -472,7 +473,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   overflow-x: hidden;
 }
 
-#osoykzvddq .gt_stub {
+#umemlqxxef .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -485,7 +486,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#osoykzvddq .gt_stub_row_group {
+#umemlqxxef .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -499,15 +500,15 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   vertical-align: top;
 }
 
-#osoykzvddq .gt_row_group_first td {
+#umemlqxxef .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#osoykzvddq .gt_row_group_first th {
+#umemlqxxef .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#osoykzvddq .gt_summary_row {
+#umemlqxxef .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -517,16 +518,16 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#osoykzvddq .gt_first_summary_row {
+#umemlqxxef .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#osoykzvddq .gt_first_summary_row.thick {
+#umemlqxxef .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#osoykzvddq .gt_last_summary_row {
+#umemlqxxef .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -536,7 +537,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-color: #D3D3D3;
 }
 
-#osoykzvddq .gt_grand_summary_row {
+#umemlqxxef .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -546,7 +547,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#osoykzvddq .gt_first_grand_summary_row {
+#umemlqxxef .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -556,7 +557,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-top-color: #D3D3D3;
 }
 
-#osoykzvddq .gt_last_grand_summary_row_top {
+#umemlqxxef .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -566,11 +567,11 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-color: #D3D3D3;
 }
 
-#osoykzvddq .gt_striped {
+#umemlqxxef .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#osoykzvddq .gt_table_body {
+#umemlqxxef .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -579,7 +580,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-bottom-color: #D3D3D3;
 }
 
-#osoykzvddq .gt_footnotes {
+#umemlqxxef .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -593,7 +594,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#osoykzvddq .gt_footnote {
+#umemlqxxef .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -602,7 +603,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#osoykzvddq .gt_sourcenotes {
+#umemlqxxef .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -616,7 +617,7 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   border-right-color: #D3D3D3;
 }
 
-#osoykzvddq .gt_sourcenote {
+#umemlqxxef .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -624,72 +625,72 @@ Table&nbsp;2: Participant Demographics and Baseline Characteristics
   padding-right: 5px;
 }
 
-#osoykzvddq .gt_left {
+#umemlqxxef .gt_left {
   text-align: left;
 }
 
-#osoykzvddq .gt_center {
+#umemlqxxef .gt_center {
   text-align: center;
 }
 
-#osoykzvddq .gt_right {
+#umemlqxxef .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#osoykzvddq .gt_font_normal {
+#umemlqxxef .gt_font_normal {
   font-weight: normal;
 }
 
-#osoykzvddq .gt_font_bold {
+#umemlqxxef .gt_font_bold {
   font-weight: bold;
 }
 
-#osoykzvddq .gt_font_italic {
+#umemlqxxef .gt_font_italic {
   font-style: italic;
 }
 
-#osoykzvddq .gt_super {
+#umemlqxxef .gt_super {
   font-size: 65%;
 }
 
-#osoykzvddq .gt_footnote_marks {
+#umemlqxxef .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#osoykzvddq .gt_asterisk {
+#umemlqxxef .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#osoykzvddq .gt_indent_1 {
+#umemlqxxef .gt_indent_1 {
   text-indent: 5px;
 }
 
-#osoykzvddq .gt_indent_2 {
+#umemlqxxef .gt_indent_2 {
   text-indent: 10px;
 }
 
-#osoykzvddq .gt_indent_3 {
+#umemlqxxef .gt_indent_3 {
   text-indent: 15px;
 }
 
-#osoykzvddq .gt_indent_4 {
+#umemlqxxef .gt_indent_4 {
   text-indent: 20px;
 }
 
-#osoykzvddq .gt_indent_5 {
+#umemlqxxef .gt_indent_5 {
   text-indent: 25px;
 }
 
-#osoykzvddq .katex-display {
+#umemlqxxef .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#osoykzvddq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#umemlqxxef div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1022,7 +1023,7 @@ Table&nbsp;3: cigs5 Descriptive Statistics
 </figcaption>
 <div aria-describedby="tbl-cigs5-desc-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div class="tabwid"><style>.cl-e5c70a34{}.cl-e5bf320a{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e5bf321e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e5c32a86{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e5c344c6{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344d0{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344d1{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344d2{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344da{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344db{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344dc{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344dd{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344de{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344df{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344e4{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344e5{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344e6{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e5c344e7{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-e5c70a34"><thead><tr style="overflow-wrap:break-word;"><th class="cl-e5c344c6"><p class="cl-e5c32a86"><span class="cl-e5bf320a">N</span></p></th><th class="cl-e5c344d0"><p class="cl-e5c32a86"><span class="cl-e5bf320a">Mean</span></p></th><th class="cl-e5c344d1"><p class="cl-e5c32a86"><span class="cl-e5bf320a">Median</span></p></th><th class="cl-e5c344d0"><p class="cl-e5c32a86"><span class="cl-e5bf320a">IQR</span></p></th><th class="cl-e5c344d0"><p class="cl-e5c32a86"><span class="cl-e5bf320a">Std. Dev.</span></p></th><th class="cl-e5c344d2"><p class="cl-e5c32a86"><span class="cl-e5bf320a">Min</span></p></th><th class="cl-e5c344da"><p class="cl-e5c32a86"><span class="cl-e5bf320a">Max</span></p></th><th class="cl-e5c344db"><p class="cl-e5c32a86"><span class="cl-e5bf320a">Skew</span></p></th><th class="cl-e5c344dc"><p class="cl-e5c32a86"><span class="cl-e5bf320a">Kurtosis</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-e5c344dd"><p class="cl-e5c32a86"><span class="cl-e5bf321e">5,555.00</span></p></td><td class="cl-e5c344de"><p class="cl-e5c32a86"><span class="cl-e5bf321e">13.93</span></p></td><td class="cl-e5c344df"><p class="cl-e5c32a86"><span class="cl-e5bf321e">10.00</span></p></td><td class="cl-e5c344de"><p class="cl-e5c32a86"><span class="cl-e5bf321e">20.00</span></p></td><td class="cl-e5c344de"><p class="cl-e5c32a86"><span class="cl-e5bf321e">14.75</span></p></td><td class="cl-e5c344e4"><p class="cl-e5c32a86"><span class="cl-e5bf321e">0.00</span></p></td><td class="cl-e5c344e5"><p class="cl-e5c32a86"><span class="cl-e5bf321e">100.00</span></p></td><td class="cl-e5c344e6"><p class="cl-e5c32a86"><span class="cl-e5bf321e">0.86</span></p></td><td class="cl-e5c344e7"><p class="cl-e5c32a86"><span class="cl-e5bf321e">0.18</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-665a2738{}.cl-6651b80a{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-6651b814{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-6655aabe{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-6655c6fc{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c706{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c707{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c708{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c710{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c711{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c712{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c71a{width:0.88in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c71b{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c71c{width:0.786in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c71d{width:0.583in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c71e{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c724{width:0.633in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6655c725{width:0.812in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-665a2738"><thead><tr style="overflow-wrap:break-word;"><th class="cl-6655c6fc"><p class="cl-6655aabe"><span class="cl-6651b80a">N</span></p></th><th class="cl-6655c706"><p class="cl-6655aabe"><span class="cl-6651b80a">Mean</span></p></th><th class="cl-6655c707"><p class="cl-6655aabe"><span class="cl-6651b80a">Median</span></p></th><th class="cl-6655c706"><p class="cl-6655aabe"><span class="cl-6651b80a">IQR</span></p></th><th class="cl-6655c706"><p class="cl-6655aabe"><span class="cl-6651b80a">Std. Dev.</span></p></th><th class="cl-6655c708"><p class="cl-6655aabe"><span class="cl-6651b80a">Min</span></p></th><th class="cl-6655c710"><p class="cl-6655aabe"><span class="cl-6651b80a">Max</span></p></th><th class="cl-6655c711"><p class="cl-6655aabe"><span class="cl-6651b80a">Skew</span></p></th><th class="cl-6655c712"><p class="cl-6655aabe"><span class="cl-6651b80a">Kurtosis</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-6655c71a"><p class="cl-6655aabe"><span class="cl-6651b814">5,555.00</span></p></td><td class="cl-6655c71b"><p class="cl-6655aabe"><span class="cl-6651b814">13.93</span></p></td><td class="cl-6655c71c"><p class="cl-6655aabe"><span class="cl-6651b814">10.00</span></p></td><td class="cl-6655c71b"><p class="cl-6655aabe"><span class="cl-6651b814">20.00</span></p></td><td class="cl-6655c71b"><p class="cl-6655aabe"><span class="cl-6651b814">14.75</span></p></td><td class="cl-6655c71d"><p class="cl-6655aabe"><span class="cl-6651b814">0.00</span></p></td><td class="cl-6655c71e"><p class="cl-6655aabe"><span class="cl-6651b814">100.00</span></p></td><td class="cl-6655c724"><p class="cl-6655aabe"><span class="cl-6651b814">0.86</span></p></td><td class="cl-6655c725"><p class="cl-6655aabe"><span class="cl-6651b814">0.18</span></p></td></tr></tbody></table></div>
 </div>
 </div>
 </figure>
@@ -1073,23 +1074,23 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
 </figcaption>
 <div aria-describedby="tbl-trt-group-vs-cigs5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="yeyryyaeix" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#yeyryyaeix table {
+<div id="zsfhesdcug" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zsfhesdcug table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#yeyryyaeix thead, #yeyryyaeix tbody, #yeyryyaeix tfoot, #yeyryyaeix tr, #yeyryyaeix td, #yeyryyaeix th {
+#zsfhesdcug thead, #zsfhesdcug tbody, #zsfhesdcug tfoot, #zsfhesdcug tr, #zsfhesdcug td, #zsfhesdcug th {
   border-style: none;
 }
 
-#yeyryyaeix p {
+#zsfhesdcug p {
   margin: 0;
   padding: 0;
 }
 
-#yeyryyaeix .gt_table {
+#zsfhesdcug .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1115,12 +1116,12 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-left-color: #D3D3D3;
 }
 
-#yeyryyaeix .gt_caption {
+#zsfhesdcug .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#yeyryyaeix .gt_title {
+#zsfhesdcug .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1132,7 +1133,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-width: 0;
 }
 
-#yeyryyaeix .gt_subtitle {
+#zsfhesdcug .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1144,7 +1145,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-top-width: 0;
 }
 
-#yeyryyaeix .gt_heading {
+#zsfhesdcug .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1156,13 +1157,13 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#yeyryyaeix .gt_bottom_border {
+#zsfhesdcug .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yeyryyaeix .gt_col_headings {
+#zsfhesdcug .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1177,7 +1178,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#yeyryyaeix .gt_col_heading {
+#zsfhesdcug .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1197,7 +1198,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   overflow-x: hidden;
 }
 
-#yeyryyaeix .gt_column_spanner_outer {
+#zsfhesdcug .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1209,15 +1210,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 4px;
 }
 
-#yeyryyaeix .gt_column_spanner_outer:first-child {
+#zsfhesdcug .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yeyryyaeix .gt_column_spanner_outer:last-child {
+#zsfhesdcug .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yeyryyaeix .gt_column_spanner {
+#zsfhesdcug .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1229,11 +1230,11 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   width: 100%;
 }
 
-#yeyryyaeix .gt_spanner_row {
+#zsfhesdcug .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#yeyryyaeix .gt_group_heading {
+#zsfhesdcug .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1259,7 +1260,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   text-align: left;
 }
 
-#yeyryyaeix .gt_empty_group_heading {
+#zsfhesdcug .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1274,15 +1275,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   vertical-align: middle;
 }
 
-#yeyryyaeix .gt_from_md > :first-child {
+#zsfhesdcug .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yeyryyaeix .gt_from_md > :last-child {
+#zsfhesdcug .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yeyryyaeix .gt_row {
+#zsfhesdcug .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1301,7 +1302,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   overflow-x: hidden;
 }
 
-#yeyryyaeix .gt_stub {
+#zsfhesdcug .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1314,7 +1315,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#yeyryyaeix .gt_stub_row_group {
+#zsfhesdcug .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1328,15 +1329,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   vertical-align: top;
 }
 
-#yeyryyaeix .gt_row_group_first td {
+#zsfhesdcug .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#yeyryyaeix .gt_row_group_first th {
+#zsfhesdcug .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#yeyryyaeix .gt_summary_row {
+#zsfhesdcug .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1346,16 +1347,16 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#yeyryyaeix .gt_first_summary_row {
+#zsfhesdcug .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#yeyryyaeix .gt_first_summary_row.thick {
+#zsfhesdcug .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#yeyryyaeix .gt_last_summary_row {
+#zsfhesdcug .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1365,7 +1366,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#yeyryyaeix .gt_grand_summary_row {
+#zsfhesdcug .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1375,7 +1376,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#yeyryyaeix .gt_first_grand_summary_row {
+#zsfhesdcug .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1385,7 +1386,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-top-color: #D3D3D3;
 }
 
-#yeyryyaeix .gt_last_grand_summary_row_top {
+#zsfhesdcug .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1395,11 +1396,11 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#yeyryyaeix .gt_striped {
+#zsfhesdcug .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yeyryyaeix .gt_table_body {
+#zsfhesdcug .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1408,7 +1409,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#yeyryyaeix .gt_footnotes {
+#zsfhesdcug .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1422,7 +1423,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#yeyryyaeix .gt_footnote {
+#zsfhesdcug .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1431,7 +1432,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#yeyryyaeix .gt_sourcenotes {
+#zsfhesdcug .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1445,7 +1446,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#yeyryyaeix .gt_sourcenote {
+#zsfhesdcug .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1453,72 +1454,72 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#yeyryyaeix .gt_left {
+#zsfhesdcug .gt_left {
   text-align: left;
 }
 
-#yeyryyaeix .gt_center {
+#zsfhesdcug .gt_center {
   text-align: center;
 }
 
-#yeyryyaeix .gt_right {
+#zsfhesdcug .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yeyryyaeix .gt_font_normal {
+#zsfhesdcug .gt_font_normal {
   font-weight: normal;
 }
 
-#yeyryyaeix .gt_font_bold {
+#zsfhesdcug .gt_font_bold {
   font-weight: bold;
 }
 
-#yeyryyaeix .gt_font_italic {
+#zsfhesdcug .gt_font_italic {
   font-style: italic;
 }
 
-#yeyryyaeix .gt_super {
+#zsfhesdcug .gt_super {
   font-size: 65%;
 }
 
-#yeyryyaeix .gt_footnote_marks {
+#zsfhesdcug .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#yeyryyaeix .gt_asterisk {
+#zsfhesdcug .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#yeyryyaeix .gt_indent_1 {
+#zsfhesdcug .gt_indent_1 {
   text-indent: 5px;
 }
 
-#yeyryyaeix .gt_indent_2 {
+#zsfhesdcug .gt_indent_2 {
   text-indent: 10px;
 }
 
-#yeyryyaeix .gt_indent_3 {
+#zsfhesdcug .gt_indent_3 {
   text-indent: 15px;
 }
 
-#yeyryyaeix .gt_indent_4 {
+#zsfhesdcug .gt_indent_4 {
   text-indent: 20px;
 }
 
-#yeyryyaeix .gt_indent_5 {
+#zsfhesdcug .gt_indent_5 {
   text-indent: 25px;
 }
 
-#yeyryyaeix .katex-display {
+#zsfhesdcug .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#yeyryyaeix div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zsfhesdcug div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1584,23 +1585,23 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
 </div>
 </div>
 <div class="cell-output-display">
-<div id="sbfjqnfnkp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#sbfjqnfnkp table {
+<div id="wpltjavaha" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wpltjavaha table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#sbfjqnfnkp thead, #sbfjqnfnkp tbody, #sbfjqnfnkp tfoot, #sbfjqnfnkp tr, #sbfjqnfnkp td, #sbfjqnfnkp th {
+#wpltjavaha thead, #wpltjavaha tbody, #wpltjavaha tfoot, #wpltjavaha tr, #wpltjavaha td, #wpltjavaha th {
   border-style: none;
 }
 
-#sbfjqnfnkp p {
+#wpltjavaha p {
   margin: 0;
   padding: 0;
 }
 
-#sbfjqnfnkp .gt_table {
+#wpltjavaha .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1626,12 +1627,12 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-left-color: #D3D3D3;
 }
 
-#sbfjqnfnkp .gt_caption {
+#wpltjavaha .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#sbfjqnfnkp .gt_title {
+#wpltjavaha .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1643,7 +1644,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-width: 0;
 }
 
-#sbfjqnfnkp .gt_subtitle {
+#wpltjavaha .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1655,7 +1656,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-top-width: 0;
 }
 
-#sbfjqnfnkp .gt_heading {
+#wpltjavaha .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1667,13 +1668,13 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#sbfjqnfnkp .gt_bottom_border {
+#wpltjavaha .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sbfjqnfnkp .gt_col_headings {
+#wpltjavaha .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1688,7 +1689,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#sbfjqnfnkp .gt_col_heading {
+#wpltjavaha .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1708,7 +1709,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   overflow-x: hidden;
 }
 
-#sbfjqnfnkp .gt_column_spanner_outer {
+#wpltjavaha .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1720,15 +1721,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 4px;
 }
 
-#sbfjqnfnkp .gt_column_spanner_outer:first-child {
+#wpltjavaha .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sbfjqnfnkp .gt_column_spanner_outer:last-child {
+#wpltjavaha .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sbfjqnfnkp .gt_column_spanner {
+#wpltjavaha .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1740,11 +1741,11 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   width: 100%;
 }
 
-#sbfjqnfnkp .gt_spanner_row {
+#wpltjavaha .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#sbfjqnfnkp .gt_group_heading {
+#wpltjavaha .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1770,7 +1771,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   text-align: left;
 }
 
-#sbfjqnfnkp .gt_empty_group_heading {
+#wpltjavaha .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1785,15 +1786,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   vertical-align: middle;
 }
 
-#sbfjqnfnkp .gt_from_md > :first-child {
+#wpltjavaha .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sbfjqnfnkp .gt_from_md > :last-child {
+#wpltjavaha .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sbfjqnfnkp .gt_row {
+#wpltjavaha .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1812,7 +1813,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   overflow-x: hidden;
 }
 
-#sbfjqnfnkp .gt_stub {
+#wpltjavaha .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1825,7 +1826,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#sbfjqnfnkp .gt_stub_row_group {
+#wpltjavaha .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1839,15 +1840,15 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   vertical-align: top;
 }
 
-#sbfjqnfnkp .gt_row_group_first td {
+#wpltjavaha .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#sbfjqnfnkp .gt_row_group_first th {
+#wpltjavaha .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#sbfjqnfnkp .gt_summary_row {
+#wpltjavaha .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1857,16 +1858,16 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#sbfjqnfnkp .gt_first_summary_row {
+#wpltjavaha .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#sbfjqnfnkp .gt_first_summary_row.thick {
+#wpltjavaha .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#sbfjqnfnkp .gt_last_summary_row {
+#wpltjavaha .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1876,7 +1877,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#sbfjqnfnkp .gt_grand_summary_row {
+#wpltjavaha .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1886,7 +1887,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#sbfjqnfnkp .gt_first_grand_summary_row {
+#wpltjavaha .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1896,7 +1897,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-top-color: #D3D3D3;
 }
 
-#sbfjqnfnkp .gt_last_grand_summary_row_top {
+#wpltjavaha .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1906,11 +1907,11 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#sbfjqnfnkp .gt_striped {
+#wpltjavaha .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sbfjqnfnkp .gt_table_body {
+#wpltjavaha .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1919,7 +1920,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-bottom-color: #D3D3D3;
 }
 
-#sbfjqnfnkp .gt_footnotes {
+#wpltjavaha .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1933,7 +1934,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#sbfjqnfnkp .gt_footnote {
+#wpltjavaha .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1942,7 +1943,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#sbfjqnfnkp .gt_sourcenotes {
+#wpltjavaha .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1956,7 +1957,7 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   border-right-color: #D3D3D3;
 }
 
-#sbfjqnfnkp .gt_sourcenote {
+#wpltjavaha .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1964,72 +1965,72 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
   padding-right: 5px;
 }
 
-#sbfjqnfnkp .gt_left {
+#wpltjavaha .gt_left {
   text-align: left;
 }
 
-#sbfjqnfnkp .gt_center {
+#wpltjavaha .gt_center {
   text-align: center;
 }
 
-#sbfjqnfnkp .gt_right {
+#wpltjavaha .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sbfjqnfnkp .gt_font_normal {
+#wpltjavaha .gt_font_normal {
   font-weight: normal;
 }
 
-#sbfjqnfnkp .gt_font_bold {
+#wpltjavaha .gt_font_bold {
   font-weight: bold;
 }
 
-#sbfjqnfnkp .gt_font_italic {
+#wpltjavaha .gt_font_italic {
   font-style: italic;
 }
 
-#sbfjqnfnkp .gt_super {
+#wpltjavaha .gt_super {
   font-size: 65%;
 }
 
-#sbfjqnfnkp .gt_footnote_marks {
+#wpltjavaha .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#sbfjqnfnkp .gt_asterisk {
+#wpltjavaha .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#sbfjqnfnkp .gt_indent_1 {
+#wpltjavaha .gt_indent_1 {
   text-indent: 5px;
 }
 
-#sbfjqnfnkp .gt_indent_2 {
+#wpltjavaha .gt_indent_2 {
   text-indent: 10px;
 }
 
-#sbfjqnfnkp .gt_indent_3 {
+#wpltjavaha .gt_indent_3 {
   text-indent: 15px;
 }
 
-#sbfjqnfnkp .gt_indent_4 {
+#wpltjavaha .gt_indent_4 {
   text-indent: 20px;
 }
 
-#sbfjqnfnkp .gt_indent_5 {
+#wpltjavaha .gt_indent_5 {
   text-indent: 25px;
 }
 
-#sbfjqnfnkp .katex-display {
+#wpltjavaha .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#sbfjqnfnkp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#wpltjavaha div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2100,8 +2101,8 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
 </div>
 <p>The effect of the SI-P smoking intervention group is 0.67 relative to the usual group at year 5. In other words, the estimated Incidence Rate Ratio (IRR) is 0.67, meaning that the SI-P group smoked at a rate 33% lower than the usual care group. This finding is statistically significant given that our p-value is lower than alpha and the 95% confidence interval does not include 1.0 (p-value &lt; 0.001, CI: 0.66 - 0.68).</p>
 </section>
-<section id="model-evaluation-for-overdispersion-test" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="model-evaluation-for-overdispersion-test"><span class="header-section-number">3.2</span> Model Evaluation for Overdispersion Test</h2>
+<section id="sec-evaluation" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-evaluation"><span class="header-section-number">3.2</span> Model Evaluation for Overdispersion Test</h2>
 <p>To evaluate the poisson regression, we need to review the ratio of the <strong>residual deviance</strong> to its <strong>degree of freedoms</strong>. <strong>If the model ratio is super super greater than 1 then that is a sign of overdispersion.</strong></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model_ratio <span class="ot">&lt;-</span> (trt_group_cigs5_model<span class="sc">$</span>deviance</span>
@@ -2120,9 +2121,13 @@ Table&nbsp;4: Poission Regression Model: The Effect of Treatment Group on Cigare
 </section>
 <section id="model-2-effect-of-treatment-group-allowing-for-overdispersion" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Model 2: Effect of Treatment Group, Allowing for Overdispersion</h1>
-<p>How to deal with overdispersion? - 2 ways * Quasi-Poisson Regression * Negative Binomial Regression</p>
-<section id="quasi-poisson-regression-model-for-overdispersed-data" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="quasi-poisson-regression-model-for-overdispersed-data"><span class="header-section-number">4.1</span> Quasi-Poisson Regression Model for Overdispersed Data</h2>
+<p>How to deal with overdispersion? - 2 ways</p>
+<ul>
+<li><p>Quasi-Poisson Regression</p></li>
+<li><p>Negative Binomial Regression</p></li>
+</ul>
+<section id="sec-Quasi-Poisson-reg-model" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-Quasi-Poisson-reg-model"><span class="header-section-number">4.1</span> Quasi-Poisson Regression Model for Overdispersed Data</h2>
 <p>Use the Quasi-Possion Regression model to handle overdispersion</p>
 <div class="cell" data-tbl-cap-location="top">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model1.qp <span class="ot">&lt;-</span> <span class="fu">glm</span>(cigs5 <span class="sc">~</span> TreatmentGroup,</span>
@@ -2161,23 +2166,23 @@ Table&nbsp;5: Quasi-Poisson Regression Model
 </figcaption>
 <div aria-describedby="tbl-quasi-possion-regression-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="bywvcucwjj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bywvcucwjj table {
+<div id="vnejgbrstj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vnejgbrstj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bywvcucwjj thead, #bywvcucwjj tbody, #bywvcucwjj tfoot, #bywvcucwjj tr, #bywvcucwjj td, #bywvcucwjj th {
+#vnejgbrstj thead, #vnejgbrstj tbody, #vnejgbrstj tfoot, #vnejgbrstj tr, #vnejgbrstj td, #vnejgbrstj th {
   border-style: none;
 }
 
-#bywvcucwjj p {
+#vnejgbrstj p {
   margin: 0;
   padding: 0;
 }
 
-#bywvcucwjj .gt_table {
+#vnejgbrstj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2203,12 +2208,12 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-left-color: #D3D3D3;
 }
 
-#bywvcucwjj .gt_caption {
+#vnejgbrstj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bywvcucwjj .gt_title {
+#vnejgbrstj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2220,7 +2225,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-width: 0;
 }
 
-#bywvcucwjj .gt_subtitle {
+#vnejgbrstj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2232,7 +2237,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-top-width: 0;
 }
 
-#bywvcucwjj .gt_heading {
+#vnejgbrstj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2244,13 +2249,13 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#bywvcucwjj .gt_bottom_border {
+#vnejgbrstj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bywvcucwjj .gt_col_headings {
+#vnejgbrstj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2265,7 +2270,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#bywvcucwjj .gt_col_heading {
+#vnejgbrstj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2285,7 +2290,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   overflow-x: hidden;
 }
 
-#bywvcucwjj .gt_column_spanner_outer {
+#vnejgbrstj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2297,15 +2302,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 4px;
 }
 
-#bywvcucwjj .gt_column_spanner_outer:first-child {
+#vnejgbrstj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bywvcucwjj .gt_column_spanner_outer:last-child {
+#vnejgbrstj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bywvcucwjj .gt_column_spanner {
+#vnejgbrstj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2317,11 +2322,11 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   width: 100%;
 }
 
-#bywvcucwjj .gt_spanner_row {
+#vnejgbrstj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bywvcucwjj .gt_group_heading {
+#vnejgbrstj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2347,7 +2352,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   text-align: left;
 }
 
-#bywvcucwjj .gt_empty_group_heading {
+#vnejgbrstj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2362,15 +2367,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   vertical-align: middle;
 }
 
-#bywvcucwjj .gt_from_md > :first-child {
+#vnejgbrstj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bywvcucwjj .gt_from_md > :last-child {
+#vnejgbrstj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bywvcucwjj .gt_row {
+#vnejgbrstj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2389,7 +2394,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   overflow-x: hidden;
 }
 
-#bywvcucwjj .gt_stub {
+#vnejgbrstj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2402,7 +2407,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#bywvcucwjj .gt_stub_row_group {
+#vnejgbrstj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2416,15 +2421,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   vertical-align: top;
 }
 
-#bywvcucwjj .gt_row_group_first td {
+#vnejgbrstj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bywvcucwjj .gt_row_group_first th {
+#vnejgbrstj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bywvcucwjj .gt_summary_row {
+#vnejgbrstj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2434,16 +2439,16 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#bywvcucwjj .gt_first_summary_row {
+#vnejgbrstj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bywvcucwjj .gt_first_summary_row.thick {
+#vnejgbrstj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bywvcucwjj .gt_last_summary_row {
+#vnejgbrstj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2453,7 +2458,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#bywvcucwjj .gt_grand_summary_row {
+#vnejgbrstj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2463,7 +2468,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#bywvcucwjj .gt_first_grand_summary_row {
+#vnejgbrstj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2473,7 +2478,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-top-color: #D3D3D3;
 }
 
-#bywvcucwjj .gt_last_grand_summary_row_top {
+#vnejgbrstj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2483,11 +2488,11 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#bywvcucwjj .gt_striped {
+#vnejgbrstj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bywvcucwjj .gt_table_body {
+#vnejgbrstj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2496,7 +2501,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#bywvcucwjj .gt_footnotes {
+#vnejgbrstj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2510,7 +2515,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#bywvcucwjj .gt_footnote {
+#vnejgbrstj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2519,7 +2524,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#bywvcucwjj .gt_sourcenotes {
+#vnejgbrstj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2533,7 +2538,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#bywvcucwjj .gt_sourcenote {
+#vnejgbrstj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2541,72 +2546,72 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#bywvcucwjj .gt_left {
+#vnejgbrstj .gt_left {
   text-align: left;
 }
 
-#bywvcucwjj .gt_center {
+#vnejgbrstj .gt_center {
   text-align: center;
 }
 
-#bywvcucwjj .gt_right {
+#vnejgbrstj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bywvcucwjj .gt_font_normal {
+#vnejgbrstj .gt_font_normal {
   font-weight: normal;
 }
 
-#bywvcucwjj .gt_font_bold {
+#vnejgbrstj .gt_font_bold {
   font-weight: bold;
 }
 
-#bywvcucwjj .gt_font_italic {
+#vnejgbrstj .gt_font_italic {
   font-style: italic;
 }
 
-#bywvcucwjj .gt_super {
+#vnejgbrstj .gt_super {
   font-size: 65%;
 }
 
-#bywvcucwjj .gt_footnote_marks {
+#vnejgbrstj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bywvcucwjj .gt_asterisk {
+#vnejgbrstj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bywvcucwjj .gt_indent_1 {
+#vnejgbrstj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bywvcucwjj .gt_indent_2 {
+#vnejgbrstj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bywvcucwjj .gt_indent_3 {
+#vnejgbrstj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bywvcucwjj .gt_indent_4 {
+#vnejgbrstj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bywvcucwjj .gt_indent_5 {
+#vnejgbrstj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#bywvcucwjj .katex-display {
+#vnejgbrstj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#bywvcucwjj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#vnejgbrstj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2666,23 +2671,23 @@ Table&nbsp;5: Quasi-Poisson Regression Model
 </div>
 </div>
 <div class="cell-output-display">
-<div id="krlatolaee" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#krlatolaee table {
+<div id="mghyvcwbha" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mghyvcwbha table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#krlatolaee thead, #krlatolaee tbody, #krlatolaee tfoot, #krlatolaee tr, #krlatolaee td, #krlatolaee th {
+#mghyvcwbha thead, #mghyvcwbha tbody, #mghyvcwbha tfoot, #mghyvcwbha tr, #mghyvcwbha td, #mghyvcwbha th {
   border-style: none;
 }
 
-#krlatolaee p {
+#mghyvcwbha p {
   margin: 0;
   padding: 0;
 }
 
-#krlatolaee .gt_table {
+#mghyvcwbha .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2708,12 +2713,12 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-left-color: #D3D3D3;
 }
 
-#krlatolaee .gt_caption {
+#mghyvcwbha .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#krlatolaee .gt_title {
+#mghyvcwbha .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2725,7 +2730,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-width: 0;
 }
 
-#krlatolaee .gt_subtitle {
+#mghyvcwbha .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2737,7 +2742,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-top-width: 0;
 }
 
-#krlatolaee .gt_heading {
+#mghyvcwbha .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2749,13 +2754,13 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#krlatolaee .gt_bottom_border {
+#mghyvcwbha .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#krlatolaee .gt_col_headings {
+#mghyvcwbha .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2770,7 +2775,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#krlatolaee .gt_col_heading {
+#mghyvcwbha .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2790,7 +2795,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   overflow-x: hidden;
 }
 
-#krlatolaee .gt_column_spanner_outer {
+#mghyvcwbha .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2802,15 +2807,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 4px;
 }
 
-#krlatolaee .gt_column_spanner_outer:first-child {
+#mghyvcwbha .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#krlatolaee .gt_column_spanner_outer:last-child {
+#mghyvcwbha .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#krlatolaee .gt_column_spanner {
+#mghyvcwbha .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2822,11 +2827,11 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   width: 100%;
 }
 
-#krlatolaee .gt_spanner_row {
+#mghyvcwbha .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#krlatolaee .gt_group_heading {
+#mghyvcwbha .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2852,7 +2857,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   text-align: left;
 }
 
-#krlatolaee .gt_empty_group_heading {
+#mghyvcwbha .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2867,15 +2872,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   vertical-align: middle;
 }
 
-#krlatolaee .gt_from_md > :first-child {
+#mghyvcwbha .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#krlatolaee .gt_from_md > :last-child {
+#mghyvcwbha .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#krlatolaee .gt_row {
+#mghyvcwbha .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2894,7 +2899,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   overflow-x: hidden;
 }
 
-#krlatolaee .gt_stub {
+#mghyvcwbha .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2907,7 +2912,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#krlatolaee .gt_stub_row_group {
+#mghyvcwbha .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2921,15 +2926,15 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   vertical-align: top;
 }
 
-#krlatolaee .gt_row_group_first td {
+#mghyvcwbha .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#krlatolaee .gt_row_group_first th {
+#mghyvcwbha .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#krlatolaee .gt_summary_row {
+#mghyvcwbha .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2939,16 +2944,16 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#krlatolaee .gt_first_summary_row {
+#mghyvcwbha .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#krlatolaee .gt_first_summary_row.thick {
+#mghyvcwbha .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#krlatolaee .gt_last_summary_row {
+#mghyvcwbha .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2958,7 +2963,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#krlatolaee .gt_grand_summary_row {
+#mghyvcwbha .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2968,7 +2973,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#krlatolaee .gt_first_grand_summary_row {
+#mghyvcwbha .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2978,7 +2983,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-top-color: #D3D3D3;
 }
 
-#krlatolaee .gt_last_grand_summary_row_top {
+#mghyvcwbha .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2988,11 +2993,11 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#krlatolaee .gt_striped {
+#mghyvcwbha .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#krlatolaee .gt_table_body {
+#mghyvcwbha .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3001,7 +3006,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-bottom-color: #D3D3D3;
 }
 
-#krlatolaee .gt_footnotes {
+#mghyvcwbha .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3015,7 +3020,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#krlatolaee .gt_footnote {
+#mghyvcwbha .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3024,7 +3029,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#krlatolaee .gt_sourcenotes {
+#mghyvcwbha .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3038,7 +3043,7 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   border-right-color: #D3D3D3;
 }
 
-#krlatolaee .gt_sourcenote {
+#mghyvcwbha .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3046,72 +3051,72 @@ Table&nbsp;5: Quasi-Poisson Regression Model
   padding-right: 5px;
 }
 
-#krlatolaee .gt_left {
+#mghyvcwbha .gt_left {
   text-align: left;
 }
 
-#krlatolaee .gt_center {
+#mghyvcwbha .gt_center {
   text-align: center;
 }
 
-#krlatolaee .gt_right {
+#mghyvcwbha .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#krlatolaee .gt_font_normal {
+#mghyvcwbha .gt_font_normal {
   font-weight: normal;
 }
 
-#krlatolaee .gt_font_bold {
+#mghyvcwbha .gt_font_bold {
   font-weight: bold;
 }
 
-#krlatolaee .gt_font_italic {
+#mghyvcwbha .gt_font_italic {
   font-style: italic;
 }
 
-#krlatolaee .gt_super {
+#mghyvcwbha .gt_super {
   font-size: 65%;
 }
 
-#krlatolaee .gt_footnote_marks {
+#mghyvcwbha .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#krlatolaee .gt_asterisk {
+#mghyvcwbha .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#krlatolaee .gt_indent_1 {
+#mghyvcwbha .gt_indent_1 {
   text-indent: 5px;
 }
 
-#krlatolaee .gt_indent_2 {
+#mghyvcwbha .gt_indent_2 {
   text-indent: 10px;
 }
 
-#krlatolaee .gt_indent_3 {
+#mghyvcwbha .gt_indent_3 {
   text-indent: 15px;
 }
 
-#krlatolaee .gt_indent_4 {
+#mghyvcwbha .gt_indent_4 {
   text-indent: 20px;
 }
 
-#krlatolaee .gt_indent_5 {
+#mghyvcwbha .gt_indent_5 {
   text-indent: 25px;
 }
 
-#krlatolaee .katex-display {
+#mghyvcwbha .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#krlatolaee div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#mghyvcwbha div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3223,23 +3228,23 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
 </figcaption>
 <div aria-describedby="tbl-fh-IR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="qtkrirmijc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qtkrirmijc table {
+<div id="gbpavbrdve" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gbpavbrdve table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qtkrirmijc thead, #qtkrirmijc tbody, #qtkrirmijc tfoot, #qtkrirmijc tr, #qtkrirmijc td, #qtkrirmijc th {
+#gbpavbrdve thead, #gbpavbrdve tbody, #gbpavbrdve tfoot, #gbpavbrdve tr, #gbpavbrdve td, #gbpavbrdve th {
   border-style: none;
 }
 
-#qtkrirmijc p {
+#gbpavbrdve p {
   margin: 0;
   padding: 0;
 }
 
-#qtkrirmijc .gt_table {
+#gbpavbrdve .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3265,12 +3270,12 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   border-left-color: #D3D3D3;
 }
 
-#qtkrirmijc .gt_caption {
+#gbpavbrdve .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qtkrirmijc .gt_title {
+#gbpavbrdve .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3282,7 +3287,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   border-bottom-width: 0;
 }
 
-#qtkrirmijc .gt_subtitle {
+#gbpavbrdve .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3294,7 +3299,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   border-top-width: 0;
 }
 
-#qtkrirmijc .gt_heading {
+#gbpavbrdve .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3306,13 +3311,13 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   border-right-color: #D3D3D3;
 }
 
-#qtkrirmijc .gt_bottom_border {
+#gbpavbrdve .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qtkrirmijc .gt_col_headings {
+#gbpavbrdve .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3327,7 +3332,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   border-right-color: #D3D3D3;
 }
 
-#qtkrirmijc .gt_col_heading {
+#gbpavbrdve .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3347,7 +3352,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   overflow-x: hidden;
 }
 
-#qtkrirmijc .gt_column_spanner_outer {
+#gbpavbrdve .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3359,15 +3364,15 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   padding-right: 4px;
 }
 
-#qtkrirmijc .gt_column_spanner_outer:first-child {
+#gbpavbrdve .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qtkrirmijc .gt_column_spanner_outer:last-child {
+#gbpavbrdve .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qtkrirmijc .gt_column_spanner {
+#gbpavbrdve .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3379,11 +3384,11 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   width: 100%;
 }
 
-#qtkrirmijc .gt_spanner_row {
+#gbpavbrdve .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qtkrirmijc .gt_group_heading {
+#gbpavbrdve .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3409,7 +3414,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   text-align: left;
 }
 
-#qtkrirmijc .gt_empty_group_heading {
+#gbpavbrdve .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3424,15 +3429,15 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   vertical-align: middle;
 }
 
-#qtkrirmijc .gt_from_md > :first-child {
+#gbpavbrdve .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qtkrirmijc .gt_from_md > :last-child {
+#gbpavbrdve .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qtkrirmijc .gt_row {
+#gbpavbrdve .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3451,7 +3456,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   overflow-x: hidden;
 }
 
-#qtkrirmijc .gt_stub {
+#gbpavbrdve .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3464,7 +3469,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   padding-right: 5px;
 }
 
-#qtkrirmijc .gt_stub_row_group {
+#gbpavbrdve .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3478,15 +3483,15 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   vertical-align: top;
 }
 
-#qtkrirmijc .gt_row_group_first td {
+#gbpavbrdve .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qtkrirmijc .gt_row_group_first th {
+#gbpavbrdve .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qtkrirmijc .gt_summary_row {
+#gbpavbrdve .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3496,16 +3501,16 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   padding-right: 5px;
 }
 
-#qtkrirmijc .gt_first_summary_row {
+#gbpavbrdve .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qtkrirmijc .gt_first_summary_row.thick {
+#gbpavbrdve .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qtkrirmijc .gt_last_summary_row {
+#gbpavbrdve .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3515,7 +3520,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   border-bottom-color: #D3D3D3;
 }
 
-#qtkrirmijc .gt_grand_summary_row {
+#gbpavbrdve .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3525,7 +3530,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   padding-right: 5px;
 }
 
-#qtkrirmijc .gt_first_grand_summary_row {
+#gbpavbrdve .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3535,7 +3540,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   border-top-color: #D3D3D3;
 }
 
-#qtkrirmijc .gt_last_grand_summary_row_top {
+#gbpavbrdve .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3545,11 +3550,11 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   border-bottom-color: #D3D3D3;
 }
 
-#qtkrirmijc .gt_striped {
+#gbpavbrdve .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qtkrirmijc .gt_table_body {
+#gbpavbrdve .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3558,7 +3563,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   border-bottom-color: #D3D3D3;
 }
 
-#qtkrirmijc .gt_footnotes {
+#gbpavbrdve .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3572,7 +3577,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   border-right-color: #D3D3D3;
 }
 
-#qtkrirmijc .gt_footnote {
+#gbpavbrdve .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3581,7 +3586,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   padding-right: 5px;
 }
 
-#qtkrirmijc .gt_sourcenotes {
+#gbpavbrdve .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3595,7 +3600,7 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   border-right-color: #D3D3D3;
 }
 
-#qtkrirmijc .gt_sourcenote {
+#gbpavbrdve .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3603,72 +3608,72 @@ Table&nbsp;6: Incidence Rate Table for Framingham Dataset
   padding-right: 5px;
 }
 
-#qtkrirmijc .gt_left {
+#gbpavbrdve .gt_left {
   text-align: left;
 }
 
-#qtkrirmijc .gt_center {
+#gbpavbrdve .gt_center {
   text-align: center;
 }
 
-#qtkrirmijc .gt_right {
+#gbpavbrdve .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qtkrirmijc .gt_font_normal {
+#gbpavbrdve .gt_font_normal {
   font-weight: normal;
 }
 
-#qtkrirmijc .gt_font_bold {
+#gbpavbrdve .gt_font_bold {
   font-weight: bold;
 }
 
-#qtkrirmijc .gt_font_italic {
+#gbpavbrdve .gt_font_italic {
   font-style: italic;
 }
 
-#qtkrirmijc .gt_super {
+#gbpavbrdve .gt_super {
   font-size: 65%;
 }
 
-#qtkrirmijc .gt_footnote_marks {
+#gbpavbrdve .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qtkrirmijc .gt_asterisk {
+#gbpavbrdve .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qtkrirmijc .gt_indent_1 {
+#gbpavbrdve .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qtkrirmijc .gt_indent_2 {
+#gbpavbrdve .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qtkrirmijc .gt_indent_3 {
+#gbpavbrdve .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qtkrirmijc .gt_indent_4 {
+#gbpavbrdve .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qtkrirmijc .gt_indent_5 {
+#gbpavbrdve .gt_indent_5 {
   text-indent: 25px;
 }
 
-#qtkrirmijc .katex-display {
+#gbpavbrdve .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#qtkrirmijc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#gbpavbrdve div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3752,23 +3757,23 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
 </figcaption>
 <div aria-describedby="tbl-model-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="mnvvrisdww" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mnvvrisdww table {
+<div id="zchkswdkgr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zchkswdkgr table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#mnvvrisdww thead, #mnvvrisdww tbody, #mnvvrisdww tfoot, #mnvvrisdww tr, #mnvvrisdww td, #mnvvrisdww th {
+#zchkswdkgr thead, #zchkswdkgr tbody, #zchkswdkgr tfoot, #zchkswdkgr tr, #zchkswdkgr td, #zchkswdkgr th {
   border-style: none;
 }
 
-#mnvvrisdww p {
+#zchkswdkgr p {
   margin: 0;
   padding: 0;
 }
 
-#mnvvrisdww .gt_table {
+#zchkswdkgr .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3794,12 +3799,12 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-left-color: #D3D3D3;
 }
 
-#mnvvrisdww .gt_caption {
+#zchkswdkgr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#mnvvrisdww .gt_title {
+#zchkswdkgr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3811,7 +3816,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-bottom-width: 0;
 }
 
-#mnvvrisdww .gt_subtitle {
+#zchkswdkgr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3823,7 +3828,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-top-width: 0;
 }
 
-#mnvvrisdww .gt_heading {
+#zchkswdkgr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3835,13 +3840,13 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-right-color: #D3D3D3;
 }
 
-#mnvvrisdww .gt_bottom_border {
+#zchkswdkgr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mnvvrisdww .gt_col_headings {
+#zchkswdkgr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3856,7 +3861,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-right-color: #D3D3D3;
 }
 
-#mnvvrisdww .gt_col_heading {
+#zchkswdkgr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3876,7 +3881,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   overflow-x: hidden;
 }
 
-#mnvvrisdww .gt_column_spanner_outer {
+#zchkswdkgr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3888,15 +3893,15 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 4px;
 }
 
-#mnvvrisdww .gt_column_spanner_outer:first-child {
+#zchkswdkgr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mnvvrisdww .gt_column_spanner_outer:last-child {
+#zchkswdkgr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mnvvrisdww .gt_column_spanner {
+#zchkswdkgr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3908,11 +3913,11 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   width: 100%;
 }
 
-#mnvvrisdww .gt_spanner_row {
+#zchkswdkgr .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#mnvvrisdww .gt_group_heading {
+#zchkswdkgr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3938,7 +3943,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   text-align: left;
 }
 
-#mnvvrisdww .gt_empty_group_heading {
+#zchkswdkgr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3953,15 +3958,15 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   vertical-align: middle;
 }
 
-#mnvvrisdww .gt_from_md > :first-child {
+#zchkswdkgr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mnvvrisdww .gt_from_md > :last-child {
+#zchkswdkgr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mnvvrisdww .gt_row {
+#zchkswdkgr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3980,7 +3985,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   overflow-x: hidden;
 }
 
-#mnvvrisdww .gt_stub {
+#zchkswdkgr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3993,7 +3998,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 5px;
 }
 
-#mnvvrisdww .gt_stub_row_group {
+#zchkswdkgr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4007,15 +4012,15 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   vertical-align: top;
 }
 
-#mnvvrisdww .gt_row_group_first td {
+#zchkswdkgr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#mnvvrisdww .gt_row_group_first th {
+#zchkswdkgr .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#mnvvrisdww .gt_summary_row {
+#zchkswdkgr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4025,16 +4030,16 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 5px;
 }
 
-#mnvvrisdww .gt_first_summary_row {
+#zchkswdkgr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#mnvvrisdww .gt_first_summary_row.thick {
+#zchkswdkgr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#mnvvrisdww .gt_last_summary_row {
+#zchkswdkgr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4044,7 +4049,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-bottom-color: #D3D3D3;
 }
 
-#mnvvrisdww .gt_grand_summary_row {
+#zchkswdkgr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4054,7 +4059,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 5px;
 }
 
-#mnvvrisdww .gt_first_grand_summary_row {
+#zchkswdkgr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4064,7 +4069,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-top-color: #D3D3D3;
 }
 
-#mnvvrisdww .gt_last_grand_summary_row_top {
+#zchkswdkgr .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4074,11 +4079,11 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-bottom-color: #D3D3D3;
 }
 
-#mnvvrisdww .gt_striped {
+#zchkswdkgr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mnvvrisdww .gt_table_body {
+#zchkswdkgr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4087,7 +4092,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-bottom-color: #D3D3D3;
 }
 
-#mnvvrisdww .gt_footnotes {
+#zchkswdkgr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4101,7 +4106,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-right-color: #D3D3D3;
 }
 
-#mnvvrisdww .gt_footnote {
+#zchkswdkgr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4110,7 +4115,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 5px;
 }
 
-#mnvvrisdww .gt_sourcenotes {
+#zchkswdkgr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4124,7 +4129,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-right-color: #D3D3D3;
 }
 
-#mnvvrisdww .gt_sourcenote {
+#zchkswdkgr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4132,72 +4137,72 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 5px;
 }
 
-#mnvvrisdww .gt_left {
+#zchkswdkgr .gt_left {
   text-align: left;
 }
 
-#mnvvrisdww .gt_center {
+#zchkswdkgr .gt_center {
   text-align: center;
 }
 
-#mnvvrisdww .gt_right {
+#zchkswdkgr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mnvvrisdww .gt_font_normal {
+#zchkswdkgr .gt_font_normal {
   font-weight: normal;
 }
 
-#mnvvrisdww .gt_font_bold {
+#zchkswdkgr .gt_font_bold {
   font-weight: bold;
 }
 
-#mnvvrisdww .gt_font_italic {
+#zchkswdkgr .gt_font_italic {
   font-style: italic;
 }
 
-#mnvvrisdww .gt_super {
+#zchkswdkgr .gt_super {
   font-size: 65%;
 }
 
-#mnvvrisdww .gt_footnote_marks {
+#zchkswdkgr .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#mnvvrisdww .gt_asterisk {
+#zchkswdkgr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#mnvvrisdww .gt_indent_1 {
+#zchkswdkgr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#mnvvrisdww .gt_indent_2 {
+#zchkswdkgr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#mnvvrisdww .gt_indent_3 {
+#zchkswdkgr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#mnvvrisdww .gt_indent_4 {
+#zchkswdkgr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#mnvvrisdww .gt_indent_5 {
+#zchkswdkgr .gt_indent_5 {
   text-indent: 25px;
 }
 
-#mnvvrisdww .katex-display {
+#zchkswdkgr .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#mnvvrisdww div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zchkswdkgr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4257,23 +4262,23 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
 </div>
 </div>
 <div class="cell-output-display">
-<div id="lngymmbprk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lngymmbprk table {
+<div id="ixkoangmkt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ixkoangmkt table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lngymmbprk thead, #lngymmbprk tbody, #lngymmbprk tfoot, #lngymmbprk tr, #lngymmbprk td, #lngymmbprk th {
+#ixkoangmkt thead, #ixkoangmkt tbody, #ixkoangmkt tfoot, #ixkoangmkt tr, #ixkoangmkt td, #ixkoangmkt th {
   border-style: none;
 }
 
-#lngymmbprk p {
+#ixkoangmkt p {
   margin: 0;
   padding: 0;
 }
 
-#lngymmbprk .gt_table {
+#ixkoangmkt .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4299,12 +4304,12 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-left-color: #D3D3D3;
 }
 
-#lngymmbprk .gt_caption {
+#ixkoangmkt .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lngymmbprk .gt_title {
+#ixkoangmkt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4316,7 +4321,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-bottom-width: 0;
 }
 
-#lngymmbprk .gt_subtitle {
+#ixkoangmkt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4328,7 +4333,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-top-width: 0;
 }
 
-#lngymmbprk .gt_heading {
+#ixkoangmkt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4340,13 +4345,13 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-right-color: #D3D3D3;
 }
 
-#lngymmbprk .gt_bottom_border {
+#ixkoangmkt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lngymmbprk .gt_col_headings {
+#ixkoangmkt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4361,7 +4366,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-right-color: #D3D3D3;
 }
 
-#lngymmbprk .gt_col_heading {
+#ixkoangmkt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4381,7 +4386,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   overflow-x: hidden;
 }
 
-#lngymmbprk .gt_column_spanner_outer {
+#ixkoangmkt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4393,15 +4398,15 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 4px;
 }
 
-#lngymmbprk .gt_column_spanner_outer:first-child {
+#ixkoangmkt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lngymmbprk .gt_column_spanner_outer:last-child {
+#ixkoangmkt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lngymmbprk .gt_column_spanner {
+#ixkoangmkt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4413,11 +4418,11 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   width: 100%;
 }
 
-#lngymmbprk .gt_spanner_row {
+#ixkoangmkt .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lngymmbprk .gt_group_heading {
+#ixkoangmkt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4443,7 +4448,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   text-align: left;
 }
 
-#lngymmbprk .gt_empty_group_heading {
+#ixkoangmkt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4458,15 +4463,15 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   vertical-align: middle;
 }
 
-#lngymmbprk .gt_from_md > :first-child {
+#ixkoangmkt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lngymmbprk .gt_from_md > :last-child {
+#ixkoangmkt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lngymmbprk .gt_row {
+#ixkoangmkt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4485,7 +4490,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   overflow-x: hidden;
 }
 
-#lngymmbprk .gt_stub {
+#ixkoangmkt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4498,7 +4503,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 5px;
 }
 
-#lngymmbprk .gt_stub_row_group {
+#ixkoangmkt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4512,15 +4517,15 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   vertical-align: top;
 }
 
-#lngymmbprk .gt_row_group_first td {
+#ixkoangmkt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lngymmbprk .gt_row_group_first th {
+#ixkoangmkt .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lngymmbprk .gt_summary_row {
+#ixkoangmkt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4530,16 +4535,16 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 5px;
 }
 
-#lngymmbprk .gt_first_summary_row {
+#ixkoangmkt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lngymmbprk .gt_first_summary_row.thick {
+#ixkoangmkt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lngymmbprk .gt_last_summary_row {
+#ixkoangmkt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4549,7 +4554,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-bottom-color: #D3D3D3;
 }
 
-#lngymmbprk .gt_grand_summary_row {
+#ixkoangmkt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4559,7 +4564,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 5px;
 }
 
-#lngymmbprk .gt_first_grand_summary_row {
+#ixkoangmkt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4569,7 +4574,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-top-color: #D3D3D3;
 }
 
-#lngymmbprk .gt_last_grand_summary_row_top {
+#ixkoangmkt .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4579,11 +4584,11 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-bottom-color: #D3D3D3;
 }
 
-#lngymmbprk .gt_striped {
+#ixkoangmkt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lngymmbprk .gt_table_body {
+#ixkoangmkt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4592,7 +4597,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-bottom-color: #D3D3D3;
 }
 
-#lngymmbprk .gt_footnotes {
+#ixkoangmkt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4606,7 +4611,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-right-color: #D3D3D3;
 }
 
-#lngymmbprk .gt_footnote {
+#ixkoangmkt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4615,7 +4620,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 5px;
 }
 
-#lngymmbprk .gt_sourcenotes {
+#ixkoangmkt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4629,7 +4634,7 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   border-right-color: #D3D3D3;
 }
 
-#lngymmbprk .gt_sourcenote {
+#ixkoangmkt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4637,72 +4642,72 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
   padding-right: 5px;
 }
 
-#lngymmbprk .gt_left {
+#ixkoangmkt .gt_left {
   text-align: left;
 }
 
-#lngymmbprk .gt_center {
+#ixkoangmkt .gt_center {
   text-align: center;
 }
 
-#lngymmbprk .gt_right {
+#ixkoangmkt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lngymmbprk .gt_font_normal {
+#ixkoangmkt .gt_font_normal {
   font-weight: normal;
 }
 
-#lngymmbprk .gt_font_bold {
+#ixkoangmkt .gt_font_bold {
   font-weight: bold;
 }
 
-#lngymmbprk .gt_font_italic {
+#ixkoangmkt .gt_font_italic {
   font-style: italic;
 }
 
-#lngymmbprk .gt_super {
+#ixkoangmkt .gt_super {
   font-size: 65%;
 }
 
-#lngymmbprk .gt_footnote_marks {
+#ixkoangmkt .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lngymmbprk .gt_asterisk {
+#ixkoangmkt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lngymmbprk .gt_indent_1 {
+#ixkoangmkt .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lngymmbprk .gt_indent_2 {
+#ixkoangmkt .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lngymmbprk .gt_indent_3 {
+#ixkoangmkt .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lngymmbprk .gt_indent_4 {
+#ixkoangmkt .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lngymmbprk .gt_indent_5 {
+#ixkoangmkt .gt_indent_5 {
   text-indent: 25px;
 }
 
-#lngymmbprk .katex-display {
+#ixkoangmkt .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#lngymmbprk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ixkoangmkt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4767,8 +4772,92 @@ Table&nbsp;7: Poisson Regression Model: Sex on Coronary Heart Disease Incidence 
 </div>
 </section>
 </section>
-<section id="summary" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Summary:</h1>
+<section id="notes-summary" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Notes / Summary:</h1>
+<ul>
+<li>When writing the fitted equation, use the log values.
+<ul>
+<li>We log the outcome to account for variations in follow-up time.</li>
+</ul></li>
+<li>When&nbsp;<strong>interpreting</strong>&nbsp;the values use the exponentiated form.
+<ul>
+<li>We use the exponent form bc it’s easier to interpret rather than saying “The male sex increases CHD incidence log-rate by XYZ”</li>
+<li>And, make sure to subtract for the interpretation:
+<ul>
+<li>Do 1.0 - exponentiated value &lt;– If exponentiated value is less than 1</li>
+<li>Do exponentiated value - 1 &lt;– if exponentiated value is greater than 1</li>
+</ul></li>
+</ul></li>
+<li>The offset term is only needed if we are SPECIFICALLY looking at the RATE.
+<ul>
+<li>If it is a count, do not include the log(follow-up) in the fitted equation</li>
+</ul></li>
+<li>How to determine if something is statistically significant? - 2 criteria
+<ul>
+<li>p-value &lt; alpha
+<ul>
+<li>(alpha is usually 0.05 or 0.001)</li>
+</ul></li>
+<li>Confidence Interval (CI) does not include 1.0
+<ul>
+<li>1.0 is the null hyp</li>
+</ul></li>
+</ul></li>
+<li>Model evaluation for overdispersion test
+<ul>
+<li>What is overdispersion?
+<ul>
+<li>To evaluate the poisson regression, we need to review the ratio of the <strong>residual deviance</strong> to its <strong>degree of freedoms</strong>. <strong>If the model ratio is super super greater than 1 then that is a sign of overdispersion</strong></li>
+<li><a href="#sec-evaluation" class="quarto-xref">Section&nbsp;3.2</a></li>
+</ul></li>
+<li>Then use either <strong>Quasi-Poisson Regression</strong> or <strong>Negative Binomial Regression</strong> to account for overdispersion.
+<ul>
+<li><a href="#sec-Quasi-Poisson-reg-model" class="quarto-xref">Section&nbsp;4.1</a></li>
+</ul></li>
+</ul></li>
+<li>Key Examples
+<ul>
+<li><strong>Question</strong>: Provide an answer to the research question for this section: What is the effect of sex on coronary heart disease (CHD) incidence rate? That is, describe the magnitude and direction of the effect AND its statistical significance in the context of this problem. Use evidence from the previous questions to support your answer.</li>
+<li><strong>Answer</strong>: In terms of sex, males have a 64% higher CHD incidence rate than females while holding all else constant (IRR = 1.64). This is statistically significant given that p-value is less than alpha and the 95% confidence interval does not contain 1.0 (p-value &lt; 0.001, CI: 1.48 to 1.82).</li>
+<li><a href="#tbl-model-3" class="quarto-xref">Table&nbsp;7</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="qmd-notes" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> .qmd Notes</h1>
+<ul>
+<li><p>code chunk tips</p>
+<ul>
+<li><p>Use “fig-” or “tbl-” to explicitly tell R this chunk generates a figure or table.</p>
+<ul>
+<li>You can use the “tbl/fig-caption” argument in R to then name the table or figure in the html render.</li>
+</ul></li>
+</ul></li>
+<li><p>References</p>
+<ul>
+<li><p>Use {#sec-xyz…} next to a header to create a reference</p></li>
+<li><p>Then use “<strong>?@sec-xyz</strong>” to create a link to whichever header you did that to.</p>
+<ul>
+<li>On html, there will be a question mark because R thinks this is a real link. Ignore that.</li>
+</ul></li>
+</ul></li>
+<li><p>Generating tables</p>
+<ul>
+<li><p>Use the tbl_regression() function from the gtsummary() package to generate really good looking tables in the html render</p>
+<ul>
+<li><p>Make sure to specify the “intercept = TRUE” argument to include the intercept in the output.</p></li>
+<li><p>See <a href="#sec-Quasi-Poisson-reg-model" class="quarto-xref">Section&nbsp;4.1</a> as an example</p></li>
+</ul></li>
+<li><p>Use the tidy() function from the broom package to automatically turn model outputs into data frames</p>
+<ul>
+<li>Sadly I do not have an example of that in this hw</li>
+</ul></li>
+<li><p>Use a callout block to make hidden notes for coding</p>
+<ul>
+<li>The syntax is “::: {.hidden} blah blah blah :::”</li>
+</ul></li>
+</ul></li>
+</ul>
 </section>
 
 </main>
