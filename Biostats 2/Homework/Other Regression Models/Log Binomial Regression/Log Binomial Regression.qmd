@@ -43,7 +43,7 @@ dekaf_dgf <- read.csv("dekaf_dgf (1).csv")
 
 dekaf_dgf <- dekaf_dgf %>% 
   mutate(Gender = if_else(gender == 1, "Male", "Female"),
-         DGF = if_else(dgf == 1, "Yes DGF", "No DGF")
+         DGF = if_else(dgf == 1, "Yes", "No")
   )
 
 
@@ -63,11 +63,9 @@ Note: tbl_cross() is used to make really good 2x2 tables in html via the gtsumma
 
 table_gender_dgf <- dekaf_dgf %>% 
   tbl_cross( 
-    row = gender,
-    col = dgf,
-    label = list(gender ~ "Gender",
-                 dgf ~ "DGF Status")) %>% 
-      bold_labels()
+    row = Gender,
+    col = DGF) %>% 
+  bold_labels()
     
 table_gender_dgf
   
