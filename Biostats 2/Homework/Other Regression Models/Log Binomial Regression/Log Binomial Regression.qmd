@@ -41,7 +41,10 @@ dekaf_dgf <- read.csv("dekaf_dgf (1).csv")
 ```{r}
 #| label: dekaf-dgf-df-clean
 
-
+dekaf_dgf <- dekaf_dgf %>% 
+  mutate(Gender = if_else(gender == 1, "Male", "Female"),
+         DGF = if_else(dgf == 1, "Yes DGF", "No DGF")
+  )
 
 
 
