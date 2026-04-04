@@ -139,10 +139,30 @@ model_1 %>% ## log form
 
 ## Model 1: Fitted Equation {#sec-fitted-equation-ex}
 
-When writing the fitted equation, make sure to use the log form.
+Notes: \* When writing the fitted equation, make sure to use the log form. \* To copy-paste this from an html file into google docs, copy the code as a TeX command and insert this into google docs as an equation \* Or, download the LaTeX editor Chrome Extension and j use this in gdocs. But this will be an image instead.
 
 $$log(DGF) = -1.6 + (0.63\times \text{Gender}_{\text{male}}) $$
 
 ::: hidden
--   I can use the "\$\$" characters to make equations via LaTex syntax
+-   I can use the two dollar sign characters to make equations via LaTex syntax
 :::
+
+# Logistic Regression Notes
+
+-   Question: Provide an answer to the research question for this section: How does gender affect the odds of DGF? Remember to interpret the magnitude and direction of the estimate and its significance. Use evidence from the previous questions to support your answer.
+
+-   Answer: Holding all else constant, men have a 12% higher odds DGF risk compared to women (OR = 1.88). This is statistically significant given that the p-value is lower than alpha and the confidence interval does not include 1.0 (CI: 1.30 to 2.76).
+
+-   @sec-logistic-reg-ex
+
+-   @sec-fitted-equation-ex
+
+# Model 2: Log-binomial model for DGF by recipient gender
+
+```{r}
+#| label: tbl-log-binomial-model
+#| tbl-cap: "caption"
+#| tbl-cap-location: top
+
+```
+
