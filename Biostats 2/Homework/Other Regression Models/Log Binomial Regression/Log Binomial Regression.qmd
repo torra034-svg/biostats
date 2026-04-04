@@ -160,9 +160,13 @@ $$log(DGF) = -1.6 + (0.63\times \text{Gender}_{\text{male}}) $$
 # Model 2: Log-binomial model for DGF by recipient gender
 
 ```{r}
-#| label: tbl-log-binomial-model
-#| tbl-cap: "caption"
+#| label: tbl-log-binomial-model-dgf-gender
+#| tbl-cap: "Log-binomial model for DGF by recipient gender"
 #| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
 
 ```
 
