@@ -3118,9 +3118,14 @@ window.Quarto = {
   <li><a href="#library-load-data" id="toc-library-load-data" class="nav-link active" data-scroll-target="#library-load-data"><span class="header-section-number">1</span> Library + Load Data</a></li>
   <li><a href="#data-clean" id="toc-data-clean" class="nav-link" data-scroll-target="#data-clean"><span class="header-section-number">2</span> Data Clean</a></li>
   <li><a href="#x2-table-gender-by-dgf" id="toc-x2-table-gender-by-dgf" class="nav-link" data-scroll-target="#x2-table-gender-by-dgf"><span class="header-section-number">3</span> 2x2 Table: Gender by DGF</a></li>
-  <li><a href="#model-1-logistic-model-for-dgf-by-recipient-gender" id="toc-model-1-logistic-model-for-dgf-by-recipient-gender" class="nav-link" data-scroll-target="#model-1-logistic-model-for-dgf-by-recipient-gender"><span class="header-section-number">4</span> Model 1: Logistic model for DGF by recipient gender</a>
+  <li><a href="#sec-logistic-reg-ex" id="toc-sec-logistic-reg-ex" class="nav-link" data-scroll-target="#sec-logistic-reg-ex"><span class="header-section-number">4</span> Model 1: Logistic model for DGF by recipient gender</a>
   <ul class="collapse">
-  <li><a href="#model-1-fitted-equation" id="toc-model-1-fitted-equation" class="nav-link" data-scroll-target="#model-1-fitted-equation"><span class="header-section-number">4.1</span> Model 1 Fitted Equation</a></li>
+  <li><a href="#sec-fitted-equation-ex" id="toc-sec-fitted-equation-ex" class="nav-link" data-scroll-target="#sec-fitted-equation-ex"><span class="header-section-number">4.1</span> Model 1: Fitted Equation</a></li>
+  </ul></li>
+  <li><a href="#logistic-regression-notes" id="toc-logistic-regression-notes" class="nav-link" data-scroll-target="#logistic-regression-notes"><span class="header-section-number">5</span> Logistic Regression Notes</a></li>
+  <li><a href="#sec-log-binomial-model" id="toc-sec-log-binomial-model" class="nav-link" data-scroll-target="#sec-log-binomial-model"><span class="header-section-number">6</span> Model 2: Log-binomial model for DGF by recipient gender</a>
+  <ul class="collapse">
+  <li><a href="#log-binomial-fitted-equation" id="toc-log-binomial-fitted-equation" class="nav-link" data-scroll-target="#log-binomial-fitted-equation"><span class="header-section-number">6.1</span> Log-Binomial Fitted Equation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -3168,7 +3173,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dekaf_dgf <span class="ot">&lt;-</span> dekaf_dgf <span class="sc">%&gt;%</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Gender =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(gender <span class="sc">==</span> <span class="dv">1</span>, <span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>)),</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">DGF =</span> <span class="fu">as.factor</span>(<span class="fu">if_else</span>(dgf <span class="sc">==</span> <span class="dv">1</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>)),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Gender_women_ref =</span> <span class="fu">fct_relevel</span>(Gender, <span class="st">&quot;Female&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Gender_women_ref =</span> <span class="fu">relevel</span>(Gender, <span class="at">ref =</span> <span class="st">&quot;Female&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="x2-table-gender-by-dgf" class="level1" data-number="3">
@@ -3189,20 +3194,20 @@ Table 1: 2x2 Table: Gender by DGF
 </figcaption>
 <div aria-describedby="tbl-gender-dgf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="ipxnipbprh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ipxnipbprh table {
+<div id="vbdbwcidgi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vbdbwcidgi table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#ipxnipbprh thead, #ipxnipbprh tbody, #ipxnipbprh tfoot, #ipxnipbprh tr, #ipxnipbprh td, #ipxnipbprh th {
+#vbdbwcidgi thead, #vbdbwcidgi tbody, #vbdbwcidgi tfoot, #vbdbwcidgi tr, #vbdbwcidgi td, #vbdbwcidgi th {
 border-style: none;
 }
-#ipxnipbprh p {
+#vbdbwcidgi p {
 margin: 0;
 padding: 0;
 }
-#ipxnipbprh .gt_table {
+#vbdbwcidgi .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -3227,11 +3232,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#ipxnipbprh .gt_caption {
+#vbdbwcidgi .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#ipxnipbprh .gt_title {
+#vbdbwcidgi .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -3242,7 +3247,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#ipxnipbprh .gt_subtitle {
+#vbdbwcidgi .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -3253,7 +3258,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#ipxnipbprh .gt_heading {
+#vbdbwcidgi .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3264,12 +3269,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ipxnipbprh .gt_bottom_border {
+#vbdbwcidgi .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ipxnipbprh .gt_col_headings {
+#vbdbwcidgi .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3283,7 +3288,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ipxnipbprh .gt_col_heading {
+#vbdbwcidgi .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3302,7 +3307,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#ipxnipbprh .gt_column_spanner_outer {
+#vbdbwcidgi .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3313,13 +3318,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#ipxnipbprh .gt_column_spanner_outer:first-child {
+#vbdbwcidgi .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#ipxnipbprh .gt_column_spanner_outer:last-child {
+#vbdbwcidgi .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#ipxnipbprh .gt_column_spanner {
+#vbdbwcidgi .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3330,10 +3335,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#ipxnipbprh .gt_spanner_row {
+#vbdbwcidgi .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#ipxnipbprh .gt_group_heading {
+#vbdbwcidgi .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3358,7 +3363,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#ipxnipbprh .gt_empty_group_heading {
+#vbdbwcidgi .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3372,13 +3377,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#ipxnipbprh .gt_from_md > :first-child {
+#vbdbwcidgi .gt_from_md > :first-child {
 margin-top: 0;
 }
-#ipxnipbprh .gt_from_md > :last-child {
+#vbdbwcidgi .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#ipxnipbprh .gt_row {
+#vbdbwcidgi .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3396,7 +3401,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#ipxnipbprh .gt_stub {
+#vbdbwcidgi .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3408,7 +3413,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ipxnipbprh .gt_stub_row_group {
+#vbdbwcidgi .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3421,13 +3426,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#ipxnipbprh .gt_row_group_first td {
+#vbdbwcidgi .gt_row_group_first td {
 border-top-width: 2px;
 }
-#ipxnipbprh .gt_row_group_first th {
+#vbdbwcidgi .gt_row_group_first th {
 border-top-width: 2px;
 }
-#ipxnipbprh .gt_summary_row {
+#vbdbwcidgi .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3436,14 +3441,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ipxnipbprh .gt_first_summary_row {
+#vbdbwcidgi .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#ipxnipbprh .gt_first_summary_row.thick {
+#vbdbwcidgi .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#ipxnipbprh .gt_last_summary_row {
+#vbdbwcidgi .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3452,7 +3457,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ipxnipbprh .gt_grand_summary_row {
+#vbdbwcidgi .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3461,7 +3466,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ipxnipbprh .gt_first_grand_summary_row {
+#vbdbwcidgi .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3470,7 +3475,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#ipxnipbprh .gt_last_grand_summary_row_top {
+#vbdbwcidgi .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3479,10 +3484,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#ipxnipbprh .gt_striped {
+#vbdbwcidgi .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#ipxnipbprh .gt_table_body {
+#vbdbwcidgi .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3490,7 +3495,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ipxnipbprh .gt_footnotes {
+#vbdbwcidgi .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3503,7 +3508,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ipxnipbprh .gt_footnote {
+#vbdbwcidgi .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -3511,7 +3516,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ipxnipbprh .gt_sourcenotes {
+#vbdbwcidgi .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3524,64 +3529,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ipxnipbprh .gt_sourcenote {
+#vbdbwcidgi .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ipxnipbprh .gt_left {
+#vbdbwcidgi .gt_left {
 text-align: left;
 }
-#ipxnipbprh .gt_center {
+#vbdbwcidgi .gt_center {
 text-align: center;
 }
-#ipxnipbprh .gt_right {
+#vbdbwcidgi .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#ipxnipbprh .gt_font_normal {
+#vbdbwcidgi .gt_font_normal {
 font-weight: normal;
 }
-#ipxnipbprh .gt_font_bold {
+#vbdbwcidgi .gt_font_bold {
 font-weight: bold;
 }
-#ipxnipbprh .gt_font_italic {
+#vbdbwcidgi .gt_font_italic {
 font-style: italic;
 }
-#ipxnipbprh .gt_super {
+#vbdbwcidgi .gt_super {
 font-size: 65%;
 }
-#ipxnipbprh .gt_footnote_marks {
+#vbdbwcidgi .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#ipxnipbprh .gt_asterisk {
+#vbdbwcidgi .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#ipxnipbprh .gt_indent_1 {
+#vbdbwcidgi .gt_indent_1 {
 text-indent: 5px;
 }
-#ipxnipbprh .gt_indent_2 {
+#vbdbwcidgi .gt_indent_2 {
 text-indent: 10px;
 }
-#ipxnipbprh .gt_indent_3 {
+#vbdbwcidgi .gt_indent_3 {
 text-indent: 15px;
 }
-#ipxnipbprh .gt_indent_4 {
+#vbdbwcidgi .gt_indent_4 {
 text-indent: 20px;
 }
-#ipxnipbprh .gt_indent_5 {
+#vbdbwcidgi .gt_indent_5 {
 text-indent: 25px;
 }
-#ipxnipbprh .katex-display {
+#vbdbwcidgi .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#ipxnipbprh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#vbdbwcidgi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -3664,7 +3669,7 @@ Table 2: 2x2 Table: Gender by DGF Odds-Ratio
 </figure>
 </div>
 </section>
-<section id="model-1-logistic-model-for-dgf-by-recipient-gender" class="level1" data-number="4">
+<section id="sec-logistic-reg-ex" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Model 1: Logistic model for DGF by recipient gender</h1>
 <div class="cell" data-tbl-cap-location="top">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span> </span>
@@ -3701,20 +3706,20 @@ Table 3: Logistic Regression Model: DGF Outcome by Gender
 </figcaption>
 <div aria-describedby="tbl-logistic-reg-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="eqtjlusina" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#eqtjlusina table {
+<div id="otwpxqrwbk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#otwpxqrwbk table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#eqtjlusina thead, #eqtjlusina tbody, #eqtjlusina tfoot, #eqtjlusina tr, #eqtjlusina td, #eqtjlusina th {
+#otwpxqrwbk thead, #otwpxqrwbk tbody, #otwpxqrwbk tfoot, #otwpxqrwbk tr, #otwpxqrwbk td, #otwpxqrwbk th {
 border-style: none;
 }
-#eqtjlusina p {
+#otwpxqrwbk p {
 margin: 0;
 padding: 0;
 }
-#eqtjlusina .gt_table {
+#otwpxqrwbk .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -3739,11 +3744,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#eqtjlusina .gt_caption {
+#otwpxqrwbk .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#eqtjlusina .gt_title {
+#otwpxqrwbk .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -3754,7 +3759,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#eqtjlusina .gt_subtitle {
+#otwpxqrwbk .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -3765,7 +3770,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#eqtjlusina .gt_heading {
+#otwpxqrwbk .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3776,12 +3781,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#eqtjlusina .gt_bottom_border {
+#otwpxqrwbk .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#eqtjlusina .gt_col_headings {
+#otwpxqrwbk .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3795,7 +3800,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#eqtjlusina .gt_col_heading {
+#otwpxqrwbk .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3814,7 +3819,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#eqtjlusina .gt_column_spanner_outer {
+#otwpxqrwbk .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3825,13 +3830,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#eqtjlusina .gt_column_spanner_outer:first-child {
+#otwpxqrwbk .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#eqtjlusina .gt_column_spanner_outer:last-child {
+#otwpxqrwbk .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#eqtjlusina .gt_column_spanner {
+#otwpxqrwbk .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3842,10 +3847,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#eqtjlusina .gt_spanner_row {
+#otwpxqrwbk .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#eqtjlusina .gt_group_heading {
+#otwpxqrwbk .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3870,7 +3875,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#eqtjlusina .gt_empty_group_heading {
+#otwpxqrwbk .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3884,13 +3889,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#eqtjlusina .gt_from_md > :first-child {
+#otwpxqrwbk .gt_from_md > :first-child {
 margin-top: 0;
 }
-#eqtjlusina .gt_from_md > :last-child {
+#otwpxqrwbk .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#eqtjlusina .gt_row {
+#otwpxqrwbk .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3908,7 +3913,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#eqtjlusina .gt_stub {
+#otwpxqrwbk .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3920,7 +3925,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#eqtjlusina .gt_stub_row_group {
+#otwpxqrwbk .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3933,13 +3938,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#eqtjlusina .gt_row_group_first td {
+#otwpxqrwbk .gt_row_group_first td {
 border-top-width: 2px;
 }
-#eqtjlusina .gt_row_group_first th {
+#otwpxqrwbk .gt_row_group_first th {
 border-top-width: 2px;
 }
-#eqtjlusina .gt_summary_row {
+#otwpxqrwbk .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3948,14 +3953,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#eqtjlusina .gt_first_summary_row {
+#otwpxqrwbk .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#eqtjlusina .gt_first_summary_row.thick {
+#otwpxqrwbk .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#eqtjlusina .gt_last_summary_row {
+#otwpxqrwbk .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3964,7 +3969,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#eqtjlusina .gt_grand_summary_row {
+#otwpxqrwbk .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3973,7 +3978,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#eqtjlusina .gt_first_grand_summary_row {
+#otwpxqrwbk .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3982,7 +3987,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#eqtjlusina .gt_last_grand_summary_row_top {
+#otwpxqrwbk .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3991,10 +3996,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#eqtjlusina .gt_striped {
+#otwpxqrwbk .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#eqtjlusina .gt_table_body {
+#otwpxqrwbk .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -4002,7 +4007,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#eqtjlusina .gt_footnotes {
+#otwpxqrwbk .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -4015,7 +4020,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#eqtjlusina .gt_footnote {
+#otwpxqrwbk .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -4023,7 +4028,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#eqtjlusina .gt_sourcenotes {
+#otwpxqrwbk .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -4036,64 +4041,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#eqtjlusina .gt_sourcenote {
+#otwpxqrwbk .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#eqtjlusina .gt_left {
+#otwpxqrwbk .gt_left {
 text-align: left;
 }
-#eqtjlusina .gt_center {
+#otwpxqrwbk .gt_center {
 text-align: center;
 }
-#eqtjlusina .gt_right {
+#otwpxqrwbk .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#eqtjlusina .gt_font_normal {
+#otwpxqrwbk .gt_font_normal {
 font-weight: normal;
 }
-#eqtjlusina .gt_font_bold {
+#otwpxqrwbk .gt_font_bold {
 font-weight: bold;
 }
-#eqtjlusina .gt_font_italic {
+#otwpxqrwbk .gt_font_italic {
 font-style: italic;
 }
-#eqtjlusina .gt_super {
+#otwpxqrwbk .gt_super {
 font-size: 65%;
 }
-#eqtjlusina .gt_footnote_marks {
+#otwpxqrwbk .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#eqtjlusina .gt_asterisk {
+#otwpxqrwbk .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#eqtjlusina .gt_indent_1 {
+#otwpxqrwbk .gt_indent_1 {
 text-indent: 5px;
 }
-#eqtjlusina .gt_indent_2 {
+#otwpxqrwbk .gt_indent_2 {
 text-indent: 10px;
 }
-#eqtjlusina .gt_indent_3 {
+#otwpxqrwbk .gt_indent_3 {
 text-indent: 15px;
 }
-#eqtjlusina .gt_indent_4 {
+#otwpxqrwbk .gt_indent_4 {
 text-indent: 20px;
 }
-#eqtjlusina .gt_indent_5 {
+#otwpxqrwbk .gt_indent_5 {
 text-indent: 25px;
 }
-#eqtjlusina .katex-display {
+#otwpxqrwbk .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#eqtjlusina div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#otwpxqrwbk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -4153,20 +4158,20 @@ height: 0px !important;
 </div>
 </div>
 <div class="cell-output-display">
-<div id="ojqfkwcgtb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ojqfkwcgtb table {
+<div id="xuzkiftocw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xuzkiftocw table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#ojqfkwcgtb thead, #ojqfkwcgtb tbody, #ojqfkwcgtb tfoot, #ojqfkwcgtb tr, #ojqfkwcgtb td, #ojqfkwcgtb th {
+#xuzkiftocw thead, #xuzkiftocw tbody, #xuzkiftocw tfoot, #xuzkiftocw tr, #xuzkiftocw td, #xuzkiftocw th {
 border-style: none;
 }
-#ojqfkwcgtb p {
+#xuzkiftocw p {
 margin: 0;
 padding: 0;
 }
-#ojqfkwcgtb .gt_table {
+#xuzkiftocw .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -4191,11 +4196,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#ojqfkwcgtb .gt_caption {
+#xuzkiftocw .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#ojqfkwcgtb .gt_title {
+#xuzkiftocw .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -4206,7 +4211,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#ojqfkwcgtb .gt_subtitle {
+#xuzkiftocw .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -4217,7 +4222,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#ojqfkwcgtb .gt_heading {
+#xuzkiftocw .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -4228,12 +4233,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ojqfkwcgtb .gt_bottom_border {
+#xuzkiftocw .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ojqfkwcgtb .gt_col_headings {
+#xuzkiftocw .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -4247,7 +4252,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ojqfkwcgtb .gt_col_heading {
+#xuzkiftocw .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4266,7 +4271,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#ojqfkwcgtb .gt_column_spanner_outer {
+#xuzkiftocw .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4277,13 +4282,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#ojqfkwcgtb .gt_column_spanner_outer:first-child {
+#xuzkiftocw .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#ojqfkwcgtb .gt_column_spanner_outer:last-child {
+#xuzkiftocw .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#ojqfkwcgtb .gt_column_spanner {
+#xuzkiftocw .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -4294,10 +4299,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#ojqfkwcgtb .gt_spanner_row {
+#xuzkiftocw .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#ojqfkwcgtb .gt_group_heading {
+#xuzkiftocw .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4322,7 +4327,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#ojqfkwcgtb .gt_empty_group_heading {
+#xuzkiftocw .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -4336,13 +4341,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#ojqfkwcgtb .gt_from_md > :first-child {
+#xuzkiftocw .gt_from_md > :first-child {
 margin-top: 0;
 }
-#ojqfkwcgtb .gt_from_md > :last-child {
+#xuzkiftocw .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#ojqfkwcgtb .gt_row {
+#xuzkiftocw .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4360,7 +4365,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#ojqfkwcgtb .gt_stub {
+#xuzkiftocw .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4372,7 +4377,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ojqfkwcgtb .gt_stub_row_group {
+#xuzkiftocw .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4385,13 +4390,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#ojqfkwcgtb .gt_row_group_first td {
+#xuzkiftocw .gt_row_group_first td {
 border-top-width: 2px;
 }
-#ojqfkwcgtb .gt_row_group_first th {
+#xuzkiftocw .gt_row_group_first th {
 border-top-width: 2px;
 }
-#ojqfkwcgtb .gt_summary_row {
+#xuzkiftocw .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -4400,14 +4405,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ojqfkwcgtb .gt_first_summary_row {
+#xuzkiftocw .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#ojqfkwcgtb .gt_first_summary_row.thick {
+#xuzkiftocw .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#ojqfkwcgtb .gt_last_summary_row {
+#xuzkiftocw .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4416,7 +4421,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ojqfkwcgtb .gt_grand_summary_row {
+#xuzkiftocw .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -4425,7 +4430,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ojqfkwcgtb .gt_first_grand_summary_row {
+#xuzkiftocw .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4434,7 +4439,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#ojqfkwcgtb .gt_last_grand_summary_row_top {
+#xuzkiftocw .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4443,10 +4448,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#ojqfkwcgtb .gt_striped {
+#xuzkiftocw .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#ojqfkwcgtb .gt_table_body {
+#xuzkiftocw .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -4454,7 +4459,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ojqfkwcgtb .gt_footnotes {
+#xuzkiftocw .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -4467,7 +4472,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ojqfkwcgtb .gt_footnote {
+#xuzkiftocw .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -4475,7 +4480,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ojqfkwcgtb .gt_sourcenotes {
+#xuzkiftocw .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -4488,64 +4493,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ojqfkwcgtb .gt_sourcenote {
+#xuzkiftocw .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ojqfkwcgtb .gt_left {
+#xuzkiftocw .gt_left {
 text-align: left;
 }
-#ojqfkwcgtb .gt_center {
+#xuzkiftocw .gt_center {
 text-align: center;
 }
-#ojqfkwcgtb .gt_right {
+#xuzkiftocw .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#ojqfkwcgtb .gt_font_normal {
+#xuzkiftocw .gt_font_normal {
 font-weight: normal;
 }
-#ojqfkwcgtb .gt_font_bold {
+#xuzkiftocw .gt_font_bold {
 font-weight: bold;
 }
-#ojqfkwcgtb .gt_font_italic {
+#xuzkiftocw .gt_font_italic {
 font-style: italic;
 }
-#ojqfkwcgtb .gt_super {
+#xuzkiftocw .gt_super {
 font-size: 65%;
 }
-#ojqfkwcgtb .gt_footnote_marks {
+#xuzkiftocw .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#ojqfkwcgtb .gt_asterisk {
+#xuzkiftocw .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#ojqfkwcgtb .gt_indent_1 {
+#xuzkiftocw .gt_indent_1 {
 text-indent: 5px;
 }
-#ojqfkwcgtb .gt_indent_2 {
+#xuzkiftocw .gt_indent_2 {
 text-indent: 10px;
 }
-#ojqfkwcgtb .gt_indent_3 {
+#xuzkiftocw .gt_indent_3 {
 text-indent: 15px;
 }
-#ojqfkwcgtb .gt_indent_4 {
+#xuzkiftocw .gt_indent_4 {
 text-indent: 20px;
 }
-#ojqfkwcgtb .gt_indent_5 {
+#xuzkiftocw .gt_indent_5 {
 text-indent: 25px;
 }
-#ojqfkwcgtb .katex-display {
+#xuzkiftocw .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#ojqfkwcgtb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xuzkiftocw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -4608,15 +4613,987 @@ height: 0px !important;
 </figure>
 </div>
 </div>
-<section id="model-1-fitted-equation" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="model-1-fitted-equation"><span class="header-section-number">4.1</span> Model 1 Fitted Equation</h2>
-<p>When writing the fitted equation, make sure to use the log form.</p>
+<section id="sec-fitted-equation-ex" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-fitted-equation-ex"><span class="header-section-number">4.1</span> Model 1: Fitted Equation</h2>
+<p>Notes:</p>
+<ul>
+<li><p>When writing the fitted equation, make sure to use the log form.</p></li>
+<li><p>To copy-paste this from an html file into google docs, copy the code as a TeX command and insert this into google docs as an equation</p>
+<ul>
+<li>Or, download the LaTeX editor Chrome Extension and j use this in gdocs. But this will be an image instead.</li>
+</ul></li>
+</ul>
 <p><span class="math display">\[log(DGF) = -1.6 + (0.63\times \text{Gender}_{\text{male}}) \]</span></p>
 <div class="hidden">
 <ul>
-<li>I can use the “$$” characters to make equations via LaTex syntax</li>
+<li>I can use the two dollar sign characters to make equations via LaTex syntax</li>
 </ul>
 </div>
+</section>
+</section>
+<section id="logistic-regression-notes" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Logistic Regression Notes</h1>
+<ul>
+<li><p>Question: Provide an answer to the research question for this section: How does gender affect the odds of DGF? Remember to interpret the magnitude and direction of the estimate and its significance. Use evidence from the previous questions to support your answer.</p></li>
+<li><p>Answer: Holding all else constant, men have a 12% higher odds DGF risk compared to women (OR = 1.88). This is statistically significant given that the p-value is lower than alpha and the confidence interval does not include 1.0 (CI: 1.30 to 2.76).</p></li>
+<li><p><a href="#sec-logistic-reg-ex" class="quarto-xref">Section 4</a></p></li>
+<li><p><a href="#sec-fitted-equation-ex" class="quarto-xref">Section 4.1</a></p></li>
+</ul>
+</section>
+<section id="sec-log-binomial-model" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Model 2: Log-binomial model for DGF by recipient gender</h1>
+<p>How does gender affect the risk of DGF?</p>
+<div class="cell" data-tbl-cap-location="top">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model_2 <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span>  <span class="do">## use linear_reg most of the time</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">&quot;glm&quot;</span>, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(dgf <span class="sc">~</span> Gender_women_ref, <span class="at">data =</span> dekaf_dgf)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>model_2 <span class="sc">%&gt;%</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term                 estimate std.error statistic  p.value
+  &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)            -1.80      0.133    -13.5  2.11e-41
+2 Gender_women_refMale    0.494     0.154      3.20 1.37e- 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model_2 <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(<span class="at">Gender_women_ref =</span> <span class="st">&quot;Gender&quot;</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_header</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> <span class="st">&quot;**(Exp) RR Estimate**&quot;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">italicize_levels</span>()</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>model_2 <span class="sc">%&gt;%</span> </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(<span class="at">Gender_women_ref =</span> <span class="st">&quot;Gender&quot;</span>),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_header</span>(</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> <span class="st">&quot;**(Log) RR Estimate**&quot;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">italicize_levels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-log-binomial-model-dgf-gender" class="cell quarto-float anchored" data-tbl-cap-location="top">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-log-binomial-model-dgf-gender-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 4: Log-binomial model for DGF by recipient gender
+</figcaption>
+<div aria-describedby="tbl-log-binomial-model-dgf-gender-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="gumkmxelfy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gumkmxelfy table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#gumkmxelfy thead, #gumkmxelfy tbody, #gumkmxelfy tfoot, #gumkmxelfy tr, #gumkmxelfy td, #gumkmxelfy th {
+border-style: none;
+}
+#gumkmxelfy p {
+margin: 0;
+padding: 0;
+}
+#gumkmxelfy .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#gumkmxelfy .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#gumkmxelfy .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#gumkmxelfy .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#gumkmxelfy .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#gumkmxelfy .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#gumkmxelfy .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#gumkmxelfy .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#gumkmxelfy .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#gumkmxelfy .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#gumkmxelfy .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#gumkmxelfy .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#gumkmxelfy .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#gumkmxelfy .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#gumkmxelfy .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#gumkmxelfy .gt_from_md > :first-child {
+margin-top: 0;
+}
+#gumkmxelfy .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#gumkmxelfy .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#gumkmxelfy .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#gumkmxelfy .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#gumkmxelfy .gt_row_group_first td {
+border-top-width: 2px;
+}
+#gumkmxelfy .gt_row_group_first th {
+border-top-width: 2px;
+}
+#gumkmxelfy .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#gumkmxelfy .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#gumkmxelfy .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#gumkmxelfy .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#gumkmxelfy .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#gumkmxelfy .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#gumkmxelfy .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#gumkmxelfy .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#gumkmxelfy .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#gumkmxelfy .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#gumkmxelfy .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#gumkmxelfy .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#gumkmxelfy .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#gumkmxelfy .gt_left {
+text-align: left;
+}
+#gumkmxelfy .gt_center {
+text-align: center;
+}
+#gumkmxelfy .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#gumkmxelfy .gt_font_normal {
+font-weight: normal;
+}
+#gumkmxelfy .gt_font_bold {
+font-weight: bold;
+}
+#gumkmxelfy .gt_font_italic {
+font-style: italic;
+}
+#gumkmxelfy .gt_super {
+font-size: 65%;
+}
+#gumkmxelfy .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#gumkmxelfy .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#gumkmxelfy .gt_indent_1 {
+text-indent: 5px;
+}
+#gumkmxelfy .gt_indent_2 {
+text-indent: 10px;
+}
+#gumkmxelfy .gt_indent_3 {
+text-indent: 15px;
+}
+#gumkmxelfy .gt_indent_4 {
+text-indent: 20px;
+}
+#gumkmxelfy .gt_indent_5 {
+text-indent: 25px;
+}
+#gumkmxelfy .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#gumkmxelfy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header gt_col_headings">
+<th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
+<th id="estimate" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>(Exp) RR Estimate</strong></th>
+<th id="conf.low" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>95% CI</strong></th>
+<th id="p.value" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>p-value</strong></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">(Intercept)</td>
+<td class="gt_row gt_center" headers="estimate">0.17</td>
+<td class="gt_row gt_center" headers="conf.low">0.13, 0.21</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Gender</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-style: italic">    Female</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-style: italic">    Male</td>
+<td class="gt_row gt_center" headers="estimate">1.64</td>
+<td class="gt_row gt_center" headers="conf.low">1.22, 2.24</td>
+<td class="gt_row gt_center" headers="p.value">0.001</td>
+</tr>
+</tbody><tfoot>
+<tr class="odd gt_sourcenotes">
+<td colspan="4" class="gt_sourcenote">Abbreviations: CI = Confidence Interval, RR = Relative Risk</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+<div class="cell-output-display">
+<div id="xgjpslbnrm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xgjpslbnrm table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#xgjpslbnrm thead, #xgjpslbnrm tbody, #xgjpslbnrm tfoot, #xgjpslbnrm tr, #xgjpslbnrm td, #xgjpslbnrm th {
+border-style: none;
+}
+#xgjpslbnrm p {
+margin: 0;
+padding: 0;
+}
+#xgjpslbnrm .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#xgjpslbnrm .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#xgjpslbnrm .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#xgjpslbnrm .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#xgjpslbnrm .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#xgjpslbnrm .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#xgjpslbnrm .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#xgjpslbnrm .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#xgjpslbnrm .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#xgjpslbnrm .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#xgjpslbnrm .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#xgjpslbnrm .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#xgjpslbnrm .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#xgjpslbnrm .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#xgjpslbnrm .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#xgjpslbnrm .gt_from_md > :first-child {
+margin-top: 0;
+}
+#xgjpslbnrm .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#xgjpslbnrm .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#xgjpslbnrm .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#xgjpslbnrm .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#xgjpslbnrm .gt_row_group_first td {
+border-top-width: 2px;
+}
+#xgjpslbnrm .gt_row_group_first th {
+border-top-width: 2px;
+}
+#xgjpslbnrm .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#xgjpslbnrm .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#xgjpslbnrm .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#xgjpslbnrm .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#xgjpslbnrm .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#xgjpslbnrm .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#xgjpslbnrm .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#xgjpslbnrm .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#xgjpslbnrm .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#xgjpslbnrm .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#xgjpslbnrm .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#xgjpslbnrm .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#xgjpslbnrm .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#xgjpslbnrm .gt_left {
+text-align: left;
+}
+#xgjpslbnrm .gt_center {
+text-align: center;
+}
+#xgjpslbnrm .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#xgjpslbnrm .gt_font_normal {
+font-weight: normal;
+}
+#xgjpslbnrm .gt_font_bold {
+font-weight: bold;
+}
+#xgjpslbnrm .gt_font_italic {
+font-style: italic;
+}
+#xgjpslbnrm .gt_super {
+font-size: 65%;
+}
+#xgjpslbnrm .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#xgjpslbnrm .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#xgjpslbnrm .gt_indent_1 {
+text-indent: 5px;
+}
+#xgjpslbnrm .gt_indent_2 {
+text-indent: 10px;
+}
+#xgjpslbnrm .gt_indent_3 {
+text-indent: 15px;
+}
+#xgjpslbnrm .gt_indent_4 {
+text-indent: 20px;
+}
+#xgjpslbnrm .gt_indent_5 {
+text-indent: 25px;
+}
+#xgjpslbnrm .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#xgjpslbnrm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header gt_col_headings">
+<th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
+<th id="estimate" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>(Log) RR Estimate</strong></th>
+<th id="conf.low" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>95% CI</strong></th>
+<th id="p.value" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>p-value</strong></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">(Intercept)</td>
+<td class="gt_row gt_center" headers="estimate">-1.8</td>
+<td class="gt_row gt_center" headers="conf.low">-2.1, -1.5</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Gender</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-style: italic">    Female</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-style: italic">    Male</td>
+<td class="gt_row gt_center" headers="estimate">0.49</td>
+<td class="gt_row gt_center" headers="conf.low">0.20, 0.81</td>
+<td class="gt_row gt_center" headers="p.value">0.001</td>
+</tr>
+</tbody><tfoot>
+<tr class="odd gt_sourcenotes">
+<td colspan="4" class="gt_sourcenote">Abbreviations: CI = Confidence Interval, RR = Relative Risk</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<section id="log-binomial-fitted-equation" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="log-binomial-fitted-equation"><span class="header-section-number">6.1</span> Log-Binomial Fitted Equation</h2>
+<p><span class="math display">\[log(DGF) = 0.17 + (0.11\times \text{Gender}_{\text{male}}) \]</span></p>
 </section>
 </section>
 

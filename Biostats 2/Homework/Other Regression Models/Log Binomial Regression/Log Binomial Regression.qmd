@@ -46,7 +46,7 @@ dekaf_dgf <- read.csv("dekaf_dgf (1).csv")
 dekaf_dgf <- dekaf_dgf %>% 
   mutate(Gender = as.factor(if_else(gender == 1, "Male", "Female")),
          DGF = as.factor(if_else(dgf == 1, "Yes", "No")),
-         Gender_women_ref = fct_relevel(Gender, "Female"))
+         Gender_women_ref = relevel(Gender, ref = "Female"))
 
 
 
@@ -139,7 +139,13 @@ model_1 %>% ## log form
 
 ## Model 1: Fitted Equation {#sec-fitted-equation-ex}
 
-Notes: \* When writing the fitted equation, make sure to use the log form. \* To copy-paste this from an html file into google docs, copy the code as a TeX command and insert this into google docs as an equation \* Or, download the LaTeX editor Chrome Extension and j use this in gdocs. But this will be an image instead.
+Notes:
+
+-   When writing the fitted equation, make sure to use the log form.
+
+-   To copy-paste this from an html file into google docs, copy the code as a TeX command and insert this into google docs as an equation
+
+    -   Or, download the LaTeX editor Chrome Extension and j use this in gdocs. But this will be an image instead.
 
 $$log(DGF) = -1.6 + (0.63\times \text{Gender}_{\text{male}}) $$
 
@@ -157,7 +163,9 @@ $$log(DGF) = -1.6 + (0.63\times \text{Gender}_{\text{male}}) $$
 
 -   @sec-fitted-equation-ex
 
-# Model 2: Log-binomial model for DGF by recipient gender
+# Model 2: Log-binomial model for DGF by recipient gender {#sec-log-binomial-model}
+
+How does gender affect the risk of DGF?
 
 ```{r}
 #| label: tbl-log-binomial-model-dgf-gender
@@ -168,5 +176,37 @@ $$log(DGF) = -1.6 + (0.63\times \text{Gender}_{\text{male}}) $$
 #| echo: true
 
 
+model_2 <- linear_reg() %>%  ## use linear_reg most of the time
+  set_engine("glm", family = binomial(link = "log")) %>% 
+  fit(dgf ~ Gender_women_ref, data = dekaf_dgf)
+
+model_2 %>% 
+  tidy()
+
+model_2 %>% 
+  tbl_regression(
+    label = list(Gender_women_ref = "Gender"),
+    intercept = TRUE,
+    exponentiate = TRUE) %>% 
+  modify_header(
+    estimate = "**(Exp) RR Estimate**"
+  ) %>% 
+  bold_labels() %>% 
+  italicize_levels()
+
+model_2 %>% 
+  tbl_regression(
+    label = list(Gender_women_ref = "Gender"),
+    intercept = TRUE,
+    exponentiate = FALSE) %>% 
+  modify_header(
+    estimate = "**(Log) RR Estimate**"
+  ) %>% 
+  bold_labels() %>% 
+  italicize_levels()
+
 ```
 
+## Log-Binomial Fitted Equation
+
+$$log(DGF) = 0.17 + (0.11\times \text{Gender}_{\text{male}}) $$
