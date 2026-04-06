@@ -209,4 +209,4 @@ model_2 %>%
 
 ## Log-Binomial Fitted Equation
 
-$$log(DGF) = 0.17 + (0.11\times \text{Gender}_{\text{male}}) $$
+$$log(DGF) = 0.17 + (1.64\times \text{Gender}_{\text{male}}) $$
