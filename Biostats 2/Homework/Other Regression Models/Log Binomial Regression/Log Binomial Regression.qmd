@@ -308,7 +308,7 @@ model_2_risk_ratio %>%
   dplyr::select(-null.value, -std.error, -null, -statistic, -term, -df) %>% 
   rename(
     "Gender" = contrast,
-    "DGF Ratio" = ratio,
+    "DGF RR Ratio" = ratio,
     "Lower 95% CI" = conf.low,
     "Upper 95% CI" = conf.high,
     "p-value" = p.value) %>% 
@@ -321,4 +321,10 @@ model_2_risk_ratio %>%
 
 ```
 
-The risk probability of DGF in men is 0.27, the risk probability of DGF in women is 0.17, and the relative risk ratio of DGF when comparing men to women is 1.64 with a 95% confidence interval of 1.21 to 2.22
+The risk probability of DGF in men is 0.27, the risk probability of DGF in women is 0.17, and the relative risk ratio of DGF when comparing men to women is 1.64 with a 95% confidence interval of 1.21 to 2.22.
+
+#### Interpreting Model 2
+
+-   Question: Provide an answer to the research question for this section: How does gender affect the risk of DGF? Remember to interpret the magnitude and direction of the estimate and its significance. Use evidence from the previous questions to support your answer.
+
+-   Answer: For women, the probability risk of DGF is increased by 17%, for men it’s increased by 27%, and when comparing men to women, men have a 64% increase in DGF risk (RR = 1.64). This is statistically significant given that the p-value is lower than alpha and the confidence interval does not include 1.0 (p-value \< 0.001, CI: 1.22 to 2.22)
