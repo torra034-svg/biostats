@@ -25,6 +25,8 @@ library(epitools) ## Make 2x2 tables
 library(gtsummary) ## convert results into table
 library(broom) ## convert baseR results into tibbles
 library(tidymodels) ## generate log models via tidyverse
+library(emmeans) ## calculate ratios (e.g risk ratio)
+library(gt) ## convert results to table
 
 ```
 
@@ -209,4 +211,110 @@ model_2 %>%
 
 ## Log-Binomial Fitted Equation
 
-$$log(DGF) = 0.17 + (1.64\times \text{Gender}_{\text{male}}) $$
+* Remember to use the log values when writing the fitted equation!
+* We are **NOT** calculating the binary outcome. 
+  * We are calculating the probability the outcome occurs. Therefore, we should include log(P(DGF))
+
+$$log(P(DGF)) = -1.8 + (0.49\times \text{Gender}_{\text{male}}) $$
+
+## Calculate Predicted Probability from the Fitted Equation
+
+Using the fitted equation from above, calculate the predicted probability (risk) of DGF in men, the risk of DGF in women, and the relative risk for DGF comparing men to women.  
+
+**Note**: Whenever a question asks us to do actual calculations, we must undo the log via doing the math THEN exponentiating it
+  * You cannot j look at the exponentiated table.
+    * I mean we can but in the log-scale we add the numbers, whereas in the exponentiated scale, we multiply the numbers.
+      * TLDR: j do the math in log-form first then exponentiate bc it's alot easier to calculate and interpret
+
+
+```{r}
+#| label: model-2-predicted-probability-by-hand
+
+DGF_risk_men <- exp(-1.8+0.49) ## look at the fitted equation and undo the log
+
+DGF_risk_women <- exp(-1.8)
+
+DGF_RR_men_women <- round(DGF_risk_men / DGF_risk_women,2)
+
+DGF_RR_men_women
+
+
+## this is how to double check calculations by hand
+```
+
+
+```{r}
+#| label: tbl-model-2-risks-calculations-automated
+#| tbl-cap: "Model 2 Relative Risk Calculations"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+
+model_2_risks <- emmeans(model_2$fit, specs = ~ Gender_women_ref, type = "response")
+
+model_2_risks %>% 
+  as.data.frame() %>% 
+  dplyr::select(-SE,-df) %>% 
+  gt() %>% 
+  tab_header(
+    title = "Model 2: Predicted DGF Risk",
+    subtitle = "Analysis of Risks by Gender"
+  ) %>% 
+  cols_label(
+    Gender_women_ref = "Gender",
+    prob = "Risk Estimate",
+    asymp.LCL	 = "Lower 95% CI",
+    asymp.UCL = "Upper 95% CI"
+  ) %>% 
+  fmt_number(
+    columns = is.numeric,
+    decimals = 2
+  )
+
+
+```
+
+
+
+```{r}
+
+#| label: tbl-model-2-risk-ratio-calculation-automated
+#| tbl-cap: "Model 2 Relative Risk Ratio Calculation"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+
+model_2_risk_ratio <- contrast(model_2_risks, method = "revpairwise")
+
+model_2_risk_ratio
+
+model_2_risk_ratio %>% 
+  as.data.frame() %>% 
+  select(contrast, ratio, p.value) %>% 
+  gt() %>% 
+  tab_header(
+    title = "DGF Relative Risk Ratio comparing Men to Women"
+  ) %>% 
+  cols_label(
+    contrast = "Gender",
+    ratio = "Risk Ratio",
+    p.value = "p-value"
+  ) %>% 
+  fmt_number( ## format risk ratio to 2 decimals
+    columns = ratio,
+    decimals = 2
+  ) %>% 
+  fmt_number( #3 format p-value to 4 decimal places
+    columns = p.value,
+    decimals = 4
+  )
+
+```
+
+The risk probability of DGF in men is 
