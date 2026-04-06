@@ -27,6 +27,8 @@ library(broom) ## convert baseR results into tibbles
 library(tidymodels) ## generate log models via tidyverse
 library(emmeans) ## calculate ratios (e.g risk ratio)
 library(gt) ## convert results to table
+library(knitr)
+library(kableExtra) ## convert results from calculation to htmltable
 
 ```
 
@@ -211,21 +213,25 @@ model_2 %>%
 
 ## Log-Binomial Fitted Equation
 
-* Remember to use the log values when writing the fitted equation!
-* We are **NOT** calculating the binary outcome. 
-  * We are calculating the probability the outcome occurs. Therefore, we should include log(P(DGF))
+-   Remember to use the log values when writing the fitted equation!
+-   We are **NOT** calculating the binary outcome.
+    -   We are calculating the probability the outcome occurs. Therefore, we should include log(P(DGF))
 
 $$log(P(DGF)) = -1.8 + (0.49\times \text{Gender}_{\text{male}}) $$
 
 ## Calculate Predicted Probability from the Fitted Equation
 
-Using the fitted equation from above, calculate the predicted probability (risk) of DGF in men, the risk of DGF in women, and the relative risk for DGF comparing men to women.  
+Using the fitted equation from above, calculate the predicted probability (risk) of DGF in men, the risk of DGF in women, and the relative risk for DGF comparing men to women.
 
 **Note**: Whenever a question asks us to do actual calculations, we must undo the log via doing the math THEN exponentiating it
-  * You cannot j look at the exponentiated table.
-    * I mean we can but in the log-scale we add the numbers, whereas in the exponentiated scale, we multiply the numbers.
-      * TLDR: j do the math in log-form first then exponentiate bc it's alot easier to calculate and interpret
 
+-   You cannot j look at the exponentiated table.
+
+    -   I mean we can but in the log-scale we add the numbers, whereas in the exponentiated scale, we multiply the numbers. \*
+
+        -   TLDR: j do the math in log-form first then exponentiate bc it's alot easier to calculate and interpret
+
+### Calculating Model 2 Risks by Hand
 
 ```{r}
 #| label: model-2-predicted-probability-by-hand
@@ -242,6 +248,9 @@ DGF_RR_men_women
 ## this is how to double check calculations by hand
 ```
 
+### Calculating Model 2 Risks via Automation
+
+#### Relative Risks for each Gender
 
 ```{r}
 #| label: tbl-model-2-risks-calculations-automated
@@ -255,29 +264,28 @@ DGF_RR_men_women
 
 model_2_risks <- emmeans(model_2$fit, specs = ~ Gender_women_ref, type = "response")
 
+model_2_risks
+
 model_2_risks %>% 
+  tidy(conf.int = TRUE) %>% 
   as.data.frame() %>% 
-  dplyr::select(-SE,-df) %>% 
-  gt() %>% 
-  tab_header(
-    title = "Model 2: Predicted DGF Risk",
-    subtitle = "Analysis of Risks by Gender"
+  dplyr::select(Gender_women_ref, prob, conf.low, conf.high) %>% 
+  rename(
+    "Gender" = Gender_women_ref,
+    "DGF Probability" = prob,
+    "Lower 95% CI" = conf.low,
+    "Upper 95% CI" = conf.high
   ) %>% 
-  cols_label(
-    Gender_women_ref = "Gender",
-    prob = "Risk Estimate",
-    asymp.LCL	 = "Lower 95% CI",
-    asymp.UCL = "Upper 95% CI"
-  ) %>% 
-  fmt_number(
-    columns = is.numeric,
-    decimals = 2
-  )
+  kable(digits = 2,
+        align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 
 
 ```
 
+Note: Kable is easier to make tables than gt(). **BUT** GT tables do look more professional
 
+#### Relative Risk Ratio Comparing Men to Women
 
 ```{r}
 
@@ -295,26 +303,22 @@ model_2_risk_ratio <- contrast(model_2_risks, method = "revpairwise")
 model_2_risk_ratio
 
 model_2_risk_ratio %>% 
+  tidy(conf.int = TRUE) %>% 
   as.data.frame() %>% 
-  select(contrast, ratio, p.value) %>% 
-  gt() %>% 
-  tab_header(
-    title = "DGF Relative Risk Ratio comparing Men to Women"
+  dplyr::select(-null.value, -std.error, -null, -statistic, -term, -df) %>% 
+  rename(
+    "Gender" = contrast,
+    "DGF Ratio" = ratio,
+    "Lower 95% CI" = conf.low,
+    "Upper 95% CI" = conf.high,
+    "p-value" = p.value) %>% 
+  kable(
+    digits = 2,
+    align = "c"
   ) %>% 
-  cols_label(
-    contrast = "Gender",
-    ratio = "Risk Ratio",
-    p.value = "p-value"
-  ) %>% 
-  fmt_number( ## format risk ratio to 2 decimals
-    columns = ratio,
-    decimals = 2
-  ) %>% 
-  fmt_number( #3 format p-value to 4 decimal places
-    columns = p.value,
-    decimals = 4
-  )
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) 
+
 
 ```
 
-The risk probability of DGF in men is 
+The risk probability of DGF in men is 0.27, the risk probability of DGF in women is 0.17, and the relative risk ratio of DGF when comparing men to women is 1.64 with a 95% confidence interval of 1.21 to 2.22
