@@ -1,0 +1,101 @@
+---
+title: "Ordinal Regression"
+author: "Patrick Torralba"
+format:
+  html:
+    theme: flatly
+    code-tools: TRUE
+    code-copy: TRUE
+    toc: TRUE
+    toc-depth: 3
+    smooth-scroll: TRUE
+    embed-resources: TRUE
+    number-sections: TRUE
+editor: visual
+---
+
+# Setup
+
+## Library
+```{r}
+#| label: library
+#| message: false
+#| warning: false
+#| echo: false
+
+library(tidyverse)
+library(gtsummary) ## make table 1
+  
+
+```
+
+## Load Data
+```{r}
+#| label: load data
+#| message: false
+#| warning: false
+#| echo: false
+
+tomhs <- read.csv("tomhs (2).csv")
+
+```
+
+## Data Clean
+```{r}
+#| label: df-clean
+#| warning: false
+#| message: false
+#| echo: true
+
+tomhs <- tomhs %>% 
+  mutate(
+    Sex = if_else(sex == 1, "Male", "Female"),
+    Race = case_when(
+      race == 1 ~ "White",
+      race == 2 ~ "Black",
+      race == 3 ~ "Asian",
+      race == 4 ~ "Other"
+    ),
+    Eversmk = if_else(eversmk == 1, "Yes", "No")
+  )
+
+```
+
+
+# Exploratory Data Analysis
+
+## Table 1: Particpant Demographics
+```{r}
+#| label: tbl-pt-demographic
+#| tbl-cap: "Participant Demographics by Ever Smoke Status"
+#| tbl-cap-location: top
+
+tbl_1 <- tomhs %>% 
+  select(age, Sex, Race, Eversmk) %>% 
+  tbl_summary(
+    by = Eversmk,
+    label = list(
+      Eversmk = "Ever Smoke",
+      age = "Age"
+    )
+  ) %>% 
+  add_overall() %>% 
+  bold_labels() %>% 
+  italicize_levels()
+
+tbl_1
+
+
+```
+
+
+## General Health Variable Table
+```{r}
+#| label: tbl-gen-health-var
+#| tbl-cap: "caption"
+#| tbl-cap-location: top
+
+
+
+```
+
