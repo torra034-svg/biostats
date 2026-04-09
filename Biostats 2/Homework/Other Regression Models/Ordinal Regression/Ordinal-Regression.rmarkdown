@@ -15,9 +15,11 @@ format:
 editor: visual
 ---
 
+
 # Setup
 
 ## Library
+
 
 ```{r}
 #| label: library
@@ -39,7 +41,9 @@ library(VGAM) ## needed for ordinal regression calculation
 
 ```
 
+
 ## Load Data
+
 
 ```{r}
 #| label: load data
@@ -51,7 +55,9 @@ tomhs <- read.csv("tomhs (2).csv")
 
 ```
 
+
 ## Data Clean  {#sec-data-clean}
+
 
 ```{r}
 #| label: df-clean
@@ -90,9 +96,11 @@ tomhs <- tomhs %>%
 
 ```
 
+
 # Exploratory Data Analysis
 
 ## Table 1: Particpant Demographics
+
 
 ```{r}
 #| label: tbl-pt-demographic
@@ -118,7 +126,9 @@ tbl_1
 
 ```
 
+
 ## General Health Variable Table
+
 
 ```{r}
 #| label: tbl-gen-health-var
@@ -142,7 +152,9 @@ tbl_2
 
 ```
 
+
 ## General Health Variable Distribution
+
 
 ```{r}
 #| label: fig-gen-health-distribution
@@ -186,7 +198,9 @@ tbl_3
 
 ```
 
+
 ## Relationship between General Health and Ever Smoke
+
 
 ```{r}
 #| label: fig-genhealth-vs-eversmk
@@ -210,6 +224,7 @@ ggplot(tomhs, aes(x = GenHealth, fill = Eversmk)) +
 
 ```
 
+
 # Model 3: Adjusted Ordinal Regression
 
 ## Fitted Equation {#sec-ord-reg-fit-eq}
@@ -221,6 +236,7 @@ $$
 $$
 
 ## Ordinal Regression Model: The effect of eversmk on ql12_1 after adjusting for age {#sec-ord-reg-calc-baseR}
+
 
 ```{r}
 #| label: ordinal-reg-model-building
@@ -276,6 +292,7 @@ model_1 %>%  ## exponent form
 
 ```
 
+
 ### Ordinal Regression Model Interpretation  {#sec-ordinal-model-reg-interpret}
 
 -   Using the model results, what is the estimated common odds ratio for the eversmk variable? Provide an interpretation of this common odds ratio in the context of the problem. 
@@ -313,3 +330,4 @@ model_1 %>%  ## exponent form
         1.  In this scenario, 1 represents Excellent, 2 represents Very Good.
         2.  This all depends on how you ordered your factored categorical variable
     2.  @sec-ord-reg-calc-baseR
+
