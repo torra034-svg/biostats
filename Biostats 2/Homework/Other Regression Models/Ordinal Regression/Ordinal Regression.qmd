@@ -21,7 +21,7 @@ editor: visual
 #| label: library
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 library(tidyverse)
 library(gtsummary) ## make table 1
@@ -29,6 +29,7 @@ library(psych) ## descriptive stats for table 2
 library(broom) ## clean object output 
 library(kableExtra) ## convert object outputs into table
 library(stringr)
+library(tidymodels)
 
 ```
 
@@ -52,15 +53,32 @@ tomhs <- read.csv("tomhs (2).csv")
 
 tomhs <- tomhs %>% 
   mutate(
-    Sex = if_else(sex == 1, "Male", "Female"),
-    Race = case_when(
+    Sex = as.factor(if_else(sex == 1, "Male", "Female")),
+    Race = as.factor(case_when(
       race == 1 ~ "White",
       race == 2 ~ "Black",
       race == 3 ~ "Asian",
       race == 4 ~ "Other"
-    ),
-    Eversmk = if_else(eversmk == 1, "Yes", "No")
+    )),
+    Eversmk = as.factor(if_else(eversmk == 1, "Yes", "No")),
+    GenHealth = as.factor(case_when(
+      ql12_1 == 1 ~ "Excellent",
+      ql12_1 == 2 ~ "Very good",
+      ql12_1 == 3 ~ "Good",
+      ql12_1 == 4 ~ "Fair",
+      ql12_1 == 5 ~ "Poor"
+    )
+    )
   )
+
+tomhs <- tomhs %>% 
+  mutate(GenHealth = fct_relevel(GenHealth,
+    "Excellent",
+    "Very good",
+    "Good",
+    "Fair",
+    "Poor"
+  ))
 
 ```
 
@@ -74,12 +92,13 @@ tomhs <- tomhs %>%
 #| tbl-cap-location: top
 
 tbl_1 <- tomhs %>% 
-  select(age, Sex, Race, Eversmk) %>% 
+  select(age, Sex, Race, Eversmk, GenHealth) %>% 
   tbl_summary(
     by = Eversmk,
     label = list(
       Eversmk = "Ever Smoke",
-      age = "Age"
+      age = "Age",
+      GenHealth = "General Health"
     )
   ) %>% 
   add_overall() %>% 
@@ -115,3 +134,77 @@ tbl_2
 
 ```
 
+## General Health Variable Distribution
+```{r}
+#| label: fig-gen-health-distribution
+#| fig-cap: "General Health Variable Distribution"
+#| fig-cap-location: top
+
+
+ggplot(tomhs,aes(x = GenHealth)) +
+  geom_bar() +
+  labs(
+    x = "General Health Status",
+    y = "Count",
+    title = "General Health Status Count"
+  )
+
+```
+
+```{r}
+#| label: tbl-gen-health-category-count
+#| tbl-cap: "General Health Category Count"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+tbl_3 <- tomhs %>% 
+  select(GenHealth) %>% 
+  group_by(GenHealth) %>%
+  summarize(Count = n()) %>% 
+  arrange(GenHealth) %>% 
+  kable(col.names = c("General Health", "Count")) %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width = FALSE,
+    position = "center"
+  )
+  
+
+tbl_3
+
+
+```
+
+## Relationship between General Health and Ever Smoke
+```{r}
+#| label: fig-genhealth-vs-eversmk
+#| fig-cap: "General Health by Ever Smoke Status"
+#| fig-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+ggplot(tomhs, aes(x = GenHealth, fill = Eversmk)) +
+  geom_bar() +
+  labs(
+    x = "General Health Status",
+    y = "Count",
+    fill = "Ever Smoke Status",
+    title = "General Health Status by Ever Smoke Status"
+  )
+
+
+
+```
+
+# Model 3: Adjusted Ordinal Regression
+
+## Fitted Equation
+Write the appropriate adjusted ordinal regression equation you would use to determine whether general health at 12 months (ql12_1) depends on whether a person ever smoked after adjusting for age. Use the actual names of the variables (not just X or Y) and beta0, beta1, etc. for the coefficients.
+
+
+$$ \text{logit}[P(Y \le j)] = (\beta_1 \times \text{ql12_1}) + (\beta_2 \times age) $$
+## Ordinal Regression Model
