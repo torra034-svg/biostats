@@ -1,0 +1,129 @@
+---
+title: "Week 11: Homework"
+author: "Patrick Torralba"
+format:
+  html:
+    theme: flatly
+    code-fold: TRUE
+    code-tools: TRUE
+    code-copy: TRUE
+    toc: TRUE
+    toc-depth: 3
+    smooth-scroll: TRUE
+    embed-resources: TRUE
+    number-sections: TRUE
+editor: visual
+---
+
+# Set-up
+
+## Library
+```{r}
+#| label: library
+#| message: false
+#| warning: false
+#| echo: true
+
+library(tidyverse)
+library(gtsummary) ## make table 1
+library(psych) ## descriptive stats for table 2
+library(broom) ## clean object output 
+library(kableExtra) ## convert object outputs into table
+library(stringr)
+library(tidymodels)
+library(jtools) ## needed for ordinal regression calculation
+library(VGAM) ## needed for ordinal regression calculation  
+
+```
+
+## Load Data
+```{r}
+#| label: load data
+#| message: false
+#| warning: false
+#| echo: false
+
+tomhs <- read.csv("tomhs (2).csv")
+
+```
+
+
+## Data Clean
+```{r}
+#| label: data-clean
+#| warning: false
+#| message: false
+#| echo: true
+
+
+tomhs <- tomhs %>% 
+  mutate(Sex = if_else(sex == 1, "Male", "Female"),
+         Race = case_when(race == 1 ~ "White",
+                          race == 2 ~ "Black",
+                          race == 3 ~ "Asian",
+                          race == 4 ~ "Other"),
+         Income = case_when(income == 1 ~ "Less than $9,999",
+                            income == 2 ~ "$10,000 to $19,999",
+                            income == 3 ~ "$20,000 to $29,999",
+                            income == 4 ~ "$30,000 to $39,999",
+                            income == 5 ~ "$40,000 to $49,999",
+                            income == 6 ~ "$50,000 to $59,999",
+                            income == 7 ~ "$60,000 to $69,999",
+                            income == 8 ~ "$70,000 or more"),
+         Marital = case_when(marital == 1 ~ "Never married",
+                             marital == 2 ~ "Separated",
+                             marital == 3 ~ "Divorced",
+                             marital == 4 ~ "Widowed",
+                             marital == 5 ~ "Married"),
+         Education = case_when(educ == 1 ~"Eighth grade or less",
+                               educ == 2 ~"Trade school or business school instead of high school",
+                               educ == 3 ~"Some high school",
+                               educ == 4 ~"High school graduate", 
+                               educ == 5 ~"Trade school or business school after graduating from high school",
+                               educ == 6 ~"Some college including 2 year degrees",
+                               educ == 7 ~"Received bachelor's degree",
+                               educ == 8 ~"Graduate or professional education beyond the bachelor's degree",
+                               educ == 9 ~ "Graduate or professional degree (Specify):"),
+         "Ever Smoked" = if_else(eversmk == 1, "Yes", "No"),
+         "Ql12_4" = 
+           factor(
+             case_when(
+             ql12_4 == 1 ~ "Completely satisfied",
+             ql12_4 == 2 ~ "Very satisfied",
+             ql12_4 == 3 ~ "Somewhat satisfied",
+             ql12_4 == 4 ~ "Somewhat dissatisfied",
+             ql12_4 == 5 ~ "Very dissatisfied",
+             ql12_4 == 6 ~ "Completely dissatisfied"
+             ),
+             ordered = TRUE)
+  )
+         
+  
+```
+
+# Exploratory Data Analysis
+
+```{r}
+#| label: tbl-study-demographics
+#| tbl-cap: "Participant Demographics by Ever Smoke Status"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+tbl_1 <- tomhs %>% 
+  select(Race, Income, Marital, Education, "Ever Smoked", Ql12_4) %>% 
+  tbl_summary(
+    by = "Ever Smoked",
+    label = list(Ql12_4 = "Satisfaction Score")
+  ) %>% 
+  add_overall() %>% 
+  bold_labels() %>% 
+  italicize_levels()
+
+tbl_1
+
+
+```
+
