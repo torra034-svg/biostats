@@ -15,9 +15,11 @@ format:
 editor: visual
 ---
 
+
 # Set-up
 
 ## Library
+
 ```{r}
 #| label: library
 #| message: false
@@ -36,7 +38,9 @@ library(VGAM) ## needed for ordinal regression calculation
 
 ```
 
+
 ## Load Data
+
 ```{r}
 #| label: load data
 #| message: false
@@ -48,7 +52,9 @@ tomhs <- read.csv("tomhs (2).csv")
 ```
 
 
+
 ## Data Clean
+
 ```{r}
 #| label: data-clean
 #| warning: false
@@ -101,7 +107,9 @@ tomhs <- tomhs %>%
   
 ```
 
+
 # Exploratory Data Analysis
+
 
 ```{r}
 #| label: tbl-study-demographics
