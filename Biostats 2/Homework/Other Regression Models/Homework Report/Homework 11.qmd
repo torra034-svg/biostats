@@ -84,7 +84,7 @@ tomhs <- tomhs %>%
                                educ == 7 ~"Received bachelor's degree",
                                educ == 8 ~"Graduate or professional education beyond the bachelor's degree",
                                educ == 9 ~ "Graduate or professional degree (Specify):"),
-         "Ever Smoked" = if_else(eversmk == 1, "Yes", "No"),
+         Eversmk = if_else(eversmk == 1, "Yes", "No"),
          "Ql12_4" = 
            factor(
              case_when(
@@ -113,18 +113,57 @@ tomhs <- tomhs %>%
 
 
 tbl_1 <- tomhs %>% 
-  select(age, Sex, Race, Income, Marital, Education, "Ever Smoked", Ql12_4) %>% 
+  select(age, Sex, Race, Income, Marital, Education, Eversmk, Ql12_4) %>% 
   tbl_summary(
-    by = "Ever Smoked",
+    by = Eversmk,
     label = list(
       age = "Age",
-      Ql12_4 = "Satisfaction with physical ability at 12 months")
+      Ql12_4 = "Satisfaction with physical ability at 12 months",
+      Eversmk = "Ever Smoked"
+      )
   ) %>% 
   add_overall() %>% 
   bold_labels() %>% 
   italicize_levels()
 
 tbl_1
+
+
+```
+
+
+```{r}
+#| label: fig-eversmk-vs-ql12_4
+#| fig-cap: "The relationship between ever smoke status and satisfaction with physical ability at 12 months"
+#| fig-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+ggplot(tomhs, aes(x = Eversmk, fill = Ql12_4)) +
+  geom_bar(position = "fill") +
+  labs(x = "Ever Smoke Status",
+       y = "Proportion",
+       fill = "Satisfaction Score") +
+  theme_classic()
+```
+
+
+```{r}
+#| label: fig-age-vs-ql12_4
+#| fig-cap: "The relationship between age and satisfaction with physical ability at 12 months"
+#| fig-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+ggplot(tomhs, aes(x = cut(age, breaks = seq(40, 75, by = 5)), fill = Ql12_4)) +
+  geom_bar(position = "fill") +
+  labs(x = "Age Group", 
+       y = "Proportion",
+       fill = "Satisfaction Score") +
+  theme_classic()
 
 
 ```
