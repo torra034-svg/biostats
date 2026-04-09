@@ -25,7 +25,10 @@ editor: visual
 
 library(tidyverse)
 library(gtsummary) ## make table 1
-  
+library(psych) ## descriptive stats for table 2
+library(broom) ## clean object output 
+library(kableExtra) ## convert object outputs into table
+library(stringr)
 
 ```
 
@@ -92,10 +95,23 @@ tbl_1
 ## General Health Variable Table
 ```{r}
 #| label: tbl-gen-health-var
-#| tbl-cap: "caption"
+#| tbl-cap: "General Health Variable Summary"
 #| tbl-cap-location: top
 
+tbl_2 <- tomhs %>% 
+  select(ql12_1) %>% 
+  describe(IQR = TRUE) %>% 
+  as.data.frame() %>% 
+  select(-trimmed) %>% 
+  kable(digits = 2,
+        col.names = tools::toTitleCase(names(.)),
+        align = "c") %>% 
+  kable_styling(
+    bootstrap_options = c("striped","hover","condensed"),
+    full_width = FALSE,
+    position = "center")
 
+tbl_2
 
 ```
 
