@@ -3,6 +3,7 @@ title: "Ordinal Regression"
 author: "Patrick Torralba"
 format:
   html:
+    html-math-method: mathjax
     theme: flatly
     code-tools: TRUE
     code-copy: TRUE
@@ -17,6 +18,7 @@ editor: visual
 # Setup
 
 ## Library
+
 ```{r}
 #| label: library
 #| message: false
@@ -30,10 +32,15 @@ library(broom) ## clean object output
 library(kableExtra) ## convert object outputs into table
 library(stringr)
 library(tidymodels)
+library(multilevelmod) ## tidymodels extension for proportional_odds
+library(latex2exp) ## write latex equations in plots and tables
+library(jtools) ## needed for ordinal regression calculation
+library(VGAM) ## needed for ordinal regression calculation
 
 ```
 
 ## Load Data
+
 ```{r}
 #| label: load data
 #| message: false
@@ -45,6 +52,7 @@ tomhs <- read.csv("tomhs (2).csv")
 ```
 
 ## Data Clean
+
 ```{r}
 #| label: df-clean
 #| warning: false
@@ -72,20 +80,20 @@ tomhs <- tomhs %>%
   )
 
 tomhs <- tomhs %>% 
-  mutate(GenHealth = fct_relevel(GenHealth,
+  mutate(GenHealth = ordered(fct_relevel(GenHealth,
     "Excellent",
     "Very good",
     "Good",
     "Fair",
     "Poor"
-  ))
+  )))
 
 ```
-
 
 # Exploratory Data Analysis
 
 ## Table 1: Particpant Demographics
+
 ```{r}
 #| label: tbl-pt-demographic
 #| tbl-cap: "Participant Demographics by Ever Smoke Status"
@@ -110,8 +118,8 @@ tbl_1
 
 ```
 
-
 ## General Health Variable Table
+
 ```{r}
 #| label: tbl-gen-health-var
 #| tbl-cap: "General Health Variable Summary"
@@ -135,6 +143,7 @@ tbl_2
 ```
 
 ## General Health Variable Distribution
+
 ```{r}
 #| label: fig-gen-health-distribution
 #| fig-cap: "General Health Variable Distribution"
@@ -178,6 +187,7 @@ tbl_3
 ```
 
 ## Relationship between General Health and Ever Smoke
+
 ```{r}
 #| label: fig-genhealth-vs-eversmk
 #| fig-cap: "General Health by Ever Smoke Status"
@@ -202,9 +212,64 @@ ggplot(tomhs, aes(x = GenHealth, fill = Eversmk)) +
 
 # Model 3: Adjusted Ordinal Regression
 
-## Fitted Equation
+## Fitted Equation {#sec-ord-reg-fit-eq}
+
 Write the appropriate adjusted ordinal regression equation you would use to determine whether general health at 12 months (ql12_1) depends on whether a person ever smoked after adjusting for age. Use the actual names of the variables (not just X or Y) and beta0, beta1, etc. for the coefficients.
 
+$$ 
+\text{logit}[P(Y \le j)] = (\beta_1 \times \text{ql12_1}) + (\beta_2 \times age) 
+$$ 
 
-$$ \text{logit}[P(Y \le j)] = (\beta_1 \times \text{ql12_1}) + (\beta_2 \times age) $$
-## Ordinal Regression Model
+
+## Ordinal Regression Model: The effect of eversmk on ql12_1 after adjusting for age {#sec-ord-reg-calc-baseR}
+
+
+```{r}
+#| label: ordinal-reg-model-building
+#| warning: false
+#| message: false
+#| echo: true
+
+
+model_1 <- vglm(
+                formula = GenHealth ~ Eversmk + age,
+                data = tomhs,
+                family = cumulative(link = "logitlink", parallel = TRUE))
+
+model_1
+```
+
+
+```{r}
+#| label: tbl-ord-reg-output
+#| tbl-cap: "Results: The Effect of Smoking on General Health after Adjusting for Age"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+model_1 %>%  ## log form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = FALSE,
+    label = list("(Intercept)" ~ "Intercept",
+                 "GenHealth" ~ "Outcome Category")
+  ) %>% 
+  modify_header(label = "**Variable**") %>% 
+  bold_labels() %>% 
+  italicize_levels()
+
+
+model_1 %>%  ## exponentiate form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = TRUE,
+    label = list((Intercept) ~ "Intercept",
+                 "ql12_1" ~ "Outcome Category")
+  ) %>% 
+  bold_labels() %>% 
+  italicize_levels()
+```
+
+
