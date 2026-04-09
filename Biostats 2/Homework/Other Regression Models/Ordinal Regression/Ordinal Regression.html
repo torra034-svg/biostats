@@ -3345,7 +3345,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#library" id="toc-library" class="nav-link" data-scroll-target="#library"><span class="header-section-number">1.1</span> Library</a></li>
   <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data"><span class="header-section-number">1.2</span> Load Data</a></li>
-  <li><a href="#data-clean" id="toc-data-clean" class="nav-link" data-scroll-target="#data-clean"><span class="header-section-number">1.3</span> Data Clean</a></li>
+  <li><a href="#sec-data-clean" id="toc-sec-data-clean" class="nav-link" data-scroll-target="#sec-data-clean"><span class="header-section-number">1.3</span> Data Clean</a></li>
   </ul></li>
   <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis"><span class="header-section-number">2</span> Exploratory Data Analysis</a>
   <ul class="collapse">
@@ -3357,8 +3357,12 @@ window.Quarto = {
   <li><a href="#model-3-adjusted-ordinal-regression" id="toc-model-3-adjusted-ordinal-regression" class="nav-link" data-scroll-target="#model-3-adjusted-ordinal-regression"><span class="header-section-number">3</span> Model 3: Adjusted Ordinal Regression</a>
   <ul class="collapse">
   <li><a href="#sec-ord-reg-fit-eq" id="toc-sec-ord-reg-fit-eq" class="nav-link" data-scroll-target="#sec-ord-reg-fit-eq"><span class="header-section-number">3.1</span> Fitted Equation</a></li>
-  <li><a href="#sec-ord-reg-calc-baseR" id="toc-sec-ord-reg-calc-baseR" class="nav-link" data-scroll-target="#sec-ord-reg-calc-baseR"><span class="header-section-number">3.2</span> Ordinal Regression Model: The effect of eversmk on ql12_1 after adjusting for age</a></li>
+  <li><a href="#sec-ord-reg-calc-baseR" id="toc-sec-ord-reg-calc-baseR" class="nav-link" data-scroll-target="#sec-ord-reg-calc-baseR"><span class="header-section-number">3.2</span> Ordinal Regression Model: The effect of eversmk on ql12_1 after adjusting for age</a>
+  <ul class="collapse">
+  <li><a href="#sec-ordinal-model-reg-interpret" id="toc-sec-ordinal-model-reg-interpret" class="nav-link" data-scroll-target="#sec-ordinal-model-reg-interpret"><span class="header-section-number">3.2.1</span> Ordinal Regression Model Interpretation</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#ordinal-regression-summary-notes" id="toc-ordinal-regression-summary-notes" class="nav-link" data-scroll-target="#ordinal-regression-summary-notes"><span class="header-section-number">4</span> Ordinal Regression Summary Notes</a></li>
   </ul>
 </nav>
 </div>
@@ -3410,8 +3414,8 @@ window.Quarto = {
 <section id="load-data" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="load-data"><span class="header-section-number">1.2</span> Load Data</h2>
 </section>
-<section id="data-clean" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="data-clean"><span class="header-section-number">1.3</span> Data Clean</h2>
+<section id="sec-data-clean" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sec-data-clean"><span class="header-section-number">1.3</span> Data Clean</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tomhs <span class="ot">&lt;-</span> tomhs <span class="sc">%&gt;%</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -3473,20 +3477,20 @@ Table 1: Participant Demographics by Ever Smoke Status
 </figcaption>
 <div aria-describedby="tbl-pt-demographic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="zlfitxuluq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zlfitxuluq table {
+<div id="oqyomarvwj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#oqyomarvwj table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#zlfitxuluq thead, #zlfitxuluq tbody, #zlfitxuluq tfoot, #zlfitxuluq tr, #zlfitxuluq td, #zlfitxuluq th {
+#oqyomarvwj thead, #oqyomarvwj tbody, #oqyomarvwj tfoot, #oqyomarvwj tr, #oqyomarvwj td, #oqyomarvwj th {
 border-style: none;
 }
-#zlfitxuluq p {
+#oqyomarvwj p {
 margin: 0;
 padding: 0;
 }
-#zlfitxuluq .gt_table {
+#oqyomarvwj .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -3511,11 +3515,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#zlfitxuluq .gt_caption {
+#oqyomarvwj .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#zlfitxuluq .gt_title {
+#oqyomarvwj .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -3526,7 +3530,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#zlfitxuluq .gt_subtitle {
+#oqyomarvwj .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -3537,7 +3541,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#zlfitxuluq .gt_heading {
+#oqyomarvwj .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3548,12 +3552,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#zlfitxuluq .gt_bottom_border {
+#oqyomarvwj .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zlfitxuluq .gt_col_headings {
+#oqyomarvwj .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3567,7 +3571,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#zlfitxuluq .gt_col_heading {
+#oqyomarvwj .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3586,7 +3590,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#zlfitxuluq .gt_column_spanner_outer {
+#oqyomarvwj .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3597,13 +3601,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#zlfitxuluq .gt_column_spanner_outer:first-child {
+#oqyomarvwj .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#zlfitxuluq .gt_column_spanner_outer:last-child {
+#oqyomarvwj .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#zlfitxuluq .gt_column_spanner {
+#oqyomarvwj .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3614,10 +3618,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#zlfitxuluq .gt_spanner_row {
+#oqyomarvwj .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#zlfitxuluq .gt_group_heading {
+#oqyomarvwj .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3642,7 +3646,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#zlfitxuluq .gt_empty_group_heading {
+#oqyomarvwj .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3656,13 +3660,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#zlfitxuluq .gt_from_md > :first-child {
+#oqyomarvwj .gt_from_md > :first-child {
 margin-top: 0;
 }
-#zlfitxuluq .gt_from_md > :last-child {
+#oqyomarvwj .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#zlfitxuluq .gt_row {
+#oqyomarvwj .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3680,7 +3684,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#zlfitxuluq .gt_stub {
+#oqyomarvwj .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3692,7 +3696,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zlfitxuluq .gt_stub_row_group {
+#oqyomarvwj .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3705,13 +3709,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#zlfitxuluq .gt_row_group_first td {
+#oqyomarvwj .gt_row_group_first td {
 border-top-width: 2px;
 }
-#zlfitxuluq .gt_row_group_first th {
+#oqyomarvwj .gt_row_group_first th {
 border-top-width: 2px;
 }
-#zlfitxuluq .gt_summary_row {
+#oqyomarvwj .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3720,14 +3724,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zlfitxuluq .gt_first_summary_row {
+#oqyomarvwj .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#zlfitxuluq .gt_first_summary_row.thick {
+#oqyomarvwj .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#zlfitxuluq .gt_last_summary_row {
+#oqyomarvwj .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3736,7 +3740,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zlfitxuluq .gt_grand_summary_row {
+#oqyomarvwj .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3745,7 +3749,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zlfitxuluq .gt_first_grand_summary_row {
+#oqyomarvwj .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3754,7 +3758,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#zlfitxuluq .gt_last_grand_summary_row_top {
+#oqyomarvwj .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3763,10 +3767,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#zlfitxuluq .gt_striped {
+#oqyomarvwj .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#zlfitxuluq .gt_table_body {
+#oqyomarvwj .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3774,7 +3778,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zlfitxuluq .gt_footnotes {
+#oqyomarvwj .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3787,7 +3791,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#zlfitxuluq .gt_footnote {
+#oqyomarvwj .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -3795,7 +3799,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zlfitxuluq .gt_sourcenotes {
+#oqyomarvwj .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3808,64 +3812,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#zlfitxuluq .gt_sourcenote {
+#oqyomarvwj .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zlfitxuluq .gt_left {
+#oqyomarvwj .gt_left {
 text-align: left;
 }
-#zlfitxuluq .gt_center {
+#oqyomarvwj .gt_center {
 text-align: center;
 }
-#zlfitxuluq .gt_right {
+#oqyomarvwj .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#zlfitxuluq .gt_font_normal {
+#oqyomarvwj .gt_font_normal {
 font-weight: normal;
 }
-#zlfitxuluq .gt_font_bold {
+#oqyomarvwj .gt_font_bold {
 font-weight: bold;
 }
-#zlfitxuluq .gt_font_italic {
+#oqyomarvwj .gt_font_italic {
 font-style: italic;
 }
-#zlfitxuluq .gt_super {
+#oqyomarvwj .gt_super {
 font-size: 65%;
 }
-#zlfitxuluq .gt_footnote_marks {
+#oqyomarvwj .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#zlfitxuluq .gt_asterisk {
+#oqyomarvwj .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#zlfitxuluq .gt_indent_1 {
+#oqyomarvwj .gt_indent_1 {
 text-indent: 5px;
 }
-#zlfitxuluq .gt_indent_2 {
+#oqyomarvwj .gt_indent_2 {
 text-indent: 10px;
 }
-#zlfitxuluq .gt_indent_3 {
+#oqyomarvwj .gt_indent_3 {
 text-indent: 15px;
 }
-#zlfitxuluq .gt_indent_4 {
+#oqyomarvwj .gt_indent_4 {
 text-indent: 20px;
 }
-#zlfitxuluq .gt_indent_5 {
+#oqyomarvwj .gt_indent_5 {
 text-indent: 25px;
 }
-#zlfitxuluq .katex-display {
+#oqyomarvwj .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#zlfitxuluq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#oqyomarvwj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -4243,20 +4247,20 @@ Table 4: Results: The Effect of Smoking on General Health after Adjusting for A
 </figcaption>
 <div aria-describedby="tbl-ord-reg-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="lshwfvxvtk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lshwfvxvtk table {
+<div id="zqudmjevzd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zqudmjevzd table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#lshwfvxvtk thead, #lshwfvxvtk tbody, #lshwfvxvtk tfoot, #lshwfvxvtk tr, #lshwfvxvtk td, #lshwfvxvtk th {
+#zqudmjevzd thead, #zqudmjevzd tbody, #zqudmjevzd tfoot, #zqudmjevzd tr, #zqudmjevzd td, #zqudmjevzd th {
 border-style: none;
 }
-#lshwfvxvtk p {
+#zqudmjevzd p {
 margin: 0;
 padding: 0;
 }
-#lshwfvxvtk .gt_table {
+#zqudmjevzd .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -4281,11 +4285,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#lshwfvxvtk .gt_caption {
+#zqudmjevzd .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#lshwfvxvtk .gt_title {
+#zqudmjevzd .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -4296,7 +4300,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#lshwfvxvtk .gt_subtitle {
+#zqudmjevzd .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -4307,7 +4311,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#lshwfvxvtk .gt_heading {
+#zqudmjevzd .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -4318,12 +4322,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#lshwfvxvtk .gt_bottom_border {
+#zqudmjevzd .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#lshwfvxvtk .gt_col_headings {
+#zqudmjevzd .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -4337,7 +4341,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#lshwfvxvtk .gt_col_heading {
+#zqudmjevzd .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4356,7 +4360,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#lshwfvxvtk .gt_column_spanner_outer {
+#zqudmjevzd .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4367,13 +4371,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#lshwfvxvtk .gt_column_spanner_outer:first-child {
+#zqudmjevzd .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#lshwfvxvtk .gt_column_spanner_outer:last-child {
+#zqudmjevzd .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#lshwfvxvtk .gt_column_spanner {
+#zqudmjevzd .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -4384,10 +4388,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#lshwfvxvtk .gt_spanner_row {
+#zqudmjevzd .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#lshwfvxvtk .gt_group_heading {
+#zqudmjevzd .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4412,7 +4416,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#lshwfvxvtk .gt_empty_group_heading {
+#zqudmjevzd .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -4426,13 +4430,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#lshwfvxvtk .gt_from_md > :first-child {
+#zqudmjevzd .gt_from_md > :first-child {
 margin-top: 0;
 }
-#lshwfvxvtk .gt_from_md > :last-child {
+#zqudmjevzd .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#lshwfvxvtk .gt_row {
+#zqudmjevzd .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4450,7 +4454,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#lshwfvxvtk .gt_stub {
+#zqudmjevzd .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4462,7 +4466,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#lshwfvxvtk .gt_stub_row_group {
+#zqudmjevzd .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4475,13 +4479,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#lshwfvxvtk .gt_row_group_first td {
+#zqudmjevzd .gt_row_group_first td {
 border-top-width: 2px;
 }
-#lshwfvxvtk .gt_row_group_first th {
+#zqudmjevzd .gt_row_group_first th {
 border-top-width: 2px;
 }
-#lshwfvxvtk .gt_summary_row {
+#zqudmjevzd .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -4490,14 +4494,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#lshwfvxvtk .gt_first_summary_row {
+#zqudmjevzd .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#lshwfvxvtk .gt_first_summary_row.thick {
+#zqudmjevzd .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#lshwfvxvtk .gt_last_summary_row {
+#zqudmjevzd .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4506,7 +4510,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#lshwfvxvtk .gt_grand_summary_row {
+#zqudmjevzd .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -4515,7 +4519,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#lshwfvxvtk .gt_first_grand_summary_row {
+#zqudmjevzd .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4524,7 +4528,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#lshwfvxvtk .gt_last_grand_summary_row_top {
+#zqudmjevzd .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4533,10 +4537,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#lshwfvxvtk .gt_striped {
+#zqudmjevzd .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#lshwfvxvtk .gt_table_body {
+#zqudmjevzd .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -4544,7 +4548,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#lshwfvxvtk .gt_footnotes {
+#zqudmjevzd .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -4557,7 +4561,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#lshwfvxvtk .gt_footnote {
+#zqudmjevzd .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -4565,7 +4569,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#lshwfvxvtk .gt_sourcenotes {
+#zqudmjevzd .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -4578,64 +4582,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#lshwfvxvtk .gt_sourcenote {
+#zqudmjevzd .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#lshwfvxvtk .gt_left {
+#zqudmjevzd .gt_left {
 text-align: left;
 }
-#lshwfvxvtk .gt_center {
+#zqudmjevzd .gt_center {
 text-align: center;
 }
-#lshwfvxvtk .gt_right {
+#zqudmjevzd .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#lshwfvxvtk .gt_font_normal {
+#zqudmjevzd .gt_font_normal {
 font-weight: normal;
 }
-#lshwfvxvtk .gt_font_bold {
+#zqudmjevzd .gt_font_bold {
 font-weight: bold;
 }
-#lshwfvxvtk .gt_font_italic {
+#zqudmjevzd .gt_font_italic {
 font-style: italic;
 }
-#lshwfvxvtk .gt_super {
+#zqudmjevzd .gt_super {
 font-size: 65%;
 }
-#lshwfvxvtk .gt_footnote_marks {
+#zqudmjevzd .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#lshwfvxvtk .gt_asterisk {
+#zqudmjevzd .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#lshwfvxvtk .gt_indent_1 {
+#zqudmjevzd .gt_indent_1 {
 text-indent: 5px;
 }
-#lshwfvxvtk .gt_indent_2 {
+#zqudmjevzd .gt_indent_2 {
 text-indent: 10px;
 }
-#lshwfvxvtk .gt_indent_3 {
+#zqudmjevzd .gt_indent_3 {
 text-indent: 15px;
 }
-#lshwfvxvtk .gt_indent_4 {
+#zqudmjevzd .gt_indent_4 {
 text-indent: 20px;
 }
-#lshwfvxvtk .gt_indent_5 {
+#zqudmjevzd .gt_indent_5 {
 text-indent: 25px;
 }
-#lshwfvxvtk .katex-display {
+#zqudmjevzd .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#lshwfvxvtk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zqudmjevzd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -4738,7 +4742,7 @@ height: 0px !important;
 </div>
 </div>
 <div class="cell" data-tbl-cap-location="top">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="sc">%&gt;%</span>  <span class="do">## exponentiate form</span></span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="sc">%&gt;%</span>  <span class="do">## exponent form</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">TRUE</span>,</span>
@@ -4752,20 +4756,20 @@ Table 5: Results: The Effect of Smoking on General Health after Adjusting for A
 </figcaption>
 <div aria-describedby="tbl-ord-reg-output-exponent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="ppetdccbju" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ppetdccbju table {
+<div id="nzvzfpugkt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nzvzfpugkt table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#ppetdccbju thead, #ppetdccbju tbody, #ppetdccbju tfoot, #ppetdccbju tr, #ppetdccbju td, #ppetdccbju th {
+#nzvzfpugkt thead, #nzvzfpugkt tbody, #nzvzfpugkt tfoot, #nzvzfpugkt tr, #nzvzfpugkt td, #nzvzfpugkt th {
 border-style: none;
 }
-#ppetdccbju p {
+#nzvzfpugkt p {
 margin: 0;
 padding: 0;
 }
-#ppetdccbju .gt_table {
+#nzvzfpugkt .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -4790,11 +4794,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#ppetdccbju .gt_caption {
+#nzvzfpugkt .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#ppetdccbju .gt_title {
+#nzvzfpugkt .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -4805,7 +4809,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#ppetdccbju .gt_subtitle {
+#nzvzfpugkt .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -4816,7 +4820,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#ppetdccbju .gt_heading {
+#nzvzfpugkt .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -4827,12 +4831,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ppetdccbju .gt_bottom_border {
+#nzvzfpugkt .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ppetdccbju .gt_col_headings {
+#nzvzfpugkt .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -4846,7 +4850,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ppetdccbju .gt_col_heading {
+#nzvzfpugkt .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4865,7 +4869,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#ppetdccbju .gt_column_spanner_outer {
+#nzvzfpugkt .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4876,13 +4880,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#ppetdccbju .gt_column_spanner_outer:first-child {
+#nzvzfpugkt .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#ppetdccbju .gt_column_spanner_outer:last-child {
+#nzvzfpugkt .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#ppetdccbju .gt_column_spanner {
+#nzvzfpugkt .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -4893,10 +4897,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#ppetdccbju .gt_spanner_row {
+#nzvzfpugkt .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#ppetdccbju .gt_group_heading {
+#nzvzfpugkt .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4921,7 +4925,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#ppetdccbju .gt_empty_group_heading {
+#nzvzfpugkt .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -4935,13 +4939,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#ppetdccbju .gt_from_md > :first-child {
+#nzvzfpugkt .gt_from_md > :first-child {
 margin-top: 0;
 }
-#ppetdccbju .gt_from_md > :last-child {
+#nzvzfpugkt .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#ppetdccbju .gt_row {
+#nzvzfpugkt .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4959,7 +4963,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#ppetdccbju .gt_stub {
+#nzvzfpugkt .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4971,7 +4975,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ppetdccbju .gt_stub_row_group {
+#nzvzfpugkt .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4984,13 +4988,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#ppetdccbju .gt_row_group_first td {
+#nzvzfpugkt .gt_row_group_first td {
 border-top-width: 2px;
 }
-#ppetdccbju .gt_row_group_first th {
+#nzvzfpugkt .gt_row_group_first th {
 border-top-width: 2px;
 }
-#ppetdccbju .gt_summary_row {
+#nzvzfpugkt .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -4999,14 +5003,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ppetdccbju .gt_first_summary_row {
+#nzvzfpugkt .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#ppetdccbju .gt_first_summary_row.thick {
+#nzvzfpugkt .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#ppetdccbju .gt_last_summary_row {
+#nzvzfpugkt .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5015,7 +5019,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ppetdccbju .gt_grand_summary_row {
+#nzvzfpugkt .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -5024,7 +5028,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ppetdccbju .gt_first_grand_summary_row {
+#nzvzfpugkt .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5033,7 +5037,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#ppetdccbju .gt_last_grand_summary_row_top {
+#nzvzfpugkt .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5042,10 +5046,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#ppetdccbju .gt_striped {
+#nzvzfpugkt .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#ppetdccbju .gt_table_body {
+#nzvzfpugkt .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -5053,7 +5057,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ppetdccbju .gt_footnotes {
+#nzvzfpugkt .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -5066,7 +5070,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ppetdccbju .gt_footnote {
+#nzvzfpugkt .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -5074,7 +5078,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ppetdccbju .gt_sourcenotes {
+#nzvzfpugkt .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -5087,64 +5091,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ppetdccbju .gt_sourcenote {
+#nzvzfpugkt .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ppetdccbju .gt_left {
+#nzvzfpugkt .gt_left {
 text-align: left;
 }
-#ppetdccbju .gt_center {
+#nzvzfpugkt .gt_center {
 text-align: center;
 }
-#ppetdccbju .gt_right {
+#nzvzfpugkt .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#ppetdccbju .gt_font_normal {
+#nzvzfpugkt .gt_font_normal {
 font-weight: normal;
 }
-#ppetdccbju .gt_font_bold {
+#nzvzfpugkt .gt_font_bold {
 font-weight: bold;
 }
-#ppetdccbju .gt_font_italic {
+#nzvzfpugkt .gt_font_italic {
 font-style: italic;
 }
-#ppetdccbju .gt_super {
+#nzvzfpugkt .gt_super {
 font-size: 65%;
 }
-#ppetdccbju .gt_footnote_marks {
+#nzvzfpugkt .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#ppetdccbju .gt_asterisk {
+#nzvzfpugkt .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#ppetdccbju .gt_indent_1 {
+#nzvzfpugkt .gt_indent_1 {
 text-indent: 5px;
 }
-#ppetdccbju .gt_indent_2 {
+#nzvzfpugkt .gt_indent_2 {
 text-indent: 10px;
 }
-#ppetdccbju .gt_indent_3 {
+#nzvzfpugkt .gt_indent_3 {
 text-indent: 15px;
 }
-#ppetdccbju .gt_indent_4 {
+#nzvzfpugkt .gt_indent_4 {
 text-indent: 20px;
 }
-#ppetdccbju .gt_indent_5 {
+#nzvzfpugkt .gt_indent_5 {
 text-indent: 25px;
 }
-#ppetdccbju .katex-display {
+#nzvzfpugkt .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#ppetdccbju div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#nzvzfpugkt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -5246,9 +5250,70 @@ height: 0px !important;
 </figure>
 </div>
 </div>
+<section id="sec-ordinal-model-reg-interpret" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="sec-ordinal-model-reg-interpret"><span class="header-section-number">3.2.1</span> Ordinal Regression Model Interpretation</h3>
+<ul>
+<li><p>Using the model results, what is the estimated common odds ratio for the eversmk variable? Provide an interpretation of this common odds ratio in the context of the problem. </p>
+<ul>
+<li>The estimated common odds-ratio for the eversmk variable is 0.90. This means patients who smoke have a 10% decrease in odds of reporting a better health status (e.g “Excellent”).</li>
+</ul></li>
+<li><p>Using the model results, is there a significant relationship between having ever smoked cigarettes and general health at 12 months, after adjusting for age? Explain your reasoning.</p>
+<ul>
+<li>No, after adjusting for age, we conclude that there is not a statistically significant relationship between having ever smoked cigarettes and general health at 12 months considering that the p-value is greater than alpha and the confidence interval includes 1.0 (OR = 0.90, p-value = 0.4, CI: 0.70 to 1.16).</li>
+</ul></li>
+<li><p>Using the model results, what is the estimated common odds ratio for the age variable? Provide an interpretation of this common odds ratio in the context of the problem.</p>
+<ul>
+<li>The estimated common-odds ratio for the age variable is 0.98. This indicates that for every one-year increase in age, the odds of a patient reporting a better general health status (e.g., ‘Excellent’ vs. all lower categories) decrease by 2%, holding smoking status constant.</li>
+</ul></li>
+<li><p>Using the model results, is there a significant relationship between age and general health at 12 months, after adjusting for having ever smoked cigarettes? Explain your reasoning.</p>
+<ul>
+<li>After adjusting for having ever smoked cigarettes, we conclude that the relationship between age and general health at 12 months is not statistically significant given that the p-value is greater than alpha and the confidence interval includes 1.0 (p-value = 0.12, CI: 0.97 to 1.00).</li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="ordinal-regression-summary-notes" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Ordinal Regression Summary Notes</h1>
+<ol type="1">
+<li>Data Cleaning tips
+<ol type="1">
+<li>Make sure to set your categorical variable into an ordered factor
+<ol type="1">
+<li>This is super important for generating the model</li>
+</ol></li>
+<li><a href="#sec-data-clean" class="quarto-xref">Section 1.3</a></li>
+</ol></li>
+<li>How do I write the fitted equation?
+<ol type="1">
+<li>Make sure to write the fitted equation <strong>ONLY IN LOG FORM</strong></li>
+<li><a href="#sec-ord-reg-fit-eq" class="quarto-xref">Section 3.1</a></li>
+</ol></li>
+<li>How do I generate an ordinal regression model?
+<ol type="1">
+<li><a href="#sec-ord-reg-calc-baseR" class="quarto-xref">Section 3.2</a></li>
+</ol></li>
+<li>How do I interpret the output?
+<ol type="1">
+<li>Make sure to interpret the output <strong>ONLY IN EXPONENT FORM</strong></li>
+<li>Make sure to also state “a X% increase/decrease in the odds” instead of “more/less likely”
+<ol type="1">
+<li>Remember. When we are dealing with odds-ratios we must not use probability vocab</li>
+</ol></li>
+<li><a href="#sec-ordinal-model-reg-interpret" class="quarto-xref">Section 3.2.1</a></li>
+</ol></li>
+<li>I don’t understand. What does “logitlink(P[Y&lt;=1])” mean in the table output?
+<ol type="1">
+<li>This represents the order of the categorical variable
+<ol type="1">
+<li>In this scenario, 1 represents Excellent, 2 represents Very Good.</li>
+<li>This all depends on how you ordered your factored categorical variable</li>
+</ol></li>
+<li><a href="#sec-ord-reg-calc-baseR" class="quarto-xref">Section 3.2</a></li>
+</ol></li>
+</ol>
 <!-- -->
 
-</section>
 </section>
 
 </main>
@@ -5766,7 +5831,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Clean</span></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Clean  {#sec-data-clean}</span></span>
 <span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: df-clean</span></span>
@@ -5933,69 +5998,103 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb14-234"><a href="#cb14-234" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-235"><a href="#cb14-235" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a>\text{logit}<span class="co">[</span><span class="ot">P(ql12\_1\le j)</span><span class="co">]</span> = (\beta_1 \times \text{eversmk}) + (\beta_2 \times age) </span>
-<span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb14-238"><a href="#cb14-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-239"><a href="#cb14-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-240"><a href="#cb14-240" aria-hidden="true" tabindex="-1"></a><span class="fu">## Ordinal Regression Model: The effect of eversmk on ql12_1 after adjusting for age {#sec-ord-reg-calc-baseR}</span></span>
-<span id="cb14-241"><a href="#cb14-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: ordinal-reg-model-building</span></span>
-<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb14-250"><a href="#cb14-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-251"><a href="#cb14-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-252"><a href="#cb14-252" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">vglm</span>(</span>
-<span id="cb14-253"><a href="#cb14-253" aria-hidden="true" tabindex="-1"></a>                <span class="at">formula =</span> GenHealth <span class="sc">~</span> Eversmk <span class="sc">+</span> age,</span>
-<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> tomhs,</span>
-<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">cumulative</span>(<span class="at">link =</span> <span class="st">&quot;logitlink&quot;</span>, <span class="at">parallel =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb14-256"><a href="#cb14-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a>model_1</span>
-<span id="cb14-258"><a href="#cb14-258" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-ord-reg-output</span></span>
-<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Results: The Effect of Smoking on General Health after Adjusting for Age [log]&quot;</span></span>
-<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
-<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a>model_1 <span class="sc">%&gt;%</span>  <span class="do">## log form</span></span>
-<span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
-<span id="cb14-275"><a href="#cb14-275" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb14-276"><a href="#cb14-276" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">FALSE</span></span>
-<span id="cb14-277"><a href="#cb14-277" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-278"><a href="#cb14-278" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb14-279"><a href="#cb14-279" aria-hidden="true" tabindex="-1"></a>  <span class="fu">italicize_levels</span>()</span>
-<span id="cb14-280"><a href="#cb14-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-281"><a href="#cb14-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-282"><a href="#cb14-282" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-283"><a href="#cb14-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-284"><a href="#cb14-284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-287"><a href="#cb14-287" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-288"><a href="#cb14-288" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-ord-reg-output-exponent</span></span>
-<span id="cb14-289"><a href="#cb14-289" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Results: The Effect of Smoking on General Health after Adjusting for Age [exponent]&quot;</span></span>
-<span id="cb14-290"><a href="#cb14-290" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
-<span id="cb14-291"><a href="#cb14-291" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb14-292"><a href="#cb14-292" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb14-293"><a href="#cb14-293" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb14-294"><a href="#cb14-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-295"><a href="#cb14-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-296"><a href="#cb14-296" aria-hidden="true" tabindex="-1"></a>model_1 <span class="sc">%&gt;%</span>  <span class="do">## exponentiate form</span></span>
-<span id="cb14-297"><a href="#cb14-297" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
-<span id="cb14-298"><a href="#cb14-298" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb14-299"><a href="#cb14-299" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb14-300"><a href="#cb14-300" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-301"><a href="#cb14-301" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb14-302"><a href="#cb14-302" aria-hidden="true" tabindex="-1"></a>  <span class="fu">italicize_levels</span>() </span>
-<span id="cb14-303"><a href="#cb14-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-304"><a href="#cb14-304" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-305"><a href="#cb14-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-239"><a href="#cb14-239" aria-hidden="true" tabindex="-1"></a><span class="fu">## Ordinal Regression Model: The effect of eversmk on ql12_1 after adjusting for age {#sec-ord-reg-calc-baseR}</span></span>
+<span id="cb14-240"><a href="#cb14-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-243"><a href="#cb14-243" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-244"><a href="#cb14-244" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: ordinal-reg-model-building</span></span>
+<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-250"><a href="#cb14-250" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">vglm</span>(</span>
+<span id="cb14-251"><a href="#cb14-251" aria-hidden="true" tabindex="-1"></a>                <span class="at">formula =</span> GenHealth <span class="sc">~</span> Eversmk <span class="sc">+</span> age,</span>
+<span id="cb14-252"><a href="#cb14-252" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> tomhs,</span>
+<span id="cb14-253"><a href="#cb14-253" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">cumulative</span>(<span class="at">link =</span> <span class="st">&quot;logitlink&quot;</span>, <span class="at">parallel =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a>model_1</span>
+<span id="cb14-256"><a href="#cb14-256" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-ord-reg-output</span></span>
+<span id="cb14-262"><a href="#cb14-262" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Results: The Effect of Smoking on General Health after Adjusting for Age [log]&quot;</span></span>
+<span id="cb14-263"><a href="#cb14-263" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
+<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a>model_1 <span class="sc">%&gt;%</span>  <span class="do">## log form</span></span>
+<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
+<span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">FALSE</span></span>
+<span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb14-275"><a href="#cb14-275" aria-hidden="true" tabindex="-1"></a>  <span class="fu">italicize_levels</span>()</span>
+<span id="cb14-276"><a href="#cb14-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-277"><a href="#cb14-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-278"><a href="#cb14-278" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-279"><a href="#cb14-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-282"><a href="#cb14-282" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-283"><a href="#cb14-283" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-ord-reg-output-exponent</span></span>
+<span id="cb14-284"><a href="#cb14-284" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Results: The Effect of Smoking on General Health after Adjusting for Age [exponent]&quot;</span></span>
+<span id="cb14-285"><a href="#cb14-285" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
+<span id="cb14-286"><a href="#cb14-286" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb14-287"><a href="#cb14-287" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb14-288"><a href="#cb14-288" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb14-289"><a href="#cb14-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-290"><a href="#cb14-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-291"><a href="#cb14-291" aria-hidden="true" tabindex="-1"></a>model_1 <span class="sc">%&gt;%</span>  <span class="do">## exponent form</span></span>
+<span id="cb14-292"><a href="#cb14-292" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_regression</span>(</span>
+<span id="cb14-293"><a href="#cb14-293" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb14-294"><a href="#cb14-294" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponentiate =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb14-295"><a href="#cb14-295" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-296"><a href="#cb14-296" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb14-297"><a href="#cb14-297" aria-hidden="true" tabindex="-1"></a>  <span class="fu">italicize_levels</span>() </span>
+<span id="cb14-298"><a href="#cb14-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-299"><a href="#cb14-299" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-300"><a href="#cb14-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-301"><a href="#cb14-301" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ordinal Regression Model Interpretation  {#sec-ordinal-model-reg-interpret}</span></span>
+<span id="cb14-302"><a href="#cb14-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-303"><a href="#cb14-303" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Using the model results, what is the estimated common odds ratio for the eversmk variable? Provide an interpretation of this common odds ratio in the context of the problem. </span>
+<span id="cb14-304"><a href="#cb14-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-305"><a href="#cb14-305" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The estimated common odds-ratio for the eversmk variable is 0.90. This means patients who smoke have a 10% decrease in odds of reporting a better health status (e.g “Excellent”).</span>
+<span id="cb14-306"><a href="#cb14-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-307"><a href="#cb14-307" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Using the model results, is there a significant relationship between having ever smoked cigarettes and general health at 12 months, after adjusting for age? Explain your reasoning.</span>
+<span id="cb14-308"><a href="#cb14-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-309"><a href="#cb14-309" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>No, after adjusting for age, we conclude that there is not a statistically significant relationship between having ever smoked cigarettes and general health at 12 months considering that the p-value is greater than alpha and the confidence interval includes 1.0 (OR = 0.90, p-value = 0.4, CI: 0.70 to 1.16).</span>
+<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Using the model results, what is the estimated common odds ratio for the age variable? Provide an interpretation of this common odds ratio in the context of the problem.</span>
+<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-313"><a href="#cb14-313" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The estimated common-odds ratio for the age variable is 0.98. This indicates that for every one-year increase in age, the odds of a patient reporting a better general health status (e.g., &#39;Excellent&#39; vs. all lower categories) decrease by 2%, holding smoking status constant.</span>
+<span id="cb14-314"><a href="#cb14-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-315"><a href="#cb14-315" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Using the model results, is there a significant relationship between age and general health at 12 months, after adjusting for having ever smoked cigarettes? Explain your reasoning.</span>
+<span id="cb14-316"><a href="#cb14-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-317"><a href="#cb14-317" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>After adjusting for having ever smoked cigarettes, we conclude that the relationship between age and general health at 12 months is not statistically significant given that the p-value is greater than alpha and the confidence interval includes 1.0 (p-value = 0.12, CI: 0.97 to 1.00).</span>
+<span id="cb14-318"><a href="#cb14-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-319"><a href="#cb14-319" aria-hidden="true" tabindex="-1"></a><span class="fu"># Ordinal Regression Summary Notes </span></span>
+<span id="cb14-320"><a href="#cb14-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-321"><a href="#cb14-321" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Data Cleaning tips</span>
+<span id="cb14-322"><a href="#cb14-322" aria-hidden="true" tabindex="-1"></a><span class="ss">    1.  </span>Make sure to set your categorical variable into an ordered factor</span>
+<span id="cb14-323"><a href="#cb14-323" aria-hidden="true" tabindex="-1"></a><span class="ss">        1.  </span>This is super important for generating the model</span>
+<span id="cb14-324"><a href="#cb14-324" aria-hidden="true" tabindex="-1"></a><span class="ss">    2.  </span>@sec-data-clean</span>
+<span id="cb14-325"><a href="#cb14-325" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>How do I write the fitted equation?</span>
+<span id="cb14-326"><a href="#cb14-326" aria-hidden="true" tabindex="-1"></a><span class="ss">    1.  </span>Make sure to write the fitted equation **ONLY IN LOG FORM**</span>
+<span id="cb14-327"><a href="#cb14-327" aria-hidden="true" tabindex="-1"></a><span class="ss">    2.  </span>@sec-ord-reg-fit-eq</span>
+<span id="cb14-328"><a href="#cb14-328" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>How do I generate an ordinal regression model?</span>
+<span id="cb14-329"><a href="#cb14-329" aria-hidden="true" tabindex="-1"></a><span class="ss">    1.  </span>@sec-ord-reg-calc-baseR</span>
+<span id="cb14-330"><a href="#cb14-330" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>How do I interpret the output?</span>
+<span id="cb14-331"><a href="#cb14-331" aria-hidden="true" tabindex="-1"></a><span class="ss">    1.  </span>Make sure to interpret the output **ONLY IN EXPONENT FORM**</span>
+<span id="cb14-332"><a href="#cb14-332" aria-hidden="true" tabindex="-1"></a><span class="ss">    2.  </span>Make sure to also state &quot;a X% increase/decrease in the odds&quot; instead of &quot;more/less likely&quot;</span>
+<span id="cb14-333"><a href="#cb14-333" aria-hidden="true" tabindex="-1"></a><span class="ss">        1.  </span>Remember. When we are dealing with odds-ratios we must not use probability vocab</span>
+<span id="cb14-334"><a href="#cb14-334" aria-hidden="true" tabindex="-1"></a><span class="ss">    3.  </span>@sec-ordinal-model-reg-interpret</span>
+<span id="cb14-335"><a href="#cb14-335" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>I don&#39;t understand. What does &quot;logitlink(P<span class="sc">\[</span>Y<span class="sc">\&lt;</span>=1<span class="sc">\]</span>)&quot; mean in the table output?</span>
+<span id="cb14-336"><a href="#cb14-336" aria-hidden="true" tabindex="-1"></a><span class="ss">    1.  </span>This represents the order of the categorical variable</span>
+<span id="cb14-337"><a href="#cb14-337" aria-hidden="true" tabindex="-1"></a><span class="ss">        1.  </span>In this scenario, 1 represents Excellent, 2 represents Very Good.</span>
+<span id="cb14-338"><a href="#cb14-338" aria-hidden="true" tabindex="-1"></a><span class="ss">        2.  </span>This all depends on how you ordered your factored categorical variable</span>
+<span id="cb14-339"><a href="#cb14-339" aria-hidden="true" tabindex="-1"></a><span class="ss">    2.  </span>@sec-ord-reg-calc-baseR</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

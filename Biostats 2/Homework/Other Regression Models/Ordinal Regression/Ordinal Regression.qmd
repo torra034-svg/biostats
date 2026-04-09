@@ -280,15 +280,15 @@ model_1 %>%  ## exponent form
 
 -   Using the model results, what is the estimated common odds ratio for the eversmk variable? Provide an interpretation of this common odds ratio in the context of the problem. 
 
-    -   The estimated common odds-ratio for the eversmk variable is 0.90. This means patients who smoke are 10% less likely to report positive General Health status (e.g “Excellent”).
+    -   The estimated common odds-ratio for the eversmk variable is 0.90. This means patients who smoke have a 10% decrease in odds of reporting a better health status (e.g “Excellent”).
 
 -   Using the model results, is there a significant relationship between having ever smoked cigarettes and general health at 12 months, after adjusting for age? Explain your reasoning.
 
-    -   No, after adjusting for age, we conclude that there is not a statistically significant relationship between having ever smoked cigarettes and general health at 12 months considering that the p-value is greater than alpha and the confidence interval includes 1.0 (p-value = 0.4, CI: 0.70 to 1.16).
+    -   No, after adjusting for age, we conclude that there is not a statistically significant relationship between having ever smoked cigarettes and general health at 12 months considering that the p-value is greater than alpha and the confidence interval includes 1.0 (OR = 0.90, p-value = 0.4, CI: 0.70 to 1.16).
 
 -   Using the model results, what is the estimated common odds ratio for the age variable? Provide an interpretation of this common odds ratio in the context of the problem.
 
-    -   The estimated common-odds ratio for the age variable is 0.98. This means that for every one unit increase in age, we expect a 2% decrease in the patient selecting a positive general health status at 12 months after adjusting for having ever smoked.
+    -   The estimated common-odds ratio for the age variable is 0.98. This indicates that for every one-year increase in age, the odds of a patient reporting a better general health status (e.g., 'Excellent' vs. all lower categories) decrease by 2%, holding smoking status constant.
 
 -   Using the model results, is there a significant relationship between age and general health at 12 months, after adjusting for having ever smoked cigarettes? Explain your reasoning.
 
@@ -307,7 +307,9 @@ model_1 %>%  ## exponent form
     1.  @sec-ord-reg-calc-baseR
 4.  How do I interpret the output?
     1.  Make sure to interpret the output **ONLY IN EXPONENT FORM**
-    2.  @sec-ordinal-model-reg-interpret
+    2.  Make sure to also state "a X% increase/decrease in the odds" instead of "more/less likely"
+        1.  Remember. When we are dealing with odds-ratios we must not use probability vocab
+    3.  @sec-ordinal-model-reg-interpret
 5.  I don't understand. What does "logitlink(P\[Y\<=1\])" mean in the table output?
     1.  This represents the order of the categorical variable
         1.  In this scenario, 1 represents Excellent, 2 represents Very Good.
