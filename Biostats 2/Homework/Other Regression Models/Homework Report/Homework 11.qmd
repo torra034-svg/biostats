@@ -113,10 +113,12 @@ tomhs <- tomhs %>%
 
 
 tbl_1 <- tomhs %>% 
-  select(Age, Sex, Race, Income, Marital, Education, "Ever Smoked", Ql12_4) %>% 
+  select(age, Sex, Race, Income, Marital, Education, "Ever Smoked", Ql12_4) %>% 
   tbl_summary(
     by = "Ever Smoked",
-    label = list(Ql12_4 = "Satisfaction Score")
+    label = list(
+      age = "Age",
+      Ql12_4 = "Satisfaction with physical ability at 12 months")
   ) %>% 
   add_overall() %>% 
   bold_labels() %>% 

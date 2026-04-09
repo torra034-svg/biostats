@@ -3184,10 +3184,10 @@ vertical-align: -.125em;
 <h1 data-number="2"><span class="header-section-number">2</span> Exploratory Data Analysis</h1>
 <div class="cell" data-tbl-cap-location="top">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tbl_1 <span class="ot">&lt;-</span> tomhs <span class="sc">%&gt;%</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Sex, Race, Income, Marital, Education, <span class="st">&quot;Ever Smoked&quot;</span>, Ql12_4) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age, Sex, Race, Income, Marital, Education, <span class="st">&quot;Ever Smoked&quot;</span>, Ql12_4) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">&quot;Ever Smoked&quot;</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(<span class="at">Ql12_4 =</span> <span class="st">&quot;Satisfaction Score&quot;</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(<span class="at">Ql12_4 =</span> <span class="st">&quot;Satisfaction with physical ability at 12 months&quot;</span>)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">%&gt;%</span> </span>
@@ -3201,20 +3201,20 @@ Table 1: Participant Demographics by Ever Smoke Status
 </figcaption>
 <div aria-describedby="tbl-study-demographics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="ehdguudtyk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ehdguudtyk table {
+<div id="xepaqcrukj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xepaqcrukj table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#ehdguudtyk thead, #ehdguudtyk tbody, #ehdguudtyk tfoot, #ehdguudtyk tr, #ehdguudtyk td, #ehdguudtyk th {
+#xepaqcrukj thead, #xepaqcrukj tbody, #xepaqcrukj tfoot, #xepaqcrukj tr, #xepaqcrukj td, #xepaqcrukj th {
 border-style: none;
 }
-#ehdguudtyk p {
+#xepaqcrukj p {
 margin: 0;
 padding: 0;
 }
-#ehdguudtyk .gt_table {
+#xepaqcrukj .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -3239,11 +3239,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#ehdguudtyk .gt_caption {
+#xepaqcrukj .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#ehdguudtyk .gt_title {
+#xepaqcrukj .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -3254,7 +3254,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#ehdguudtyk .gt_subtitle {
+#xepaqcrukj .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -3265,7 +3265,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#ehdguudtyk .gt_heading {
+#xepaqcrukj .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3276,12 +3276,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ehdguudtyk .gt_bottom_border {
+#xepaqcrukj .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ehdguudtyk .gt_col_headings {
+#xepaqcrukj .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3295,7 +3295,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ehdguudtyk .gt_col_heading {
+#xepaqcrukj .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3314,7 +3314,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#ehdguudtyk .gt_column_spanner_outer {
+#xepaqcrukj .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3325,13 +3325,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#ehdguudtyk .gt_column_spanner_outer:first-child {
+#xepaqcrukj .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#ehdguudtyk .gt_column_spanner_outer:last-child {
+#xepaqcrukj .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#ehdguudtyk .gt_column_spanner {
+#xepaqcrukj .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3342,10 +3342,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#ehdguudtyk .gt_spanner_row {
+#xepaqcrukj .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#ehdguudtyk .gt_group_heading {
+#xepaqcrukj .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3370,7 +3370,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#ehdguudtyk .gt_empty_group_heading {
+#xepaqcrukj .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3384,13 +3384,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#ehdguudtyk .gt_from_md > :first-child {
+#xepaqcrukj .gt_from_md > :first-child {
 margin-top: 0;
 }
-#ehdguudtyk .gt_from_md > :last-child {
+#xepaqcrukj .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#ehdguudtyk .gt_row {
+#xepaqcrukj .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3408,7 +3408,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#ehdguudtyk .gt_stub {
+#xepaqcrukj .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3420,7 +3420,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ehdguudtyk .gt_stub_row_group {
+#xepaqcrukj .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3433,13 +3433,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#ehdguudtyk .gt_row_group_first td {
+#xepaqcrukj .gt_row_group_first td {
 border-top-width: 2px;
 }
-#ehdguudtyk .gt_row_group_first th {
+#xepaqcrukj .gt_row_group_first th {
 border-top-width: 2px;
 }
-#ehdguudtyk .gt_summary_row {
+#xepaqcrukj .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3448,14 +3448,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ehdguudtyk .gt_first_summary_row {
+#xepaqcrukj .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#ehdguudtyk .gt_first_summary_row.thick {
+#xepaqcrukj .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#ehdguudtyk .gt_last_summary_row {
+#xepaqcrukj .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3464,7 +3464,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ehdguudtyk .gt_grand_summary_row {
+#xepaqcrukj .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3473,7 +3473,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ehdguudtyk .gt_first_grand_summary_row {
+#xepaqcrukj .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3482,7 +3482,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#ehdguudtyk .gt_last_grand_summary_row_top {
+#xepaqcrukj .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3491,10 +3491,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#ehdguudtyk .gt_striped {
+#xepaqcrukj .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#ehdguudtyk .gt_table_body {
+#xepaqcrukj .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3502,7 +3502,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ehdguudtyk .gt_footnotes {
+#xepaqcrukj .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3515,7 +3515,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ehdguudtyk .gt_footnote {
+#xepaqcrukj .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -3523,7 +3523,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ehdguudtyk .gt_sourcenotes {
+#xepaqcrukj .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3536,64 +3536,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ehdguudtyk .gt_sourcenote {
+#xepaqcrukj .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ehdguudtyk .gt_left {
+#xepaqcrukj .gt_left {
 text-align: left;
 }
-#ehdguudtyk .gt_center {
+#xepaqcrukj .gt_center {
 text-align: center;
 }
-#ehdguudtyk .gt_right {
+#xepaqcrukj .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#ehdguudtyk .gt_font_normal {
+#xepaqcrukj .gt_font_normal {
 font-weight: normal;
 }
-#ehdguudtyk .gt_font_bold {
+#xepaqcrukj .gt_font_bold {
 font-weight: bold;
 }
-#ehdguudtyk .gt_font_italic {
+#xepaqcrukj .gt_font_italic {
 font-style: italic;
 }
-#ehdguudtyk .gt_super {
+#xepaqcrukj .gt_super {
 font-size: 65%;
 }
-#ehdguudtyk .gt_footnote_marks {
+#xepaqcrukj .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#ehdguudtyk .gt_asterisk {
+#xepaqcrukj .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#ehdguudtyk .gt_indent_1 {
+#xepaqcrukj .gt_indent_1 {
 text-indent: 5px;
 }
-#ehdguudtyk .gt_indent_2 {
+#xepaqcrukj .gt_indent_2 {
 text-indent: 10px;
 }
-#ehdguudtyk .gt_indent_3 {
+#xepaqcrukj .gt_indent_3 {
 text-indent: 15px;
 }
-#ehdguudtyk .gt_indent_4 {
+#xepaqcrukj .gt_indent_4 {
 text-indent: 20px;
 }
-#ehdguudtyk .gt_indent_5 {
+#xepaqcrukj .gt_indent_5 {
 text-indent: 25px;
 }
-#ehdguudtyk .katex-display {
+#xepaqcrukj .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#ehdguudtyk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xepaqcrukj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -3618,6 +3618,12 @@ N = 420<span class="gt_footnote_marks" style="white-space:nowrap;font-style:ital
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">age</td>
+<td class="gt_row gt_center" headers="stat_0">54 (50, 60)</td>
+<td class="gt_row gt_center" headers="stat_1">54 (50, 59)</td>
+<td class="gt_row gt_center" headers="stat_2">54 (49, 60)</td>
+</tr>
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">Sex</td>
 <td class="gt_row gt_center" headers="stat_0"><br>
 </td>
@@ -3626,19 +3632,19 @@ N = 420<span class="gt_footnote_marks" style="white-space:nowrap;font-style:ital
 <td class="gt_row gt_center" headers="stat_2"><br>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Female</td>
 <td class="gt_row gt_center" headers="stat_0">345 (38%)</td>
 <td class="gt_row gt_center" headers="stat_1">222 (46%)</td>
 <td class="gt_row gt_center" headers="stat_2">123 (29%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Male</td>
 <td class="gt_row gt_center" headers="stat_0">554 (62%)</td>
 <td class="gt_row gt_center" headers="stat_1">257 (54%)</td>
 <td class="gt_row gt_center" headers="stat_2">297 (71%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">Race</td>
 <td class="gt_row gt_center" headers="stat_0"><br>
 </td>
@@ -3647,31 +3653,31 @@ N = 420<span class="gt_footnote_marks" style="white-space:nowrap;font-style:ital
 <td class="gt_row gt_center" headers="stat_2"><br>
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Asian</td>
 <td class="gt_row gt_center" headers="stat_0">10 (1.1%)</td>
 <td class="gt_row gt_center" headers="stat_1">7 (1.5%)</td>
 <td class="gt_row gt_center" headers="stat_2">3 (0.7%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Black</td>
 <td class="gt_row gt_center" headers="stat_0">177 (20%)</td>
 <td class="gt_row gt_center" headers="stat_1">88 (18%)</td>
 <td class="gt_row gt_center" headers="stat_2">89 (21%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Other</td>
 <td class="gt_row gt_center" headers="stat_0">6 (0.7%)</td>
 <td class="gt_row gt_center" headers="stat_1">4 (0.8%)</td>
 <td class="gt_row gt_center" headers="stat_2">2 (0.5%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    White</td>
 <td class="gt_row gt_center" headers="stat_0">706 (79%)</td>
 <td class="gt_row gt_center" headers="stat_1">380 (79%)</td>
 <td class="gt_row gt_center" headers="stat_2">326 (78%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">Income</td>
 <td class="gt_row gt_center" headers="stat_0"><br>
 </td>
@@ -3680,61 +3686,61 @@ N = 420<span class="gt_footnote_marks" style="white-space:nowrap;font-style:ital
 <td class="gt_row gt_center" headers="stat_2"><br>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    $10,000 to $19,999</td>
 <td class="gt_row gt_center" headers="stat_0">120 (14%)</td>
 <td class="gt_row gt_center" headers="stat_1">67 (15%)</td>
 <td class="gt_row gt_center" headers="stat_2">53 (13%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    $20,000 to $29,999</td>
 <td class="gt_row gt_center" headers="stat_0">159 (19%)</td>
 <td class="gt_row gt_center" headers="stat_1">85 (19%)</td>
 <td class="gt_row gt_center" headers="stat_2">74 (18%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    $30,000 to $39,999</td>
 <td class="gt_row gt_center" headers="stat_0">143 (17%)</td>
 <td class="gt_row gt_center" headers="stat_1">78 (17%)</td>
 <td class="gt_row gt_center" headers="stat_2">65 (16%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    $40,000 to $49,999</td>
 <td class="gt_row gt_center" headers="stat_0">152 (18%)</td>
 <td class="gt_row gt_center" headers="stat_1">76 (17%)</td>
 <td class="gt_row gt_center" headers="stat_2">76 (19%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    $50,000 to $59,999</td>
 <td class="gt_row gt_center" headers="stat_0">86 (10%)</td>
 <td class="gt_row gt_center" headers="stat_1">45 (9.9%)</td>
 <td class="gt_row gt_center" headers="stat_2">41 (10%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    $60,000 to $69,999</td>
 <td class="gt_row gt_center" headers="stat_0">59 (6.9%)</td>
 <td class="gt_row gt_center" headers="stat_1">30 (6.6%)</td>
 <td class="gt_row gt_center" headers="stat_2">29 (7.2%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    $70,000 or more</td>
 <td class="gt_row gt_center" headers="stat_0">94 (11%)</td>
 <td class="gt_row gt_center" headers="stat_1">46 (10%)</td>
 <td class="gt_row gt_center" headers="stat_2">48 (12%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Less than $9,999</td>
 <td class="gt_row gt_center" headers="stat_0">44 (5.1%)</td>
 <td class="gt_row gt_center" headers="stat_1">29 (6.4%)</td>
 <td class="gt_row gt_center" headers="stat_2">15 (3.7%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Unknown</td>
 <td class="gt_row gt_center" headers="stat_0">42</td>
 <td class="gt_row gt_center" headers="stat_1">23</td>
 <td class="gt_row gt_center" headers="stat_2">19</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">Marital</td>
 <td class="gt_row gt_center" headers="stat_0"><br>
 </td>
@@ -3743,43 +3749,43 @@ N = 420<span class="gt_footnote_marks" style="white-space:nowrap;font-style:ital
 <td class="gt_row gt_center" headers="stat_2"><br>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Divorced</td>
 <td class="gt_row gt_center" headers="stat_0">90 (10%)</td>
 <td class="gt_row gt_center" headers="stat_1">43 (9.0%)</td>
 <td class="gt_row gt_center" headers="stat_2">47 (11%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Married</td>
 <td class="gt_row gt_center" headers="stat_0">689 (77%)</td>
 <td class="gt_row gt_center" headers="stat_1">375 (78%)</td>
 <td class="gt_row gt_center" headers="stat_2">314 (75%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Never married</td>
 <td class="gt_row gt_center" headers="stat_0">37 (4.1%)</td>
 <td class="gt_row gt_center" headers="stat_1">20 (4.2%)</td>
 <td class="gt_row gt_center" headers="stat_2">17 (4.1%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Separated</td>
 <td class="gt_row gt_center" headers="stat_0">29 (3.2%)</td>
 <td class="gt_row gt_center" headers="stat_1">11 (2.3%)</td>
 <td class="gt_row gt_center" headers="stat_2">18 (4.3%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Widowed</td>
 <td class="gt_row gt_center" headers="stat_0">53 (5.9%)</td>
 <td class="gt_row gt_center" headers="stat_1">30 (6.3%)</td>
 <td class="gt_row gt_center" headers="stat_2">23 (5.5%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Unknown</td>
 <td class="gt_row gt_center" headers="stat_0">1</td>
 <td class="gt_row gt_center" headers="stat_1">0</td>
 <td class="gt_row gt_center" headers="stat_2">1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-weight: bold">Education</td>
 <td class="gt_row gt_center" headers="stat_0"><br>
 </td>
@@ -3788,68 +3794,68 @@ N = 420<span class="gt_footnote_marks" style="white-space:nowrap;font-style:ital
 <td class="gt_row gt_center" headers="stat_2"><br>
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Eighth grade or less</td>
 <td class="gt_row gt_center" headers="stat_0">14 (1.6%)</td>
 <td class="gt_row gt_center" headers="stat_1">10 (2.1%)</td>
 <td class="gt_row gt_center" headers="stat_2">4 (1.0%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Graduate or professional degree (Specify):</td>
 <td class="gt_row gt_center" headers="stat_0">126 (14%)</td>
 <td class="gt_row gt_center" headers="stat_1">78 (16%)</td>
 <td class="gt_row gt_center" headers="stat_2">48 (11%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Graduate or professional education beyond the bachelor&#39;s degree</td>
 <td class="gt_row gt_center" headers="stat_0">70 (7.8%)</td>
 <td class="gt_row gt_center" headers="stat_1">35 (7.3%)</td>
 <td class="gt_row gt_center" headers="stat_2">35 (8.4%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    High school graduate</td>
 <td class="gt_row gt_center" headers="stat_0">211 (23%)</td>
 <td class="gt_row gt_center" headers="stat_1">123 (26%)</td>
 <td class="gt_row gt_center" headers="stat_2">88 (21%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Received bachelor&#39;s degree</td>
 <td class="gt_row gt_center" headers="stat_0">132 (15%)</td>
 <td class="gt_row gt_center" headers="stat_1">74 (15%)</td>
 <td class="gt_row gt_center" headers="stat_2">58 (14%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Some college including 2 year degrees</td>
 <td class="gt_row gt_center" headers="stat_0">177 (20%)</td>
 <td class="gt_row gt_center" headers="stat_1">77 (16%)</td>
 <td class="gt_row gt_center" headers="stat_2">100 (24%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Some high school</td>
 <td class="gt_row gt_center" headers="stat_0">45 (5.0%)</td>
 <td class="gt_row gt_center" headers="stat_1">21 (4.4%)</td>
 <td class="gt_row gt_center" headers="stat_2">24 (5.7%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Trade school or business school after graduating from high school</td>
 <td class="gt_row gt_center" headers="stat_0">116 (13%)</td>
 <td class="gt_row gt_center" headers="stat_1">58 (12%)</td>
 <td class="gt_row gt_center" headers="stat_2">58 (14%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Trade school or business school instead of high school</td>
 <td class="gt_row gt_center" headers="stat_0">7 (0.8%)</td>
 <td class="gt_row gt_center" headers="stat_1">3 (0.6%)</td>
 <td class="gt_row gt_center" headers="stat_2">4 (1.0%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Unknown</td>
 <td class="gt_row gt_center" headers="stat_0">1</td>
 <td class="gt_row gt_center" headers="stat_1">0</td>
 <td class="gt_row gt_center" headers="stat_2">1</td>
 </tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label" style="font-weight: bold">Satisfaction Score</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Satisfaction with physical ability at 12 months</td>
 <td class="gt_row gt_center" headers="stat_0"><br>
 </td>
 <td class="gt_row gt_center" headers="stat_1"><br>
@@ -3857,51 +3863,51 @@ N = 420<span class="gt_footnote_marks" style="white-space:nowrap;font-style:ital
 <td class="gt_row gt_center" headers="stat_2"><br>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Completely dissatisfied</td>
 <td class="gt_row gt_center" headers="stat_0">3 (0.4%)</td>
 <td class="gt_row gt_center" headers="stat_1">1 (0.2%)</td>
 <td class="gt_row gt_center" headers="stat_2">2 (0.5%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Completely satisfied</td>
 <td class="gt_row gt_center" headers="stat_0">233 (28%)</td>
 <td class="gt_row gt_center" headers="stat_1">123 (27%)</td>
 <td class="gt_row gt_center" headers="stat_2">110 (28%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Somewhat dissatisfied</td>
 <td class="gt_row gt_center" headers="stat_0">39 (4.6%)</td>
 <td class="gt_row gt_center" headers="stat_1">22 (4.8%)</td>
 <td class="gt_row gt_center" headers="stat_2">17 (4.4%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Somewhat satisfied</td>
 <td class="gt_row gt_center" headers="stat_0">167 (20%)</td>
 <td class="gt_row gt_center" headers="stat_1">81 (18%)</td>
 <td class="gt_row gt_center" headers="stat_2">86 (22%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Very dissatisfied</td>
 <td class="gt_row gt_center" headers="stat_0">7 (0.8%)</td>
 <td class="gt_row gt_center" headers="stat_1">2 (0.4%)</td>
 <td class="gt_row gt_center" headers="stat_2">5 (1.3%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Very satisfied</td>
 <td class="gt_row gt_center" headers="stat_0">394 (47%)</td>
 <td class="gt_row gt_center" headers="stat_1">225 (50%)</td>
 <td class="gt_row gt_center" headers="stat_2">169 (43%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="gt_row gt_left" headers="label" style="font-style: italic">    Unknown</td>
 <td class="gt_row gt_center" headers="stat_0">56</td>
 <td class="gt_row gt_center" headers="stat_1">25</td>
 <td class="gt_row gt_center" headers="stat_2">31</td>
 </tr>
 </tbody><tfoot>
-<tr class="odd gt_footnotes">
-<td colspan="4" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> n (%)</td>
+<tr class="even gt_footnotes">
+<td colspan="4" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Median (Q1, Q3); n (%)</td>
 </tr>
 </tfoot>
 
@@ -4494,10 +4500,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>tbl_1 <span class="ot">&lt;-</span> tomhs <span class="sc">%&gt;%</span> </span>
-<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Sex, Race, Income, Marital, Education, <span class="st">&quot;Ever Smoked&quot;</span>, Ql12_4) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age, Sex, Race, Income, Marital, Education, <span class="st">&quot;Ever Smoked&quot;</span>, Ql12_4) <span class="sc">%&gt;%</span> </span>
 <span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
 <span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">&quot;Ever Smoked&quot;</span>,</span>
-<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(<span class="at">Ql12_4 =</span> <span class="st">&quot;Satisfaction Score&quot;</span>)</span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(<span class="at">Ql12_4 =</span> <span class="st">&quot;Satisfaction with physical ability at 12 months&quot;</span>)</span>
 <span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">%&gt;%</span> </span>
