@@ -86,17 +86,18 @@ tomhs <- tomhs %>%
                                educ == 7 ~"Received bachelor's degree",
                                educ == 8 ~"Graduate or professional education beyond the bachelor's degree",
                                educ == 9 ~ "Graduate or professional degree (Specify):"),
-         Eversmk = if_else(eversmk == 1, "Yes", "No"),
-         "Ql12_4" = 
-           fct_relevel(
-             case_when(
-             ql12_4 == 1 ~ "Completely satisfied",
-             ql12_4 == 2 ~ "Very satisfied",
-             ql12_4 == 3 ~ "Somewhat satisfied",
-             ql12_4 == 4 ~ "Somewhat dissatisfied",
-             ql12_4 == 5 ~ "Very dissatisfied",
-             ql12_4 == 6 ~ "Completely dissatisfied"
-             )
+         Eversmk = fct_relevel(if_else(eversmk == 1, "Yes", "No")),
+          Ql12_4 = 
+           factor(ql12_4,
+                  levels = 1:6,
+                  labels = c(
+                    "Completely satisfied",
+                    "Very satisfied",
+                    "Somewhat satisfied",
+                    "Somewhat dissatisfied",
+                    "Very dissatisfied",
+                    "Completely dissatisfied"),
+                  ordered = TRUE
   )
   )
          
@@ -251,13 +252,13 @@ Important Note: Looks like both models produce the same output. Therefore, I don
 #| message: false
 #| echo: true
 
-model_1 <- vglm(
+model_2 <- vglm(
   formula = Ql12_4 ~ age + Eversmk,
   data = tomhs,
   family = cumulative(link = "logitlink", parallel = TRUE)
 )
 
-model_1 %>% 
+model_2 %>% 
   tbl_regression(
     intercept = TRUE
   )
