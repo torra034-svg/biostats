@@ -1,0 +1,52 @@
+---
+title: "Sample Size and Power"
+author: "Patrick Torralba"
+format:
+  html:
+    theme: flatly
+    code-fold: FALSE
+    code-tools: TRUE
+    code-copy: TRUE
+    toc: TRUE
+    toc-depth: 3
+    smooth-scroll: TRUE
+    embed-resources: TRUE
+    number-sections: TRUE
+editor: visual
+---
+
+# Set-up
+
+## Library
+```{r}
+#| label: library
+#| message: false
+#| warning: false
+#| echo: true
+
+library(tidyverse)
+library(pwr)
+
+```
+
+
+# Situation 1: Cusick et al. article
+
+## Estimating Sample Sizes in Group Means
+```{r}
+#| label: tbl-sample-size-gm
+#| tbl-cap: "Estimating Sample Sizes from the Cusick Article"
+#| tbl-cap-location: top
+
+
+## pwr.t.test()
+### haha jk we did not do Part 2 from section 1. Therefore, we cannot do this problem lol.
+
+
+```
+
+
+
+# Situation 2: Continuous Outcome
+
+## Estimating Sample Sizes
