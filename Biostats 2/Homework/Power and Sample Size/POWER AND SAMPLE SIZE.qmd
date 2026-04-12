@@ -189,7 +189,8 @@ pch = c(1,2), col = c(1,2), cex=1.5)
 
 # Situation 3: Binary Outcome
 
-## Estimating Sample Sizes {#sec-sample-size-group-prop}
+## Estimating Sample Sizes {#sec-binary-outcome-sample-size-calculation}
+
 ```{r}
 #| label: tbl-sample-size-group-prp
 #| tbl-cap: "Estimating Sample Size in a Group Proportion"
@@ -219,7 +220,7 @@ twogrpp.n %>%
 
 ```
 
-## Calculating Multiple Sample Sizes with the same MCID {#sec-multiple-sample-size-group-prop-same-MCID}
+## Calculating Multiple Sample Sizes with the same MCID {#sec-binary-outcome-multiple-sample-size-same-MCID}
 
 ```{r}
 #| label: tbl-calc-mult-samp-size-grp-prp
@@ -231,26 +232,137 @@ twogrpp.n %>%
 
 
 ## Define Baseline Proportions
-p1_list <- seq(from = 0.50, to = 0.75, by = 0.05)
+p1_levels <- seq(from = 0.50, to = 0.75, by = 0.05)
 
+# Level 1: 50% to 60%
+res1 <- power.prop.test(p1=0.50, p2=0.60, sig.level=0.05, power=0.80, n=NULL)
+n1   <- ceiling(res1$n)
 
-## Define Comparison Proportions
+# Level 2: 55% to 65%
+res2 <- power.prop.test(p1=0.55, p2=0.65, sig.level=0.05, power=0.80, n=NULL)
+n2   <- ceiling(res2$n)
 
-## Calculate Sample Size
+# Level 3: 60% to 70%
+res3 <- power.prop.test(p1=0.60, p2=0.70, sig.level=0.05, power=0.80, n=NULL)
+n3   <- ceiling(res3$n)
 
-twogrpp.power <- power.prop.test(
-  h = ES.h(p1 = 0.70, p2 = 0.80),
-  sig.level = 0.05,
-  n = vs.n
+# Level 4: 65% to 75%
+res4 <- power.prop.test(p1=0.65, p2=0.75, sig.level=0.05, power=0.80, n=NULL)
+n4   <- ceiling(res4$n)
+
+# Level 5: 70% to 80% (Original target)
+res5 <- power.prop.test(p1=0.70, p2=0.80, sig.level=0.05, power=0.80, n=NULL)
+n5   <- ceiling(res5$n)
+
+# Level 6: 75% to 85%
+res6 <- power.prop.test(p1=0.75, p2=0.85, sig.level=0.05, power=0.80, n=NULL)
+n6   <- ceiling(res6$n)
+
+## 3. Combine results into the final table
+twogrpp.pwrtable <- data.frame(
+  Baseline_Suppression = p1_levels,
+  Comparison_Suppression = p1_levels + 0.10,
+  Required_N_per_Group = c(n1, n2, n3, n4, n5, n6)
 )
 
-twogrpp.pwrtable <- data.frame(n = twogrpp.power$n,
-                               power = twogrpp.power$power)
-
+# Display the final table
 twogrpp.pwrtable
 
 
+twogrpp.pwrtable %>% 
+    kable(
+        format = "html",
+        digits = 2,
+        align = "c") %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    full_width = FALSE,
+    position = "center"
+  )
 ```
+
+## Using a Power Curve to Estimate Power based on Sample Size {#sec-binary-outcome-power-curve}
+
+```{r}
+#| label: fig-power-curve-q19
+#| fig-cap: "Power Curve Comparing Baseline Viral Suppression Levels (60% vs 70%)"
+#| fig-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+## Define range of samples
+
+n_range <- seq(from = 10, to = 300, by = 10)
+
+
+## Get Sample Size for each proportion
+
+pow_60 <- 
+  power.prop.test(
+    p1 = 0.60,
+    p2 = 0.70,
+    n = n_range,
+  )$power
+
+pow_70 <-
+  power.prop.test(
+    p1 = 0.70,
+    p2 = 0.80,
+    n = n_range,
+  )$power
+
+## Plot
+plot(n_range, pow_70, 
+     type = "b", 
+     col = "blue", 
+     pch = 16,
+     xlab = "Sample Size (per group)", 
+     ylab = "Power", 
+     ylim = c(0, 1))
+
+# Add the 60% line
+lines(n_range, pow_60, type = "b", col = "red", pch = 16)
+
+# Add a reference line for 80% power
+abline(h = 0.80, lty = 2, col = "darkgrey")
+
+## 5. Add a legend that matches your data
+legend("bottomright", 
+       legend = c("Baseline 70% (Target 80%)", "Baseline 60% (Target 70%)"), 
+       col = c("blue", "red"), 
+       pch = 16, 
+       lty = 1, 
+       cex = 0.8) # Adjusted cex so it fits better
+```
+
+## Calculating Sample Size Lost to Attrition {#sec-sample-size-attrition}
+
+-   Question: You and your collaborator decide to be a bit conservative and use a viral suppression rate of 60%. You also believe based on past experience that about 20% of the enrolled participants will be lost to follow-up over the one year of the study. How many participants should you aim to enroll for your study? Please show your work.
+
+-   Know
+
+    -   n = 356
+        -   Since we use the 60% prop, the n is 356 according to the Power Table
+    -   attrition rate = 0.20
+        -   This is stated in the problem \[the people lost to follow-up\]
+    -   Formula to calculate **Adjusted Sample Size PER GROUP**
+        -   $$
+            N_{adj} = \frac{n}{1 - \text{attrition rate}}
+            $$
+
+    ```{r}
+    #| label: attrition
+    #| warning: false
+    #| message: false
+    #| echo: true
+
+    (356/(1-0.2))
+
+
+    ```
+
+
 
 
 # Power and Sample Size Summary Notes
@@ -269,9 +381,16 @@ twogrpp.pwrtable
         -   @sec-power-curve-plot-two-different-MCIDS
 -   What if my outcome is Binary (Proportions)
     -   Information needed to calculate sample size:
-        -   Proportion
         -   Standard Deviations **IS NOT NEEDED**
         -   Baseline Proportion
         -   Comparison Proportion
         -   Effect Size (MCID)
-        -   
+    -   How to calculate sample size?
+        -   @sec-binary-outcome-sample-size-calculation
+    -   How to calculate multiple sample sizes via Power Table?
+        -   @sec-binary-outcome-power-curve
+    -   How to generate a Power Curve to Compare Two Different Proportions?
+        -   @sec-binary-outcome-power-curve
+-   How to calculate the adjusted sample size when accounting for people lost to follow-up?
+    -   @sec-sample-size-attrition
+-   

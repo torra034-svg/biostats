@@ -3292,6 +3292,44 @@ border: 0;
 </style>
 
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -3319,7 +3357,10 @@ border: 0;
   </ul></li>
   <li><a href="#situation-3-binary-outcome" id="toc-situation-3-binary-outcome" class="nav-link" data-scroll-target="#situation-3-binary-outcome"><span class="header-section-number">4</span> Situation 3: Binary Outcome</a>
   <ul class="collapse">
-  <li><a href="#estimating-sample-sizes" id="toc-estimating-sample-sizes" class="nav-link" data-scroll-target="#estimating-sample-sizes"><span class="header-section-number">4.1</span> Estimating Sample Sizes</a></li>
+  <li><a href="#sec-binary-outcome-sample-size-calculation" id="toc-sec-binary-outcome-sample-size-calculation" class="nav-link" data-scroll-target="#sec-binary-outcome-sample-size-calculation"><span class="header-section-number">4.1</span> Estimating Sample Sizes</a></li>
+  <li><a href="#sec-binary-outcome-multiple-sample-size-same-MCID" id="toc-sec-binary-outcome-multiple-sample-size-same-MCID" class="nav-link" data-scroll-target="#sec-binary-outcome-multiple-sample-size-same-MCID"><span class="header-section-number">4.2</span> Calculating Multiple Sample Sizes with the same MCID</a></li>
+  <li><a href="#sec-binary-outcome-power-curve" id="toc-sec-binary-outcome-power-curve" class="nav-link" data-scroll-target="#sec-binary-outcome-power-curve"><span class="header-section-number">4.3</span> Using a Power Curve to Estimate Power based on Sample Size</a></li>
+  <li><a href="#sec-sample-size-attrition" id="toc-sec-sample-size-attrition" class="nav-link" data-scroll-target="#sec-sample-size-attrition"><span class="header-section-number">4.4</span> Calculating Sample Size Lost to Attrition</a></li>
   </ul></li>
   <li><a href="#power-and-sample-size-summary-notes" id="toc-power-and-sample-size-summary-notes" class="nav-link" data-scroll-target="#power-and-sample-size-summary-notes"><span class="header-section-number">5</span> Power and Sample Size Summary Notes</a></li>
   </ul>
@@ -3607,8 +3648,8 @@ Figure 1: Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)
 </section>
 <section id="situation-3-binary-outcome" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Situation 3: Binary Outcome</h1>
-<section id="estimating-sample-sizes" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="estimating-sample-sizes"><span class="header-section-number">4.1</span> Estimating Sample Sizes</h2>
+<section id="sec-binary-outcome-sample-size-calculation" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-binary-outcome-sample-size-calculation"><span class="header-section-number">4.1</span> Estimating Sample Sizes</h2>
 <div class="cell" data-tbl-cap-location="top">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>twogrpp.n <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">p1 =</span> <span class="fl">0.70</span>,</span>
@@ -3630,7 +3671,7 @@ Figure 1: Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)
 <div id="tbl-sample-size-group-prp" class="cell quarto-float anchored" data-tbl-cap-location="top">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sample-size-group-prp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table 4: caption
+Table 4: Estimating Sample Size in a Group Proportion
 </figcaption>
 <div aria-describedby="tbl-sample-size-group-prp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -3664,6 +3705,211 @@ Table 4: caption
 </div>
 </div>
 </section>
+<section id="sec-binary-outcome-multiple-sample-size-same-MCID" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-binary-outcome-multiple-sample-size-same-MCID"><span class="header-section-number">4.2</span> Calculating Multiple Sample Sizes with the same MCID</h2>
+<div class="cell" data-tbl-cap-location="top">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Define Baseline Proportions</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>p1_levels <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.50</span>, <span class="at">to =</span> <span class="fl">0.75</span>, <span class="at">by =</span> <span class="fl">0.05</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 1: 50% to 60%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.50</span>, <span class="at">p2=</span><span class="fl">0.60</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>n1   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res1<span class="sc">$</span>n)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 2: 55% to 65%</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.55</span>, <span class="at">p2=</span><span class="fl">0.65</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>n2   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res2<span class="sc">$</span>n)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 3: 60% to 70%</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>res3 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.60</span>, <span class="at">p2=</span><span class="fl">0.70</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>n3   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res3<span class="sc">$</span>n)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 4: 65% to 75%</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>res4 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.65</span>, <span class="at">p2=</span><span class="fl">0.75</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>n4   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res4<span class="sc">$</span>n)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 5: 70% to 80% (Original target)</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>res5 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.70</span>, <span class="at">p2=</span><span class="fl">0.80</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>n5   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res5<span class="sc">$</span>n)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 6: 75% to 85%</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>res6 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.75</span>, <span class="at">p2=</span><span class="fl">0.85</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>n6   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res6<span class="sc">$</span>n)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="do">## 3. Combine results into the final table</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>twogrpp.pwrtable <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">Baseline_Suppression =</span> p1_levels,</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">Comparison_Suppression =</span> p1_levels <span class="sc">+</span> <span class="fl">0.10</span>,</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">Required_N_per_Group =</span> <span class="fu">c</span>(n1, n2, n3, n4, n5, n6)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the final table</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>twogrpp.pwrtable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Baseline_Suppression Comparison_Suppression Required_N_per_Group
+1                 0.50                   0.60                  388
+2                 0.55                   0.65                  376
+3                 0.60                   0.70                  356
+4                 0.65                   0.75                  329
+5                 0.70                   0.80                  294
+6                 0.75                   0.85                  250</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>twogrpp.pwrtable <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-calc-mult-samp-size-grp-prp" class="cell quarto-float anchored" data-tbl-cap-location="top">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-calc-mult-samp-size-grp-prp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 5: Calculating Multiple Sample Sizes in a Group Proportion with the same MCID
+</figcaption>
+<div aria-describedby="tbl-calc-mult-samp-size-grp-prp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Baseline_Suppression</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Comparison_Suppression</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Required_N_per_Group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">0.60</td>
+<td style="text-align: center;">388</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.55</td>
+<td style="text-align: center;">0.65</td>
+<td style="text-align: center;">376</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0.60</td>
+<td style="text-align: center;">0.70</td>
+<td style="text-align: center;">356</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.65</td>
+<td style="text-align: center;">0.75</td>
+<td style="text-align: center;">329</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0.70</td>
+<td style="text-align: center;">0.80</td>
+<td style="text-align: center;">294</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.75</td>
+<td style="text-align: center;">0.85</td>
+<td style="text-align: center;">250</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="sec-binary-outcome-power-curve" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-binary-outcome-power-curve"><span class="header-section-number">4.3</span> Using a Power Curve to Estimate Power based on Sample Size</h2>
+<div class="cell fig-cap-location-top">
+<div class="sourceCode cell-code" id="cb9" data-cap-location="top"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Define range of samples</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>n_range <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">10</span>, <span class="at">to =</span> <span class="dv">300</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size for each proportion</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>pow_60 <span class="ot">&lt;-</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.prop.test</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">p1 =</span> <span class="fl">0.60</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">p2 =</span> <span class="fl">0.70</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n_range,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">$</span>power</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>pow_70 <span class="ot">&lt;-</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.prop.test</span>(</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">p1 =</span> <span class="fl">0.70</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">p2 =</span> <span class="fl">0.80</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n_range,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">$</span>power</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n_range, pow_70, </span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, </span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Sample Size (per group)&quot;</span>, </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Power&quot;</span>, </span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the 60% line</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(n_range, pow_60, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">16</span>)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a reference line for 80% power</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.80</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;darkgrey&quot;</span>)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="do">## 5. Add a legend that matches your data</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, </span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Baseline 70% (Target 80%)&quot;</span>, <span class="st">&quot;Baseline 60% (Target 70%)&quot;</span>), </span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), </span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">16</span>, </span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">1</span>, </span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.8</span>) <span class="co"># Adjusted cex so it fits better</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-power-curve-q19" class="quarto-figure quarto-figure-center quarto-float anchored" data-cap-location="top">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-power-curve-q19-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 2: Power Curve Comparing Baseline Viral Suppression Levels (60% vs 70%)
+</figcaption>
+<div aria-describedby="fig-power-curve-q19-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUAAAAPACAMAAADDuCPrAAAA81BMVEUAAAAAADoAAGYAAP8AOjoAOmYAOpAAZpAAZrY6AAA6OgA6Ojo6OmY6ZmY6ZpA6ZrY6kJA6kLY6kNtmAABmOgBmOjpmOmZmZgBmZjpmZmZmZpBmkJBmkLZmkNtmtrZmtttmtv+QOgCQOjqQZgCQZjqQZmaQkGaQkJCQkLaQtraQttuQtv+Q29uQ2/+pqam2ZgC2Zjq2kDq2kGa2kJC2tpC2tra2ttu225C227a229u22/+2/9u2///bkDrbkGbbtmbbtpDbtrbb25Db27bb29vb2//b/7bb/9vb////AAD/tmb/25D/27b/29v//7b//9v///83TawvAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAgAElEQVR4nO3df2PTSJrgcRkIh6EbdkK4ncwyB8wxewt3rJks7jvYdid0wl3aCdjv/9WcSj9LP2xLT0pSPdL380c3CbZcMeaLZJXKwRYAIBIMPQAA0IqAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIb8DGgCAM+4T5XyLDg39bAMYF+eNcr3Bss3V1+Vy+cvVteC+HfyDAWCytAX08q3V/qef296dgAJwR1dAb09Ku89HH9ptgIACcEdVQNdzE80np7HH5ovZ61ZbIKAA3NEU0B/Pw2C+t75xEQb13q9tNkFAAbijKaCrSi5NUo/bbIKAAnBHUUA3b4KgfMC+DoKHbc7GE1AA7igKaLi7WTler/vePgQUgDsEFACEFAU0PISflWctcQgPYDiKArpdVGpp3hZ91GYTBBSAO5oCejMPC/rF+sZt2M/KTuleBBSAO5oCauYxhcU8fbc0PsUz6VvNYiKgABxSFdDt+bx0KefsVbsNEFAA7ugK6HZzZid09rLtikwEFIA7ygIa2lwuz05PT18uPwvWsyOgANzRF9A7IaAA3CGgACBEQAFAiIACgJDygO6/Fr6Pj4ACMF0EFACERh3QKgIKwB3lAd1+v/rW5uYEFIA72gPaEgEF4A4BBQAhAgoAQgQUAIQIKAAIEVAAECKgACBEQAFASFFAfzyvuzSTK5EADIWAAoCQooBub08IKACPaArodvOm7ccYlxFQAO6oCmhU0Nd32QABBeCOroC2Xr6ujIACcEdZQLfrux3EE1AA7mgLaHgQf5ddUAIKwB1tAd3enJ7+T/m9CSgAd9QF9G4IKAB3CCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACECCgACBFQABAioAAgREABQIiAAoAQAQUAIQIKAEIEFACE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" class="img-fluid figure-img" width="672">
+</div>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-sample-size-attrition" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-sample-size-attrition"><span class="header-section-number">4.4</span> Calculating Sample Size Lost to Attrition</h2>
+<ul>
+<li><p>Question: You and your collaborator decide to be a bit conservative and use a viral suppression rate of 60%. You also believe based on past experience that about 20% of the enrolled participants will be lost to follow-up over the one year of the study. How many participants should you aim to enroll for your study? Please show your work.</p></li>
+<li><p>Know</p>
+<ul>
+<li>n = 356
+<ul>
+<li>Since we use the 60% prop, the n is 356 according to the Power Table</li>
+</ul></li>
+<li>attrition rate = 0.20
+<ul>
+<li>This is stated in the problem [the people lost to follow-up]</li>
+</ul></li>
+<li>Formula to calculate <strong>Adjusted Sample Size PER GROUP</strong>
+<ul>
+<li><span class="math display">\[
+N_{adj} = \frac{n}{1 - \text{attrition rate}}
+\]</span></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">356</span><span class="sc">/</span>(<span class="dv">1</span><span class="fl">-0.2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 445</code></pre>
+</div>
+</div></li>
+</ul>
+</section>
 </section>
 <section id="power-and-sample-size-summary-notes" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Power and Sample Size Summary Notes</h1>
@@ -3694,14 +3940,29 @@ Table 4: caption
 <ul>
 <li>Information needed to calculate sample size:
 <ul>
-<li>Proportion</li>
 <li>Standard Deviations <strong>IS NOT NEEDED</strong></li>
 <li>Baseline Proportion</li>
 <li>Comparison Proportion</li>
 <li>Effect Size (MCID)</li>
+</ul></li>
+<li>How to calculate sample size?
+<ul>
+<li><a href="#sec-binary-outcome-sample-size-calculation" class="quarto-xref">Section 4.1</a></li>
+</ul></li>
+<li>How to calculate multiple sample sizes via Power Table?
+<ul>
+<li><a href="#sec-binary-outcome-power-curve" class="quarto-xref">Section 4.3</a></li>
+</ul></li>
+<li>How to generate a Power Curve to Compare Two Different Proportions?
+<ul>
+<li><a href="#sec-binary-outcome-power-curve" class="quarto-xref">Section 4.3</a></li>
+</ul></li>
+</ul></li>
+<li>How to calculate the adjusted sample size when accounting for people lost to follow-up?
+<ul>
+<li><a href="#sec-sample-size-attrition" class="quarto-xref">Section 4.4</a></li>
+</ul></li>
 <li></li>
-</ul></li>
-</ul></li>
 </ul>
 <!-- -->
 
@@ -4169,251 +4430,402 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class>
-<div class="sourceCode" id="cb6" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Sample Size and Power&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Patrick Torralba&quot;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: FALSE</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: TRUE</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: TRUE</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: TRUE</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">    smooth-scroll: TRUE</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">    embed-resources: TRUE</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: TRUE</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> visual</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Set-up</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Library</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: library</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary) <span class="do">## translate output to table vis tbl_regression()</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra) <span class="do">## transalte output to table via kable()</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom) <span class="do">## translate output (basically a better version of summary)</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="fu"># Situation 1: Cusick et al. article</span></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Sample Sizes in Group Means</span></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-gm</span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Sample Sizes from the Cusick Article&quot;</span></span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="do">## pwr.t.test()</span></span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="do">### haha jk we did not do Part 2 from section 1. Therefore, we cannot do this problem lol.</span></span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a><span class="fu"># Situation 2: Continuous Outcome</span></span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Sample Sizes in Group Means {#sec-group-mean-sample-size-standard}</span></span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-q6</span></span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Sample Size from a Continuous Outcome&quot;</span></span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(</span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta =</span> <span class="dv">2</span>, <span class="do">## this is the MCID value</span></span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="dv">6</span>,</span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.8</span>,</span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
-<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
-<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
-<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Multiple Sample Size via Power Table {#sec-power-table-sample-size}</span></span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-q9</span></span>
-<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Multiple Sample Sizes via a Power Table&quot;</span></span>
-<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
-<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>deltas <span class="ot">&lt;-</span> <span class="fu">seq</span>(</span>
-<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="dv">1</span>,</span>
-<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="dv">5</span>,</span>
-<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="dv">1</span></span>
-<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>q9 <span class="ot">&lt;-</span> <span class="fu">map_df</span>(deltas, <span class="sc">~</span>{</span>
-<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.t.test</span>(</span>
-<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> .x,         </span>
-<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,              </span>
-<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a>    <span class="at">sig.level =</span> <span class="fl">0.05</span>, </span>
-<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="fl">0.80</span>, </span>
-<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span></span>
-<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span>
-<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a>q9 <span class="sc">%&gt;%</span> </span>
-<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
-<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
-<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
-<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
-<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a><span class="do">## DO NOT TRUST THE SOFTWARE LESSON. IT IS INACCURATE</span></span>
-<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using a Power Curve to Compare Two Different MCIDS (Effect Sizes) {#sec-power-curve-plot-two-different-MCIDS}</span></span>
-<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-power-curve</span></span>
-<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)&quot;</span></span>
-<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap-location: top</span></span>
-<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a><span class="do">## We need to create a list of values for our x-axis in the power curve plot</span></span>
-<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a>n.values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">5</span>,</span>
-<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a>                <span class="at">to =</span> <span class="dv">100</span>,</span>
-<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a>                <span class="at">by =</span> <span class="dv">5</span>) </span>
-<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size when MCID = 2</span></span>
-<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a>twogrpmean.power.small <span class="ot">&lt;-</span></span>
-<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.t.test</span>(</span>
-<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> <span class="dv">2</span>,</span>
-<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,</span>
-<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="cn">NULL</span>, <span class="do">## Leave Power NULL when calculating power curve (bc this is what we want R to graph for us)</span></span>
-<span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n.values,</span>
-<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span></span>
-<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size when MCID = 4</span></span>
-<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a>twogrpmean.power.medium <span class="ot">&lt;-</span></span>
-<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a>    <span class="fu">power.t.test</span>(</span>
-<span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> <span class="dv">4</span>,</span>
-<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,</span>
-<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="cn">NULL</span>,</span>
-<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n.values,</span>
-<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
-<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a><span class="do">## Plotting the first curve (MCID = 2)</span></span>
-<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n.values,</span>
-<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>     twogrpmean.power.small<span class="sc">$</span>power,</span>
-<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
-<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;sample size&quot;</span>,</span>
-<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;power&quot;</span>,</span>
-<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
-<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(n.values, </span>
-<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a>      twogrpmean.power.small<span class="sc">$</span>power, </span>
-<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">&quot;b&quot;</span>) </span>
-<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a><span class="do">## cannot add type = &quot;b&quot; argument. This will cause graph not to run.</span></span>
-<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a><span class="do">## Add Second Curve (MCID = 4)</span></span>
-<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(n.values,</span>
-<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a>       twogrpmean.power.medium<span class="sc">$</span>power,</span>
-<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a>       <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
-<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;red&quot;</span>,) <span class="do">## Keep these arguments like this to run. Otherwise, if you follow the software lesson it will not run.</span></span>
-<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a><span class="do">## Add a legend for each curve</span></span>
-<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>( <span class="st">&quot;d = 2&quot;</span>, <span class="st">&quot;d = 4&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
-<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a><span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">cex=</span><span class="fl">1.5</span>)</span>
-<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a><span class="fu"># Situation 3: Binary Outcome</span></span>
-<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Sample Sizes</span></span>
-<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-group-prp</span></span>
-<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;caption&quot;</span></span>
-<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
-<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a>twogrpp.n <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(</span>
-<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a>  <span class="at">p1 =</span> <span class="fl">0.70</span>,</span>
-<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a>  <span class="at">p2 =</span> <span class="fl">0.80</span>,</span>
-<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.80</span></span>
-<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a>twogrpp.n <span class="sc">%&gt;%</span> </span>
-<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
-<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
-<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
-<span id="cb6-227"><a href="#cb6-227" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
-<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a><span class="fu"># Power and Sample Size Summary Notes</span></span>
-<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-238"><a href="#cb6-238" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What if my outcome is Continuous (Group Means)?</span>
-<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Information needed to calculate sample size:</span>
-<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Mean</span>
-<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Standard Deviation</span>
-<span id="cb6-242"><a href="#cb6-242" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Effect Size (also known as delta or MCID)</span>
-<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Power Level (usually 0.80 unless stated otherwise)</span>
-<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to calculate sample size?</span>
-<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-group-mean-sample-size-standard</span>
-<span id="cb6-246"><a href="#cb6-246" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to calculate multiple sample sizes via Power Table?</span>
-<span id="cb6-247"><a href="#cb6-247" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-power-curve-plot-two-different-MCIDS</span>
-<span id="cb6-248"><a href="#cb6-248" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to generate a Power Curve to compare two different MCIDS?</span>
-<span id="cb6-249"><a href="#cb6-249" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-power-curve-plot-two-different-MCIDS</span>
-<span id="cb6-250"><a href="#cb6-250" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What if my outcome is Binary (Proportions)</span>
-<span id="cb6-251"><a href="#cb6-251" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Information needed to calculate sample size:</span>
-<span id="cb6-252"><a href="#cb6-252" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Proportion</span>
-<span id="cb6-253"><a href="#cb6-253" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Standard Deviations **IS NOT NEEDED**</span>
-<span id="cb6-254"><a href="#cb6-254" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Baseline Proportion</span>
-<span id="cb6-255"><a href="#cb6-255" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Comparison Proportion</span>
-<span id="cb6-256"><a href="#cb6-256" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Effect Size (MCID)</span>
-<span id="cb6-257"><a href="#cb6-257" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span></span>
+<div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Sample Size and Power&quot;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Patrick Torralba&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: FALSE</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: TRUE</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: TRUE</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: TRUE</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">    smooth-scroll: TRUE</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">    embed-resources: TRUE</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: TRUE</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> visual</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Set-up</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Library</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: library</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary) <span class="do">## translate output to table vis tbl_regression()</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra) <span class="do">## transalte output to table via kable()</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom) <span class="do">## translate output (basically a better version of summary)</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="fu"># Situation 1: Cusick et al. article</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Sample Sizes in Group Means</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-gm</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Sample Sizes from the Cusick Article&quot;</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="do">## pwr.t.test()</span></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a><span class="do">### haha jk we did not do Part 2 from section 1. Therefore, we cannot do this problem lol.</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a><span class="fu"># Situation 2: Continuous Outcome</span></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Sample Sizes in Group Means {#sec-group-mean-sample-size-standard}</span></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-q6</span></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Sample Size from a Continuous Outcome&quot;</span></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(</span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta =</span> <span class="dv">2</span>, <span class="do">## this is the MCID value</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="dv">6</span>,</span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.8</span>,</span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Multiple Sample Size via Power Table {#sec-power-table-sample-size}</span></span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-q9</span></span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Multiple Sample Sizes via a Power Table&quot;</span></span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>deltas <span class="ot">&lt;-</span> <span class="fu">seq</span>(</span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="dv">1</span>,</span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="dv">5</span>,</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="dv">1</span></span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a>q9 <span class="ot">&lt;-</span> <span class="fu">map_df</span>(deltas, <span class="sc">~</span>{</span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.t.test</span>(</span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> .x,         </span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,              </span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a>    <span class="at">sig.level =</span> <span class="fl">0.05</span>, </span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="fl">0.80</span>, </span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span></span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-119"><a href="#cb12-119" aria-hidden="true" tabindex="-1"></a>q9 <span class="sc">%&gt;%</span> </span>
+<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
+<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a><span class="do">## DO NOT TRUST THE SOFTWARE LESSON. IT IS INACCURATE</span></span>
+<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using a Power Curve to Compare Two Different MCIDS (Effect Sizes) {#sec-power-curve-plot-two-different-MCIDS}</span></span>
+<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-power-curve</span></span>
+<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)&quot;</span></span>
+<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap-location: top</span></span>
+<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a><span class="do">## We need to create a list of values for our x-axis in the power curve plot</span></span>
+<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a>n.values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">5</span>,</span>
+<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a>                <span class="at">to =</span> <span class="dv">100</span>,</span>
+<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a>                <span class="at">by =</span> <span class="dv">5</span>) </span>
+<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size when MCID = 2</span></span>
+<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a>twogrpmean.power.small <span class="ot">&lt;-</span></span>
+<span id="cb12-153"><a href="#cb12-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.t.test</span>(</span>
+<span id="cb12-154"><a href="#cb12-154" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> <span class="dv">2</span>,</span>
+<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,</span>
+<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="cn">NULL</span>, <span class="do">## Leave Power NULL when calculating power curve (bc this is what we want R to graph for us)</span></span>
+<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n.values,</span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span></span>
+<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size when MCID = 4</span></span>
+<span id="cb12-163"><a href="#cb12-163" aria-hidden="true" tabindex="-1"></a>twogrpmean.power.medium <span class="ot">&lt;-</span></span>
+<span id="cb12-164"><a href="#cb12-164" aria-hidden="true" tabindex="-1"></a>    <span class="fu">power.t.test</span>(</span>
+<span id="cb12-165"><a href="#cb12-165" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> <span class="dv">4</span>,</span>
+<span id="cb12-166"><a href="#cb12-166" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,</span>
+<span id="cb12-167"><a href="#cb12-167" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="cn">NULL</span>,</span>
+<span id="cb12-168"><a href="#cb12-168" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n.values,</span>
+<span id="cb12-169"><a href="#cb12-169" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
+<span id="cb12-170"><a href="#cb12-170" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-171"><a href="#cb12-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-172"><a href="#cb12-172" aria-hidden="true" tabindex="-1"></a><span class="do">## Plotting the first curve (MCID = 2)</span></span>
+<span id="cb12-173"><a href="#cb12-173" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n.values,</span>
+<span id="cb12-174"><a href="#cb12-174" aria-hidden="true" tabindex="-1"></a>     twogrpmean.power.small<span class="sc">$</span>power,</span>
+<span id="cb12-175"><a href="#cb12-175" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
+<span id="cb12-176"><a href="#cb12-176" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;sample size&quot;</span>,</span>
+<span id="cb12-177"><a href="#cb12-177" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;power&quot;</span>,</span>
+<span id="cb12-178"><a href="#cb12-178" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(n.values, </span>
+<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a>      twogrpmean.power.small<span class="sc">$</span>power, </span>
+<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">&quot;b&quot;</span>) </span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a><span class="do">## cannot add type = &quot;b&quot; argument. This will cause graph not to run.</span></span>
+<span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-186"><a href="#cb12-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-187"><a href="#cb12-187" aria-hidden="true" tabindex="-1"></a><span class="do">## Add Second Curve (MCID = 4)</span></span>
+<span id="cb12-188"><a href="#cb12-188" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(n.values,</span>
+<span id="cb12-189"><a href="#cb12-189" aria-hidden="true" tabindex="-1"></a>       twogrpmean.power.medium<span class="sc">$</span>power,</span>
+<span id="cb12-190"><a href="#cb12-190" aria-hidden="true" tabindex="-1"></a>       <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
+<span id="cb12-191"><a href="#cb12-191" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;red&quot;</span>,) <span class="do">## Keep these arguments like this to run. Otherwise, if you follow the software lesson it will not run.</span></span>
+<span id="cb12-192"><a href="#cb12-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-193"><a href="#cb12-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-194"><a href="#cb12-194" aria-hidden="true" tabindex="-1"></a><span class="do">## Add a legend for each curve</span></span>
+<span id="cb12-195"><a href="#cb12-195" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>( <span class="st">&quot;d = 2&quot;</span>, <span class="st">&quot;d = 4&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb12-196"><a href="#cb12-196" aria-hidden="true" tabindex="-1"></a><span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">cex=</span><span class="fl">1.5</span>)</span>
+<span id="cb12-197"><a href="#cb12-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-198"><a href="#cb12-198" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-199"><a href="#cb12-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-200"><a href="#cb12-200" aria-hidden="true" tabindex="-1"></a><span class="fu"># Situation 3: Binary Outcome</span></span>
+<span id="cb12-201"><a href="#cb12-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-202"><a href="#cb12-202" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Sample Sizes {#sec-binary-outcome-sample-size-calculation}</span></span>
+<span id="cb12-203"><a href="#cb12-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-206"><a href="#cb12-206" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-207"><a href="#cb12-207" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-group-prp</span></span>
+<span id="cb12-208"><a href="#cb12-208" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Sample Size in a Group Proportion&quot;</span></span>
+<span id="cb12-209"><a href="#cb12-209" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
+<span id="cb12-210"><a href="#cb12-210" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb12-211"><a href="#cb12-211" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb12-212"><a href="#cb12-212" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb12-213"><a href="#cb12-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-214"><a href="#cb12-214" aria-hidden="true" tabindex="-1"></a>twogrpp.n <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(</span>
+<span id="cb12-215"><a href="#cb12-215" aria-hidden="true" tabindex="-1"></a>  <span class="at">p1 =</span> <span class="fl">0.70</span>,</span>
+<span id="cb12-216"><a href="#cb12-216" aria-hidden="true" tabindex="-1"></a>  <span class="at">p2 =</span> <span class="fl">0.80</span>,</span>
+<span id="cb12-217"><a href="#cb12-217" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.80</span></span>
+<span id="cb12-218"><a href="#cb12-218" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-219"><a href="#cb12-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-220"><a href="#cb12-220" aria-hidden="true" tabindex="-1"></a>twogrpp.n <span class="sc">%&gt;%</span> </span>
+<span id="cb12-221"><a href="#cb12-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb12-222"><a href="#cb12-222" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb12-223"><a href="#cb12-223" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
+<span id="cb12-224"><a href="#cb12-224" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb12-225"><a href="#cb12-225" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-226"><a href="#cb12-226" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb12-227"><a href="#cb12-227" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb12-228"><a href="#cb12-228" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb12-229"><a href="#cb12-229" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb12-230"><a href="#cb12-230" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-231"><a href="#cb12-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-232"><a href="#cb12-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-233"><a href="#cb12-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-234"><a href="#cb12-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-235"><a href="#cb12-235" aria-hidden="true" tabindex="-1"></a><span class="fu">## Calculating Multiple Sample Sizes with the same MCID {#sec-binary-outcome-multiple-sample-size-same-MCID}</span></span>
+<span id="cb12-236"><a href="#cb12-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-239"><a href="#cb12-239" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-240"><a href="#cb12-240" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-calc-mult-samp-size-grp-prp</span></span>
+<span id="cb12-241"><a href="#cb12-241" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Calculating Multiple Sample Sizes in a Group Proportion with the same MCID&quot;</span></span>
+<span id="cb12-242"><a href="#cb12-242" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
+<span id="cb12-243"><a href="#cb12-243" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb12-244"><a href="#cb12-244" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb12-245"><a href="#cb12-245" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb12-246"><a href="#cb12-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-247"><a href="#cb12-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-248"><a href="#cb12-248" aria-hidden="true" tabindex="-1"></a><span class="do">## Define Baseline Proportions</span></span>
+<span id="cb12-249"><a href="#cb12-249" aria-hidden="true" tabindex="-1"></a>p1_levels <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.50</span>, <span class="at">to =</span> <span class="fl">0.75</span>, <span class="at">by =</span> <span class="fl">0.05</span>)</span>
+<span id="cb12-250"><a href="#cb12-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-251"><a href="#cb12-251" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 1: 50% to 60%</span></span>
+<span id="cb12-252"><a href="#cb12-252" aria-hidden="true" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.50</span>, <span class="at">p2=</span><span class="fl">0.60</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb12-253"><a href="#cb12-253" aria-hidden="true" tabindex="-1"></a>n1   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res1<span class="sc">$</span>n)</span>
+<span id="cb12-254"><a href="#cb12-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-255"><a href="#cb12-255" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 2: 55% to 65%</span></span>
+<span id="cb12-256"><a href="#cb12-256" aria-hidden="true" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.55</span>, <span class="at">p2=</span><span class="fl">0.65</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb12-257"><a href="#cb12-257" aria-hidden="true" tabindex="-1"></a>n2   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res2<span class="sc">$</span>n)</span>
+<span id="cb12-258"><a href="#cb12-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-259"><a href="#cb12-259" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 3: 60% to 70%</span></span>
+<span id="cb12-260"><a href="#cb12-260" aria-hidden="true" tabindex="-1"></a>res3 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.60</span>, <span class="at">p2=</span><span class="fl">0.70</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb12-261"><a href="#cb12-261" aria-hidden="true" tabindex="-1"></a>n3   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res3<span class="sc">$</span>n)</span>
+<span id="cb12-262"><a href="#cb12-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-263"><a href="#cb12-263" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 4: 65% to 75%</span></span>
+<span id="cb12-264"><a href="#cb12-264" aria-hidden="true" tabindex="-1"></a>res4 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.65</span>, <span class="at">p2=</span><span class="fl">0.75</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb12-265"><a href="#cb12-265" aria-hidden="true" tabindex="-1"></a>n4   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res4<span class="sc">$</span>n)</span>
+<span id="cb12-266"><a href="#cb12-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-267"><a href="#cb12-267" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 5: 70% to 80% (Original target)</span></span>
+<span id="cb12-268"><a href="#cb12-268" aria-hidden="true" tabindex="-1"></a>res5 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.70</span>, <span class="at">p2=</span><span class="fl">0.80</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb12-269"><a href="#cb12-269" aria-hidden="true" tabindex="-1"></a>n5   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res5<span class="sc">$</span>n)</span>
+<span id="cb12-270"><a href="#cb12-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-271"><a href="#cb12-271" aria-hidden="true" tabindex="-1"></a><span class="co"># Level 6: 75% to 85%</span></span>
+<span id="cb12-272"><a href="#cb12-272" aria-hidden="true" tabindex="-1"></a>res6 <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(<span class="at">p1=</span><span class="fl">0.75</span>, <span class="at">p2=</span><span class="fl">0.85</span>, <span class="at">sig.level=</span><span class="fl">0.05</span>, <span class="at">power=</span><span class="fl">0.80</span>, <span class="at">n=</span><span class="cn">NULL</span>)</span>
+<span id="cb12-273"><a href="#cb12-273" aria-hidden="true" tabindex="-1"></a>n6   <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(res6<span class="sc">$</span>n)</span>
+<span id="cb12-274"><a href="#cb12-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-275"><a href="#cb12-275" aria-hidden="true" tabindex="-1"></a><span class="do">## 3. Combine results into the final table</span></span>
+<span id="cb12-276"><a href="#cb12-276" aria-hidden="true" tabindex="-1"></a>twogrpp.pwrtable <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-277"><a href="#cb12-277" aria-hidden="true" tabindex="-1"></a>  <span class="at">Baseline_Suppression =</span> p1_levels,</span>
+<span id="cb12-278"><a href="#cb12-278" aria-hidden="true" tabindex="-1"></a>  <span class="at">Comparison_Suppression =</span> p1_levels <span class="sc">+</span> <span class="fl">0.10</span>,</span>
+<span id="cb12-279"><a href="#cb12-279" aria-hidden="true" tabindex="-1"></a>  <span class="at">Required_N_per_Group =</span> <span class="fu">c</span>(n1, n2, n3, n4, n5, n6)</span>
+<span id="cb12-280"><a href="#cb12-280" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-281"><a href="#cb12-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-282"><a href="#cb12-282" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the final table</span></span>
+<span id="cb12-283"><a href="#cb12-283" aria-hidden="true" tabindex="-1"></a>twogrpp.pwrtable</span>
+<span id="cb12-284"><a href="#cb12-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-285"><a href="#cb12-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-286"><a href="#cb12-286" aria-hidden="true" tabindex="-1"></a>twogrpp.pwrtable <span class="sc">%&gt;%</span> </span>
+<span id="cb12-287"><a href="#cb12-287" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>(</span>
+<span id="cb12-288"><a href="#cb12-288" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
+<span id="cb12-289"><a href="#cb12-289" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb12-290"><a href="#cb12-290" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-291"><a href="#cb12-291" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb12-292"><a href="#cb12-292" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb12-293"><a href="#cb12-293" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb12-294"><a href="#cb12-294" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb12-295"><a href="#cb12-295" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-296"><a href="#cb12-296" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-297"><a href="#cb12-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-298"><a href="#cb12-298" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using a Power Curve to Estimate Power based on Sample Size {#sec-binary-outcome-power-curve}</span></span>
+<span id="cb12-299"><a href="#cb12-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-302"><a href="#cb12-302" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-303"><a href="#cb12-303" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-power-curve-q19</span></span>
+<span id="cb12-304"><a href="#cb12-304" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Power Curve Comparing Baseline Viral Suppression Levels (60% vs 70%)&quot;</span></span>
+<span id="cb12-305"><a href="#cb12-305" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap-location: top</span></span>
+<span id="cb12-306"><a href="#cb12-306" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb12-307"><a href="#cb12-307" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb12-308"><a href="#cb12-308" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb12-309"><a href="#cb12-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-310"><a href="#cb12-310" aria-hidden="true" tabindex="-1"></a><span class="do">## Define range of samples</span></span>
+<span id="cb12-311"><a href="#cb12-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-312"><a href="#cb12-312" aria-hidden="true" tabindex="-1"></a>n_range <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">10</span>, <span class="at">to =</span> <span class="dv">300</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
+<span id="cb12-313"><a href="#cb12-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-314"><a href="#cb12-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-315"><a href="#cb12-315" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size for each proportion</span></span>
+<span id="cb12-316"><a href="#cb12-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-317"><a href="#cb12-317" aria-hidden="true" tabindex="-1"></a>pow_60 <span class="ot">&lt;-</span> </span>
+<span id="cb12-318"><a href="#cb12-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.prop.test</span>(</span>
+<span id="cb12-319"><a href="#cb12-319" aria-hidden="true" tabindex="-1"></a>    <span class="at">p1 =</span> <span class="fl">0.60</span>,</span>
+<span id="cb12-320"><a href="#cb12-320" aria-hidden="true" tabindex="-1"></a>    <span class="at">p2 =</span> <span class="fl">0.70</span>,</span>
+<span id="cb12-321"><a href="#cb12-321" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n_range,</span>
+<span id="cb12-322"><a href="#cb12-322" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">$</span>power</span>
+<span id="cb12-323"><a href="#cb12-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-324"><a href="#cb12-324" aria-hidden="true" tabindex="-1"></a>pow_70 <span class="ot">&lt;-</span></span>
+<span id="cb12-325"><a href="#cb12-325" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.prop.test</span>(</span>
+<span id="cb12-326"><a href="#cb12-326" aria-hidden="true" tabindex="-1"></a>    <span class="at">p1 =</span> <span class="fl">0.70</span>,</span>
+<span id="cb12-327"><a href="#cb12-327" aria-hidden="true" tabindex="-1"></a>    <span class="at">p2 =</span> <span class="fl">0.80</span>,</span>
+<span id="cb12-328"><a href="#cb12-328" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n_range,</span>
+<span id="cb12-329"><a href="#cb12-329" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">$</span>power</span>
+<span id="cb12-330"><a href="#cb12-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-331"><a href="#cb12-331" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot</span></span>
+<span id="cb12-332"><a href="#cb12-332" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n_range, pow_70, </span>
+<span id="cb12-333"><a href="#cb12-333" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, </span>
+<span id="cb12-334"><a href="#cb12-334" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, </span>
+<span id="cb12-335"><a href="#cb12-335" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb12-336"><a href="#cb12-336" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Sample Size (per group)&quot;</span>, </span>
+<span id="cb12-337"><a href="#cb12-337" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Power&quot;</span>, </span>
+<span id="cb12-338"><a href="#cb12-338" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb12-339"><a href="#cb12-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-340"><a href="#cb12-340" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the 60% line</span></span>
+<span id="cb12-341"><a href="#cb12-341" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(n_range, pow_60, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">16</span>)</span>
+<span id="cb12-342"><a href="#cb12-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-343"><a href="#cb12-343" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a reference line for 80% power</span></span>
+<span id="cb12-344"><a href="#cb12-344" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.80</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;darkgrey&quot;</span>)</span>
+<span id="cb12-345"><a href="#cb12-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-346"><a href="#cb12-346" aria-hidden="true" tabindex="-1"></a><span class="do">## 5. Add a legend that matches your data</span></span>
+<span id="cb12-347"><a href="#cb12-347" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, </span>
+<span id="cb12-348"><a href="#cb12-348" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Baseline 70% (Target 80%)&quot;</span>, <span class="st">&quot;Baseline 60% (Target 70%)&quot;</span>), </span>
+<span id="cb12-349"><a href="#cb12-349" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), </span>
+<span id="cb12-350"><a href="#cb12-350" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">16</span>, </span>
+<span id="cb12-351"><a href="#cb12-351" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">1</span>, </span>
+<span id="cb12-352"><a href="#cb12-352" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.8</span>) <span class="co"># Adjusted cex so it fits better</span></span>
+<span id="cb12-353"><a href="#cb12-353" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-354"><a href="#cb12-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-355"><a href="#cb12-355" aria-hidden="true" tabindex="-1"></a><span class="fu">## Calculating Sample Size Lost to Attrition {#sec-sample-size-attrition}</span></span>
+<span id="cb12-356"><a href="#cb12-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-357"><a href="#cb12-357" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Question: You and your collaborator decide to be a bit conservative and use a viral suppression rate of 60%. You also believe based on past experience that about 20% of the enrolled participants will be lost to follow-up over the one year of the study. How many participants should you aim to enroll for your study? Please show your work.</span>
+<span id="cb12-358"><a href="#cb12-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-359"><a href="#cb12-359" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Know</span>
+<span id="cb12-360"><a href="#cb12-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-361"><a href="#cb12-361" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>n = 356</span>
+<span id="cb12-362"><a href="#cb12-362" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Since we use the 60% prop, the n is 356 according to the Power Table</span>
+<span id="cb12-363"><a href="#cb12-363" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>attrition rate = 0.20</span>
+<span id="cb12-364"><a href="#cb12-364" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>This is stated in the problem <span class="sc">\[</span>the people lost to follow-up<span class="sc">\]</span></span>
+<span id="cb12-365"><a href="#cb12-365" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Formula to calculate **Adjusted Sample Size PER GROUP**</span>
+<span id="cb12-366"><a href="#cb12-366" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>$$</span>
+<span id="cb12-367"><a href="#cb12-367" aria-hidden="true" tabindex="-1"></a>            N_{adj} = \frac{n}{1 - \text{attrition rate}}</span>
+<span id="cb12-368"><a href="#cb12-368" aria-hidden="true" tabindex="-1"></a>            $$</span>
+<span id="cb12-369"><a href="#cb12-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-370"><a href="#cb12-370" aria-hidden="true" tabindex="-1"></a>    <span class="in">```{r}</span></span>
+<span id="cb12-371"><a href="#cb12-371" aria-hidden="true" tabindex="-1"></a><span class="in">    #| label: attrition</span></span>
+<span id="cb12-372"><a href="#cb12-372" aria-hidden="true" tabindex="-1"></a><span class="in">    #| warning: false</span></span>
+<span id="cb12-373"><a href="#cb12-373" aria-hidden="true" tabindex="-1"></a><span class="in">    #| message: false</span></span>
+<span id="cb12-374"><a href="#cb12-374" aria-hidden="true" tabindex="-1"></a><span class="in">    #| echo: true</span></span>
+<span id="cb12-375"><a href="#cb12-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-376"><a href="#cb12-376" aria-hidden="true" tabindex="-1"></a><span class="in">    (356/(1-0.2))</span></span>
+<span id="cb12-377"><a href="#cb12-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-378"><a href="#cb12-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-379"><a href="#cb12-379" aria-hidden="true" tabindex="-1"></a><span class="in">    ```</span></span>
+<span id="cb12-380"><a href="#cb12-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-381"><a href="#cb12-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-382"><a href="#cb12-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-383"><a href="#cb12-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-384"><a href="#cb12-384" aria-hidden="true" tabindex="-1"></a><span class="fu"># Power and Sample Size Summary Notes</span></span>
+<span id="cb12-385"><a href="#cb12-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-386"><a href="#cb12-386" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What if my outcome is Continuous (Group Means)?</span>
+<span id="cb12-387"><a href="#cb12-387" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Information needed to calculate sample size:</span>
+<span id="cb12-388"><a href="#cb12-388" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Mean</span>
+<span id="cb12-389"><a href="#cb12-389" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Standard Deviation</span>
+<span id="cb12-390"><a href="#cb12-390" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Effect Size (also known as delta or MCID)</span>
+<span id="cb12-391"><a href="#cb12-391" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Power Level (usually 0.80 unless stated otherwise)</span>
+<span id="cb12-392"><a href="#cb12-392" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to calculate sample size?</span>
+<span id="cb12-393"><a href="#cb12-393" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-group-mean-sample-size-standard</span>
+<span id="cb12-394"><a href="#cb12-394" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to calculate multiple sample sizes via Power Table?</span>
+<span id="cb12-395"><a href="#cb12-395" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-power-curve-plot-two-different-MCIDS</span>
+<span id="cb12-396"><a href="#cb12-396" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to generate a Power Curve to compare two different MCIDS?</span>
+<span id="cb12-397"><a href="#cb12-397" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-power-curve-plot-two-different-MCIDS</span>
+<span id="cb12-398"><a href="#cb12-398" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What if my outcome is Binary (Proportions)</span>
+<span id="cb12-399"><a href="#cb12-399" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Information needed to calculate sample size:</span>
+<span id="cb12-400"><a href="#cb12-400" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Standard Deviations **IS NOT NEEDED**</span>
+<span id="cb12-401"><a href="#cb12-401" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Baseline Proportion</span>
+<span id="cb12-402"><a href="#cb12-402" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Comparison Proportion</span>
+<span id="cb12-403"><a href="#cb12-403" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Effect Size (MCID)</span>
+<span id="cb12-404"><a href="#cb12-404" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to calculate sample size?</span>
+<span id="cb12-405"><a href="#cb12-405" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-binary-outcome-sample-size-calculation</span>
+<span id="cb12-406"><a href="#cb12-406" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to calculate multiple sample sizes via Power Table?</span>
+<span id="cb12-407"><a href="#cb12-407" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-binary-outcome-power-curve</span>
+<span id="cb12-408"><a href="#cb12-408" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to generate a Power Curve to Compare Two Different Proportions?</span>
+<span id="cb12-409"><a href="#cb12-409" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-binary-outcome-power-curve</span>
+<span id="cb12-410"><a href="#cb12-410" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>How to calculate the adjusted sample size when accounting for people lost to follow-up?</span>
+<span id="cb12-411"><a href="#cb12-411" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>@sec-sample-size-attrition</span>
+<span id="cb12-412"><a href="#cb12-412" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
