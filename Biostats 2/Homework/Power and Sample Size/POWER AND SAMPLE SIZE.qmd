@@ -219,15 +219,36 @@ twogrpp.n %>%
 
 ```
 
-## Calculating Multiple Sample Sizes {#sec-multiple-sample-size-group-prop}
+## Calculating Multiple Sample Sizes with the same MCID {#sec-multiple-sample-size-group-prop-same-MCID}
 
 ```{r}
 #| label: tbl-calc-mult-samp-size-grp-prp
-#| tbl-cap: "Calculating Multiple Sample Sizes in a Group Proportion"
+#| tbl-cap: "Calculating Multiple Sample Sizes in a Group Proportion with the same MCID"
 #| tbl-cap-location: top
 #| warning: false
 #| message: false
 #| echo: true
+
+
+## Define Baseline Proportions
+p1_list <- seq(from = 0.50, to = 0.75, by = 0.05)
+
+
+## Define Comparison Proportions
+
+## Calculate Sample Size
+
+twogrpp.power <- power.prop.test(
+  h = ES.h(p1 = 0.70, p2 = 0.80),
+  sig.level = 0.05,
+  n = vs.n
+)
+
+twogrpp.pwrtable <- data.frame(n = twogrpp.power$n,
+                               power = twogrpp.power$power)
+
+twogrpp.pwrtable
+
 
 ```
 
