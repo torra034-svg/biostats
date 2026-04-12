@@ -188,7 +188,7 @@ points(n.values,
 
 
 ## Add a legend for each curve
-legend("bottomright", c( "d = 0.5", "d = 0.8"), lty = c(1,2),
+legend("bottomright", c( "d = 2", "d = 4"), lty = c(1,2),
 pch = c(1,2), col = c(1,2), cex=1.5)
 
 ```
