@@ -15,9 +15,11 @@ format:
 editor: visual
 ---
 
+
 # Set-up
 
 ## Library
+
 
 ```{r}
 #| label: library
@@ -33,9 +35,11 @@ library(broom) ## translate output (basically a better version of summary)
 
 ```
 
+
 # Situation 1: Cusick et al. article
 
 ## Estimating Sample Sizes in Group Means
+
 
 ```{r}
 #| label: tbl-sample-size-gm
@@ -49,9 +53,11 @@ library(broom) ## translate output (basically a better version of summary)
 
 ```
 
+
 # Situation 2: Continuous Outcome
 
 ## Estimating Sample Sizes in Group Means {#sec-group-mean-sample-size-standard}
+
 
 ```{r}
 #| label: tbl-sample-size-q6
@@ -82,7 +88,9 @@ power.t.test(
 
 ```
 
+
 ## Estimating Multiple Sample Size via Power Table {#sec-power-table-sample-size}
+
 
 ```{r}
 #| label: tbl-sample-size-q9
@@ -124,7 +132,9 @@ q9 %>%
 ## DO NOT TRUST THE SOFTWARE LESSON. IT IS INACCURATE
 ```
 
+
 ## Using a Power Curve to Compare Two Different MCIDS (Effect Sizes) {#sec-power-curve-plot-two-different-MCIDS}
+
 
 ```{r}
 #| label: fig-power-curve
@@ -188,6 +198,7 @@ pch = c(1,2), col = c(1,2), cex=1.5)
 
 ```
 
+
 # Situation 3: Binary Outcome
 
 
@@ -216,3 +227,4 @@ pch = c(1,2), col = c(1,2), cex=1.5)
     -   Information needed to calculate sample size:
         -   Proportion
         -   Standard Deviations **IS NOT NEEDED**
+
