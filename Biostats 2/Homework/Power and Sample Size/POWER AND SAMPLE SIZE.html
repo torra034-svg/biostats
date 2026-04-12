@@ -3317,6 +3317,11 @@ border: 0;
   <li><a href="#sec-power-table-sample-size" id="toc-sec-power-table-sample-size" class="nav-link" data-scroll-target="#sec-power-table-sample-size"><span class="header-section-number">3.2</span> Estimating Multiple Sample Size via Power Table</a></li>
   <li><a href="#sec-power-curve-plot-two-different-MCIDS" id="toc-sec-power-curve-plot-two-different-MCIDS" class="nav-link" data-scroll-target="#sec-power-curve-plot-two-different-MCIDS"><span class="header-section-number">3.3</span> Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)</a></li>
   </ul></li>
+  <li><a href="#situation-3-binary-outcome" id="toc-situation-3-binary-outcome" class="nav-link" data-scroll-target="#situation-3-binary-outcome"><span class="header-section-number">4</span> Situation 3: Binary Outcome</a>
+  <ul class="collapse">
+  <li><a href="#estimating-sample-sizes" id="toc-estimating-sample-sizes" class="nav-link" data-scroll-target="#estimating-sample-sizes"><span class="header-section-number">4.1</span> Estimating Sample Sizes</a></li>
+  </ul></li>
+  <li><a href="#power-and-sample-size-summary-notes" id="toc-power-and-sample-size-summary-notes" class="nav-link" data-scroll-target="#power-and-sample-size-summary-notes"><span class="header-section-number">5</span> Power and Sample Size Summary Notes</a></li>
   </ul>
 </nav>
 </div>
@@ -3388,18 +3393,17 @@ Table 1: Estimating Sample Sizes from the Cusick Article
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.8</span>,</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">&quot;one.sided&quot;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div id="tbl-sample-size-q6" class="cell quarto-float anchored" data-tbl-cap-location="top">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sample-size-q6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -3420,7 +3424,7 @@ Table 2: Estimating Sample Size from a Continuous Outcome
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">111.97</td>
+<td style="text-align: center;">142.25</td>
 <td style="text-align: center;">2</td>
 <td style="text-align: center;">6</td>
 <td style="text-align: center;">0.05</td>
@@ -3452,22 +3456,21 @@ Table 2: Estimating Sample Size from a Continuous Outcome
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,              </span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">sig.level =</span> <span class="fl">0.05</span>, </span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="fl">0.80</span>, </span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>, </span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">alternative =</span> <span class="st">&quot;one.sided&quot;</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>q9 <span class="sc">%&gt;%</span> </span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="do">## DO NOT TRUST THE SOFTWARE LESSON. IT IS INACCURATE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>q9 <span class="sc">%&gt;%</span> </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="do">## DO NOT TRUST THE SOFTWARE LESSON. IT IS INACCURATE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div id="tbl-sample-size-q9" class="cell quarto-float anchored" data-tbl-cap-location="top">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sample-size-q9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -3488,35 +3491,35 @@ Table 3: Estimating Multiple Sample Sizes via a Power Table
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">445.82</td>
+<td style="text-align: center;">566.08</td>
 <td style="text-align: center;">1</td>
 <td style="text-align: center;">6</td>
 <td style="text-align: center;">0.05</td>
 <td style="text-align: center;">0.8</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">111.97</td>
+<td style="text-align: center;">142.25</td>
 <td style="text-align: center;">2</td>
 <td style="text-align: center;">6</td>
 <td style="text-align: center;">0.05</td>
 <td style="text-align: center;">0.8</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">50.15</td>
+<td style="text-align: center;">63.77</td>
 <td style="text-align: center;">3</td>
 <td style="text-align: center;">6</td>
 <td style="text-align: center;">0.05</td>
 <td style="text-align: center;">0.8</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">28.52</td>
+<td style="text-align: center;">36.31</td>
 <td style="text-align: center;">4</td>
 <td style="text-align: center;">6</td>
 <td style="text-align: center;">0.05</td>
 <td style="text-align: center;">0.8</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">18.52</td>
+<td style="text-align: center;">23.60</td>
 <td style="text-align: center;">5</td>
 <td style="text-align: center;">6</td>
 <td style="text-align: center;">0.05</td>
@@ -3548,47 +3551,45 @@ Table 3: Estimating Multiple Sample Sizes via a Power Table
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="cn">NULL</span>, <span class="do">## Leave Power NULL when calculating power curve (bc this is what we want R to graph for us)</span></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n.values,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">alternative =</span> <span class="st">&quot;one.sided&quot;</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size when MCID = 4</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>twogrpmean.power.medium <span class="ot">&lt;-</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">power.t.test</span>(</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> <span class="dv">4</span>,</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="cn">NULL</span>,</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n.values,</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">alternative =</span> <span class="st">&quot;one.sided&quot;</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="do">## Plotting the first curve (MCID = 2)</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n.values,</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>     twogrpmean.power.small<span class="sc">$</span>power,</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;sample size&quot;</span>,</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;power&quot;</span>,</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(n.values, </span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>      twogrpmean.power.small<span class="sc">$</span>power, </span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">&quot;b&quot;</span>) </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size when MCID = 4</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>twogrpmean.power.medium <span class="ot">&lt;-</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">power.t.test</span>(</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> <span class="dv">4</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="cn">NULL</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n.values,</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="do">## Plotting the first curve (MCID = 2)</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n.values,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>     twogrpmean.power.small<span class="sc">$</span>power,</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;sample size&quot;</span>,</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;power&quot;</span>,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(n.values, </span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>      twogrpmean.power.small<span class="sc">$</span>power, </span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">&quot;b&quot;</span>) </span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="do">## cannot add type = &quot;b&quot; argument. This will cause graph not to run.</span></span>
 <span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="do">## cannot add type = &quot;b&quot; argument. This will cause graph not to run.</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="do">## Add Second Curve (MCID = 4)</span></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(n.values,</span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>       twogrpmean.power.medium<span class="sc">$</span>power,</span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;red&quot;</span>,) <span class="do">## Keep these arguments like this to run. Otherwise, if you follow the software lesson it will not run.</span></span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="do">## Add a legend for each curve</span></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>( <span class="st">&quot;d = 2&quot;</span>, <span class="st">&quot;d = 4&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">cex=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="do">## Add Second Curve (MCID = 4)</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(n.values,</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>       twogrpmean.power.medium<span class="sc">$</span>power,</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>       <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;red&quot;</span>,) <span class="do">## Keep these arguments like this to run. Otherwise, if you follow the software lesson it will not run.</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="do">## Add a legend for each curve</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>( <span class="st">&quot;d = 2&quot;</span>, <span class="st">&quot;d = 4&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">cex=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-power-curve" class="quarto-figure quarto-figure-center quarto-float anchored" data-cap-location="top">
 <figure class="quarto-float quarto-float-fig figure">
@@ -3596,15 +3597,114 @@ Table 3: Estimating Multiple Sample Sizes via a Power Table
 Figure 1: Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)
 </figcaption>
 <div aria-describedby="fig-power-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="data:image/png;base64,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" class="img-fluid figure-img" width="672">
+<img src="data:image/png;base64,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" class="img-fluid figure-img" width="672">
 </div>
 </figure>
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="situation-3-binary-outcome" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Situation 3: Binary Outcome</h1>
+<section id="estimating-sample-sizes" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="estimating-sample-sizes"><span class="header-section-number">4.1</span> Estimating Sample Sizes</h2>
+<div class="cell" data-tbl-cap-location="top">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>twogrpp.n <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">p1 =</span> <span class="fl">0.70</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">p2 =</span> <span class="fl">0.80</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.80</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>twogrpp.n <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-sample-size-group-prp" class="cell quarto-float anchored" data-tbl-cap-location="top">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sample-size-group-prp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 4: caption
+</figcaption>
+<div aria-describedby="tbl-sample-size-group-prp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">n</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">sig.level</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">power</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">p1</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">p2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">293.15</td>
+<td style="text-align: center;">0.05</td>
+<td style="text-align: center;">0.8</td>
+<td style="text-align: center;">0.7</td>
+<td style="text-align: center;">0.8</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="power-and-sample-size-summary-notes" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Power and Sample Size Summary Notes</h1>
+<ul>
+<li>What if my outcome is Continuous (Group Means)?
+<ul>
+<li>Information needed to calculate sample size:
+<ul>
+<li>Mean</li>
+<li>Standard Deviation</li>
+<li>Effect Size (also known as delta or MCID)</li>
+<li>Power Level (usually 0.80 unless stated otherwise)</li>
+</ul></li>
+<li>How to calculate sample size?
+<ul>
+<li><a href="#sec-group-mean-sample-size-standard" class="quarto-xref">Section 3.1</a></li>
+</ul></li>
+<li>How to calculate multiple sample sizes via Power Table?
+<ul>
+<li><a href="#sec-power-curve-plot-two-different-MCIDS" class="quarto-xref">Section 3.3</a></li>
+</ul></li>
+<li>How to generate a Power Curve to compare two different MCIDS?
+<ul>
+<li><a href="#sec-power-curve-plot-two-different-MCIDS" class="quarto-xref">Section 3.3</a></li>
+</ul></li>
+</ul></li>
+<li>What if my outcome is Binary (Proportions)
+<ul>
+<li>Information needed to calculate sample size:
+<ul>
+<li>Proportion</li>
+<li>Standard Deviations <strong>IS NOT NEEDED</strong></li>
+<li>Baseline Proportion</li>
+<li>Comparison Proportion</li>
+<li>Effect Size (MCID)</li>
+<li></li>
+</ul></li>
+</ul></li>
+</ul>
 <!-- -->
 
-</section>
 </section>
 
 </main>
@@ -4069,200 +4169,251 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class>
-<div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Sample Size and Power&quot;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Patrick Torralba&quot;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: FALSE</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: TRUE</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: TRUE</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: TRUE</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">    smooth-scroll: TRUE</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">    embed-resources: TRUE</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: TRUE</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> visual</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Set-up</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Library</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: library</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary) <span class="do">## translate output to table vis tbl_regression()</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra) <span class="do">## transalte output to table via kable()</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom) <span class="do">## translate output (basically a better version of summary)</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="fu"># Situation 1: Cusick et al. article</span></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Sample Sizes in Group Means</span></span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-gm</span></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Sample Sizes from the Cusick Article&quot;</span></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="do">## pwr.t.test()</span></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="do">### haha jk we did not do Part 2 from section 1. Therefore, we cannot do this problem lol.</span></span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="fu"># Situation 2: Continuous Outcome</span></span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Sample Sizes in Group Means {#sec-group-mean-sample-size-standard}</span></span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-q6</span></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Sample Size from a Continuous Outcome&quot;</span></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(</span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta =</span> <span class="dv">2</span>, <span class="do">## this is the MCID value</span></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="dv">6</span>,</span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.8</span>,</span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">&quot;one.sided&quot;</span></span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
-<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
-<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
-<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
-<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Multiple Sample Size via Power Table{#sec-power-table-sample-size}</span></span>
-<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-q9</span></span>
-<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Multiple Sample Sizes via a Power Table&quot;</span></span>
-<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
-<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>deltas <span class="ot">&lt;-</span> <span class="fu">seq</span>(</span>
-<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="dv">1</span>,</span>
-<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="dv">5</span>,</span>
-<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="dv">1</span></span>
-<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>q9 <span class="ot">&lt;-</span> <span class="fu">map_df</span>(deltas, <span class="sc">~</span>{</span>
-<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.t.test</span>(</span>
-<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> .x,         </span>
-<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,              </span>
-<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>    <span class="at">sig.level =</span> <span class="fl">0.05</span>, </span>
-<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="fl">0.80</span>, </span>
-<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>, </span>
-<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>    <span class="at">alternative =</span> <span class="st">&quot;one.sided&quot;</span></span>
-<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span>
-<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>q9 <span class="sc">%&gt;%</span> </span>
-<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
-<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
-<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
-<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
-<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a><span class="do">## DO NOT TRUST THE SOFTWARE LESSON. IT IS INACCURATE</span></span>
-<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using a Power Curve to Compare Two Different MCIDS (Effect Sizes) {#sec-power-curve-plot-two-different-MCIDS}</span></span>
-<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-power-curve</span></span>
-<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)&quot;</span></span>
-<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap-location: top</span></span>
-<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a><span class="do">## We need to create a list of values for our x-axis in the power curve plot</span></span>
-<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a>n.values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">5</span>,</span>
-<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>                <span class="at">to =</span> <span class="dv">100</span>,</span>
-<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a>                <span class="at">by =</span> <span class="dv">5</span>) </span>
-<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size when MCID = 2</span></span>
-<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a>twogrpmean.power.small <span class="ot">&lt;-</span></span>
-<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.t.test</span>(</span>
-<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> <span class="dv">2</span>,</span>
-<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,</span>
-<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="cn">NULL</span>, <span class="do">## Leave Power NULL when calculating power curve (bc this is what we want R to graph for us)</span></span>
-<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n.values,</span>
-<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
-<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a>    <span class="at">alternative =</span> <span class="st">&quot;one.sided&quot;</span></span>
-<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size when MCID = 4</span></span>
-<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>twogrpmean.power.medium <span class="ot">&lt;-</span></span>
-<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a>    <span class="fu">power.t.test</span>(</span>
-<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> <span class="dv">4</span>,</span>
-<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,</span>
-<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="cn">NULL</span>,</span>
-<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n.values,</span>
-<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
-<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a>    <span class="at">alternative =</span> <span class="st">&quot;one.sided&quot;</span></span>
-<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a><span class="do">## Plotting the first curve (MCID = 2)</span></span>
-<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n.values,</span>
-<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a>     twogrpmean.power.small<span class="sc">$</span>power,</span>
-<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
-<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;sample size&quot;</span>,</span>
-<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;power&quot;</span>,</span>
-<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
-<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(n.values, </span>
-<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a>      twogrpmean.power.small<span class="sc">$</span>power, </span>
-<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">&quot;b&quot;</span>) </span>
-<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a><span class="do">## cannot add type = &quot;b&quot; argument. This will cause graph not to run.</span></span>
-<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a><span class="do">## Add Second Curve (MCID = 4)</span></span>
-<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(n.values,</span>
-<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a>       twogrpmean.power.medium<span class="sc">$</span>power,</span>
-<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a>       <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
-<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;red&quot;</span>,) <span class="do">## Keep these arguments like this to run. Otherwise, if you follow the software lesson it will not run.</span></span>
-<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a><span class="do">## Add a legend for each curve</span></span>
-<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>( <span class="st">&quot;d = 2&quot;</span>, <span class="st">&quot;d = 4&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
-<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a><span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">cex=</span><span class="fl">1.5</span>)</span>
-<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb6" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Sample Size and Power&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Patrick Torralba&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: flatly</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: FALSE</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: TRUE</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: TRUE</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: TRUE</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">    smooth-scroll: TRUE</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">    embed-resources: TRUE</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: TRUE</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> visual</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Set-up</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Library</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: library</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary) <span class="do">## translate output to table vis tbl_regression()</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra) <span class="do">## transalte output to table via kable()</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom) <span class="do">## translate output (basically a better version of summary)</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="fu"># Situation 1: Cusick et al. article</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Sample Sizes in Group Means</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-gm</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Sample Sizes from the Cusick Article&quot;</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="do">## pwr.t.test()</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="do">### haha jk we did not do Part 2 from section 1. Therefore, we cannot do this problem lol.</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a><span class="fu"># Situation 2: Continuous Outcome</span></span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Sample Sizes in Group Means {#sec-group-mean-sample-size-standard}</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-q6</span></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Sample Size from a Continuous Outcome&quot;</span></span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta =</span> <span class="dv">2</span>, <span class="do">## this is the MCID value</span></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="dv">6</span>,</span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.8</span>,</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Multiple Sample Size via Power Table {#sec-power-table-sample-size}</span></span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-q9</span></span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;Estimating Multiple Sample Sizes via a Power Table&quot;</span></span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>deltas <span class="ot">&lt;-</span> <span class="fu">seq</span>(</span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="dv">1</span>,</span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="dv">5</span>,</span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="dv">1</span></span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>q9 <span class="ot">&lt;-</span> <span class="fu">map_df</span>(deltas, <span class="sc">~</span>{</span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.t.test</span>(</span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> .x,         </span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,              </span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a>    <span class="at">sig.level =</span> <span class="fl">0.05</span>, </span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="fl">0.80</span>, </span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span></span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a>q9 <span class="sc">%&gt;%</span> </span>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
+<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a><span class="do">## DO NOT TRUST THE SOFTWARE LESSON. IT IS INACCURATE</span></span>
+<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using a Power Curve to Compare Two Different MCIDS (Effect Sizes) {#sec-power-curve-plot-two-different-MCIDS}</span></span>
+<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-power-curve</span></span>
+<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)&quot;</span></span>
+<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap-location: top</span></span>
+<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a><span class="do">## We need to create a list of values for our x-axis in the power curve plot</span></span>
+<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a>n.values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">5</span>,</span>
+<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a>                <span class="at">to =</span> <span class="dv">100</span>,</span>
+<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a>                <span class="at">by =</span> <span class="dv">5</span>) </span>
+<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size when MCID = 2</span></span>
+<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a>twogrpmean.power.small <span class="ot">&lt;-</span></span>
+<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">power.t.test</span>(</span>
+<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> <span class="dv">2</span>,</span>
+<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,</span>
+<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="cn">NULL</span>, <span class="do">## Leave Power NULL when calculating power curve (bc this is what we want R to graph for us)</span></span>
+<span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n.values,</span>
+<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span></span>
+<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a><span class="do">## Get Sample Size when MCID = 4</span></span>
+<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a>twogrpmean.power.medium <span class="ot">&lt;-</span></span>
+<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a>    <span class="fu">power.t.test</span>(</span>
+<span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> <span class="dv">4</span>,</span>
+<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">6</span>,</span>
+<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n.values,</span>
+<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;two.sample&quot;</span>,</span>
+<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a><span class="do">## Plotting the first curve (MCID = 2)</span></span>
+<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n.values,</span>
+<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>     twogrpmean.power.small<span class="sc">$</span>power,</span>
+<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
+<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;sample size&quot;</span>,</span>
+<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;power&quot;</span>,</span>
+<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(n.values, </span>
+<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a>      twogrpmean.power.small<span class="sc">$</span>power, </span>
+<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">&quot;b&quot;</span>) </span>
+<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a><span class="do">## cannot add type = &quot;b&quot; argument. This will cause graph not to run.</span></span>
+<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a><span class="do">## Add Second Curve (MCID = 4)</span></span>
+<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(n.values,</span>
+<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a>       twogrpmean.power.medium<span class="sc">$</span>power,</span>
+<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a>       <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
+<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;red&quot;</span>,) <span class="do">## Keep these arguments like this to run. Otherwise, if you follow the software lesson it will not run.</span></span>
+<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a><span class="do">## Add a legend for each curve</span></span>
+<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>( <span class="st">&quot;d = 2&quot;</span>, <span class="st">&quot;d = 4&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a><span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">cex=</span><span class="fl">1.5</span>)</span>
+<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a><span class="fu"># Situation 3: Binary Outcome</span></span>
+<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimating Sample Sizes</span></span>
+<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sample-size-group-prp</span></span>
+<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: &quot;caption&quot;</span></span>
+<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap-location: top</span></span>
+<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a>twogrpp.n <span class="ot">&lt;-</span> <span class="fu">power.prop.test</span>(</span>
+<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a>  <span class="at">p1 =</span> <span class="fl">0.70</span>,</span>
+<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a>  <span class="at">p2 =</span> <span class="fl">0.80</span>,</span>
+<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.80</span></span>
+<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a>twogrpp.n <span class="sc">%&gt;%</span> </span>
+<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">&quot;html&quot;</span>,</span>
+<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a>        <span class="at">align =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(</span>
+<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>),</span>
+<span id="cb6-227"><a href="#cb6-227" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span></span>
+<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a><span class="fu"># Power and Sample Size Summary Notes</span></span>
+<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-238"><a href="#cb6-238" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What if my outcome is Continuous (Group Means)?</span>
+<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Information needed to calculate sample size:</span>
+<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Mean</span>
+<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Standard Deviation</span>
+<span id="cb6-242"><a href="#cb6-242" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Effect Size (also known as delta or MCID)</span>
+<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Power Level (usually 0.80 unless stated otherwise)</span>
+<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to calculate sample size?</span>
+<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-group-mean-sample-size-standard</span>
+<span id="cb6-246"><a href="#cb6-246" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to calculate multiple sample sizes via Power Table?</span>
+<span id="cb6-247"><a href="#cb6-247" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-power-curve-plot-two-different-MCIDS</span>
+<span id="cb6-248"><a href="#cb6-248" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>How to generate a Power Curve to compare two different MCIDS?</span>
+<span id="cb6-249"><a href="#cb6-249" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>@sec-power-curve-plot-two-different-MCIDS</span>
+<span id="cb6-250"><a href="#cb6-250" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What if my outcome is Binary (Proportions)</span>
+<span id="cb6-251"><a href="#cb6-251" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Information needed to calculate sample size:</span>
+<span id="cb6-252"><a href="#cb6-252" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Proportion</span>
+<span id="cb6-253"><a href="#cb6-253" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Standard Deviations **IS NOT NEEDED**</span>
+<span id="cb6-254"><a href="#cb6-254" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Baseline Proportion</span>
+<span id="cb6-255"><a href="#cb6-255" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Comparison Proportion</span>
+<span id="cb6-256"><a href="#cb6-256" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Effect Size (MCID)</span>
+<span id="cb6-257"><a href="#cb6-257" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

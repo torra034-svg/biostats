@@ -104,8 +104,7 @@ q9 <- map_df(deltas, ~{
     sd = 6,              
     sig.level = 0.05, 
     power = 0.80, 
-    type = "two.sample", 
-    alternative = "one.sided"
+    type = "two.sample"
   ) %>% tidy()
 })
 
@@ -190,12 +189,47 @@ pch = c(1,2), col = c(1,2), cex=1.5)
 
 # Situation 3: Binary Outcome
 
+## Estimating Sample Sizes {#sec-sample-size-group-prop}
+```{r}
+#| label: tbl-sample-size-group-prp
+#| tbl-cap: "Estimating Sample Size in a Group Proportion"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+twogrpp.n <- power.prop.test(
+  p1 = 0.70,
+  p2 = 0.80,
+  power = 0.80
+)
+
+twogrpp.n %>% 
+  tidy() %>% 
+  kable(
+        format = "html",
+        digits = 2,
+        align = "c") %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    full_width = FALSE,
+    position = "center"
+  )
 
 
+```
 
+## Calculating Multiple Sample Sizes {#sec-multiple-sample-size-group-prop}
 
+```{r}
+#| label: tbl-calc-mult-samp-size-grp-prp
+#| tbl-cap: "Calculating Multiple Sample Sizes in a Group Proportion"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
 
-
+```
 
 
 # Power and Sample Size Summary Notes
@@ -216,3 +250,7 @@ pch = c(1,2), col = c(1,2), cex=1.5)
     -   Information needed to calculate sample size:
         -   Proportion
         -   Standard Deviations **IS NOT NEEDED**
+        -   Baseline Proportion
+        -   Comparison Proportion
+        -   Effect Size (MCID)
+        -   
