@@ -107,6 +107,7 @@ tomhs <- tomhs %>%
 # Exploratory Data Analysis
 
 ## Participant Demographics
+
 ```{r}
 #| label: tbl-study-demographics
 #| tbl-cap: "Participant Demographics by Ever Smoke Status"
@@ -135,8 +136,8 @@ tbl_1
 
 ```
 
-
 ## Ever Smoke vs Satisfaction
+
 ```{r}
 #| label: fig-eversmk-vs-ql12_4
 #| fig-cap: "The relationship between ever smoke status and satisfaction with physical ability at 12 months"
@@ -146,6 +147,7 @@ tbl_1
 #| echo: true
 
 tomhs %>% 
+  filter(!is.na(Eversmk), !is.na(Ql12_4)) %>%
   arrange(Ql12_4) %>% 
 ggplot(aes(x = Eversmk, fill = Ql12_4)) +
   geom_bar(position = "fill") +
@@ -156,8 +158,8 @@ ggplot(aes(x = Eversmk, fill = Ql12_4)) +
 
 ```
 
-
 ## Age vs Satisfaction
+
 ```{r}
 #| label: fig-age-vs-ql12_4
 #| fig-cap: "The relationship between age and satisfaction with physical ability at 12 months"
@@ -166,18 +168,20 @@ ggplot(aes(x = Eversmk, fill = Ql12_4)) +
 #| message: false
 #| echo: true
 
-
-ggplot(tomhs, aes(x = cut(age, breaks = seq(40, 75, by = 5)), fill = Ql12_4)) +
-  geom_bar(position = "fill") +
-  labs(x = "Age Group", 
-       y = "Proportion",
-       fill = "Satisfaction Score") +
-  theme_classic()
+tomhs %>% 
+  filter(!is.na(Ql12_4)) %>% 
+  arrange(desc(Ql12_4)) %>% 
+  ggplot(aes(x = str_wrap(Ql12_4, width = 10), y = age, fill = Ql12_4)) +
+  geom_boxplot() +
+  labs(x = "Satisfaction Score", 
+       y = "Age (Years)") +
+  theme_classic() +
+  theme(legend.position = "none")
 
 
 ```
 
-# Results 
+# Results
 
 ## Ordinal Regression Model: The effect of Ever Smoke on Satisfaction after Adjusting for Age
 
@@ -197,7 +201,6 @@ model_1
 
 
 ```
-
 
 ### Log Form
 
@@ -219,7 +222,6 @@ model_1 %>%
 
 
 ```
-
 
 ### Exponent Form
 
