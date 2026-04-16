@@ -124,9 +124,16 @@ tomhs_filter <- tomhs %>%
 
 # Regression Modeling
 
-## Multiple Linear Regression (MLR)
+## Multiple Linear Regression (MLR)  {#sec-hyp-test}
 
 MLR is when we try to predict a **continuous outcome** with either a continuous predictor and/or categorical predictor.
+
+The null hypothesis is that all regression coefficients are equal to zero. The alternative hypothesis is that atleast one regression coefficient is not equivalent to zero.
+
+$$
+H_0: \beta_1 = \beta_2 \\
+H_1: \beta_1 \neq \beta_2
+$$
 
 Unadjusted means that we do not account or adjust for other variables that may affect the outcome variable.
 
@@ -260,6 +267,20 @@ plot(adj_MLR)
 ```
 
 ## Logistic Regression
+
+Logistic regression modeling is similar to linear regression modeling except we are interested in a binary outcome \[result can only be 0 or 1\].
+
+Some differences from linear regression to logistic regression are the following:
+
+-   Everything is on the log-odds scale
+
+-   Determining statistical significance means these two conditions must be met:
+
+    -   The p-value is lower than alpha
+
+    -   The exponent confidence interval **DOES NOT** include 1.0.
+
+Please review
 
 ## Cox Proportional Hazards Model
 
