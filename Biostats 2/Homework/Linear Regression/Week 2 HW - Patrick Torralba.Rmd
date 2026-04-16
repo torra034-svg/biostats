@@ -9,35 +9,54 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#library
+# library
 ```{r}
+#| warning: false
+#| message: false
+#| echo: true
+
 library(tidyverse)
 library(gtsummary)
 library(performance)
 library(see)
+
+
+  
+
 ```
 
-#import data
+# import data
 ```{r}
+#| warning: false
+#| message: false
+#| echo: true
+
 url <- "https://raw.githubusercontent.com/torra034-svg/biostats/refs/heads/main/Biostats%202/Data%20Stuff/tomhs.csv"
 
 tomhs <- read.csv(url)
 ```
 
-#RQ1) What is the effect of weight change on total cholesterol change without adjusting for anything?
+# RQ1) What is the effect of weight change on total cholesterol change without adjusting for anything?
 ```{r data cleaning}
+#| warning: false
+#| message: false
+#| echo: true
+
 RQ1 <- tomhs %>% 
   select(wtbl,wt12,cholbl,chol12, sex) %>% 
   mutate("weight_change" = wt12-wtbl,
          "cholesterol_change" = chol12-cholbl,
          "Sex" = if_else(sex == 1, "Male", "Female"))
 
-RQ1
+head(RQ1)
 ```
 
 
 
 ```{r RQ1_model summary}
+#| warning: false
+#| message: false
+#| echo: true
 
 RQ1_model <- lm(data = RQ1, cholesterol_change ~ weight_change)
 
@@ -56,6 +75,10 @@ RQ1_CI
 
 
 ```{r RQ1 graph}
+#| warning: false
+#| message: false
+#| echo: true
+
 ggplot(RQ1, aes(x = weight_change, y = cholesterol_change)) +
   geom_point() +
   labs(x = "Weight Change",
@@ -65,9 +88,13 @@ ggplot(RQ1, aes(x = weight_change, y = cholesterol_change)) +
 ```
 
 
-#RQ2) What is the effect of weight change on total cholesterol change after adjusting for sex?
+# RQ2) What is the effect of weight change on total cholesterol change after adjusting for sex?
 
 ```{r RQ2 model summary}
+#| warning: false
+#| message: false
+#| echo: true
+
 RQ2_model <- lm(data = RQ1, cholesterol_change ~ weight_change + factor(sex))
 
 summary(RQ2_model)
@@ -84,6 +111,10 @@ RQ2_CI
 
 
 ```{r RQ2 graph}
+#| warning: false
+#| message: false
+#| echo: true
+
 ggplot(RQ1, aes(x = weight_change, y = cholesterol_change, color = Sex)) +
   geom_point() +
   labs(x = "Weight Change",
@@ -96,16 +127,21 @@ ggplot(RQ1, aes(x = weight_change, y = cholesterol_change, color = Sex)) +
 
 ## RQ2_model assumptions
 ```{r diagnostic plots}
+#| warning: false
+#| message: false
+#| echo: true
+
+
 par(mfrow = c(2,2))
 plot(RQ2_model)
 
 ```
 
 
-#RQ3) Given these results, is there evidence that sex may be a confounding variable in this case?
+# RQ3) Given these results, is there evidence that sex may be a confounding variable in this case?
 No, there is not any evidence that sex may be a confounding variable.
 
-#Table 1)
+# Table 1)
 ```{r t1 data cleaning}
 t1 <- tomhs %>% 
   select(age,sex,race,income,marital,educ,eversmk,nowsmk) %>% 
@@ -143,6 +179,11 @@ t1 <- tomhs %>%
 ```
 
 ```{r table summary}
+#| warning: false
+#| message: false
+#| echo: true
+
+
 t1_sum <- tbl_summary(t1) %>% 
   modify_caption("**Table 1. TOMHS Study Patient Demographics**")
 

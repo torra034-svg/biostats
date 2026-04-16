@@ -21,11 +21,12 @@ editor: visual
 
 ### How do I import data using the tidyverse?
 
-#### Library
+#### Library {#sec-library}
 
 To first import data into R, we need to load the tidyverse package. This package gives us the tools needed to both import and clean data.
 
-In the code chunk below, we load in the tidyverse package.
+In the code chunk below, we load in the tidyverse package (and other packages that are more relevant in other sections).
+
 ```{r}
 #| label: library
 #| message: false
@@ -33,15 +34,17 @@ In the code chunk below, we load in the tidyverse package.
 #| echo: true
 
 library(tidyverse)  
+library(kableExtra)
+library(gtsummary)
   
 ```
 
-
 #### Import Data
 
-We use the read.csv() function to import .csv files. Make sure to specify the file pathway and assign it to a variable using "<-".
+We use the read.csv() function to import .csv files. Make sure to specify the file pathway and assign it to a variable using "\<-".
 
 In the code chunk below, we import the tomhs dataset by specifying it's location and file extension.
+
 ```{r}
 #| label: import-data
 #| warning: false
@@ -53,12 +56,11 @@ tomhs <- read.csv("Other Regression Models/Ordinal Regression/tomhs (2).csv")
 
 ```
 
-
 ## Data Wrangling
 
-### Creating New Variables
+### Creating New Variables {#sec-new-var}
 
-To create new variables, we first want to overwrite our dataset with changes with the "<-" operator.
+To create new variables, we first want to overwrite our dataset with changes with the "\<-" operator.
 
 Use the pipe operator to combine functions together in one code chunk.
 
@@ -67,6 +69,7 @@ Use mutate() to define our new variables.
 Note: Use the if_else() function when you have a singular class, and use case_when() when the categorical variable has multiple classes.
 
 In the code chunk below, we create two new variables, "Sex" and "Race". Sex is created by an if_else() statement and Race is created by a case_when() statement. Both variables are converted into factors - this is important for statistical analysis purposes.
+
 ```{r}
 #| label: new-var
 #| warning: false
@@ -80,27 +83,35 @@ tomhs <- tomhs %>%
       race == 1 ~ "White",
       race == 2 ~ "Black",
       race == 3 ~ "Asian",
-      race == 4 ~ "Other"
-    )))
+      race == 4 ~ "Other")
+    ),
+    weight_change = wt12-wtbl,
+    cholesterol_change = chol12-cholbl)
+    
+
   
 ```
 
-
-### Deleting & Subsetting Observations
+### Deleting & Sub-setting Observations
 
 Deleting observations is done through the filter() function. Use this function to specify the delete observations.
 
 General Tips
-* "&" is the AND operator
-* "|" is the OR operator
-* "!" is the NOT operator
-* "is.na()" is used to specify NA values.
+
+-   "&" is the AND operator
+
+-   "\|" is the OR operator
+
+-   "!" is the NOT operator
+
+-   "is.na()" is used to specify NA values.
 
 We should create a new dataset just in case we want to refer to the original dataset.
 
 In the code chunk below, we remove observations in the age column that are equivalent to NA. And, we also subset these changes into a new dataset, "tomhs_filter" to ensure the original dataset maintains the original observation amount.
+
 ```{r}
-#| label: delete-obs
+#| label: delete-obs-sub-set
 #| warning: false
 #| message: false
 #| echo: true
@@ -111,18 +122,142 @@ tomhs_filter <- tomhs %>%
 
 ```
 
-
 # Regression Modeling
 
 ## Multiple Linear Regression (MLR)
 
-MLR is when we try to predict a **continuous outcome** with either a continuous predictor or categorical predictor. 
+MLR is when we try to predict a **continuous outcome** with either a continuous predictor and/or categorical predictor.
 
-### Unadjusted MLR
+Unadjusted means that we do not account or adjust for other variables that may affect the outcome variable.
 
-### Adjusted MLR
+Adjusted means we do account for other variables that affect the outcome variable.
+
+### Unadjusted MLR {#sec-regression-model-tips}
+
+Example Question: What is the effect of weight change on total cholesterol change without adjusting for anything?
+
+In the code chunk below, we conduct an MLR by using the lm() function. This function is in BaseR so do not worry about pulling an packages.
+
+The general argument for most regression models is lm(y-variable \~ x-variable + x2-variable.... data = dataset). In other words, you're basically saying "the y-variable can be explained by the following x-variables from this dataset".
+
+We use the tbl_regression() function to convert our results from raw data into a readable table. And, we specify the intercept = TRUE argument so we can have the intercept coefficient value.
+
+```{r}
+#| label: tbl-unadj-MLR
+#| tbl-cap: "Unadjusted Multiple Linear Regression"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+unadj_MLR <- lm(cholesterol_change ~ weight_change, data = tomhs)
+
+unadj_MLR
+
+unadj_MLR %>% 
+  tbl_regression(
+    intercept = TRUE
+  )
+
+```
+
+#### Interpretation {#sec-MLR-interpretation}
+
+Multiple Linear Regression Fitted Equation
+
+$$
+\text{outcome-variable} = intercept + (\beta_1 X_1) + (\beta_2 X_2) + ... 
+$$
+
+The intercept means when the x-variable is at zero, we expect the outcome variable to be at whatever the intercept is.
+
+If the x-variable is a continuous predictor, for every 1 unit increase in the x-variable, we expect the y-variable to increase by the x-variable coefficient B1.
+
+If the x-variable is a categorical predictor (e.g binary), and the x-variable is equivalent to 1, then we expect the y-variable to increase by the x-variable coefficient B1. This is a bit tricky to understand, so please see @sec-adjusted-MLR for an example.
+
+If the p-value is less than 0.05, it is statistically significant.
+
+### Adjusted MLR {#sec-adjusted-MLR}
+
+```{r}
+#| label: tbl-Adj-MLR
+#| tbl-cap: "Adjusted Multiple Linear Regression"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+adj_MLR <- lm(
+  formula = cholesterol_change ~ weight_change + Sex,
+  data = tomhs)
+
+adj_MLR
+
+adj_MLR %>% 
+  tbl_regression(
+    intercept = TRUE
+  )
+
+```
+
+#### Interpretation  {#sec-adj-MLR-interpretation}
+
+Recall @sec-MLR-interpretation fitted equation.
+
+According to our output, we have the following equation:
+
+$$
+\text{Total Cholesterol Change} = -0.04 + (0.52 \times \text{weight_change} + (-2.8 \times Sex_{\text{Male}})
+$$
+
+This fitted equation represents the relationship between Total Cholesterol Change when we both account for weight change and sex.
+
+In terms of the intercept, if both weight change is zero and sex is not male, we expect the total cholesterol change to decrease by -0.04 units.
+
+In terms of the weight_change variable, if the weight change has increased by 1 unit, then we expect the total cholesterol change to increase by 0.52 units.
+
+Refer to our data cleaning @sec-new-var where we coded the Sex variable where Males are equivalent to 1 and Female is equivalent to 0. Therefore, in terms of the Sex variable, if the patient is a male then we expect the total cholesterol change to decrease by -2.8 units. If the patient is female then we completely ignore the Sex variable since it is equivalent to zero.
 
 ### Interaction Effects
+
+NEED TO FILL THIS IN
+
+### MLR Model Assumptions & Diagnostic Plots  {#sec-LINE-assumptions}
+
+The linear regression model must meet the four LINE assumptions.
+
+Recall, that residuals refer to how the distance between the model's predictions to the actual values. In other words, residuals are relevant because they tell us the accuracy of a model.
+
+Please review the definitions below and how to interpret the graphs.
+
+1.  Linearity
+    1.  This refers to the direct relationship between the x and y variables. This means that for every increase in x-variable, we expect a direct increase in the y-outcome.
+    2.  Review the Residuals vs Fitted plot. If the points appear "cloud-like" then the assumption is met. We want an equal amount of points above and below the line, and appear cloud-like.
+2.  Independence
+    1.  This refers to to random sampling in the study. We want to ensure that one observation is completely random and does not influence another observation.
+    2.  You actually cannot use any of the diagnostic plots to verify this assumption. You need to check the methodology to ensure that random sampling occurred for the study.
+3.  Normality
+    1.  This refers to how close the residuals follow the normal distribution.
+    2.  Review the Q-Q residual plot. If the points are close to the diagonal line then it meets the assumption. If it curves and strays from the line then it does not meet the assumption.
+4.  Equal Variance (Homoscedasticity)
+    1.  This refers to the residuals being at a constant variance at every level of the independent variable. In other words, we want to make sure the variance is the consistent.
+    2.  Review the Residuals vs Levels plot. If the plot appears "cone-like" or a fan shape then the assumption is not met. We want to ensure that the distribution looks like a uniform "shot-gun" blast shape.
+
+To ensure that your linear regression model is meeting the four LINE assumptions:
+
+```{r}
+#| label: fig-MLR-assumptions
+#| fig-cap: "MLR Assumptions"
+#| fig-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+par(mfrow = c(2,2))
+plot(adj_MLR)
+
+```
 
 ## Logistic Regression
 
@@ -138,7 +273,7 @@ MLR is when we try to predict a **continuous outcome** with either a continuous 
 
 # Sample Size Estimates and Power
 
-## Continous Outcomes
+## Continuous Outcomes
 
 ## Binary Outcomes
 
