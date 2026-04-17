@@ -51,7 +51,7 @@ In the code chunk below, we import the tomhs dataset by specifying it's location
 #| message: false
 #| echo: true
 
-tomhs <- read.csv("Other Regression Models/Ordinal Regression/tomhs (2).csv")  
+tomhs <- read.csv("tomhs.csv")  
 
 
 ```
@@ -96,15 +96,21 @@ tomhs <- tomhs %>%
 
 Deleting observations is done through the filter() function. Use this function to specify the delete observations.
 
-General Tips
+| Operator |   Definition    |
+|:--------:|:---------------:|
+|    &     |  AND operator   |
+|    \|    |   OR operator   |
+|    !     |  NOT operator   |
+|   \<-    | Assign variable |
 
--   "&" is the AND operator
+: Operators
 
--   "\|" is the OR operator
+| BaseR Functions |                Definition                 |
+|:---------------:|:-----------------------------------------:|
+|     is.na()     | Filters to rows where there are NA values |
+|                 |                                           |
 
--   "!" is the NOT operator
-
--   "is.na()" is used to specify NA values.
+: BaseR Functions
 
 We should create a new dataset just in case we want to refer to the original dataset.
 
@@ -124,14 +130,17 @@ tomhs_filter <- tomhs %>%
 
 # Regression Modeling
 
-## Multiple Linear Regression (MLR)  {#sec-hyp-test}
+## Multiple Linear Regression (MLR) {#sec-hyp-test}
 
 MLR is when we try to predict a **continuous outcome** with either a continuous predictor and/or categorical predictor.
 
 The null hypothesis is that all regression coefficients are equal to zero. The alternative hypothesis is that atleast one regression coefficient is not equivalent to zero.
 
 $$
-H_0: \beta_1 = \beta_2 \\
+H_0: \beta_1 = \beta_2 
+$$ 
+
+$$
 H_1: \beta_1 \neq \beta_2
 $$
 
@@ -170,7 +179,7 @@ unadj_MLR %>%
 
 #### Interpretation {#sec-MLR-interpretation}
 
-Multiple Linear Regression Fitted Equation
+> **Multiple Linear Regression Fitted Equation**
 
 $$
 \text{outcome-variable} = intercept + (\beta_1 X_1) + (\beta_2 X_2) + ... 
@@ -207,7 +216,7 @@ adj_MLR %>%
 
 ```
 
-#### Interpretation  {#sec-adj-MLR-interpretation}
+#### Interpretation {#sec-adj-MLR-interpretation}
 
 Recall @sec-MLR-interpretation fitted equation.
 
@@ -229,7 +238,7 @@ Refer to our data cleaning @sec-new-var where we coded the Sex variable where Ma
 
 NEED TO FILL THIS IN
 
-### MLR Model Assumptions & Diagnostic Plots  {#sec-LINE-assumptions}
+### MLR Model Assumptions & Diagnostic Plots {#sec-LINE-assumptions}
 
 The linear regression model must meet the four LINE assumptions.
 
