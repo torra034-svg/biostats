@@ -178,13 +178,13 @@ unadj_MLR %>%
 
 ```
 
-#### Interpretation {#sec-MLR-interpretation}
-
-> **Multiple Linear Regression Fitted Equation**
+#### Multiple Linear Regression Fitted Equation {#sec-MLR-equation}
 
 $$
 \text{outcome-variable} = intercept + (\beta_1 X_1) + (\beta_2 X_2) + ... 
 $$
+
+#### Interpretation {#sec-MLR-interpretation}
 
 The intercept means when the x-variable is at zero, we expect the outcome variable to be at whatever the intercept is.
 
@@ -282,13 +282,73 @@ Some differences from linear regression to logistic regression are the following
 
 -   Everything is on the log-odds scale
 
+-   We are no longer calculating probability. We are calculating the odds-ratio of an event either being 0 or 1
+
+    -   Therefore, the y-axis is on a scale from 0 to 1
+
 -   Determining statistical significance means these two conditions must be met:
 
     -   The p-value is lower than alpha
 
     -   The exponent confidence interval **DOES NOT** include 1.0.
 
-Please review
+#### Interpretation
+
+Your output will be on the log-scale. Remember to use the log-scale values for writing the fitted equation and use the exponential values for interpreting the output. Also make sure to convert your variables to factors when applicable.
+
+```{r}
+#| label: dekaf-data-clean
+#| warning: false
+#| message: false
+#| echo: false
+
+
+dekaf <-read.csv("dekaf_dgf.csv")
+
+dekaf <- dekaf %>% 
+  mutate(cardiac_death = if_else(dcd_yn == 1, "Yes", "No", missing = NULL),
+         DGF = if_else(dgf == 1, "Yes", "No", missing = NULL))
+
+
+
+```
+
+```{r}
+#| label: log-reg
+
+rq1 <- glm(data = dekaf,
+           formula = as.factor(dgf) ~ as.factor(cardiac_death) + agedonor16,
+           family = binomial(link = "logit"))
+
+rq1
+```
+
+
+```{r}
+#| label: tbl-log-reg-log-form
+#| tbl-cap: "Logistic Regression Output [Log Form]"
+#| tbl-cap-location: top
+
+rq1 %>% ## log form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = FALSE
+  )
+
+```
+
+```{r}
+#| label: tbl-log-reg-exp-form
+#| tbl-cap: "Logistic Regression Output [Exponent Form]"
+#| tbl-cap-location: top
+
+rq1 %>% ## exponent form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = FALSE
+  )
+```
+
 
 ## Cox Proportional Hazards Model
 

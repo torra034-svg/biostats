@@ -275,4 +275,3 @@ hoslem.test(dekaf$dgf, fitted(log_model_adj_day_trans))
 vif(log_model_adj_day_trans)
 
 ```
-
