@@ -11,7 +11,7 @@ format:
     toc-depth: 4
     smooth-scroll: TRUE
     embed-resources: TRUE
-    number-sections: TRUE
+    fig-align: center
 editor: visual
 ---
 
@@ -36,6 +36,7 @@ In the code chunk below, we load in the tidyverse package (and other packages th
 library(tidyverse)  
 library(kableExtra)
 library(gtsummary)
+
   
 ```
 
@@ -138,7 +139,7 @@ The null hypothesis is that all regression coefficients are equal to zero. The a
 
 $$
 H_0: \beta_1 = \beta_2 
-$$ 
+$$
 
 $$
 H_1: \beta_1 \neq \beta_2
@@ -222,9 +223,7 @@ Recall @sec-MLR-interpretation fitted equation.
 
 According to our output, we have the following equation:
 
-$$
-\text{Total Cholesterol Change} = -0.04 + (0.52 \times \text{weight_change} + (-2.8 \times Sex_{\text{Male}})
-$$
+$$ \text{Total Cholesterol Change} = -0.04 + (0.52 \times \text{weight\_change}) + (-2.8 \times \text{Sex}_{\text{Male}}) $$
 
 This fitted equation represents the relationship between Total Cholesterol Change when we both account for weight change and sex.
 

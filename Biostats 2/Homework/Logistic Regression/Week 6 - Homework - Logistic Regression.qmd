@@ -1,7 +1,9 @@
 ---
 title: "Week 6: Homework - Logistic Regression"
 author: "Patrick Torralba"
-format: html
+format: 
+  html:
+    toc: true
 editor: visual
 ---
 
@@ -19,6 +21,8 @@ library(gtsummary)
 library(performance) # Diagnostic plots for logistic regression
 library(see)
 library(DHARMa) #Makes it easier to see QQ plot
+library(jtools)
+library(lmtest)
 ```
 
 ```{r import data, include=FALSE, echo=FALSE}
@@ -126,7 +130,7 @@ summ(rq1, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
 
 ### Table 3
 
-```{r logistic regression model - cardiac death + donor age}
+```{r logistic regression model - cardiac death + donor age_rq2}
 rq2 <- glm(data = dekaf,
            as.factor(dgf) ~ agedonor16 + as.factor(cardiac_death),
            family = binomial(link = "logit"))
@@ -136,6 +140,8 @@ rq2 <- glm(data = dekaf,
 ```{r rq2 summ}
 
 summ(rq2, confint = TRUE, ci.width = 0.95, digits = 4, exp = TRUE)
+
+
 
 ```
 
@@ -189,11 +195,6 @@ rq1_graph
 
 ```
 
-
-```{r save graph}
-ggsave(filename = "rq1_graph.png", plot = rq1_graph, path = "Exports/")
-
-```
 
 #### RQ2
 
