@@ -33,9 +33,9 @@ In the code chunk below, we load in the tidyverse package (and other packages th
 #| warning: false
 #| echo: true
 
-library(tidyverse)  
-library(kableExtra)
-library(gtsummary)
+library(tidyverse) ## data cleaning 
+library(kableExtra) ## make table from output via kable()
+library(gtsummary) ## make table via tbl_regression()
 
   
 ```
@@ -323,7 +323,6 @@ rq1 <- glm(data = dekaf,
 rq1
 ```
 
-
 ```{r}
 #| label: tbl-log-reg-log-form
 #| tbl-cap: "Logistic Regression Output [Log Form]"
@@ -349,8 +348,19 @@ rq1 %>% ## exponent form
   )
 ```
 
-
 ## Cox Proportional Hazards Model
+
+
+
+### Interpretation
+
+
+```{r}
+#|
+lbl
+
+```
+
 
 # Other Regression Models
 
