@@ -350,17 +350,12 @@ rq1 %>% ## exponent form
 
 ## Cox Proportional Hazards Model
 
-
-
 ### Interpretation
 
-
 ```{r}
-#|
+
 lbl
-
 ```
-
 
 # Other Regression Models
 
