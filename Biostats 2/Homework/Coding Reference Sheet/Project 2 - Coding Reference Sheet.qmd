@@ -4,11 +4,12 @@ author: "Patrick Torralba"
 format:
   html:
     theme: flatly
+    fontsize: 0.9em
     code-fold: FALSE
     code-tools: TRUE
     code-copy: TRUE
     toc: TRUE
-    toc-depth: 4
+    toc-depth: 5
     smooth-scroll: TRUE
     embed-resources: TRUE
     fig-align: center
@@ -188,9 +189,9 @@ $$
 
 The intercept means when the x-variable is at zero, we expect the outcome variable to be at whatever the intercept is.
 
-If the x-variable is a continuous predictor, for every 1 unit increase in the x-variable, we expect the y-variable to increase by the x-variable coefficient B1.
+If the x-variable is a **continuous predictor**, for every 1 unit increase in the x-variable, we expect the y-variable to increase by the x-variable coefficient B1.
 
-If the x-variable is a categorical predictor (e.g binary), and the x-variable is equivalent to 1, then we expect the y-variable to increase by the x-variable coefficient B1. This is a bit tricky to understand, so please see @sec-adjusted-MLR for an example.
+If the x-variable is a **categorical predictor** (e.g binary), and the x-variable is equivalent to 1, then we expect the y-variable to increase by the x-variable coefficient B1. This is a bit tricky to understand, so please see @sec-adjusted-MLR for an example.
 
 If the p-value is less than 0.05, it is statistically significant.
 
@@ -223,7 +224,7 @@ Recall @sec-MLR-interpretation fitted equation.
 
 According to our output, we have the following equation:
 
-$$ \text{Total Cholesterol Change} = -0.04 + (0.52 \times \text{weight\_change}) + (-2.8 \times \text{Sex}_{\text{Male}}) $$
+$$ \text{Total Cholesterol Change} = -0.04 + (0.52 \times \text{weight_change}) + (-2.8 \times \text{Sex}_{\text{Male}}) $$
 
 This fitted equation represents the relationship between Total Cholesterol Change when we both account for weight change and sex.
 
@@ -235,7 +236,88 @@ Refer to our data cleaning @sec-new-var where we coded the Sex variable where Ma
 
 ### Interaction Effects
 
-NEED TO FILL THIS IN
+Interaction terms are predictor variables that significantly affect the relationship between the outcome variable and other predictor variables. Therefore, to account for this interaction, we must multiply the predictor variables together as such:
+
+$$
+Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3(X_1 \times X_2)
+$$
+
+#### Hypothesis Testing
+
+$$
+\beta_3 = 0 \text { : No interaction effect - the variables are only additive}
+$$
+
+$$
+\beta_3 \neq 0 \text { : Interaction effect - the variables either have a synergistic or interference effect}
+$$
+
+#### Example
+
+Fit a model estimating total cholesterol change (cholchg) from weight change (wtchg), current smoking status (nowsmk), and their interaction. Set those who do not currently smoke as the reference level. Share your code and output.
+
+```{r}
+#| label: tomhs-data-clean
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+tomhs <- tomhs %>% 
+  mutate(wtchg = wt12 - wtbl,
+         cholchg = chol12 - cholbl,
+         nowsmk1 = as.factor(if_else(nowsmk == 1, "Current Smoker", "Non-current Smoker")))
+
+```
+
+```{r}
+#| label: smk-interaction-model
+#| message: false
+#| warning: false
+#| echo: true  
+
+tomhs$nowsmk1 <-relevel(tomhs$nowsmk1, ref = "Non-current Smoker")
+
+
+interaction_model <- lm(
+  formula = cholchg~wtchg+nowsmk1+wtchg*nowsmk1,
+  data = tomhs)
+
+interaction_model
+
+```
+
+##### Interpretation
+
+```{r}
+
+#| label: interaction-model-exp
+#| tbl-cap: "Interaction Model between Total Cholesterol Change and weight change and smoking status"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+interaction_model %>% 
+  tbl_regression(
+    intercept =  TRUE
+  )
+
+```
+
+From the example output, we get the following fitted equation:
+
+$$
+\text{Predicted Total Cholesterol Change} = -1.9984 + (0.6564 \times \text{weight_change}) + (-0.7335 \times \text{current_smoker}) + (-0.1328 \times \text{current_smoker*weight_change})
+$$
+
+And we interpret the fitted equation as such:
+
+The model intercept is -1.998, which means that the estimated average cholesterol change during this study for someone in the reference (non-smoking) group with a weight change of zero would be -1.998 units. At a weight change of 0, current smokers have on average 0.73 units lower cholesterol change than non-smokers, but this difference is not statistically significant (p = 0.860). The coefficient for weight change (0.66) indicates that among non-smokers (the reference group), a 1-unit increase in weight change is associated with an estimated 0.66-unit increase in cholesterol change.
+
+Therefore, in combination with the weight change coefficient, for each one unit change in weight for nonsmokers the total cholesterol change is 0.6564. While, for smokers it is 0.6564-0.1328=0.524.
+
 
 ### MLR Model Assumptions & Diagnostic Plots {#sec-LINE-assumptions}
 
@@ -431,7 +513,7 @@ AIDS_model <- coxph(Surv(t2qoi, qoi) ~ TwoClass + Unit + Above200, data = f6)
 AIDS_model
 ```
 
-#### Exponent Form
+##### Exponent Form
 
 ```{r}
 #| label: tbl-AIDS-model-exponent
@@ -450,7 +532,7 @@ AIDS_model %>%
   italicize_labels()
 ```
 
-#### Log Form
+##### Log Form
 
 ```{r}
 #| label: tbl-AIDS-model-log-form
