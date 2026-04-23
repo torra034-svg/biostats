@@ -318,7 +318,6 @@ The model intercept is -1.998, which means that the estimated average cholestero
 
 Therefore, in combination with the weight change coefficient, for each one unit change in weight for nonsmokers the total cholesterol change is 0.6564. While, for smokers it is 0.6564-0.1328=0.524.
 
-
 ### MLR Model Assumptions & Diagnostic Plots {#sec-LINE-assumptions}
 
 The linear regression model must meet the four LINE assumptions.
@@ -432,13 +431,25 @@ rq1 %>% ## exponent form
 
 ## Cox Proportional Hazards Model
 
-The Cox Proportional Hazards Model is used in survival analysis to compare the relationship between survival time and a predictor variable.
+The Cox Proportional Hazards Model is used in survival analysis to compare the relationship between survival time and a predictor variable. The output we get is the Hazard Ratio.
+
 
 The predictor variable(s) can either be continuous and/or categorical.
 
-### Interpretation
+### Hypothesis Testing for Hazard Ratios (HR)
 
-The output we get is the Hazard Ratio.
+$$
+H_0: HR = 1 \text{ | There is no risk difference between groups}
+$$
+
+$$
+H_0: HR < 1 \text{ |  The treatment group has a lower risk of the event (better survival or fewer negative events). For example,means the event is half as likely to happen in the treatment group compared to the control group.}
+$$
+
+$$
+H_0: HR > 1 \text{ | The treatment group has a higher risk of the event (worse outcome). For example, means the event is twice as likely to happen in the treatment group.}
+$$
+
 
 ```{r}
 #| label: load-f6-data
@@ -498,33 +509,37 @@ library(emmeans) ## to calculate hazard ratios
 
 ```
 
-#### AIDS Model
+#### Example
 
-This model compares the three-class to the two-class strategies
+This model compares the three-class to the two-class strategies.
+
+Question: How does the three-class strategy affect the hazard of the primary endpoint relative to the two-class strategy, after adjusting for clinical unit and whether baseline CD4 cell count was above 200?
+
 
 ```{r}
-#| label: AIDS-model
+#| label: cox-model
 #| message: false
 #| warning: false
 #| echo: true
 
-AIDS_model <- coxph(Surv(t2qoi, qoi) ~ TwoClass + Unit + Above200, data = f6)
+cox_model <- coxph(Surv(t2primary, primary) ~ factor(twoclass) + factor(UNIT) + factor(above200),
+                data = f6)
 
-AIDS_model
+
 ```
 
 ##### Exponent Form
 
 ```{r}
-#| label: tbl-AIDS-model-exponent
-#| tbl-cap: "caption"
+#| label: tbl-cox-model-exponent
+#| tbl-cap: "Two Class vs Three Class | Exponent Form"
 #| tbl-cap-location: top
 #| message: false
 #| warning: false
 #| echo: true
 
 
-AIDS_model %>% 
+cox_model %>% 
   tbl_regression(
     exponentiate = TRUE
   ) %>% 
@@ -535,21 +550,29 @@ AIDS_model %>%
 ##### Log Form
 
 ```{r}
-#| label: tbl-AIDS-model-log-form
-#| tbl-cap: "caption"
+#| label: tbl-cox-model-log-form
+#| tbl-cap: "Two Class vs Three Class | Log Form"
 #| tbl-cap-location: top
 #| message: false
 #| warning: false
 #| echo: true
 
 
-AIDS_model %>% 
+cox_model %>% 
   tbl_regression(
     exponentiate = FALSE
   ) %>% 
   bold_labels() %>% 
   italicize_labels()
 ```
+
+#### Interpretation
+
+The three-class strategy has a 14.5% higher risk of hazard of AIDS, death or CD4 cell count below 200 cells/mm3 than the two-class strategy, holding all else constant. This is based on the hazard ratio of 1.145, which indicates a higher risk of hazard for the three-class strategy as it is greater than the null value. Since the confidence interval includes one (0.931, 1.409), there is no statistically significant difference in the three-class vs. two-class strategy after adjusting. 
+
+
+
+### Pairwise Comparisons
 
 If we have a multi-categorical predictor, we then need to conduct pairwise comparisons using a Tukey HSD test.
 
@@ -576,7 +599,7 @@ $$
 \text{HR} < 1 = \text{Decreased Risk}
 $$
 
-### Checking Proportional Hazards Assumption
+### Checking Proportional Hazards Assumption Example
 
 To verify assumptions, we first need to create an adjusted model, and then we need to conduct a Schoenfeld test
 
