@@ -303,7 +303,7 @@ Your output will be on the log-scale. Remember to use the log-scale values for w
 #| echo: false
 
 
-dekaf <-read.csv("dekaf_dgf.csv")
+dekaf <- read.csv("dekaf_dgf.csv")
 
 dekaf <- dekaf %>% 
   mutate(cardiac_death = if_else(dcd_yn == 1, "Yes", "No", missing = NULL),
@@ -354,10 +354,9 @@ The Cox Proportional Hazards Model is used in survival analysis to compare the r
 
 The predictor variable(s) can either be continuous and/or categorical.
 
-
 ### Interpretation
 
-The output we get is the Hazard Ratio. 
+The output we get is the Hazard Ratio.
 
 ```{r}
 #| label: load-f6-data
@@ -369,7 +368,6 @@ The output we get is the Hazard Ratio.
 f6 <- read.csv("first6.csv")
 
 ```
-
 
 ```{r}
 #| label: clean-f6-data
@@ -403,6 +401,7 @@ In this example, we are calculating the hazard proportion estimate of the Three-
 To run the hazard proportion model we first need to call the following libraries:
 
 #### Library
+
 ```{r}
 #| label: lib-cox
 #| message: false
@@ -417,10 +416,10 @@ library(emmeans) ## to calculate hazard ratios
 
 ```
 
-
 #### AIDS Model
 
 This model compares the three-class to the two-class strategies
+
 ```{r}
 #| label: AIDS-model
 #| message: false
@@ -432,9 +431,8 @@ AIDS_model <- coxph(Surv(t2qoi, qoi) ~ TwoClass + Unit + Above200, data = f6)
 AIDS_model
 ```
 
-
-
 #### Exponent Form
+
 ```{r}
 #| label: tbl-AIDS-model-exponent
 #| tbl-cap: "caption"
@@ -452,8 +450,8 @@ AIDS_model %>%
   italicize_labels()
 ```
 
-
 #### Log Form
+
 ```{r}
 #| label: tbl-AIDS-model-log-form
 #| tbl-cap: "caption"
@@ -471,11 +469,10 @@ AIDS_model %>%
   italicize_labels()
 ```
 
-
-
 If we have a multi-categorical predictor, we then need to conduct pairwise comparisons using a Tukey HSD test.
 
 In this scenario, since we are only comparing two levels against each other, a Tukey HSD test is not needed.
+
 ```{r}
 #| label: cox-tukey
 #| message: false
@@ -488,8 +485,6 @@ In this scenario, since we are only comparing two levels against each other, a T
 #exp(confint(cox.multcomp)$confint)
 
 ```
-
-
 
 $$
 \text{HR} > 1 = \text{Increased Risk} 
@@ -515,8 +510,8 @@ summary(AIDS_model_unadj)
 
 ```
 
-
 If the p-value is less than alpha and the Beta throughout the time series is inside the boundaries, then the assumptions are met.
+
 ```{r}
 #| label: fig-schoenfeld
 #| fig-cap: "Schoenfeld Residuals vs Time Plot"
@@ -530,7 +525,6 @@ AIDS_resid <- cox.zph(AIDS_model_unadj)
 ggcoxzph(AIDS_resid)
 
 ```
-
 
 ## Poisson Regression Model
 
@@ -571,7 +565,6 @@ lhs <- lhs %>%
 
 ```
 
-
 ### Example
 
 In the example below, we are modeling the effect of treatment group to determine the effect of treatment group on cigarette smoking at 5 years.
@@ -609,7 +602,6 @@ trt_group_cigs5_model %>% ## this is the exponentiated form
 
 ```
 
-
 #### Log Form
 
 ```{r}
@@ -628,7 +620,6 @@ trt_group_cigs5_model %>% ## this is the expected log form
   )
 
 ```
-
 
 ### Model Evaluation for Overdispersion Test
 
@@ -649,7 +640,6 @@ model_ratio > 10
 
 ```
 
-
 ### Quasi-poisson Regression Model for Overdispersed Data
 
 Overdispersion can be dealt with either using a Quasi-Poisson Regression or a Negative Binomial Model
@@ -668,8 +658,8 @@ model1.qp
 
 ```
 
-
 #### Exponent Form
+
 ```{r}
 #| label: quasi-poisson-exp
 #| message: false
@@ -685,9 +675,8 @@ model1.qp %>%  ## exponentiated form
 
 ```
 
-
-
 #### Log Form
+
 ```{r}
 #| label: quasi-poisson-log-form
 #| message: false
@@ -703,23 +692,19 @@ model1.qp %>%  ## expected log form
 
 ```
 
-
 ### Interpretation
 
-- Question: Provide an answer to the research question for this section: What is the effect of sex on coronary heart disease (CHD) incidence rate? That is, describe the magnitude and direction of the effect AND its statistical significance in the context of this problem. Use evidence from the previous questions to support your answer.
+-   Question: Provide an answer to the research question for this section: What is the effect of sex on coronary heart disease (CHD) incidence rate? That is, describe the magnitude and direction of the effect AND its statistical significance in the context of this problem. Use evidence from the previous questions to support your answer.
 
-- Answer: In terms of sex, males have a 64% higher CHD incidence rate than females while holding all else constant (IRR = 1.64). This is statistically significant given that p-value is less than alpha and the 95% confidence interval does not contain 1.0 (p-value < 0.001, CI: 1.48 to 1.82).
+-   Answer: In terms of sex, males have a 64% higher CHD incidence rate than females while holding all else constant (IRR = 1.64). This is statistically significant given that p-value is less than alpha and the 95% confidence interval does not contain 1.0 (p-value \< 0.001, CI: 1.48 to 1.82).
 
 Make sure to use the exponent form when interpreting the values.
-
 
 # Other Regression Models
 
 Regression models such as Log-binomial and Ordinal do not follow the Central Limit Theorem and/or normal probability distribution.
 
-
 ## Log-binomial Regression Model
-
 
 ### Example
 
@@ -742,17 +727,14 @@ library(emmeans) ## calculate ratios (e.g risk ratio)
 #| echo: false
 #| include: false
 
-dekaf_dgf <- dekaf_dgf %>% 
+dekaf <- dekaf %>% 
   mutate(Gender = as.factor(if_else(gender == 1, "Male", "Female")),
          DGF = as.factor(if_else(dgf == 1, "Yes", "No")),
          Gender_women_ref = relevel(Gender, ref = "Female"))
 
 ```
 
-
 ### Example
-
-
 
 ## Ordinal Regression Model
 
