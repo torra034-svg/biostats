@@ -130,6 +130,86 @@ tomhs_filter <- tomhs %>%
 
 ```
 
+# Basic Exploratory Data Analysis (EDA)
+EDA is an approach to analyzing and summarizing data sets with an intent to understand their main characteristics. This approach includes both tables and graphs.
+
+## Example
+
+### Summary Statistics
+For Table 1 purposes, we only want to summarize the main characteristics of the study demographic. Do not include any significant predictor variables. We only want to include general characteristics including race, sex, BMI, etc.
+
+```{r}
+#| label: eda-example-dekaf
+#| message: false
+#| warning: false
+#| echo: true  
+
+dekaf <- dekaf %>% 
+  mutate(cardiac_death = if_else(dcd_yn == 1, "Yes", "No", missing = NULL),
+         DGF = if_else(dgf == 1, "Yes", "No", missing = NULL))
+
+```
+
+```{r}
+#| label: table-1-data-clean
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+table_1 <- dekaf %>% 
+  mutate(Race = if_else(raceblack == 1, "African American", "Other", missing = NULL),
+         Gender = if_else(gender == 1, "Male", "Female", missing = NULL),
+         Delayed_Graft_Function = if_else(dgf == 1, "Yes", "No", missing = NULL)) %>% 
+  dplyr::select(Race, Gender, Delayed_Graft_Function, cardiac_death, bmi_base, agedonor16)
+
+```
+
+
+```{r}
+#| label: tbl-table1
+#| tbl-cap: "Table 1: Study Demographics"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+table_1 <- table_1 %>% 
+  tbl_summary(by = Delayed_Graft_Function,
+              label = list(cardiac_death ~ "Donation After Cardiac Death",
+                           bmi_base ~ "Recipient BMI at baseline (kg/m2)",
+                           agedonor16 ~ "Donor age (years beyond 16, i.e. 17=1)"
+                           )) %>% 
+  modify_caption(caption = "**Table 1. Participant Demographics**") %>% 
+  modify_header(label ~ "**Delayed Graft Function**") %>% 
+   add_overall()
+
+  
+table_1
+```
+
+
+
+### Graphical Summaries
+In terms of graphical summaries, we want to utilize visualizations that summarize the relationship between the predictor variables and outcome variable so we can have some idea of what this relationship may be.
+
+```{r}
+#| label: fig-graph-summary-dekaf
+#| fig-cap: "Distribution of Donor Age and Delayed Graft Function","
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+ggplot(dekaf, aes(x = DGF, y = agedonor16, fill = DGF)) +
+  geom_boxplot() +
+  labs(fill = "Delayed Graft Function",
+       x = NULL,
+       y = "Donor Age",
+       subtitle = "Donor age refers to years beyond 16 (i.e. 17=1)") 
+```
+
+
 # Regression Modeling
 
 ## Multiple Linear Regression (MLR) {#sec-hyp-test}
@@ -810,7 +890,7 @@ trt_group_cigs5_model %>% ## this is the expected log form
 
 The effect of the SI-P smoking intervention group is 0.67 relative to the usual group at year 5. In other words, the estimated Incidence Rate Ratio (IRR) is 0.67, meaning that the SI-P group smoked at a rate 33% lower than the usual care group. This finding is statistically significant given that our p-value is lower than alpha and the 95% confidence interval does not include 1.0 (p-value \< 0.001, CI: 0.66 - 0.68).
 
-##### **Model Evaluation for Overdispersion Test**
+##### Model Evaluation for Overdispersion Test
 
 To evaluate the poisson regression, we need to review the ratio of the residual deviance to its degree of freedo**ms**. **If the model ratio is super super greater than 1 then that is a sign of overdispersion.**
 
