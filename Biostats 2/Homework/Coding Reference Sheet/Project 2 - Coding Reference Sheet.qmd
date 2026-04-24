@@ -433,7 +433,6 @@ rq1 %>% ## exponent form
 
 The Cox Proportional Hazards Model is used in survival analysis to compare the relationship between survival time and a predictor variable. The output we get is the Hazard Ratio.
 
-
 The predictor variable(s) can either be continuous and/or categorical.
 
 ### Hypothesis Testing for Hazard Ratios (HR)
@@ -449,7 +448,6 @@ $$
 $$
 H_0: HR > 1 \text{ | The treatment group has a higher risk of the event (worse outcome). For example, means the event is twice as likely to happen in the treatment group.}
 $$
-
 
 ```{r}
 #| label: load-f6-data
@@ -515,7 +513,6 @@ This model compares the three-class to the two-class strategies.
 
 Question: How does the three-class strategy affect the hazard of the primary endpoint relative to the two-class strategy, after adjusting for clinical unit and whether baseline CD4 cell count was above 200?
 
-
 ```{r}
 #| label: cox-model
 #| message: false
@@ -568,9 +565,7 @@ cox_model %>%
 
 #### Interpretation
 
-The three-class strategy has a 14.5% higher risk of hazard of AIDS, death or CD4 cell count below 200 cells/mm3 than the two-class strategy, holding all else constant. This is based on the hazard ratio of 1.145, which indicates a higher risk of hazard for the three-class strategy as it is greater than the null value. Since the confidence interval includes one (0.931, 1.409), there is no statistically significant difference in the three-class vs. two-class strategy after adjusting. 
-
-
+The three-class strategy has a 14.5% higher risk of hazard of AIDS, death or CD4 cell count below 200 cells/mm3 than the two-class strategy, holding all else constant. This is based on the hazard ratio of 1.145, which indicates a higher risk of hazard for the three-class strategy as it is greater than the null value. Since the confidence interval includes one (0.931, 1.409), there is no statistically significant difference in the three-class vs. two-class strategy after adjusting.
 
 ### Pairwise Comparisons
 
@@ -811,9 +806,9 @@ Regression models such as Log-binomial and Ordinal do not follow the Central Lim
 
 ## Log-binomial Regression Model
 
-### Example
+Log-binomial regression is used to determine the relative risk for binary outcomes.
 
-We need the following libraries for log binomial regression
+We need the following libraries for log binomial regression.
 
 ```{r}
 #| label: log-binomial-reg
@@ -841,7 +836,172 @@ dekaf <- dekaf %>%
 
 ### Example
 
+**Questions**
+
+-   What is the effect of having ever smoked cigarettes on general health at 12 months, after adjusting for age?
+
+-   What is the effect of age on general health at 12 months, after adjusting for having ever smoked cigarettes?
+
+```{r}
+#| label: tbl-logistic-reg-model
+#| tbl-cap: "Logistic Regression Model: DGF Outcome by Gender"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+model_1 <- logistic_reg() %>% 
+  set_engine("glm") %>% 
+  set_mode("classification") %>% 
+  fit(DGF ~ Gender, data = dekaf_dgf)
+
+tidy(model_1) ## this is to make the output readable
+
+
+
+```
+
+```{r}
+
+#| label: tbl-logistic-reg-model-exp
+#| tbl-cap: "Logistic Regression Model: DGF Outcome by Gender"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+model_1 %>% ## exponent form
+  tbl_regression(
+    intercept = TRUE,
+    exponent = TRUE
+  ) %>% 
+  bold_labels() %>% 
+  italicize_labels()
+
+
+```
+
+```{r}
+
+#| label: tbl-logistic-reg-model-log-form
+#| tbl-cap: "Logistic Regression Model: DGF Outcome by Gender"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+model_1 %>% ## log form
+  tbl_regression(
+    intercept = TRUE,
+    exponent = FALSE
+  ) %>% 
+  bold_labels() %>% 
+  italicize_labels()
+
+```
+
+#### Interpretation 
+
+$$log(DGF) = -1.6 + (0.63\times \text{Gender}_{\text{male}}) $$
+
+Holding all else constant, men have a 12% higher odds DGF risk compared to women (OR = 1.88). This is statistically significant given that the p-value is lower than alpha and the confidence interval does not include 1.0 (CI: 1.30 to 2.76).
+
 ## Ordinal Regression Model
+
+Ordinal Regression is used to target cumulative ordered categories (e.g low, medium, high) where the ranking matters.
+
+We need the following libraries for ordinal regression:
+
+```{r}
+#| label: ordinal-regression-library
+#| message: false
+#| warning: false
+#| echo: true  
+
+library(jtools)
+library(VGAM)
+
+```
+
+#### Example
+
+Question: Write the appropriate adjusted ordinal regression equation you would use to determine whether general health at 12 months (ql12_1) depends on whether a person ever smoked after adjusting for age. Use the actual names of the variables (not just X or Y) and beta0, beta1, etc. for the coefficients.
+
+$$
+\text{logit}[P(\text{ql_12}_1 \le j] = (\beta_1 \times \text{eversmk}) + (\beta_2 \times \text{age})
+$$
+
+```{r}
+#| label: tbl-adj-ordinal-regression
+#| tbl-cap: "Adjusted Ordinal Regression"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+ordinal_regression <- vglm(
+                formula = GenHealth ~ Eversmk + age,
+                data = tomhs,
+                family = cumulative(link = "logitlink", parallel = TRUE))
+
+ordinal_regression
+
+```
+
+```{r}
+
+#| label: tbl-adj-ordinal-regression-log-form
+#| tbl-cap: "Adjusted Ordinal Regression Log Form"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+model_1 %>%  ## log form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = FALSE
+    ) %>% 
+  bold_labels() %>% 
+  italicize_levels()
+
+```
+
+```{r}
+#| label: tbl-adj-ordinal-regression-log-form
+#| tbl-cap: "Adjusted Ordinal Regression Exponent Form"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+model_1 %>%  ## exponent form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = TRUE,
+    ) %>% 
+  bold_labels() %>% 
+  italicize_levels() 
+
+```
+
+-   Using the model results, what is the estimated common odds ratio for the eversmk variable? Provide an interpretation of this common odds ratio in the context of the problem. 
+
+    -   The estimated common odds-ratio for the eversmk variable is 0.90. This means patients who smoke have a 10% decrease in odds of reporting a better health status (e.g “Excellent”).
+
+-   Using the model results, is there a significant relationship between having ever smoked cigarettes and general health at 12 months, after adjusting for age? Explain your reasoning.
+
+    -   No, after adjusting for age, we conclude that there is not a statistically significant relationship between having ever smoked cigarettes and general health at 12 months considering that the p-value is greater than alpha and the confidence interval includes 1.0 (OR = 0.90, p-value = 0.4, CI: 0.70 to 1.16).
+
+-   Using the model results, what is the estimated common odds ratio for the age variable? Provide an interpretation of this common odds ratio in the context of the problem.
+
+    -   The estimated common-odds ratio for the age variable is 0.98. This indicates that for every one-year increase in age, the odds of a patient reporting a better general health status (e.g., ‘Excellent’ vs. all lower categories) decrease by 2%, holding smoking status constant.
+
+-   Using the model results, is there a significant relationship between age and general health at 12 months, after adjusting for having ever smoked cigarettes? Explain your reasoning.
+
+    -   After adjusting for having ever smoked cigarettes, we conclude that the relationship between age and general health at 12 months is not statistically significant given that the p-value is greater than alpha and the confidence interval includes 1.0 (p-value = 0.12, CI: 0.97 to 1.00).
 
 # Sample Size Estimates and Power
 
