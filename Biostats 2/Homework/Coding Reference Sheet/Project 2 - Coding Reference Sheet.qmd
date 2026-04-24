@@ -1007,6 +1007,60 @@ model_1 %>%  ## exponent form
 
 ## Continuous Outcomes
 
+#### Estimating Sample Sizes in Group Means
+
+```{r}
+#| label: tbl-sample-size-continuous
+#| tbl-cap: "Estimating Sample Size from a Continuous Outcome"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+power.t.test(
+  delta = 2, ## this is the MCID value
+  sd = 6,
+  sig.level = 0.05,
+  power = 0.8,
+  type = "two.sample",
+) %>% 
+  tidy() %>% 
+  kable(
+        format = "html",
+        digits = 2,
+        align = "c") %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    full_width = FALSE,
+    position = "center"
+  )
+```
+
+What if my outcome is Continuous (Group Means)?
+
+-   Information needed to calculate sample size:
+
+    -   Mean
+
+    -   Standard Deviation
+
+    -   Effect Size (also known as delta or MCID)
+
+    -   Power Level (usually 0.80 unless stated otherwise)
+
 ## Binary Outcomes
+
+What if my outcome is Binary (Proportions)?
+
+-   Information needed to calculate sample size:
+
+    -   Standard Deviations **IS NOT NEEDED**
+
+    -   Baseline Proportion
+
+    -   Comparison Proportion
+
+    -   Effect Size (MCID)
 
 # .qmd Notes

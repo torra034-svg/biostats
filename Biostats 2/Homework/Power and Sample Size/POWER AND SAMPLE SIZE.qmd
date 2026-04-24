@@ -362,9 +362,6 @@ legend("bottomright",
 
     ```
 
-
-
-
 # Power and Sample Size Summary Notes
 
 -   What if my outcome is Continuous (Group Means)?
