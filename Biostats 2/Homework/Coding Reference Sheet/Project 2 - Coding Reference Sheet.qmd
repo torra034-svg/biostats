@@ -324,6 +324,53 @@ In terms of the weight_change variable, if the weight change has increased by 1 
 
 Refer to our data cleaning @sec-new-var where we coded the Sex variable where Males are equivalent to 1 and Female is equivalent to 0. Therefore, in terms of the Sex variable, if the patient is a male then we expect the total cholesterol change to decrease by -2.8 units. If the patient is female then we completely ignore the Sex variable since it is equivalent to zero.
 
+### Interaction Plot
+
+Interaction plots are used to visualize the effect of one predictor variable on the outcome variable while depending on the value of another predictor variable.
+
+Essentially, they tell us if two variables are synergistic or interference.
+
+**Question:** Make an interaction plot. Put total cholesterol change (cholchg) on the y-axis, weight change (wtchg) on the x-axis, and smoking status (nowsmk) as the label variable.
+
+```{r}
+#| label: tomhs-data-clean
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+tomhs <- read.csv("tomhs.csv")
+
+
+tomhs <- tomhs %>% 
+  mutate(wtchg = wt12 - wtbl,
+         cholchg = chol12 - cholbl,
+         nowsmk1 = as.factor(if_else(nowsmk == 1, "Current Smoker", "Non-current Smoker")))
+
+```
+
+```{r}
+#| label: fig-interact-plot
+#| fig-cap: "Cholesterol Change vs Weight Change by Smoking Status"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+library(interactions)
+
+
+model <- lm(cholchg ~ wtchg*nowsmk1, data = tomhs)
+
+interact_plot(model, pred = wtchg, modx = nowsmk1,
+               interval = TRUE,
+               plot.points = TRUE,
+               x.label = "Weight Change",
+               y.label = "Cholesterol Change",
+               legend.main = "Current Smoking Status",           main.title = "Cholesterol Change vs Weight Change by Smoking Status")
+
+```
+
 ### Interaction Effects
 
 Interaction terms are predictor variables that significantly affect the relationship between the outcome variable and other predictor variables. Thus, this results in an MLR with has groups with different intercepts AND slopes. Therefore, to account for this interaction, we must multiply the predictor variables together as such:
@@ -345,20 +392,6 @@ $$
 #### Example
 
 Fit a model estimating total cholesterol change (cholchg) from weight change (wtchg), current smoking status (nowsmk), and their interaction. Set those who do not currently smoke as the reference level. Share your code and output.
-
-```{r}
-#| label: tomhs-data-clean
-#| message: false
-#| warning: false
-#| echo: false
-#| include: false
-
-tomhs <- tomhs %>% 
-  mutate(wtchg = wt12 - wtbl,
-         cholchg = chol12 - cholbl,
-         nowsmk1 = as.factor(if_else(nowsmk == 1, "Current Smoker", "Non-current Smoker")))
-
-```
 
 ```{r}
 #| label: smk-interaction-model
