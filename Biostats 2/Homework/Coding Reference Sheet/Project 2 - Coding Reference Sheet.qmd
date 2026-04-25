@@ -502,7 +502,7 @@ ols_plot_dffits(model_adjusted)
 
 ```
 
-#### MLR Model Assumptions & Diagnostic Plots  {#sec-MLR-diagnostics}
+#### MLR Model Assumptions & Diagnostic Plots {#sec-MLR-diagnostics}
 
 The linear regression model must meet the four LINE assumptions.
 
@@ -697,6 +697,145 @@ hoslem.test(dekaf$dgf, fitted(rq1))
 
 ```
 
+# Survival Models
+
+Survival modelign is a method to analyze "time-to-event" data and is used to calcualte the probability that a specific event will occur at a certain time.
+
+```{r}
+#| label: load-f6-data
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false 
+
+f6 <- read.csv("first6.csv")
+
+```
+
+```{r}
+#| label: f6-data-clean-1
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+
+f6 <- f6 %>% 
+    mutate(gender = as.factor(if_else(GENDER == 1, "Male", "Female", missing = NULL)),
+         race = as.factor(case_when(RACE == 1 ~ "Latino",
+                                    RACE == 2 ~ "African American",
+                                    RACE == 3 ~ "White",
+                                    RACE == 4 ~ "Other")),
+         two_class = as.factor(if_else(twoclass == 1, "Two Class", "Three Class", missing = NULL)))
+
+```
+
+The following libraries are required for survival modeling
+
+```{r}
+#| label: survival-model-libraries
+#| message: false
+#| warning: false
+#| echo: true  
+
+library(survival) #survival analysis
+library(ggfortify) #survival analysis
+
+```
+
+## Survival Analysis 
+
+### Kaplan-Meier Plots
+
+Kaplan-Meier Plots are used to display the survival percentage of the study demographic throughout the duration of the study.
+
+Question: Create a Kaplan-Meier plot of the primary endpoint, event-free survival (variables t2primary and primary), comparing the two-class strategy group to the three-class strategy group (variable twoclass).
+
+```{r}
+#| label: fig-kaplan-meier
+#| fig-cap: "Kaplan Meier Plot"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+q3 <- survfit(Surv(t2primary, primary) ~ two_class, data = f6)
+
+autoplot(q3, conf.int = FALSE, censor.shape = "X") +
+  labs(x  = "Time (in months)",
+       y = "Survival Percentage",
+       title = "Survival Analysis: Two-class vs Three-class",
+       color = "Exposure")
+
+
+```
+
+**Question**: Examine your Kaplan-Meier plot by eye. Do you think there is a difference in event-free survival between the two-class and three-class treatment strategies? If so, which strategy appears to work better? 
+
+**Answer:** Yes, I think there is a difference between the two-class and three-class strategies. It appears that the two-class strategy works better because since the 20 month mark, the two-class group has generally a higher survival percentage.
+
+### Median Survival Time
+
+Median survival time refers to the specific point in time where 50% of the patient group has died and 50% are still alive in the Kaplan-Meier Survival Curve.
+
+According to our graph above, we actually cannot obtain the median survival time because the survival curve above 50% throughout the entire follow-up period. Therefore, we cannot calculate the estimate since median survival time is not yet reached.
+
+In most cases, you'd just need to look where at the x-axis wherever the line is at 50%.
+
+### Survival at Specific Times
+
+**Question**: Estimate the event-free survival at 4 years in each treatment strategy group (two-class strategy vs. three-class strategy, variable twoclass). That is, estimate the proportion of study participants without AIDS, death, or CD4<200 at four years, and give the confidence interval for each of the two treatment strategy groups.
+
+```{r}
+#| label: survival-specific-event
+#| message: false
+#| warning: false
+#| echo: true  
+
+summary(q3, times =c(48)) ##note: the times argument is going to vary based on your time unit
+
+```
+
+**Answer**: The two-class strategy has a better survival estimate at four years because the survival estimate for two-class is 76.3% whereas the survival estimate for three-class is 71.2%.
+
+
+### Log-Rank Test
+
+A log-rank test is used to determine if there is a statistically significant difference in survival times between groups (e.g Treatment A vs Treatment B). This test gives equal weight to all time points.
+
+**Question**: Carry out a test to determine whether event-free survival in the two treatment strategy groups (two-class strategy vs. three-class strategy, variable twoclass) is statistically different.
+
+Is there a difference in event-free survival between the three-class and the two-class strategy groups? Cite evidence to support your answer.
+
+
+```{r}
+#| label: log-rank-test
+#| message: false
+#| warning: false
+#| echo: true  
+#| 
+survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 0) ## make sure to set rho = 0 for log-rank
+
+```
+
+
+**Answer**: There is no difference in event-free survival between the three-class and two-class strategy groups (p = 0.2; p-value > 0.05).
+
+### Gehan-Breslow-Wilcoxon Test
+
+This test is used to compare the survival curves of 2+ independent groups AND gives weight to events that occur early in the study.
+
+```{r}
+#| label: wilcoxon
+#| message: false
+#| warning: false
+#| echo: true  
+
+survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 1) ## make sure to set rho = 1 for GBW
+
+```
+
+
 ## Cox Proportional Hazards Model
 
 The Cox Proportional Hazards Model is used in survival analysis to compare the relationship between survival time and a predictor variable. The output we get is the Hazard Ratio.
@@ -716,17 +855,6 @@ $$
 $$
 H_1: HR > 1 \text{ | The treatment group has a higher risk of the event (worse outcome). For example, means the event is twice as likely to happen in the treatment group.}
 $$
-
-```{r}
-#| label: load-f6-data
-#| message: false
-#| warning: false
-#| echo: false
-#| include: false 
-
-f6 <- read.csv("first6.csv")
-
-```
 
 #### Data Cleaning
 
