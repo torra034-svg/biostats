@@ -1,5 +1,5 @@
 ---
-title: "Project 2: Coding Reference Sheet"
+title: "Project 2 - Coding Reference Sheet"
 author: "Patrick Torralba"
 format:
   html:
@@ -96,7 +96,7 @@ tomhs <- tomhs %>%
 
 ### Deleting & Sub-setting Observations
 
-Deleting observations is done through the filter() function. Use this function to specify the delete observations.
+Deleting observations is done through the filter() function. Use this function to specify which observations to delete.
 
 | Operator |   Definition    |
 |:--------:|:---------------:|
@@ -150,7 +150,6 @@ For Table 1 purposes, we only want to summarize the main characteristics of the 
 dekaf <- read.csv("dekaf_dgf.csv")
 
 ```
-
 
 ```{r}
 #| label: eda-example-dekaf
@@ -418,8 +417,8 @@ The reference level can be changed in the following example:
 #| warning: false
 #| echo: true  
 
-tomhs <- tomhs %>% 
-  mutate(wtchgcat1 = fct_relevel(wtchgcat, "gained"))
+##tomhs <- tomhs %>% 
+  ##mutate(wtchgcat1 = fct_relevel(wtchgcat, ##"gained"))
 
 ```
 
@@ -457,14 +456,14 @@ In the case of a likelihood ratio test, we are comparing the full model to the r
 ## fit the full model
 
 ## 1. Fit the Full Model
-#model_full <- lm(cholesterol_change ~ weight_change_cat + other_covariates, data = your_data)
+#model_full <- lm(cholesterol_change ~ #weight_change_cat + other_covariates, data = #your_data)
 
-# 2. Fit the Reduced Model (remove the variable of interest)
-#model_reduced <- lm(cholesterol_change ~ other_covariates, data = your_data)
+# 2. Fit the Reduced Model (remove the variable of #interest)
+#model_reduced <- lm(cholesterol_change ~ #other_covariates, data = your_data)
 
 
 # 3. Compare them using anova() 
-# For lm, this defaults to an F-test; for glm, use test = "Chisq"
+# For lm, this defaults to an F-test; for glm, use #test = "Chisq"
 #anova(model_reduced, model_full)
 
 ```
@@ -478,20 +477,24 @@ Influential points are points that affect the model slope.
 These two can be detected in a linear model using the following methods:
 
 1.  Standardized Residuals
-    1.  abs(Standardized Residuals ) \> OR \< +/-2 ⇒ observation is an outlier
+    1.  abs(rstandard(model))\> OR \< +/-2 ⇒ observation is an outlier
 2.  Students Residuals
-    1.  abs(studentized residuals) \< 3 ⇒ outlier
+    1.  abs(rstudent(model)) \< 3 ⇒ outlier
 3.  Cooks Distance
-    1.  If Cooks Distance \> 1 ⇒ probably an outlier
-    2.  See @sec-MLR-diagnostics for Cooks Distance example
-    3.  We can also obtain a list of Cook's Distance using the following code:
+    1.  cooks.distance(model)
+    2.  If Cooks Distance \> 1 ⇒ probably an outlier
+    3.  See @sec-MLR-diagnostics for Cooks Distance example
+    4.  We can also obtain a list of Cook's Distance using the following code:
         1.  cooks.distance(model_adjusted)
 4.  DFFITS
     1.  If $\text{|DFFITS|} > (2 \times \sqrt (p/n)$ ⇒ influential observation
         1.  p  = number of parameters
+    2.  dffits(model)
 5.  DFBETA
+    1.  dfbeta(model)
 6.  PRESS
     1.  This tells us which variables in the model may or may not be legit
+        1.  PRESS(model)
     2.  Small PRESS value ⇒ Good predictability and can generalize new data
     3.  Big PRESS value ⇒ Bad predictability and may be sensitive to data in general
 
@@ -710,7 +713,7 @@ hoslem.test(dekaf$dgf, fitted(rq1))
 
 # Survival Models
 
-Survival modelign is a method to analyze "time-to-event" data and is used to calcualte the probability that a specific event will occur at a certain time.
+Survival modeling is a method to analyze "time-to-event" data and is used to calculate the probability that a specific event will occur at a certain time.
 
 ```{r}
 #| label: load-f6-data
@@ -754,13 +757,11 @@ library(ggfortify) #survival analysis
 
 ```
 
-## Survival Analysis 
-
 ### Kaplan-Meier Plots
 
 Kaplan-Meier Plots are used to display the survival percentage of the study demographic throughout the duration of the study.
 
-Question: Create a Kaplan-Meier plot of the primary endpoint, event-free survival (variables t2primary and primary), comparing the two-class strategy group to the three-class strategy group (variable twoclass).
+**Question**: Create a Kaplan-Meier plot of the primary endpoint, event-free survival (variables t2primary and primary), comparing the two-class strategy group to the three-class strategy group (variable twoclass).
 
 ```{r}
 #| label: fig-kaplan-meier
@@ -795,7 +796,7 @@ In most cases, you'd just need to look where at the x-axis wherever the line is 
 
 ### Survival at Specific Times
 
-**Question**: Estimate the event-free survival at 4 years in each treatment strategy group (two-class strategy vs. three-class strategy, variable twoclass). That is, estimate the proportion of study participants without AIDS, death, or CD4<200 at four years, and give the confidence interval for each of the two treatment strategy groups.
+**Question**: Estimate the event-free survival at 4 years in each treatment strategy group (two-class strategy vs. three-class strategy, variable twoclass). That is, estimate the proportion of study participants without AIDS, death, or CD4\<200 at four years, and give the confidence interval for each of the two treatment strategy groups.
 
 ```{r}
 #| label: survival-specific-event
@@ -809,7 +810,6 @@ summary(q3, times =c(48)) ##note: the times argument is going to vary based on y
 
 **Answer**: The two-class strategy has a better survival estimate at four years because the survival estimate for two-class is 76.3% whereas the survival estimate for three-class is 71.2%.
 
-
 ### Log-Rank Test
 
 A log-rank test is used to determine if there is a statistically significant difference in survival times between groups (e.g Treatment A vs Treatment B). This test gives equal weight to all time points.
@@ -817,7 +817,6 @@ A log-rank test is used to determine if there is a statistically significant dif
 **Question**: Carry out a test to determine whether event-free survival in the two treatment strategy groups (two-class strategy vs. three-class strategy, variable twoclass) is statistically different.
 
 Is there a difference in event-free survival between the three-class and the two-class strategy groups? Cite evidence to support your answer.
-
 
 ```{r}
 #| label: log-rank-test
@@ -829,8 +828,7 @@ survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 0) ## make sure 
 
 ```
 
-
-**Answer**: There is no difference in event-free survival between the three-class and two-class strategy groups (p = 0.2; p-value > 0.05).
+**Answer**: There is no difference in event-free survival between the three-class and two-class strategy groups (p = 0.2; p-value \> 0.05).
 
 ### Gehan-Breslow-Wilcoxon Test
 
@@ -845,7 +843,6 @@ This test is used to compare the survival curves of 2+ independent groups AND gi
 survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 1) ## make sure to set rho = 1 for GBW
 
 ```
-
 
 ## Cox Proportional Hazards Model
 
@@ -1019,7 +1016,7 @@ summary(AIDS_model_unadj)
 
 ```
 
-If the p-value is less than alpha and the Beta throughout the time series is inside the boundaries, then the assumptions are met.
+If the p-value is greater than alpha, and the $\beta$ throughout the time series is inside the boundaries, then the assumptions are met.Meaning that the model is most likely valid.
 
 ```{r}
 #| label: fig-schoenfeld
@@ -1218,6 +1215,7 @@ model1.qp %>%  ## expected log form
 Make sure to use the exponent form when interpreting the values.
 
 ### Offset Term
+
 ```{r}
 #| label: fh-load-clean
 #| message: false
@@ -1235,7 +1233,6 @@ fh <- fh %>%
 
 ```
 
-
 ```{r}
 #| label: tbl-offset-term
 #| tbl-cap: "Incidence Rate for Framingham Dataset"
@@ -1243,6 +1240,8 @@ fh <- fh %>%
 #| message: false
 #| warning: false
 #| echo: true
+
+library(gtExtras)
 
 fh_ir_tbl <- fh %>% 
   select(CHD, Sex, followupYR) %>% 
@@ -1273,16 +1272,15 @@ fh_ir_tbl <- fh %>%
 fh_ir_tbl
 ```
 
-
 An offset term is used in Poisson regression to account for observations that had more time to occur. For instance, if we do not have an offset term, our poisson regression will assume that every person will have an equal opportunity to get a disease. Whereas, in reality, a singular person may have cancer for 10 years and another person may have cancer for 2 years.
 
-In other words,  the offset variable will always be the time variable (e.g follow-up). 
+In other words, the offset variable will always be the time variable (e.g follow-up).
 
-* An offset term is needed to account for the different variations in follow-up time (e.g 10 years follow-up vs 1-year; the Poisson model helps distinguish who’s more at risk)
+-   An offset term is needed to account for the different variations in follow-up time (e.g 10 years follow-up vs 1-year; the Poisson model helps distinguish who’s more at risk)
 
 Therefore, the offset term is used to account for this time variation. The offset term is only needed if we are SPECIFICALLY looking at the RATE.
 
-**Question**: 
+**Question**:
 
 # Other Regression Models
 
@@ -1387,7 +1385,7 @@ model_1 %>% ## log form
 
 #### Interpretation
 
-$$log(DGF) = -1.6 + (0.63\times \text{Gender}_{\text{male}}) $$
+$$ \text{logit}[P(\text{ql\_12}_1 \le j)] = (\beta_1 \times \text{eversmk}) + (\beta_2 \times \text{age}) $$
 
 Holding all else constant, men have a 12% higher odds DGF risk compared to women (OR = 1.88). This is statistically significant given that the p-value is lower than alpha and the confidence interval does not include 1.0 (CI: 1.30 to 2.76).
 
