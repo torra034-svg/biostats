@@ -131,11 +131,13 @@ tomhs_filter <- tomhs %>%
 ```
 
 # Basic Exploratory Data Analysis (EDA)
+
 EDA is an approach to analyzing and summarizing data sets with an intent to understand their main characteristics. This approach includes both tables and graphs.
 
 ## Example
 
 ### Summary Statistics
+
 For Table 1 purposes, we only want to summarize the main characteristics of the study demographic. Do not include any significant predictor variables. We only want to include general characteristics including race, sex, BMI, etc.
 
 ```{r}
@@ -165,7 +167,6 @@ table_1 <- dekaf %>%
 
 ```
 
-
 ```{r}
 #| label: tbl-table1
 #| tbl-cap: "Table 1: Study Demographics"
@@ -188,9 +189,8 @@ table_1 <- table_1 %>%
 table_1
 ```
 
-
-
 ### Graphical Summaries
+
 In terms of graphical summaries, we want to utilize visualizations that summarize the relationship between the predictor variables and outcome variable so we can have some idea of what this relationship may be.
 
 ```{r}
@@ -208,7 +208,6 @@ ggplot(dekaf, aes(x = DGF, y = agedonor16, fill = DGF)) +
        y = "Donor Age",
        subtitle = "Donor age refers to years beyond 16 (i.e. 17=1)") 
 ```
-
 
 # Regression Modeling
 
@@ -316,7 +315,7 @@ Refer to our data cleaning @sec-new-var where we coded the Sex variable where Ma
 
 ### Interaction Effects
 
-Interaction terms are predictor variables that significantly affect the relationship between the outcome variable and other predictor variables. Therefore, to account for this interaction, we must multiply the predictor variables together as such:
+Interaction terms are predictor variables that significantly affect the relationship between the outcome variable and other predictor variables. Thus, this results in an MLR with has groups with different intercepts AND slopes. Therefore, to account for this interaction, we must multiply the predictor variables together as such:
 
 $$
 Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3(X_1 \times X_2)
@@ -395,7 +394,115 @@ The model intercept is -1.998, which means that the estimated average cholestero
 
 Therefore, in combination with the weight change coefficient, for each one unit change in weight for nonsmokers the total cholesterol change is 0.6564. While, for smokers it is 0.6564-0.1328=0.524.
 
-### MLR Model Assumptions & Diagnostic Plots {#sec-LINE-assumptions}
+#### Multi-Category Predictors Review
+
+Recall that a multi-category variable is a qualitative variable with multiple factors (e.g small, medium, big).
+
+The reference level can be changed in the following example:
+
+```{r}
+#| label: ref-level-change
+#| message: false
+#| warning: false
+#| echo: true  
+
+tomhs <- tomhs %>% 
+  mutate(wtchgcat1 = fct_relevel(wtchgcat, "gained"))
+
+```
+
+After conducting a linear regression, your reference level is the category that is the one that does not appear in your output. It is also the intercept value $\beta_0$
+
+#### Tests for Multi-Category Predictors
+
+A Type III ANOVA F-Test or a Likelihood of Ratio Test can either be conducted to determine if a multi-category predictor is statistically significant.
+
+```{r}
+#| label: ANOVA-F-TEST
+#| message: false
+#| warning: false
+#| echo: true  
+
+library(car)
+
+## model <- lm(
+## formula = cholestorl_change ~ weight_change_Cat + other_covariates,
+## data = df)
+
+
+## Anova(model, type = "III")
+
+```
+
+In the case of a likelihood ratio test, we are comparing the full model to the reduced model.
+
+```{r}
+#| label: likelihood-ratio-test
+#| message: false
+#| warning: false
+#| echo: true 
+
+## fit the full model
+
+## 1. Fit the Full Model
+#model_full <- lm(cholesterol_change ~ weight_change_cat + other_covariates, data = your_data)
+
+# 2. Fit the Reduced Model (remove the variable of interest)
+#model_reduced <- lm(cholesterol_change ~ other_covariates, data = your_data)
+
+
+# 3. Compare them using anova() 
+# For lm, this defaults to an F-test; for glm, use test = "Chisq"
+#anova(model_reduced, model_full)
+
+```
+
+#### Outliers & Influential Points
+
+Outliers are measurements outside of the expected normal range.
+
+Influential points are points that affect the model slope.
+
+These two can be detected in a linear model using the following methods:
+
+1.  Standardized Residuals
+    1.  abs(Standardized Residuals ) \> OR \< +/-2 ⇒ observation is an outlier
+2.  Students Residuals
+    1.  abs(studentized residuals) \< 3 ⇒ outlier
+3.  Cooks Distance
+    1.  If Cooks Distance \> 1 ⇒ probably an outlier
+    2.  See @sec-MLR-diagnostics for Cooks Distance example
+    3.  We can also obtain a list of Cook's Distance using the following code:
+        1.  cooks.distance(model_adjusted)
+4.  DFFITS
+    1.  If $\text{|DFFITS|} > (2 \times \sqrt (p/n)$ ⇒ influential observation
+        1.  p  = number of parameters
+5.  DFBETA
+6.  PRESS
+    1.  This tells us which variables in the model may or may not be legit
+    2.  Small PRESS value ⇒ Good predictability and can generalize new data
+    3.  Big PRESS value ⇒ Bad predictability and may be sensitive to data in general
+
+The code-chunk below displays a plot of DFFITS values vs observation numbers to determine influential observations.
+
+```{r}
+#| label: fig-DFFITS
+#| fig-cap: "caption"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+library(olsrr)
+
+model_adjusted <- lm(data = tomhs, cholchg ~ wtchg + nowsmk)
+
+
+ols_plot_dffits(model_adjusted)
+
+```
+
+#### MLR Model Assumptions & Diagnostic Plots  {#sec-MLR-diagnostics}
 
 The linear regression model must meet the four LINE assumptions.
 
@@ -405,16 +512,18 @@ Please review the definitions below and how to interpret the graphs.
 
 1.  Linearity
     1.  This refers to the direct relationship between the x and y variables. This means that for every increase in x-variable, we expect a direct increase in the y-outcome.
-    2.  Review the Residuals vs Fitted plot. If the points appear "cloud-like" then the assumption is met. We want an equal amount of points above and below the line, and appear cloud-like.
+    2.  Review the Residuals vs Fitted plot. If the points appear "cloud-like" then the **model fit & linearity assumption** is met. We want an equal amount of points above and below the line with no distinct pattern in the points.
 2.  Independence
     1.  This refers to to random sampling in the study. We want to ensure that one observation is completely random and does not influence another observation.
     2.  You actually cannot use any of the diagnostic plots to verify this assumption. You need to check the methodology to ensure that random sampling occurred for the study.
 3.  Normality
     1.  This refers to how close the residuals follow the normal distribution.
-    2.  Review the Q-Q residual plot. If the points are close to the diagonal line then it meets the assumption. If it curves and strays from the line then it does not meet the assumption.
+    2.  Review the Q-Q residual plot. If the points are close to the diagonal line then it meets the **Normality of Errors assumption**. If it curves and strays from the line then it does not meet the assumption.
 4.  Equal Variance (Homoscedasticity)
-    1.  This refers to the residuals being at a constant variance at every level of the independent variable. In other words, we want to make sure the variance is the consistent.
+    1.  This refers to the residuals being at a **constant variance** at every level of the independent variable. In other words, we want to make sure the variance is the consistent.
     2.  Review the Residuals vs Levels plot. If the plot appears "cone-like" or a fan shape then the assumption is not met. We want to ensure that the distribution looks like a uniform "shot-gun" blast shape.
+
+Furthermore, **outliers and influential points** can be diagnosed by reviewing the residuals vs leverage plot. Outliers are points with high y-axis values usually +/-3 and influential points are those in the upper-right or lower-right corners outside of Cook's Distance.
 
 ```{r}
 #| label: fig-MLR-assumptions
