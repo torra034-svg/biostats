@@ -16,6 +16,7 @@ format:
 editor: visual
 ---
 
+
 # Exploratory Data Analysis Concepts
 
 ## Importing Data
@@ -27,6 +28,7 @@ editor: visual
 To first import data into R, we need to load the tidyverse package. This package gives us the tools needed to both import and clean data.
 
 In the code chunk below, we load in the tidyverse package (and other packages that are more relevant in other sections).
+
 
 ```{r}
 #| label: library
@@ -41,11 +43,13 @@ library(gtsummary) ## make table via tbl_regression()
   
 ```
 
+
 #### Import Data
 
 We use the read.csv() function to import .csv files. Make sure to specify the file pathway and assign it to a variable using "\<-".
 
 In the code chunk below, we import the tomhs dataset by specifying it's location and file extension.
+
 
 ```{r}
 #| label: import-data
@@ -57,6 +61,7 @@ tomhs <- read.csv("tomhs.csv")
 
 
 ```
+
 
 ## Data Wrangling
 
@@ -71,6 +76,7 @@ Use mutate() to define our new variables.
 Note: Use the if_else() function when you have a singular class, and use case_when() when the categorical variable has multiple classes.
 
 In the code chunk below, we create two new variables, "Sex" and "Race". Sex is created by an if_else() statement and Race is created by a case_when() statement. Both variables are converted into factors - this is important for statistical analysis purposes.
+
 
 ```{r}
 #| label: new-var
@@ -93,6 +99,7 @@ tomhs <- tomhs %>%
 
   
 ```
+
 
 ### Deleting & Sub-setting Observations
 
@@ -118,6 +125,7 @@ We should create a new dataset just in case we want to refer to the original dat
 
 In the code chunk below, we remove observations in the age column that are equivalent to NA. And, we also subset these changes into a new dataset, "tomhs_filter" to ensure the original dataset maintains the original observation amount.
 
+
 ```{r}
 #| label: delete-obs-sub-set
 #| warning: false
@@ -130,6 +138,7 @@ tomhs_filter <- tomhs %>%
 
 ```
 
+
 # Basic Exploratory Data Analysis (EDA)
 
 EDA is an approach to analyzing and summarizing data sets with an intent to understand their main characteristics. This approach includes both tables and graphs.
@@ -140,17 +149,16 @@ EDA is an approach to analyzing and summarizing data sets with an intent to unde
 
 For Table 1 purposes, we only want to summarize the main characteristics of the study demographic. Do not include any significant predictor variables. We only want to include general characteristics including race, sex, BMI, etc.
 
+
 ```{r}
 #| label: dekaf-import
 #| message: false
 #| warning: false
-#| echo: false
-#| include: false
+#| echo: true  
 
 dekaf <- read.csv("dekaf_dgf.csv")
 
 ```
-
 
 ```{r}
 #| label: eda-example-dekaf
@@ -201,9 +209,11 @@ table_1 <- table_1 %>%
 table_1
 ```
 
+
 ### Graphical Summaries
 
 In terms of graphical summaries, we want to utilize visualizations that summarize the relationship between the predictor variables and outcome variable so we can have some idea of what this relationship may be.
+
 
 ```{r}
 #| label: fig-graph-summary-dekaf
@@ -220,6 +230,7 @@ ggplot(dekaf, aes(x = DGF, y = agedonor16, fill = DGF)) +
        y = "Donor Age",
        subtitle = "Donor age refers to years beyond 16 (i.e. 17=1)") 
 ```
+
 
 # Regression Modeling
 
@@ -251,6 +262,7 @@ The general argument for most regression models is lm(y-variable \~ x-variable +
 
 We use the tbl_regression() function to convert our results from raw data into a readable table. And, we specify the intercept = TRUE argument so we can have the intercept coefficient value.
 
+
 ```{r}
 #| label: tbl-unadj-MLR
 #| tbl-cap: "Unadjusted Multiple Linear Regression"
@@ -270,6 +282,7 @@ unadj_MLR %>%
 
 ```
 
+
 #### Multiple Linear Regression Fitted Equation {#sec-MLR-equation}
 
 $$
@@ -287,6 +300,7 @@ If the x-variable is a **categorical predictor** (e.g binary), and the x-variabl
 If the p-value is less than 0.05, it is statistically significant.
 
 ### Adjusted MLR {#sec-adjusted-MLR}
+
 
 ```{r}
 #| label: tbl-Adj-MLR
@@ -308,6 +322,7 @@ adj_MLR %>%
   )
 
 ```
+
 
 #### Interpretation {#sec-adj-MLR-interpretation}
 
@@ -347,6 +362,7 @@ $$
 
 Fit a model estimating total cholesterol change (cholchg) from weight change (wtchg), current smoking status (nowsmk), and their interaction. Set those who do not currently smoke as the reference level. Share your code and output.
 
+
 ```{r}
 #| label: tomhs-data-clean
 #| message: false
@@ -378,7 +394,9 @@ interaction_model
 
 ```
 
+
 ##### Interpretation
+
 
 ```{r}
 #| label: smk-interaction-model-exp
@@ -393,6 +411,7 @@ interaction_model %>%
     intercept = TRUE
   )
 ```
+
 
 From the example output, we get the following fitted equation:
 
@@ -412,6 +431,7 @@ Recall that a multi-category variable is a qualitative variable with multiple fa
 
 The reference level can be changed in the following example:
 
+
 ```{r}
 #| label: ref-level-change
 #| message: false
@@ -423,11 +443,13 @@ tomhs <- tomhs %>%
 
 ```
 
+
 After conducting a linear regression, your reference level is the category that is the one that does not appear in your output. It is also the intercept value $\beta_0$
 
 #### Tests for Multi-Category Predictors
 
 A Type III ANOVA F-Test or a Likelihood of Ratio Test can either be conducted to determine if a multi-category predictor is statistically significant.
+
 
 ```{r}
 #| label: ANOVA-F-TEST
@@ -446,7 +468,9 @@ library(car)
 
 ```
 
+
 In the case of a likelihood ratio test, we are comparing the full model to the reduced model.
+
 
 ```{r}
 #| label: likelihood-ratio-test
@@ -468,6 +492,7 @@ In the case of a likelihood ratio test, we are comparing the full model to the r
 #anova(model_reduced, model_full)
 
 ```
+
 
 #### Outliers & Influential Points
 
@@ -497,6 +522,7 @@ These two can be detected in a linear model using the following methods:
 
 The code-chunk below displays a plot of DFFITS values vs observation numbers to determine influential observations.
 
+
 ```{r}
 #| label: fig-DFFITS
 #| fig-cap: "caption"
@@ -513,6 +539,7 @@ model_adjusted <- lm(data = tomhs, cholchg ~ wtchg + nowsmk)
 ols_plot_dffits(model_adjusted)
 
 ```
+
 
 #### MLR Model Assumptions & Diagnostic Plots {#sec-MLR-diagnostics}
 
@@ -537,6 +564,7 @@ Please review the definitions below and how to interpret the graphs.
 
 Furthermore, **outliers and influential points** can be diagnosed by reviewing the residuals vs leverage plot. Outliers are points with high y-axis values usually +/-3 and influential points are those in the upper-right or lower-right corners outside of Cook's Distance.
 
+
 ```{r}
 #| label: fig-MLR-assumptions
 #| fig-cap: "MLR Assumptions"
@@ -550,6 +578,7 @@ par(mfrow = c(2,2))
 plot(adj_MLR)
 
 ```
+
 
 ## Logistic Regression
 
@@ -573,6 +602,7 @@ Some differences from linear regression to logistic regression are the following
 
 Listed below in the code chunk are the libraries needed for logistic regression modeling.
 
+
 ```{r}
 #| label: log-regression-library
 #| message: false
@@ -587,11 +617,13 @@ library(lmtest)
 
 ```
 
+
 #### Interpretation
 
 Your output will be on the log-scale. Remember to use the log-scale values for writing the fitted equation and use the exponential values for interpreting the output. Also make sure to convert your variables to factors when applicable.
 
 Also make sure to utilize a likelihood ratio test, variance inflation factor test, Hosmer-Lemeshow test, and a graph plotting the linearity of the logit values and x-variable to evaluate the logistic regression model diagnostics.
+
 
 ```{r}
 #| label: dekaf-data-clean
@@ -609,12 +641,14 @@ dekaf <- dekaf %>%
 
 ```
 
+
 #### Example
 
 **Questions:**
 
 1.  How does donation after cardiac death affect the odds of DGF, after adjusting for donor age? (Remember to interpret both the estimate and its significance.)
 2.  How does donor age affect the odds of DGF, after adjusting for donation after cardiac death?
+
 
 ```{r}
 #| label: log-reg
@@ -663,6 +697,7 @@ rq2 <- glm(data = dekaf,
            family = binomial(link = "logit"))
 ```
 
+
 **Answer:** When accounting for donor age, participants who received a donation after cardiac death have 2.17 times the odds of DGF compared to participants who did not receive a donation after cardiac death. This is significantly associated with the odds of DGF (OR = 2.17, p-value \< 0.05, CI: 1.24 to 3.80). When accounting for cardiac death, a 1 year increase in donor age results in a 1.02 times the odds of DGF. This is significantly associated with the odds of DGF (OR = 1.02, p-value \< 0.05, CI: 1.01 to 1.03).
 
 ##### Diagnostic Testing
@@ -674,6 +709,7 @@ Respectively, the first test indicated that both aforementioned models are ident
 ##### Conclusion
 
 Based on the adjusted models, donation after cardiac death is positive and is significantly associated with change in odds of DGF. And, donor age is positive and is significantly associated with change in odds of DGF.
+
 
 ```{r}
 #| label: lr-test
@@ -708,9 +744,11 @@ hoslem.test(dekaf$dgf, fitted(rq1))
 
 ```
 
+
 # Survival Models
 
 Survival modelign is a method to analyze "time-to-event" data and is used to calcualte the probability that a specific event will occur at a certain time.
+
 
 ```{r}
 #| label: load-f6-data
@@ -741,7 +779,9 @@ f6 <- f6 %>%
 
 ```
 
+
 The following libraries are required for survival modeling
+
 
 ```{r}
 #| label: survival-model-libraries
@@ -754,6 +794,7 @@ library(ggfortify) #survival analysis
 
 ```
 
+
 ## Survival Analysis 
 
 ### Kaplan-Meier Plots
@@ -761,6 +802,7 @@ library(ggfortify) #survival analysis
 Kaplan-Meier Plots are used to display the survival percentage of the study demographic throughout the duration of the study.
 
 Question: Create a Kaplan-Meier plot of the primary endpoint, event-free survival (variables t2primary and primary), comparing the two-class strategy group to the three-class strategy group (variable twoclass).
+
 
 ```{r}
 #| label: fig-kaplan-meier
@@ -781,6 +823,7 @@ autoplot(q3, conf.int = FALSE, censor.shape = "X") +
 
 ```
 
+
 **Question**: Examine your Kaplan-Meier plot by eye. Do you think there is a difference in event-free survival between the two-class and three-class treatment strategies? If so, which strategy appears to work better? 
 
 **Answer:** Yes, I think there is a difference between the two-class and three-class strategies. It appears that the two-class strategy works better because since the 20 month mark, the two-class group has generally a higher survival percentage.
@@ -797,6 +840,7 @@ In most cases, you'd just need to look where at the x-axis wherever the line is 
 
 **Question**: Estimate the event-free survival at 4 years in each treatment strategy group (two-class strategy vs. three-class strategy, variable twoclass). That is, estimate the proportion of study participants without AIDS, death, or CD4<200 at four years, and give the confidence interval for each of the two treatment strategy groups.
 
+
 ```{r}
 #| label: survival-specific-event
 #| message: false
@@ -806,6 +850,7 @@ In most cases, you'd just need to look where at the x-axis wherever the line is 
 summary(q3, times =c(48)) ##note: the times argument is going to vary based on your time unit
 
 ```
+
 
 **Answer**: The two-class strategy has a better survival estimate at four years because the survival estimate for two-class is 76.3% whereas the survival estimate for three-class is 71.2%.
 
@@ -819,6 +864,7 @@ A log-rank test is used to determine if there is a statistically significant dif
 Is there a difference in event-free survival between the three-class and the two-class strategy groups? Cite evidence to support your answer.
 
 
+
 ```{r}
 #| label: log-rank-test
 #| message: false
@@ -830,11 +876,13 @@ survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 0) ## make sure 
 ```
 
 
+
 **Answer**: There is no difference in event-free survival between the three-class and two-class strategy groups (p = 0.2; p-value > 0.05).
 
 ### Gehan-Breslow-Wilcoxon Test
 
 This test is used to compare the survival curves of 2+ independent groups AND gives weight to events that occur early in the study.
+
 
 ```{r}
 #| label: wilcoxon
@@ -845,6 +893,7 @@ This test is used to compare the survival curves of 2+ independent groups AND gi
 survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 1) ## make sure to set rho = 1 for GBW
 
 ```
+
 
 
 ## Cox Proportional Hazards Model
@@ -868,6 +917,7 @@ H_1: HR > 1 \text{ | The treatment group has a higher risk of the event (worse o
 $$
 
 #### Data Cleaning
+
 
 ```{r}
 #| label: clean-f6-data
@@ -894,6 +944,7 @@ f6 <- f6 %>%
 
 ```
 
+
 ### Example
 
 In this example, we are calculating the hazard proportion estimate of the Three-class vs Two-class factors for AIDS outcome while adjusting for UNIT and above200 variables.
@@ -901,6 +952,7 @@ In this example, we are calculating the hazard proportion estimate of the Three-
 To run the hazard proportion model we first need to call the following libraries:
 
 #### Library
+
 
 ```{r}
 #| label: lib-cox
@@ -916,11 +968,13 @@ library(emmeans) ## to calculate hazard ratios
 
 ```
 
+
 #### Example
 
 This model compares the three-class to the two-class strategies.
 
 Question: How does the three-class strategy affect the hazard of the primary endpoint relative to the two-class strategy, after adjusting for clinical unit and whether baseline CD4 cell count was above 200?
+
 
 ```{r}
 #| label: cox-model
@@ -934,7 +988,9 @@ cox_model <- coxph(Surv(t2primary, primary) ~ TwoClass + Unit + Above200,
 
 ```
 
+
 ##### Exponent Form
+
 
 ```{r}
 #| label: tbl-cox-model-exponent
@@ -953,7 +1009,9 @@ cox_model %>%
   italicize_labels()
 ```
 
+
 ##### Log Form
+
 
 ```{r}
 #| label: tbl-cox-model-log-form
@@ -972,6 +1030,7 @@ cox_model %>%
   italicize_labels()
 ```
 
+
 #### Interpretation
 
 The three-class strategy has a 14.5% higher risk of hazard of AIDS, death or CD4 cell count below 200 cells/mm3 than the two-class strategy, holding all else constant. This is based on the hazard ratio of 1.145, which indicates a higher risk of hazard for the three-class strategy as it is greater than the null value. Since the confidence interval includes one (0.931, 1.409) and the p-value is greater than alpha (p-value = 0.2), there is no statistically significant difference in the three-class vs. two-class strategy after adjusting.
@@ -981,6 +1040,7 @@ The three-class strategy has a 14.5% higher risk of hazard of AIDS, death or CD4
 If we have a multi-categorical predictor, we then need to conduct pairwise comparisons using a Tukey HSD test.
 
 In this scenario, since we are only comparing two levels against each other, a Tukey HSD test is not needed.
+
 
 ```{r}
 #| label: cox-tukey
@@ -995,6 +1055,7 @@ In this scenario, since we are only comparing two levels against each other, a T
 
 ```
 
+
 $$
 \text{HR} > 1 = \text{Increased Risk} 
 $$
@@ -1006,6 +1067,7 @@ $$
 ### Checking Proportional Hazards Assumption Example
 
 To verify assumptions, we first need to create an adjusted model, and then we need to conduct a Schoenfeld test.
+
 
 ```{r}
 #| label: aids-model-unadj
@@ -1019,7 +1081,9 @@ summary(AIDS_model_unadj)
 
 ```
 
+
 If the p-value is less than alpha and the Beta throughout the time series is inside the boundaries, then the assumptions are met.
+
 
 ```{r}
 #| label: fig-schoenfeld
@@ -1035,11 +1099,13 @@ ggcoxzph(AIDS_resid)
 
 ```
 
+
 ## Poisson Regression Model
 
 Poisson regression is used to model the **probability** of a number of events per a fixed amount of time. For example, it could be counting the number of cars passing a road in one hour.
 
 In other words, we are calculating the average rate of events.
+
 
 ```{r}
 #| label: lhs-import
@@ -1074,9 +1140,11 @@ lhs <- lhs %>%
 
 ```
 
+
 ### Example
 
 In the example below, we are fitting a Poisson regression model to estimate the effect of the treatment group on cigarette smoking at 5 years. We set the sual group as the reference level.
+
 
 ```{r}
 #| label: cigs-model
@@ -1092,7 +1160,9 @@ trt_group_cigs5_model
 
 ```
 
+
 #### Exponent Form
+
 
 ```{r}
 #| label: tbl-cigs-model-exp
@@ -1111,7 +1181,9 @@ trt_group_cigs5_model %>% ## this is the exponentiated form
 
 ```
 
+
 #### Log Form
+
 
 ```{r}
 #| label: tbl-cigs-model-log-form
@@ -1130,6 +1202,7 @@ trt_group_cigs5_model %>% ## this is the expected log form
 
 ```
 
+
 ##### Interpretation
 
 **Question:**  What is the estimated smoking rate ratio at 5 years for participants in the special intervention/placebo (SI-P) group compared to the usual care (UC) group?
@@ -1141,6 +1214,7 @@ The effect of the SI-P smoking intervention group is 0.67 relative to the usual 
 ##### Model Evaluation for Overdispersion Test
 
 To evaluate the poisson regression, we need to review the ratio of the residual deviance to its degree of freedo**ms**. **If the model ratio is super super greater than 1 then that is a sign of overdispersion.**
+
 
 ```{r}
 #| label: overdispersion-test
@@ -1157,9 +1231,11 @@ model_ratio > 10
 
 ```
 
+
 ### Quasi-poisson Regression Model for Overdispersed Data
 
 Overdispersion can be dealt with either using a Quasi-Poisson Regression or a Negative Binomial Model
+
 
 ```{r}
 #| label: quasi-poisson
@@ -1175,7 +1251,9 @@ model1.qp
 
 ```
 
+
 #### Exponent Form
+
 
 ```{r}
 #| label: quasi-poisson-exp
@@ -1192,7 +1270,9 @@ model1.qp %>%  ## exponentiated form
 
 ```
 
+
 #### Log Form
+
 
 ```{r}
 #| label: quasi-poisson-log-form
@@ -1209,6 +1289,7 @@ model1.qp %>%  ## expected log form
 
 ```
 
+
 #### Interpretation
 
 -   Question: Provide an answer to the research question for this section: What is the effect of sex on coronary heart disease (CHD) incidence rate? That is, describe the magnitude and direction of the effect AND its statistical significance in the context of this problem. Use evidence from the previous questions to support your answer.
@@ -1218,6 +1299,7 @@ model1.qp %>%  ## expected log form
 Make sure to use the exponent form when interpreting the values.
 
 ### Offset Term
+
 ```{r}
 #| label: fh-load-clean
 #| message: false
@@ -1234,7 +1316,6 @@ fh <- fh %>%
          Sex_women_ref = fct_relevel(Sex, "Female"))
 
 ```
-
 
 ```{r}
 #| label: tbl-offset-term
@@ -1274,6 +1355,7 @@ fh_ir_tbl
 ```
 
 
+
 An offset term is used in Poisson regression to account for observations that had more time to occur. For instance, if we do not have an offset term, our poisson regression will assume that every person will have an equal opportunity to get a disease. Whereas, in reality, a singular person may have cancer for 10 years and another person may have cancer for 2 years.
 
 In other words,  the offset variable will always be the time variable (e.g follow-up). 
@@ -1293,6 +1375,7 @@ Regression models such as Log-binomial and Ordinal do not follow the Central Lim
 Log-binomial regression is used to determine the relative risk for binary outcomes.
 
 We need the following libraries for log binomial regression.
+
 
 ```{r}
 #| label: log-binomial-reg
@@ -1318,6 +1401,7 @@ dekaf <- dekaf %>%
 
 ```
 
+
 ### Example
 
 **Questions**
@@ -1325,6 +1409,7 @@ dekaf <- dekaf %>%
 -   What is the effect of having ever smoked cigarettes on general health at 12 months, after adjusting for age?
 
 -   What is the effect of age on general health at 12 months, after adjusting for having ever smoked cigarettes?
+
 
 ```{r}
 #| label: tbl-logistic-reg-model
@@ -1385,6 +1470,7 @@ model_1 %>% ## log form
 
 ```
 
+
 #### Interpretation
 
 $$log(DGF) = -1.6 + (0.63\times \text{Gender}_{\text{male}}) $$
@@ -1397,6 +1483,7 @@ Ordinal Regression is used to target cumulative ordered categories (e.g low, med
 
 We need the following libraries for ordinal regression:
 
+
 ```{r}
 #| label: ordinal-regression-library
 #| message: false
@@ -1408,6 +1495,7 @@ library(VGAM)
 
 ```
 
+
 #### Example
 
 Question: Write the appropriate adjusted ordinal regression equation you would use to determine whether general health at 12 months (ql12_1) depends on whether a person ever smoked after adjusting for age. Use the actual names of the variables (not just X or Y) and beta0, beta1, etc. for the coefficients.
@@ -1415,6 +1503,7 @@ Question: Write the appropriate adjusted ordinal regression equation you would u
 $$
 \text{logit}[P(\text{ql_12}_1 \le j] = (\beta_1 \times \text{eversmk}) + (\beta_2 \times \text{age})
 $$
+
 
 ```{r}
 #| label: tomhs-genhealth
@@ -1501,6 +1590,7 @@ model_1 %>%  ## exponent form
 
 ```
 
+
 -   Using the model results, what is the estimated common odds ratio for the eversmk variable? Provide an interpretation of this common odds ratio in the context of the problem. 
 
     -   The estimated common odds-ratio for the eversmk variable is 0.90. This means patients who smoke have a 10% decrease in odds of reporting a better health status (e.g “Excellent”).
@@ -1537,6 +1627,7 @@ Sample size and power are linked through four primary variables. If you know thr
 
 #### Estimating Sample Sizes in Group Means
 
+
 ```{r}
 #| label: tbl-sample-size-continuous
 #| tbl-cap: "Estimating Sample Size from a Continuous Outcome"
@@ -1565,7 +1656,9 @@ power.t.test(
   )
 ```
 
+
 ### Estimating Multiple Sample Sizes via Power Table
+
 
 ```{r}
 #| label: tbl-sample-size-power-table
@@ -1607,7 +1700,9 @@ q9 %>%
 
 ```
 
+
 ## **Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)**
+
 
 ```{r}
 #| label: fig-power-curve
@@ -1672,6 +1767,7 @@ pch = c(1,2), col = c(1,2), cex=1.5)
 
 ```
 
+
 What if my outcome is Continuous (Group Means)?
 
 -   Information needed to calculate sample size:
@@ -1699,6 +1795,7 @@ What if my outcome is Binary (Proportions)?
     -   Effect Size (MCID)
 
 #### Estimating Sample Sizes
+
 
 ```{r}
 #| label: tbl-sample-size-grp-prop
@@ -1729,7 +1826,9 @@ twogrpp.n %>%
 
 ```
 
+
 ## Calculating Multiple Sample Sizes with the same MCID {#sec-binary-outcome-multiple-sample-size-same-MCID}
+
 
 ```{r}
 ## Define Baseline Proportions
@@ -1784,7 +1883,9 @@ twogrpp.pwrtable %>%
   )
 ```
 
+
 ## Using a Power Curve to Estimate Power based on Sample Size {#sec-binary-outcome-power-curve}
+
 
 ```{r}
 ## Define range of samples
@@ -1832,6 +1933,7 @@ legend("bottomright",
        cex = 0.8) # Adjusted cex so it fits better
 ```
 
+
 ## Calculating Sample Size Lost to Attrition {#sec-sample-size-attrition}
 
 -   Question: You and your collaborator decide to be a bit conservative and use a viral suppression rate of 60%. You also believe based on past experience that about 20% of the enrolled participants will be lost to follow-up over the one year of the study. How many participants should you aim to enroll for your study? Please show your work.
@@ -1845,6 +1947,7 @@ legend("bottomright",
     -   Formula to calculate **Adjusted Sample Size PER GROUP**
         -   $$ N_{adj} = \frac{n}{1 - \text{attrition rate}} $$
 
+
     ```{r}
     #| label: attrition 
     #| warning: false 
@@ -1854,3 +1957,4 @@ legend("bottomright",
 
     (356/(1-0.2))
     ```
+
