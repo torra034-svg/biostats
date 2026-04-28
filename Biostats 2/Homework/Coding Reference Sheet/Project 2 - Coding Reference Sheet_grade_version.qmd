@@ -625,7 +625,7 @@ library(ggfortify) #survival analysis
 
 Kaplan-Meier Plots are used to display the survival percentage of the study demographic throughout the duration of the study.
 
-**Question**: Create a Kaplan-Meier plot of the primary endpoint, event-free survival (variables t2primary and primary), comparing the two-class strategy group to the three-class strategy group (variable twoclass).
+**Question**: Create a Kaplan-Meier plot of the primary endpoint, event-free survival (variables time_var and event_var), comparing the var_strat_1 group to the the var_strat_2 group.
 
 ```{r}
 #| label: fig-kaplan-meier
@@ -635,32 +635,21 @@ Kaplan-Meier Plots are used to display the survival percentage of the study demo
 #| warning: false
 #| echo: false
 
-q3 <- survfit(Surv(t2primary, primary) ~ two_class, data = f6)
+#kpm <- survfit(Surv(time_var, event_var) ~ var_strat_1, data = data)
 
-autoplot(q3, conf.int = FALSE, censor.shape = "X") +
-  labs(x  = "Time (in months)",
-       y = "Survival Percentage",
-       title = "Survival Analysis: Two-class vs Three-class",
-       color = "Exposure")
+#autoplot(kpm, conf.int = FALSE, censor.shape = "X") +
+  #labs(x  = "Time", y = "Survival Percentage", title = "Survival Analysis: var_1 vs var_2", color = "Exposure")
 
 
 ```
 
-**Question**: Examine your Kaplan-Meier plot by eye. Do you think there is a difference in event-free survival between the two-class and three-class treatment strategies? If so, which strategy appears to work better? 
-
-**Answer:** Yes, I think there is a difference between the two-class and three-class strategies. It appears that the two-class strategy works better because since the 20 month mark, the two-class group has generally a higher survival percentage.
-
 ### Median Survival Time
 
-Median survival time refers to the specific point in time where 50% of the patient group has died and 50% are still alive in the Kaplan-Meier Survival Curve.
-
-According to our graph above, we actually cannot obtain the median survival time because the survival curve above 50% throughout the entire follow-up period. Therefore, we cannot calculate the estimate since median survival time is not yet reached.
-
-In most cases, you'd just need to look where at the x-axis wherever the line is at 50%.
+Median survival time refers to the specific point in time where 50% of the patient group has died and 50% are still alive in the Kaplan-Meier Survival Curve. In most cases, you'd just need to look where at the x-axis wherever the line is at 50%. But sometimes, we cannot obtain the median survival time because the survival curve is above 50% throughout the entire follow-up period. Therefore, we cannot calculate the estimate since median survival time is not yet reached.
 
 ### Survival at Specific Times
 
-**Question**: Estimate the event-free survival at 4 years in each treatment strategy group (two-class strategy vs. three-class strategy, variable twoclass). That is, estimate the proportion of study participants without AIDS, death, or CD4\<200 at four years, and give the confidence interval for each of the two treatment strategy groups.
+**Question**: Estimate the event-free survival at 4 years \[e.g 48 months\] in each treatment strategy group. That is, estimate the proportion of study participants without outcome_var.
 
 ```{r}
 #| label: survival-specific-event
@@ -668,11 +657,11 @@ In most cases, you'd just need to look where at the x-axis wherever the line is 
 #| warning: false
 #| echo: false  
 
-summary(q3, times =c(48)) ##note: the times argument is going to vary based on your time unit
+#summary(kpm, times =c(48)) ##note: the times argument is going to vary based on your time unit
 
 ```
 
-**Answer**: The two-class strategy has a better survival estimate at four years because the survival estimate for two-class is 76.3% whereas the survival estimate for three-class is 71.2%.
+**Answer**: The var_1 has a better survival estimate at four years because the survival estimate for var_1 is 76.3% whereas the survival estimate for var_2 is 71.2%.
 
 ### Log-Rank Test
 
