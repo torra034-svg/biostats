@@ -1021,72 +1021,26 @@ dekaf <- dekaf %>%
 
 **Questions**
 
--   What is the effect of having ever smoked cigarettes on general health at 12 months, after adjusting for age?
-
--   What is the effect of age on general health at 12 months, after adjusting for having ever smoked cigarettes?
+-   What is the effect of var1 on outcome, after adjusting for variable 2?
 
 ```{r}
 #| label: tbl-logistic-reg-model
-#| tbl-cap: "Logistic Regression Model: DGF Outcome by Gender"
+#| tbl-cap: "Logistic Regression Model"
 #| tbl-cap-location: top
 #| warning: false
 #| message: false
 #| echo: false
 
 
-model_1 <- logistic_reg() %>% 
-  set_engine("glm") %>% 
-  set_mode("classification") %>% 
-  fit(DGF ~ Gender, data = dekaf)
+logistic_reg_model <- glm(outcome_var ~ var1 + var2, data = data)
 
-tidy(model_1) ## this is to make the output readable
-
-
+logistic_reg_model
 
 ```
 
-```{r}
+#### Interpretation \[fake-data\]
 
-#| label: tbl-logistic-reg-model-exp
-#| tbl-cap: "Logistic Regression Model: DGF Outcome by Gender"
-#| tbl-cap-location: top
-#| warning: false
-#| message: false
-#| echo: false
-
-model_1 %>% ## exponent form
-  tbl_regression(
-    intercept = TRUE,
-    exponent = TRUE
-  ) %>% 
-  bold_labels() %>% 
-  italicize_labels()
-
-
-```
-
-```{r}
-
-#| label: tbl-logistic-reg-model-log-form
-#| tbl-cap: "Logistic Regression Model: DGF Outcome by Gender"
-#| tbl-cap-location: top
-#| warning: false
-#| message: false
-#| echo: false
-
-model_1 %>% ## log form
-  tbl_regression(
-    intercept = TRUE,
-    exponent = FALSE
-  ) %>% 
-  bold_labels() %>% 
-  italicize_labels()
-
-```
-
-#### Interpretation
-
-$$ \text{logit}[P(\text{ql\_12}_1 \le j)] = (\beta_1 \times \text{eversmk}) + (\beta_2 \times \text{age}) $$
+$$ \text{logit}[P(\text{outcome_var}_1 \le j)] = (\beta_1 \times \text{var1}) + (\beta_2 \times \text{var2}) $$
 
 Holding all else constant, men have a 12% higher odds DGF risk compared to women (OR = 1.88). This is statistically significant given that the p-value is lower than alpha and the confidence interval does not include 1.0 (CI: 1.30 to 2.76).
 
