@@ -667,21 +667,22 @@ Median survival time refers to the specific point in time where 50% of the patie
 
 A log-rank test is used to determine if there is a statistically significant difference in survival times between groups (e.g Treatment A vs Treatment B). This test gives equal weight to all time points.
 
-**Question**: Carry out a test to determine whether event-free survival in the two treatment strategy groups (two-class strategy vs. three-class strategy, variable twoclass) is statistically different.
+**Question**: Carry out a test to determine whether event-free survival in the two treatment strategy groups is statistically different.
 
-Is there a difference in event-free survival between the three-class and the two-class strategy groups? Cite evidence to support your answer.
+Is there a difference in event-free survival between the var strategy groups? Cite evidence to support your answer.
 
 ```{r}
 #| label: log-rank-test
 #| message: false
 #| warning: false
 #| echo: false  
-#| 
-survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 0) ## make sure to set rho = 0 for log-rank
+
+#survdiff(Surv(time_var, event_var) ~ var_1, data =data, rho = 0) 
+## make sure to set rho = 0 for log-rank
 
 ```
 
-**Answer**: There is no difference in event-free survival between the three-class and two-class strategy groups (p = 0.2; p-value \> 0.05).
+**Answer**: There is no difference in event-free survival between the var strategy groups (p = 0.2; p-value \> 0.05).
 
 ### Gehan-Breslow-Wilcoxon Test
 
@@ -693,7 +694,8 @@ This test is used to compare the survival curves of 2+ independent groups AND gi
 #| warning: false
 #| echo: false  
 
-survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 1) ## make sure to set rho = 1 for GBW
+#survdiff(Surv(time_var, event_var) ~ var_1, data = data, rho = 1) 
+## make sure to set rho = 1 for GBW
 
 ```
 
@@ -710,11 +712,11 @@ H_0: HR = 1 \text{ | There is no risk difference between groups}
 $$
 
 $$
-H_1: HR < 1 \text{ |  The treatment group has a lower risk of the event (better survival or fewer negative events). For example,means the event is half as likely to happen in the treatment group compared to the control group.}
+H_1: HR < 1 \text{ |  The treatment group has a lower risk of the event (better survival or fewer negative events). For example, HR = 0.5 means the event is half as likely to happen in the treatment group compared to the control group.}
 $$
 
 $$
-H_1: HR > 1 \text{ | The treatment group has a higher risk of the event (worse outcome). For example, means the event is twice as likely to happen in the treatment group.}
+H_1: HR > 1 \text{ | The treatment group has a higher risk of the event (worse outcome). For example, HR = 2.0 means the event is twice as likely to happen in the treatment group.}
 $$
 
 #### Data Cleaning
@@ -724,7 +726,7 @@ $$
 #| message: false
 #| warning: false
 #| echo: false
-#| include: true 
+#| include: false
 
 f6 <- f6 %>% 
   mutate(Gender = as.factor(if_else(GENDER == 1, "Male", "Female", missing = NULL)),
@@ -746,7 +748,7 @@ f6 <- f6 %>%
 
 ### Example
 
-In this example, we are calculating the hazard proportion estimate of the Three-class vs Two-class factors for AIDS outcome while adjusting for UNIT and above200 variables.
+In this example, we are calculating the hazard proportion estimate of the var_f factors for outcome_var while adjusting for var_1 and var_2 variables.
 
 To run the hazard proportion model we first need to call the following libraries:
 
@@ -766,11 +768,9 @@ library(emmeans) ## to calculate hazard ratios
 
 ```
 
-#### Example
+This model compares the class_A to the Class_B strategies.
 
-This model compares the three-class to the two-class strategies.
-
-Question: How does the three-class strategy affect the hazard of the primary endpoint relative to the two-class strategy, after adjusting for clinical unit and whether baseline CD4 cell count was above 200?
+**Question:** How does the class_A strategy affect the hazard of the primary endpoint relative to the two-class strategy, after adjusting for var_1 and var_2?
 
 ```{r}
 #| label: cox-model
@@ -778,59 +778,19 @@ Question: How does the three-class strategy affect the hazard of the primary end
 #| warning: false
 #| echo: false
 
-cox_model <- coxph(Surv(t2primary, primary) ~ TwoClass + Unit + Above200,
-                data = f6)
+#cox_model <- coxph(Surv(time_var,event_var) ~ var_class + var_1 + var_2, data = data)
 
+#cox_model <-- this will be in log form. Make sure to convert to exp form.
 
 ```
 
-##### Exponent Form
+#### Interpretation \[Completely made-up for reporting purposes\]
 
-```{r}
-#| label: tbl-cox-model-exponent
-#| tbl-cap: "Two Class vs Three Class | Exponent Form"
-#| tbl-cap-location: top
-#| message: false
-#| warning: false
-#| echo: false
-
-
-cox_model %>% 
-  tbl_regression(
-    exponentiate = TRUE
-  ) %>% 
-  bold_labels() %>% 
-  italicize_labels()
-```
-
-##### Log Form
-
-```{r}
-#| label: tbl-cox-model-log-form
-#| tbl-cap: "Two Class vs Three Class | Log Form"
-#| tbl-cap-location: top
-#| message: false
-#| warning: false
-#| echo: false
-
-
-cox_model %>% 
-  tbl_regression(
-    exponentiate = FALSE
-  ) %>% 
-  bold_labels() %>% 
-  italicize_labels()
-```
-
-#### Interpretation
-
-The three-class strategy has a 14.5% higher risk of hazard of AIDS, death or CD4 cell count below 200 cells/mm3 than the two-class strategy, holding all else constant. This is based on the hazard ratio of 1.145, which indicates a higher risk of hazard for the three-class strategy as it is greater than the null value. Since the confidence interval includes one (0.931, 1.409) and the p-value is greater than alpha (p-value = 0.2), there is no statistically significant difference in the three-class vs. two-class strategy after adjusting.
+The class_A strategy has a 14.5% higher risk of hazard of event_variable than the Class_B strategy, holding all else constant. This is based on the hazard ratio of 1.145, which indicates a higher risk of hazard for the class_A strategy as it is greater than the null value. Since the confidence interval includes one (0.931, 1.409) and the p-value is greater than alpha (p-value = 0.2), there is no statistically significant difference in the Class A vs. Class B strategy after adjusting.
 
 ### Pairwise Comparisons
 
-If we have a multi-categorical predictor, we then need to conduct pairwise comparisons using a Tukey HSD test.
-
-In this scenario, since we are only comparing two levels against each other, a Tukey HSD test is not needed.
+If we have a multi-categorical predictor, we then need to conduct pairwise comparisons using a Tukey HSD test. In this scenario, since we are only comparing two levels against each other, a Tukey HSD test is not needed.
 
 ```{r}
 #| label: cox-tukey
@@ -838,20 +798,11 @@ In this scenario, since we are only comparing two levels against each other, a T
 #| warning: false
 #| echo: false  
 
-
-#cox.multcomp <- glht(AIDS_model, linfct = mcp(m.f = "Tukey"))
+#cox.multcomp <- glht(cox_model, linfct = mcp(m.f = "Tukey"))
 
 #exp(confint(cox.multcomp)$confint)
 
 ```
-
-$$
-\text{HR} > 1 = \text{Increased Risk} 
-$$
-
-$$
-\text{HR} < 1 = \text{Decreased Risk}
-$$
 
 ### Checking Proportional Hazards Assumption Example
 
@@ -863,13 +814,13 @@ To verify assumptions, we first need to create an adjusted model, and then we ne
 #| warning: false
 #| echo: false  
 
-AIDS_model_unadj <- coxph(Surv(t2qoi, qoi) ~ TwoClass, data = f6)
+#class_model_unadj <- coxph(Surv(time_var, event_var) ~ var_class, data = data)
 
-summary(AIDS_model_unadj)
+#summary(class_model_unadj)
 
 ```
 
-If the p-value is greater than alpha, and the $\beta$ throughout the time series is inside the boundaries, then the assumptions are met.Meaning that the model is most likely valid.
+If the p-value is greater than alpha, and the $\beta$ throughout the time series is inside the boundaries, then the assumptions are met. Meaning that the model is most likely valid.
 
 ```{r}
 #| label: fig-schoenfeld
@@ -879,9 +830,9 @@ If the p-value is greater than alpha, and the $\beta$ throughout the time series
 #| warning: false
 #| echo: false
 
-AIDS_resid <- cox.zph(AIDS_model_unadj)
+#class_resid <- cox.zph(class_model_unadj)
 
-ggcoxzph(AIDS_resid)
+#ggcoxzph(class_resid)
 
 ```
 
