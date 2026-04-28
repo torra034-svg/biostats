@@ -52,7 +52,7 @@ In the code chunk below, we import the data by specifying it's location and file
 #| warning: false
 #| message: false
 #| echo: false
-#| include: false
+
 #data <- read.csv("data.csv")  
 ```
 
@@ -67,12 +67,11 @@ To create new variables, we first want to overwrite our dataset with changes wit
 #| warning: false
 #| message: false
 #| echo: false
-#| include: false
 
-data <- data %>% 
-  mutate(
-    Var1 = as.factor(if_else(sex == 1, "Male", "Female")),
-    Var2 = as.factor(case_when(race == 1 ~ "White",race == 2 ~ "Black",race == 3 ~ "Asian", race == 4 ~ "Other")))
+#data <- data %>% 
+  #mutate(
+   # Var1 = as.factor(if_else(var1 == 1, "A", "B")),
+  #  Var2 = as.factor(case_when(var2 == 1 ~ "W",race == 2 ~ "B",race == 3 ~ "A", race == 4 ~ "O")))
     
 
   
@@ -97,19 +96,17 @@ Deleting observations is done through the filter() function. Use this function t
 
 : BaseR Functions
 
-We should create a new dataset just in case we want to refer to the original dataset. In the code chunk below, we remove observations in the age column that are equivalent to NA. And, we also subset these changes into a new dataset, "data_filter" to ensure the original dataset maintains the original observation amount.
+We should create a new dataset just in case we want to refer to the original dataset. In the code chunk below, we remove observations that are equivalent to NA. And, we also subset these changes into a new dataset, "data_filter" to ensure the original dataset maintains the original observation amount.
 
 ```{r}
 #| label: delete-obs-sub-set
 #| warning: false
 #| message: false
 #| echo: false
-#| include: false
 
-data_filter <- data %>% 
+data_sub <- data %>% 
   filter(!is.na(var1))
   
-
 ```
 
 # Basic Exploratory Data Analysis (EDA)
@@ -138,6 +135,7 @@ dekaf <- read.csv("dekaf_dgf.csv")
 #| message: false
 #| warning: false
 #| echo: false  
+#| include: false
 
 dekaf <- dekaf %>% 
   mutate(cardiac_death = if_else(dcd_yn == 1, "Yes", "No", missing = NULL),
@@ -150,6 +148,7 @@ dekaf <- dekaf %>%
 #| message: false
 #| warning: false
 #| echo: false  
+#| include: false
 
 
 table_1 <- dekaf %>% 
@@ -167,20 +166,12 @@ table_1 <- dekaf %>%
 #| message: false
 #| warning: false
 #| echo: false
-#| include: false
 
-table_1 <- table_1 %>% 
-  tbl_summary(by = Delayed_Graft_Function,
-              label = list(cardiac_death ~ "Donation After Cardiac Death",
-                           bmi_base ~ "Recipient BMI at baseline (kg/m2)",
-                           agedonor16 ~ "Donor age (years beyond 16, i.e. 17=1)"
-                           )) %>% 
-  modify_caption(caption = "**Table 1. Participant Demographics**") %>% 
-  modify_header(label ~ "**Delayed Graft Function**") %>% 
-   add_overall()
+#table_1 <- data %>% 
+  #tbl_summary(by = group_var)
+   #add_overall()
 
-  
-table_1
+#table_1
 ```
 
 ### Graphical Summaries
@@ -193,10 +184,9 @@ We want to utilize visualizations that summarize the relationship between the pr
 #| message: false
 #| warning: false
 #| echo: false
-#| include: false
 
-ggplot(data, aes(x = var1, y = var2, fill = var2)) +
-  geom_boxplot() 
+#ggplot(data, aes(x = var1, y = var2, fill = var2)) +
+  #geom_boxplot() 
 ```
 
 # Regression Modeling
@@ -226,11 +216,10 @@ Example Question: What is the effect of weight change on total cholesterol chang
 #| warning: false
 #| message: false
 #| echo: false
-#| include: false
 
-unadj_MLR <- lm(outcome_var ~ predictor_var, data = data)
+#unadj_MLR <- lm(outcome_var ~ predictor_var, data = data)
 
-unadj_MLR
+#unadj_MLR
 ```
 
 #### Multiple Linear Regression Fitted Equation {#sec-MLR-equation}
@@ -254,9 +243,9 @@ The intercept means when the x-variable is at zero, we expect the outcome variab
 #| echo: false
 #| include: false
 
-adj_MLR <- lm(outcome_var ~ predictor_var + predictor_var2, data = tomhs)
+#adj_MLR <- lm(outcome_var ~ predictor_var + predictor_var2, data = data)
 
-adj_MLR
+#adj_MLR
 ```
 
 #### Interpretation {#sec-adj-MLR-interpretation}
@@ -267,7 +256,7 @@ This fitted equation represents the relationship between outcome variable when w
 
 Interaction plots are used to visualize the effect of one predictor variable on the outcome variable while depending on the value of another predictor variable. Essentially, they tell us if two variables are synergistic or interference.
 
-**Question:** Make an interaction plot. Put total cholesterol change (cholchg) on the y-axis, weight change (wtchg) on the x-axis, and smoking status (nowsmk) as the label variable.
+**Question:** Make an interaction plot.
 
 ```{r}
 #| label: tomhs-data-clean
@@ -288,23 +277,20 @@ tomhs <- tomhs %>%
 
 ```{r}
 #| label: fig-interact-plot
-#| fig-cap: "Cholesterol Change vs Weight Change by Smoking Status"
 #| fig-cap-location: top
 #| message: false
 #| warning: false
 #| echo: false
 
-library(interactions)
-
-
-model <- lm(cholchg ~ wtchg*nowsmk1, data = tomhs)
-
-interact_plot(model, pred = wtchg, modx = nowsmk1,
-               interval = TRUE,
-               plot.points = TRUE,
-               x.label = "Weight Change",
-               y.label = "Cholesterol Change",
-               legend.main = "Current Smoking Status",           main.title = "Cholesterol Change vs Weight Change by Smoking Status")
+#library(interactions)
+#model <- lm(outcome_var ~ predictor_var*predictor_var2, data = data)
+#interact_plot(model, pred = wtchg, modx = nowsmk1,
+#              interval = TRUE,
+#               plot.points = TRUE,
+#               x.label = "predictor_var",
+#               y.label = "outcome_var",
+#               legend.main = "predictor_var2",           
+#               main.title = "outcome_var vs predictor_var by predictor_var2")
 
 ```
 
@@ -316,7 +302,7 @@ $$
 Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3(X_1 \times X_2)
 $$
 
-#### Hypothesis Testing
+##### Hypothesis Testing
 
 $$
 \beta_3 = 0 \text { : No interaction effect - the variables are only additive}
@@ -326,58 +312,20 @@ $$
 \beta_3 \neq 0 \text { : Interaction effect - the variables either have a synergistic or interference effect}
 $$
 
-#### Example
-
-Fit a model estimating total cholesterol change (cholchg) from weight change (wtchg), current smoking status (nowsmk), and their interaction. Set those who do not currently smoke as the reference level. Share your code and output.
+##### Example
 
 ```{r}
-#| label: smk-interaction-model
 #| message: false
 #| warning: false
 #| echo: false  
 
-tomhs$nowsmk1 <-relevel(tomhs$nowsmk1, ref = "Non-current Smoker")
+#data$predictor_var1 <-relevel(data$predictor_var1, ref = "cat_level_1")
 
+#interaction_model <- lm(outcome_var~predictor_var1+predictor_var2+predictor_var1*predictor_var2,data = data)
 
-interaction_model <- lm(
-  formula = cholchg~wtchg+nowsmk1+wtchg*nowsmk1,
-  data = tomhs)
-
-interaction_model
+#interaction_model
 
 ```
-
-##### Interpretation
-
-```{r}
-#| label: smk-interaction-model-exp
-#| tbl-cap: "Interaction Model between Total Cholesterol Change and weight change and smoking status"
-#| tbl-cap-location: top
-#| message: false
-#| warning: false
-#| echo: false
-
-interaction_model %>% 
-  tbl_regression(
-    intercept = TRUE
-  )
-```
-
-From the example output, we get the following fitted equation:
-
-$$
-\text{Predicted Total Cholesterol Change} = -1.9984 + (0.6564 \times \text{weight\_change}) + (-0.7335 \times \text{current\_smoker}) + (-0.1328 \times \text{current\_smoker} \times \text{weight\_change})
-$$
-
-And we interpret the fitted equation as such:
-
-The model intercept is -1.998, which means that the estimated average cholesterol change during this study for someone in the reference (non-smoking) group with a weight change of zero would be -1.998 units. At a weight change of 0, current smokers have on average 0.73 units lower cholesterol change than non-smokers, but this difference is not statistically significant (p = 0.860). The coefficient for weight change (0.66) indicates that among non-smokers (the reference group), a 1-unit increase in weight change is associated with an estimated 0.66-unit increase in cholesterol change.
-
-Therefore, in combination with the weight change coefficient, for each one unit change in weight for nonsmokers the total cholesterol change is 0.6564. While, for smokers it is 0.6564-0.1328=0.524.
-
-#### Multi-Category Predictors Review
-
-Recall that a multi-category variable is a qualitative variable with multiple factors (e.g small, medium, big).
 
 The reference level can be changed in the following example:
 
@@ -392,7 +340,7 @@ The reference level can be changed in the following example:
 
 ```
 
-After conducting a linear regression, your reference level is the category that is the one that does not appear in your output. It is also the intercept value $\beta_0$
+After conducting a linear regression, your reference level is the category that is the one that does not appear in your output. It is also the intercept value $\beta_0$.
 
 #### Tests for Multi-Category Predictors
 
