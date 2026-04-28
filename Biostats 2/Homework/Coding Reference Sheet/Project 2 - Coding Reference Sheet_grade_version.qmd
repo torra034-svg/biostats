@@ -352,7 +352,7 @@ A Type III ANOVA F-Test or a Likelihood of Ratio Test can either be conducted to
 #| warning: false
 #| echo: false  
 
-library(car)
+#library(car)
 
 ## model <- lm(
 ## formula = cholestorl_change ~ weight_change_Cat + other_covariates,
@@ -371,48 +371,32 @@ In the case of a likelihood ratio test, we are comparing the full model to the r
 #| warning: false
 #| echo: false 
 
-## fit the full model
-
 ## 1. Fit the Full Model
-#model_full <- lm(cholesterol_change ~ #weight_change_cat + other_covariates, data = #your_data)
+#model_full <- lm(outcome_var ~ #predictor_var + other_covariates, data = data)
 
 # 2. Fit the Reduced Model (remove the variable of #interest)
-#model_reduced <- lm(cholesterol_change ~ #other_covariates, data = your_data)
-
+#model_reduced <- lm(outcome_Var ~ other_covariates, data = data)
 
 # 3. Compare them using anova() 
-# For lm, this defaults to an F-test; for glm, use #test = "Chisq"
 #anova(model_reduced, model_full)
 
 ```
 
 #### Outliers & Influential Points
 
-Outliers are measurements outside of the expected normal range.
+Outliers are measurements outside of the expected normal range. Influential points are points that affect the model slope. These two can be detected in a linear model using the following methods:
 
-Influential points are points that affect the model slope.
-
-These two can be detected in a linear model using the following methods:
-
-1.  Standardized Residuals
-    1.  abs(rstandard(model))\> OR \< +/-2 ⇒ observation is an outlier
-2.  Students Residuals
-    1.  abs(rstudent(model)) \< 3 ⇒ outlier
-3.  Cooks Distance
-    1.  cooks.distance(model)
-    2.  If Cooks Distance \> 1 ⇒ probably an outlier
-    3.  See @sec-MLR-diagnostics for Cooks Distance example
-    4.  We can also obtain a list of Cook's Distance using the following code:
-        1.  cooks.distance(model_adjusted)
-4.  DFFITS
+1.  Standardized Residuals \| abs(rstandard(model))\> OR \< +/-2 ⇒ observation is an outlier
+2.  Students Residuals \| abs(rstudent(model)) \< 3 ⇒ outlier
+3.  Cooks Distance \| cooks.distance(model) \> 1 ⇒ outlier
+    1.  See @sec-MLR-diagnostics for Cooks Distance example
+    2.  We can also obtain a list of Cook's Distance using the following code: cooks.distance(model_adjusted)
+4.  DFFITS \| dffits(model)
     1.  If $\text{|DFFITS|} > (2 \times \sqrt (p/n)$ ⇒ influential observation
         1.  p  = number of parameters
-    2.  dffits(model)
-5.  DFBETA
-    1.  dfbeta(model)
-6.  PRESS
+5.  DFBETA \| dfbeta(model)
+6.  PRESS \| PRESS(model)
     1.  This tells us which variables in the model may or may not be legit
-        1.  PRESS(model)
     2.  Small PRESS value ⇒ Good predictability and can generalize new data
     3.  Big PRESS value ⇒ Bad predictability and may be sensitive to data in general
 
@@ -426,12 +410,12 @@ The code-chunk below displays a plot of DFFITS values vs observation numbers to 
 #| warning: false
 #| echo: false
 
-library(olsrr)
+#library(olsrr)
 
-model_adjusted <- lm(data = tomhs, cholchg ~ wtchg + nowsmk)
+#model_adjusted <- lm(data = data, outcome_var ~ predictor_var1 + predictor_var2)
 
 
-ols_plot_dffits(model_adjusted)
+#ols_plot_dffits(model_adjusted)
 
 ```
 
