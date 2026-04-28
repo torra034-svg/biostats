@@ -1,0 +1,1890 @@
+---
+title: "Project 2 - Coding Reference Sheet"
+author: "Patrick Torralba"
+format: 
+  pdf:
+    prefer-html: true
+editor: visual
+---
+
+# Exploratory Data Analysis Concepts
+
+## Importing Data
+
+### How do I import data using the tidyverse?
+
+#### Library {#sec-library}
+
+To first import data into R, we need to load the tidyverse package. This package gives us the tools needed to both import and clean data.
+
+In the code chunk below, we load in the tidyverse package (and other packages that are more relevant in other sections).
+
+```{r}
+#| label: knitr-options
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+options(knitr.table.format = "latex")
+options(screenshot.force = TRUE)
+
+```
+
+```{r}
+#| label: library
+#| message: false
+#| warning: false
+#| echo: true
+
+library(tidyverse) ## data cleaning 
+library(kableExtra) ## make table from output via kable()
+library(gtsummary) ## make table via tbl_regression()
+
+  
+```
+
+#### Import Data
+
+We use the read.csv() function to import .csv files. Make sure to specify the file pathway and assign it to a variable using "\<-".
+
+In the code chunk below, we import the tomhs dataset by specifying it's location and file extension.
+
+```{r}
+#| label: import-data
+#| warning: false
+#| message: false
+#| echo: true
+
+tomhs <- read.csv("tomhs.csv")  
+
+
+```
+
+## Data Wrangling
+
+### Creating New Variables {#sec-new-var}
+
+To create new variables, we first want to overwrite our dataset with changes with the "\<-" operator.
+
+Use the pipe operator to combine functions together in one code chunk.
+
+Use mutate() to define our new variables.
+
+Note: Use the if_else() function when you have a singular class, and use case_when() when the categorical variable has multiple classes.
+
+In the code chunk below, we create two new variables, "Sex" and "Race". Sex is created by an if_else() statement and Race is created by a case_when() statement. Both variables are converted into factors - this is important for statistical analysis purposes.
+
+```{r}
+#| label: new-var
+#| warning: false
+#| message: false
+#| echo: true
+
+tomhs <- tomhs %>% 
+  mutate(
+    Sex = as.factor(if_else(sex == 1, "Male", "Female")),
+    Race = as.factor(case_when(
+      race == 1 ~ "White",
+      race == 2 ~ "Black",
+      race == 3 ~ "Asian",
+      race == 4 ~ "Other")
+    ),
+    weight_change = wt12-wtbl,
+    cholesterol_change = chol12-cholbl)
+    
+
+  
+```
+
+### Deleting & Sub-setting Observations
+
+Deleting observations is done through the filter() function. Use this function to specify which observations to delete.
+
+| Operator |   Definition    |
+|:--------:|:---------------:|
+|    &     |  AND operator   |
+|    \|    |   OR operator   |
+|    !     |  NOT operator   |
+|   \<-    | Assign variable |
+
+: Operators
+
+| BaseR Functions |                Definition                 |
+|:---------------:|:-----------------------------------------:|
+|     is.na()     | Filters to rows where there are NA values |
+|                 |                                           |
+
+: BaseR Functions
+
+We should create a new dataset just in case we want to refer to the original dataset.
+
+In the code chunk below, we remove observations in the age column that are equivalent to NA. And, we also subset these changes into a new dataset, "tomhs_filter" to ensure the original dataset maintains the original observation amount.
+
+```{r}
+#| label: delete-obs-sub-set
+#| warning: false
+#| message: false
+#| echo: true
+
+tomhs_filter <- tomhs %>% 
+  filter(!is.na(age))
+  
+
+```
+
+# Basic Exploratory Data Analysis (EDA)
+
+EDA is an approach to analyzing and summarizing data sets with an intent to understand their main characteristics. This approach includes both tables and graphs.
+
+## Example
+
+### Summary Statistics
+
+For Table 1 purposes, we only want to summarize the main characteristics of the study demographic. Do not include any significant predictor variables. We only want to include general characteristics including race, sex, BMI, etc.
+
+```{r}
+#| label: dekaf-import
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+dekaf <- read.csv("dekaf_dgf.csv")
+
+```
+
+```{r}
+#| label: eda-example-dekaf
+#| message: false
+#| warning: false
+#| echo: true  
+
+dekaf <- dekaf %>% 
+  mutate(cardiac_death = if_else(dcd_yn == 1, "Yes", "No", missing = NULL),
+         DGF = if_else(dgf == 1, "Yes", "No", missing = NULL))
+
+```
+
+```{r}
+#| label: table-1-data-clean
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+table_1 <- dekaf %>% 
+  mutate(Race = if_else(raceblack == 1, "African American", "Other", missing = NULL),
+         Gender = if_else(gender == 1, "Male", "Female", missing = NULL),
+         Delayed_Graft_Function = if_else(dgf == 1, "Yes", "No", missing = NULL)) %>% 
+  dplyr::select(Race, Gender, Delayed_Graft_Function, cardiac_death, bmi_base, agedonor16)
+
+```
+
+```{r}
+#| label: tbl-table1
+#| tbl-cap: "Table 1: Study Demographics"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+table_1 <- table_1 %>% 
+  tbl_summary(by = Delayed_Graft_Function,
+              label = list(cardiac_death ~ "Donation After Cardiac Death",
+                           bmi_base ~ "Recipient BMI at baseline (kg/m2)",
+                           agedonor16 ~ "Donor age (years beyond 16, i.e. 17=1)"
+                           )) %>% 
+  modify_caption(caption = "**Table 1. Participant Demographics**") %>% 
+  modify_header(label ~ "**Delayed Graft Function**") %>% 
+   add_overall()
+
+  
+table_1
+```
+
+### Graphical Summaries
+
+In terms of graphical summaries, we want to utilize visualizations that summarize the relationship between the predictor variables and outcome variable so we can have some idea of what this relationship may be.
+
+```{r}
+#| label: fig-graph-summary-dekaf
+#| fig-cap: "Distribution of Donor Age and Delayed Graft Function"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+ggplot(dekaf, aes(x = DGF, y = agedonor16, fill = DGF)) +
+  geom_boxplot() +
+  labs(fill = "Delayed Graft Function",
+       x = NULL,
+       y = "Donor Age",
+       subtitle = "Donor age refers to years beyond 16 (i.e. 17=1)") 
+```
+
+# Regression Modeling
+
+## Multiple Linear Regression (MLR) {#sec-hyp-test}
+
+MLR is when we try to predict a **continuous outcome** with either a continuous predictor and/or categorical predictor.
+
+The null hypothesis is that all regression coefficients are equal to zero. The alternative hypothesis is that atleast one regression coefficient is not equivalent to zero.
+
+$$
+H_0: \beta_1 = \beta_2 
+$$
+
+$$
+H_1: \beta_1 \neq \beta_2
+$$
+
+Unadjusted means that we do not account or adjust for other variables that may affect the outcome variable.
+
+Adjusted means we do account for other variables that affect the outcome variable.
+
+### Unadjusted MLR {#sec-regression-model-tips}
+
+Example Question: What is the effect of weight change on total cholesterol change without adjusting for anything?
+
+In the code chunk below, we conduct an MLR by using the lm() function. This function is in BaseR so do not worry about pulling an packages.
+
+The general argument for most regression models is lm(y-variable \~ x-variable + x2-variable.... data = dataset). In other words, you're basically saying "the y-variable can be explained by the following x-variables from this dataset".
+
+We use the tbl_regression() function to convert our results from raw data into a readable table. And, we specify the intercept = TRUE argument so we can have the intercept coefficient value.
+
+```{r}
+#| label: tbl-unadj-MLR
+#| tbl-cap: "Unadjusted Multiple Linear Regression"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+unadj_MLR <- lm(cholesterol_change ~ weight_change, data = tomhs)
+
+unadj_MLR
+
+unadj_MLR %>% 
+  tbl_regression(
+    intercept = TRUE
+  )
+
+```
+
+#### Multiple Linear Regression Fitted Equation {#sec-MLR-equation}
+
+$$
+\text{outcome-variable} = \text{intercept} + (\beta_1 X_1) + (\beta_2 X_2) + ... 
+$$
+
+#### Interpretation {#sec-MLR-interpretation}
+
+The intercept means when the x-variable is at zero, we expect the outcome variable to be at whatever the intercept is.
+
+If the x-variable is a **continuous predictor**, for every 1 unit increase in the x-variable, we expect the y-variable to increase by the x-variable coefficient $\beta_1$.
+
+If the x-variable is a **categorical predictor** (e.g binary), and the x-variable is equivalent to 1, then we expect the y-variable to increase by the x-variable coefficient $\beta_1$. This is a bit tricky to understand, so please see @sec-adjusted-MLR for an example.
+
+If the p-value is less than 0.05, it is statistically significant.
+
+### Adjusted MLR {#sec-adjusted-MLR}
+
+```{r}
+#| label: tbl-Adj-MLR
+#| tbl-cap: "Adjusted Multiple Linear Regression"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+adj_MLR <- lm(
+  formula = cholesterol_change ~ weight_change + Sex,
+  data = tomhs)
+
+adj_MLR
+
+adj_MLR %>% 
+  tbl_regression(
+    intercept = TRUE
+  )
+
+```
+
+#### Interpretation {#sec-adj-MLR-interpretation}
+
+Recall @sec-MLR-interpretation fitted equation.
+
+According to our output, we have the following equation:
+
+$$ \text{Total Cholesterol Change} = -0.04 + (0.52 \times \text{weight\_change}) + (-2.8 \times \text{Sex}_{\text{Male}}) $$
+
+This fitted equation represents the relationship between Total Cholesterol Change when we both account for weight change and sex.
+
+In terms of the intercept, if both weight change is zero and sex is not male, we expect the total cholesterol change to decrease by -0.04 units.
+
+In terms of the weight_change variable, if the weight change has increased by 1 unit, then we expect the total cholesterol change to increase by 0.52 units.
+
+Refer to our data cleaning @sec-new-var where we coded the Sex variable where Males are equivalent to 1 and Female is equivalent to 0. Therefore, in terms of the Sex variable, if the patient is a male then we expect the total cholesterol change to decrease by -2.8 units. If the patient is female then we completely ignore the Sex variable since it is equivalent to zero.
+
+### Interaction Plot
+
+Interaction plots are used to visualize the effect of one predictor variable on the outcome variable while depending on the value of another predictor variable.
+
+Essentially, they tell us if two variables are synergistic or interference.
+
+**Question:** Make an interaction plot. Put total cholesterol change (cholchg) on the y-axis, weight change (wtchg) on the x-axis, and smoking status (nowsmk) as the label variable.
+
+```{r}
+#| label: tomhs-data-clean
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+tomhs <- read.csv("tomhs.csv")
+
+
+tomhs <- tomhs %>% 
+  mutate(wtchg = wt12 - wtbl,
+         cholchg = chol12 - cholbl,
+         nowsmk1 = as.factor(if_else(nowsmk == 1, "Current Smoker", "Non-current Smoker")))
+
+```
+
+```{r}
+#| label: fig-interact-plot
+#| fig-cap: "Cholesterol Change vs Weight Change by Smoking Status"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+library(interactions)
+
+
+model <- lm(cholchg ~ wtchg*nowsmk1, data = tomhs)
+
+interact_plot(model, pred = wtchg, modx = nowsmk1,
+               interval = TRUE,
+               plot.points = TRUE,
+               x.label = "Weight Change",
+               y.label = "Cholesterol Change",
+               legend.main = "Current Smoking Status",           main.title = "Cholesterol Change vs Weight Change by Smoking Status")
+
+```
+
+### Interaction Effects
+
+Interaction terms are predictor variables that significantly affect the relationship between the outcome variable and other predictor variables. Thus, this results in an MLR with has groups with different intercepts AND slopes. Therefore, to account for this interaction, we must multiply the predictor variables together as such:
+
+$$
+Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3(X_1 \times X_2)
+$$
+
+#### Hypothesis Testing
+
+$$
+\beta_3 = 0 \text { : No interaction effect - the variables are only additive}
+$$
+
+$$
+\beta_3 \neq 0 \text { : Interaction effect - the variables either have a synergistic or interference effect}
+$$
+
+#### Example
+
+Fit a model estimating total cholesterol change (cholchg) from weight change (wtchg), current smoking status (nowsmk), and their interaction. Set those who do not currently smoke as the reference level. Share your code and output.
+
+```{r}
+#| label: smk-interaction-model
+#| message: false
+#| warning: false
+#| echo: true  
+
+tomhs$nowsmk1 <-relevel(tomhs$nowsmk1, ref = "Non-current Smoker")
+
+
+interaction_model <- lm(
+  formula = cholchg~wtchg+nowsmk1+wtchg*nowsmk1,
+  data = tomhs)
+
+interaction_model
+
+```
+
+##### Interpretation
+
+```{r}
+#| label: smk-interaction-model-exp
+#| tbl-cap: "Interaction Model between Total Cholesterol Change and weight change and smoking status"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+interaction_model %>% 
+  tbl_regression(
+    intercept = TRUE
+  )
+```
+
+From the example output, we get the following fitted equation:
+
+$$
+\text{Predicted Total Cholesterol Change} = -1.9984 + (0.6564 \times \text{weight\_change}) + (-0.7335 \times \text{current\_smoker}) + (-0.1328 \times \text{current\_smoker} \times \text{weight\_change})
+$$
+
+And we interpret the fitted equation as such:
+
+The model intercept is -1.998, which means that the estimated average cholesterol change during this study for someone in the reference (non-smoking) group with a weight change of zero would be -1.998 units. At a weight change of 0, current smokers have on average 0.73 units lower cholesterol change than non-smokers, but this difference is not statistically significant (p = 0.860). The coefficient for weight change (0.66) indicates that among non-smokers (the reference group), a 1-unit increase in weight change is associated with an estimated 0.66-unit increase in cholesterol change.
+
+Therefore, in combination with the weight change coefficient, for each one unit change in weight for nonsmokers the total cholesterol change is 0.6564. While, for smokers it is 0.6564-0.1328=0.524.
+
+#### Multi-Category Predictors Review
+
+Recall that a multi-category variable is a qualitative variable with multiple factors (e.g small, medium, big).
+
+The reference level can be changed in the following example:
+
+```{r}
+#| label: ref-level-change
+#| message: false
+#| warning: false
+#| echo: true  
+
+##tomhs <- tomhs %>% 
+  ##mutate(wtchgcat1 = fct_relevel(wtchgcat, ##"gained"))
+
+```
+
+After conducting a linear regression, your reference level is the category that is the one that does not appear in your output. It is also the intercept value $\beta_0$
+
+#### Tests for Multi-Category Predictors
+
+A Type III ANOVA F-Test or a Likelihood of Ratio Test can either be conducted to determine if a multi-category predictor is statistically significant.
+
+```{r}
+#| label: ANOVA-F-TEST
+#| message: false
+#| warning: false
+#| echo: true  
+
+library(car)
+
+## model <- lm(
+## formula = cholestorl_change ~ weight_change_Cat + other_covariates,
+## data = df)
+
+
+## Anova(model, type = "III")
+
+```
+
+In the case of a likelihood ratio test, we are comparing the full model to the reduced model.
+
+```{r}
+#| label: likelihood-ratio-test
+#| message: false
+#| warning: false
+#| echo: true 
+
+## fit the full model
+
+## 1. Fit the Full Model
+#model_full <- lm(cholesterol_change ~ #weight_change_cat + other_covariates, data = #your_data)
+
+# 2. Fit the Reduced Model (remove the variable of #interest)
+#model_reduced <- lm(cholesterol_change ~ #other_covariates, data = your_data)
+
+
+# 3. Compare them using anova() 
+# For lm, this defaults to an F-test; for glm, use #test = "Chisq"
+#anova(model_reduced, model_full)
+
+```
+
+#### Outliers & Influential Points
+
+Outliers are measurements outside of the expected normal range.
+
+Influential points are points that affect the model slope.
+
+These two can be detected in a linear model using the following methods:
+
+1.  Standardized Residuals
+    1.  abs(rstandard(model))\> OR \< +/-2 ⇒ observation is an outlier
+2.  Students Residuals
+    1.  abs(rstudent(model)) \< 3 ⇒ outlier
+3.  Cooks Distance
+    1.  cooks.distance(model)
+    2.  If Cooks Distance \> 1 ⇒ probably an outlier
+    3.  See @sec-MLR-diagnostics for Cooks Distance example
+    4.  We can also obtain a list of Cook's Distance using the following code:
+        1.  cooks.distance(model_adjusted)
+4.  DFFITS
+    1.  If $\text{|DFFITS|} > (2 \times \sqrt (p/n)$ ⇒ influential observation
+        1.  p  = number of parameters
+    2.  dffits(model)
+5.  DFBETA
+    1.  dfbeta(model)
+6.  PRESS
+    1.  This tells us which variables in the model may or may not be legit
+        1.  PRESS(model)
+    2.  Small PRESS value ⇒ Good predictability and can generalize new data
+    3.  Big PRESS value ⇒ Bad predictability and may be sensitive to data in general
+
+The code-chunk below displays a plot of DFFITS values vs observation numbers to determine influential observations.
+
+```{r}
+#| label: fig-DFFITS
+#| fig-cap: "caption"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+library(olsrr)
+
+model_adjusted <- lm(data = tomhs, cholchg ~ wtchg + nowsmk)
+
+
+ols_plot_dffits(model_adjusted)
+
+```
+
+#### MLR Model Assumptions & Diagnostic Plots {#sec-MLR-diagnostics}
+
+The linear regression model must meet the four LINE assumptions.
+
+Recall, that residuals refer to how the distance between the model's predictions to the actual values. In other words, residuals are relevant because they tell us the accuracy of a model.
+
+Please review the definitions below and how to interpret the graphs.
+
+1.  Linearity
+    1.  This refers to the direct relationship between the x and y variables. This means that for every increase in x-variable, we expect a direct increase in the y-outcome.
+    2.  Review the Residuals vs Fitted plot. If the points appear "cloud-like" then the **model fit & linearity assumption** is met. We want an equal amount of points above and below the line with no distinct pattern in the points.
+2.  Independence
+    1.  This refers to to random sampling in the study. We want to ensure that one observation is completely random and does not influence another observation.
+    2.  You actually cannot use any of the diagnostic plots to verify this assumption. You need to check the methodology to ensure that random sampling occurred for the study.
+3.  Normality
+    1.  This refers to how close the residuals follow the normal distribution.
+    2.  Review the Q-Q residual plot. If the points are close to the diagonal line then it meets the **Normality of Errors assumption**. If it curves and strays from the line then it does not meet the assumption.
+4.  Equal Variance (Homoscedasticity)
+    1.  This refers to the residuals being at a **constant variance** at every level of the independent variable. In other words, we want to make sure the variance is the consistent.
+    2.  Review the Residuals vs Levels plot. If the plot appears "cone-like" or a fan shape then the assumption is not met. We want to ensure that the distribution looks like a uniform "shot-gun" blast shape.
+
+Furthermore, **outliers and influential points** can be diagnosed by reviewing the residuals vs leverage plot. Outliers are points with high y-axis values usually +/-3 and influential points are those in the upper-right or lower-right corners outside of Cook's Distance.
+
+```{r}
+#| label: fig-MLR-assumptions
+#| fig-cap: "MLR Assumptions"
+#| fig-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+par(mfrow = c(2,2))
+plot(adj_MLR)
+
+```
+
+## Logistic Regression
+
+Logistic regression modeling is similar to linear regression modeling except we are interested in a binary outcome \[result can only be 0 or 1\].
+
+Some differences from linear regression to logistic regression are the following:
+
+-   Everything is on the log-odds scale
+
+-   We are no longer calculating probability. We are calculating the odds-ratio of an event either being 0 or 1
+
+    -   Therefore, the y-axis is on a scale from 0 to 1
+
+-   Determining statistical significance means these two conditions must be met:
+
+    -   The p-value is lower than alpha
+
+    -   The exponent confidence interval **DOES NOT** include 1.0.
+
+#### Libraries
+
+Listed below in the code chunk are the libraries needed for logistic regression modeling.
+
+```{r}
+#| label: log-regression-library
+#| message: false
+#| warning: false
+#| echo: true  
+
+library(ResourceSelection) # for hosmer-lemeshow test
+library(car) #for multicollinearity and linearity
+library(performance) # Diagnostic plots for logistic regression
+library(jtools)
+library(lmtest)
+
+```
+
+#### Interpretation
+
+Your output will be on the log-scale. Remember to use the log-scale values for writing the fitted equation and use the exponential values for interpreting the output. Also make sure to convert your variables to factors when applicable.
+
+Also make sure to utilize a likelihood ratio test, variance inflation factor test, Hosmer-Lemeshow test, and a graph plotting the linearity of the logit values and x-variable to evaluate the logistic regression model diagnostics.
+
+```{r}
+#| label: dekaf-data-clean
+#| warning: false
+#| message: false
+#| echo: false
+
+
+
+dekaf <- dekaf %>% 
+  mutate(cardiac_death = if_else(dcd_yn == 1, "Yes", "No", missing = NULL),
+         DGF = if_else(dgf == 1, "Yes", "No", missing = NULL))
+
+
+
+```
+
+#### Example
+
+**Questions:**
+
+1.  How does donation after cardiac death affect the odds of DGF, after adjusting for donor age? (Remember to interpret both the estimate and its significance.)
+2.  How does donor age affect the odds of DGF, after adjusting for donation after cardiac death?
+
+```{r}
+#| label: log-reg
+
+rq1 <- glm(data = dekaf,
+           formula = as.factor(dgf) ~ as.factor(cardiac_death) + agedonor16,
+           family = binomial(link = "logit"))
+
+rq1
+```
+
+```{r}
+#| label: tbl-log-reg-log-form
+#| tbl-cap: "Logistic Regression Output [Log Form]"
+#| tbl-cap-location: top
+
+rq1 %>% ## log form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = FALSE
+  )
+
+```
+
+```{r}
+#| label: tbl-log-reg-exp-form
+#| tbl-cap: "Logistic Regression Output [Exponent Form]"
+#| tbl-cap-location: top
+
+rq1 %>% ## exponent form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = FALSE
+  )
+```
+
+```{r}
+#| label: rq2
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+rq2 <- glm(data = dekaf,
+           as.factor(dgf) ~ agedonor16 + as.factor(cardiac_death),
+           family = binomial(link = "logit"))
+```
+
+**Answer:** When accounting for donor age, participants who received a donation after cardiac death have 2.17 times the odds of DGF compared to participants who did not receive a donation after cardiac death. This is significantly associated with the odds of DGF (OR = 2.17, p-value \< 0.05, CI: 1.24 to 3.80). When accounting for cardiac death, a 1 year increase in donor age results in a 1.02 times the odds of DGF. This is significantly associated with the odds of DGF (OR = 1.02, p-value \< 0.05, CI: 1.01 to 1.03).
+
+##### Diagnostic Testing
+
+We conducted Likelihood Ratio test to compare the goodness-of-fit between two models, the Variance Inflation Factor (VIF) to detect multicollinearity (e.g correlation between two predictor variables), and a Hosmer-Lemeshow test ensure a goodness-of-fit for our logistic regression model.
+
+Respectively, the first test indicated that both aforementioned models are identical in predictive power (p-value = 1), the second test indicated that there were no multicollinearity issues since all predictor values were at 1.02 (VIF \< 5), and the third test indicated that both models were a good fit since we failed to reject the null hypothesis (p-value \> 0.05). The logit vs donor age scatterplot, was used to verify the linearity assumption. The trajectory of the blue curve is extremely close to the red line and does not diverge into any other shape, and thus, we verify that the linearity is met.
+
+##### Conclusion
+
+Based on the adjusted models, donation after cardiac death is positive and is significantly associated with change in odds of DGF. And, donor age is positive and is significantly associated with change in odds of DGF.
+
+```{r}
+#| label: lr-test
+#| message: false
+#| warning: false
+#| echo: true  
+
+lrtest(rq1,rq2)
+
+```
+
+```{r}
+#| label: vif
+#| message: false
+#| warning: false
+#| echo: true
+
+
+vif(rq1)
+
+```
+
+```{r}
+#| label: hosmer-lemeshow
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+hoslem.test(dekaf$dgf, fitted(rq1))
+
+
+```
+
+# Survival Models
+
+Survival modeling is a method to analyze "time-to-event" data and is used to calculate the probability that a specific event will occur at a certain time.
+
+```{r}
+#| label: load-f6-data
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false 
+
+f6 <- read.csv("first6.csv")
+
+```
+
+```{r}
+#| label: f6-data-clean-1
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+
+f6 <- f6 %>% 
+    mutate(gender = as.factor(if_else(GENDER == 1, "Male", "Female", missing = NULL)),
+         race = as.factor(case_when(RACE == 1 ~ "Latino",
+                                    RACE == 2 ~ "African American",
+                                    RACE == 3 ~ "White",
+                                    RACE == 4 ~ "Other")),
+         two_class = as.factor(if_else(twoclass == 1, "Two Class", "Three Class", missing = NULL)))
+
+```
+
+The following libraries are required for survival modeling
+
+```{r}
+#| label: survival-model-libraries
+#| message: false
+#| warning: false
+#| echo: true  
+
+library(survival) #survival analysis
+library(ggfortify) #survival analysis
+
+```
+
+### Kaplan-Meier Plots
+
+Kaplan-Meier Plots are used to display the survival percentage of the study demographic throughout the duration of the study.
+
+**Question**: Create a Kaplan-Meier plot of the primary endpoint, event-free survival (variables t2primary and primary), comparing the two-class strategy group to the three-class strategy group (variable twoclass).
+
+```{r}
+#| label: fig-kaplan-meier
+#| fig-cap: "Kaplan Meier Plot"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+q3 <- survfit(Surv(t2primary, primary) ~ two_class, data = f6)
+
+autoplot(q3, conf.int = FALSE, censor.shape = "X") +
+  labs(x  = "Time (in months)",
+       y = "Survival Percentage",
+       title = "Survival Analysis: Two-class vs Three-class",
+       color = "Exposure")
+
+
+```
+
+**Question**: Examine your Kaplan-Meier plot by eye. Do you think there is a difference in event-free survival between the two-class and three-class treatment strategies? If so, which strategy appears to work better? 
+
+**Answer:** Yes, I think there is a difference between the two-class and three-class strategies. It appears that the two-class strategy works better because since the 20 month mark, the two-class group has generally a higher survival percentage.
+
+### Median Survival Time
+
+Median survival time refers to the specific point in time where 50% of the patient group has died and 50% are still alive in the Kaplan-Meier Survival Curve.
+
+According to our graph above, we actually cannot obtain the median survival time because the survival curve above 50% throughout the entire follow-up period. Therefore, we cannot calculate the estimate since median survival time is not yet reached.
+
+In most cases, you'd just need to look where at the x-axis wherever the line is at 50%.
+
+### Survival at Specific Times
+
+**Question**: Estimate the event-free survival at 4 years in each treatment strategy group (two-class strategy vs. three-class strategy, variable twoclass). That is, estimate the proportion of study participants without AIDS, death, or CD4\<200 at four years, and give the confidence interval for each of the two treatment strategy groups.
+
+```{r}
+#| label: survival-specific-event
+#| message: false
+#| warning: false
+#| echo: true  
+
+summary(q3, times =c(48)) ##note: the times argument is going to vary based on your time unit
+
+```
+
+**Answer**: The two-class strategy has a better survival estimate at four years because the survival estimate for two-class is 76.3% whereas the survival estimate for three-class is 71.2%.
+
+### Log-Rank Test
+
+A log-rank test is used to determine if there is a statistically significant difference in survival times between groups (e.g Treatment A vs Treatment B). This test gives equal weight to all time points.
+
+**Question**: Carry out a test to determine whether event-free survival in the two treatment strategy groups (two-class strategy vs. three-class strategy, variable twoclass) is statistically different.
+
+Is there a difference in event-free survival between the three-class and the two-class strategy groups? Cite evidence to support your answer.
+
+```{r}
+#| label: log-rank-test
+#| message: false
+#| warning: false
+#| echo: true  
+#| 
+survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 0) ## make sure to set rho = 0 for log-rank
+
+```
+
+**Answer**: There is no difference in event-free survival between the three-class and two-class strategy groups (p = 0.2; p-value \> 0.05).
+
+### Gehan-Breslow-Wilcoxon Test
+
+This test is used to compare the survival curves of 2+ independent groups AND gives weight to events that occur early in the study.
+
+```{r}
+#| label: wilcoxon
+#| message: false
+#| warning: false
+#| echo: true  
+
+survdiff(Surv(t2primary, primary) ~ two_class, data = f6, rho = 1) ## make sure to set rho = 1 for GBW
+
+```
+
+## Cox Proportional Hazards Model
+
+The Cox Proportional Hazards Model is used in survival analysis to compare the relationship between survival time and a predictor variable. The output we get is the Hazard Ratio.
+
+The predictor variable(s) can either be continuous and/or categorical.
+
+### Hypothesis Testing for Hazard Ratios (HR)
+
+$$
+H_0: HR = 1 \text{ | There is no risk difference between groups}
+$$
+
+$$
+H_1: HR < 1 \text{ |  The treatment group has a lower risk of the event (better survival or fewer negative events). For example,means the event is half as likely to happen in the treatment group compared to the control group.}
+$$
+
+$$
+H_1: HR > 1 \text{ | The treatment group has a higher risk of the event (worse outcome). For example, means the event is twice as likely to happen in the treatment group.}
+$$
+
+#### Data Cleaning
+
+```{r}
+#| label: clean-f6-data
+#| message: false
+#| warning: false
+#| echo: true
+#| include: true 
+
+f6 <- f6 %>% 
+  mutate(Gender = as.factor(if_else(GENDER == 1, "Male", "Female", missing = NULL)),
+         Race = as.factor(case_when(RACE == 1 ~ "Latino",
+                          RACE == 2 ~ "African American",
+                          RACE == 3 ~ "White",
+                          RACE == 4 ~ "Other")),
+         Above200 = as.factor(if_else(above200 == 1, "Above 200 cell count", "Below 200 cell count")),
+         Randgrp = as.factor(case_when(RANDGRP == 1 ~ "PI + NRTI",
+                                       RANDGRP == 2 ~ "NNRTI + NRTI",
+                                       RANDGRP == 3 ~ "PI + NNRTI + NRTI")),
+         twoclass = as.factor(twoclass),
+         TwoClass = as.factor(
+           fct_relevel(case_when(twoclass == 1 ~ "Two Class",
+                                        twoclass == 2 ~ "Three Class"),"Two Class")), ## adjust Two Class as reference level
+         Unit = relevel(as.factor(Above200), ref = "Below 200 cell count")) # make UNIT into factor
+
+```
+
+### Example
+
+In this example, we are calculating the hazard proportion estimate of the Three-class vs Two-class factors for AIDS outcome while adjusting for UNIT and above200 variables.
+
+To run the hazard proportion model we first need to call the following libraries:
+
+#### Library
+
+```{r}
+#| label: lib-cox
+#| message: false
+#| warning: false
+#| echo: true  
+
+library(ggfortify) ## to calculate "Schoenfeld residuals vs time"
+library(survminer)
+library(multcomp)
+library(emmeans) ## to calculate hazard ratios
+
+
+```
+
+#### Example
+
+This model compares the three-class to the two-class strategies.
+
+Question: How does the three-class strategy affect the hazard of the primary endpoint relative to the two-class strategy, after adjusting for clinical unit and whether baseline CD4 cell count was above 200?
+
+```{r}
+#| label: cox-model
+#| message: false
+#| warning: false
+#| echo: true
+
+cox_model <- coxph(Surv(t2primary, primary) ~ TwoClass + Unit + Above200,
+                data = f6)
+
+
+```
+
+##### Exponent Form
+
+```{r}
+#| label: tbl-cox-model-exponent
+#| tbl-cap: "Two Class vs Three Class | Exponent Form"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+cox_model %>% 
+  tbl_regression(
+    exponentiate = TRUE
+  ) %>% 
+  bold_labels() %>% 
+  italicize_labels()
+```
+
+##### Log Form
+
+```{r}
+#| label: tbl-cox-model-log-form
+#| tbl-cap: "Two Class vs Three Class | Log Form"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+cox_model %>% 
+  tbl_regression(
+    exponentiate = FALSE
+  ) %>% 
+  bold_labels() %>% 
+  italicize_labels()
+```
+
+#### Interpretation
+
+The three-class strategy has a 14.5% higher risk of hazard of AIDS, death or CD4 cell count below 200 cells/mm3 than the two-class strategy, holding all else constant. This is based on the hazard ratio of 1.145, which indicates a higher risk of hazard for the three-class strategy as it is greater than the null value. Since the confidence interval includes one (0.931, 1.409) and the p-value is greater than alpha (p-value = 0.2), there is no statistically significant difference in the three-class vs. two-class strategy after adjusting.
+
+### Pairwise Comparisons
+
+If we have a multi-categorical predictor, we then need to conduct pairwise comparisons using a Tukey HSD test.
+
+In this scenario, since we are only comparing two levels against each other, a Tukey HSD test is not needed.
+
+```{r}
+#| label: cox-tukey
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+#cox.multcomp <- glht(AIDS_model, linfct = mcp(m.f = "Tukey"))
+
+#exp(confint(cox.multcomp)$confint)
+
+```
+
+$$
+\text{HR} > 1 = \text{Increased Risk} 
+$$
+
+$$
+\text{HR} < 1 = \text{Decreased Risk}
+$$
+
+### Checking Proportional Hazards Assumption Example
+
+To verify assumptions, we first need to create an adjusted model, and then we need to conduct a Schoenfeld test.
+
+```{r}
+#| label: aids-model-unadj
+#| message: false
+#| warning: false
+#| echo: true  
+
+AIDS_model_unadj <- coxph(Surv(t2qoi, qoi) ~ TwoClass, data = f6)
+
+summary(AIDS_model_unadj)
+
+```
+
+If the p-value is greater than alpha, and the $\beta$ throughout the time series is inside the boundaries, then the assumptions are met.Meaning that the model is most likely valid.
+
+```{r}
+#| label: fig-schoenfeld
+#| fig-cap: "Schoenfeld Residuals vs Time Plot"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+AIDS_resid <- cox.zph(AIDS_model_unadj)
+
+ggcoxzph(AIDS_resid)
+
+```
+
+## Poisson Regression Model
+
+Poisson regression is used to model the **probability** of a number of events per a fixed amount of time. For example, it could be counting the number of cars passing a road in one hour.
+
+In other words, we are calculating the average rate of events.
+
+```{r}
+#| label: lhs-import
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+lhs <- read.csv("lhs.csv")
+
+lhs <- lhs %>% 
+  mutate(cigs5 = if_else(AV5CIGS == 0.5, 1.0, AV5CIGS),
+         Race = case_when(
+           race == 1 ~ "White",
+           race == 2 ~ "Black",
+           race == 3 ~ "Asian",
+           race == 4 ~ "Native American",
+           race == 5 ~ "Other"
+         ),
+         Gender = if_else(
+           AGENDER == "M", "Males", "Females"
+         ),
+        Marital = case_when(
+          marital0 == 1 ~ "Never Married",
+          marital0 == 2 ~ "Married",
+          marital0 == 3 ~ "Widowed",
+          marital0 == 4 ~ "Separated",
+          marital0 == 5 ~ "Divorced"
+        ),
+        TreatmentGroup = fct_relevel(alphagroup, "UC")
+  )
+
+```
+
+### Example
+
+In the example below, we are fitting a Poisson regression model to estimate the effect of the treatment group on cigarette smoking at 5 years. We set the sual group as the reference level.
+
+```{r}
+#| label: cigs-model
+#| message: false
+#| warning: false
+#| echo: true  
+
+trt_group_cigs5_model <- glm(cigs5 ~ TreatmentGroup, 
+                             data = lhs,
+                             family = poisson(link = "log"))
+
+trt_group_cigs5_model 
+
+```
+
+#### Exponent Form
+
+```{r}
+#| label: tbl-cigs-model-exp
+#| tbl-cap: "Cigarette Smoking and Treatment Group Model Ouput [Exponent Form]"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+trt_group_cigs5_model %>% ## this is the exponentiated form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = TRUE,
+    label = list(TreatmentGroup ~ "Treatment Group")
+  )
+
+```
+
+#### Log Form
+
+```{r}
+#| label: tbl-cigs-model-log-form
+#| tbl-cap: "Cigarette Smoking and Treatment Group Model Ouput [Log Form]"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+trt_group_cigs5_model %>% ## this is the expected log form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = FALSE,
+    label = list(TreatmentGroup ~ "Treatment Group")
+  )
+
+```
+
+##### Interpretation
+
+**Question:**  What is the estimated smoking rate ratio at 5 years for participants in the special intervention/placebo (SI-P) group compared to the usual care (UC) group?
+
+**Answer:** The estimated smoking rate ratio for participants in the SI-P group is 0.67 in comparison to the usual care group (95% CI: 0.66 to 0.68). Holding other factors constant, this means that the SI-P group smoked 33% fewer cigarettes at the 5-year mark in comparison to the usual group.
+
+The effect of the SI-P smoking intervention group is 0.67 relative to the usual group at year 5. In other words, the estimated Incidence Rate Ratio (IRR) is 0.67, meaning that the SI-P group smoked at a rate 33% lower than the usual care group. This finding is statistically significant given that our p-value is lower than alpha and the 95% confidence interval does not include 1.0 (p-value \< 0.001, CI: 0.66 - 0.68).
+
+##### Model Evaluation for Overdispersion Test
+
+To evaluate the poisson regression, we need to review the ratio of the residual deviance to its degree of freedo**ms**. **If the model ratio is super super greater than 1 then that is a sign of overdispersion.**
+
+```{r}
+#| label: overdispersion-test
+#| message: false
+#| warning: false
+#| echo: true  
+#| 
+model_ratio <- (trt_group_cigs5_model$deviance
+/ trt_group_cigs5_model$df.residual)
+
+model_ratio
+
+model_ratio > 10
+
+```
+
+### Quasi-poisson Regression Model for Overdispersed Data
+
+Overdispersion can be dealt with either using a Quasi-Poisson Regression or a Negative Binomial Model
+
+```{r}
+#| label: quasi-poisson
+#| message: false
+#| warning: false
+#| echo: true  
+
+model1.qp <- glm(cigs5 ~ TreatmentGroup,
+                 data = lhs,
+                 family = quasipoisson(link = "log"))
+
+model1.qp
+
+```
+
+#### Exponent Form
+
+```{r}
+#| label: quasi-poisson-exp
+#| message: false
+#| warning: false
+#| echo: true
+
+
+model1.qp %>%  ## exponentiated form
+  tbl_regression(
+    exponentiate = TRUE,
+    label = (TreatmentGroup ~ "Treatment Group")
+  )
+
+```
+
+#### Log Form
+
+```{r}
+#| label: quasi-poisson-log-form
+#| message: false
+#| warning: false
+#| echo: true
+
+
+model1.qp %>%  ## expected log form
+    tbl_regression(
+    exponentiate = FALSE,
+    label = (TreatmentGroup ~ "Treatment Group")
+  )
+
+```
+
+#### Interpretation
+
+-   Question: Provide an answer to the research question for this section: What is the effect of sex on coronary heart disease (CHD) incidence rate? That is, describe the magnitude and direction of the effect AND its statistical significance in the context of this problem. Use evidence from the previous questions to support your answer.
+
+-   Answer: In terms of sex, males have a 64% higher CHD incidence rate than females while holding all else constant (IRR = 1.64). This is statistically significant given that p-value is less than alpha and the 95% confidence interval does not contain 1.0 (p-value \< 0.001, CI: 1.48 to 1.82).
+
+Make sure to use the exponent form when interpreting the values.
+
+### Offset Term
+
+```{r}
+#| label: fh-load-clean
+#| message: false
+#| warning: false
+#| echo: true
+#| include: true
+
+fh <- read.csv("Framingham_dataset.csv")
+
+fh <- fh %>% 
+  mutate(followupYR = followup / 365.25,
+         CHD = as.factor(if_else(chdfate == 1, "Developed CHD", "No CHD")),
+         Sex = as.factor(if_else(sex == 1, "Male", "Female")),
+         Sex_women_ref = fct_relevel(Sex, "Female"))
+
+```
+
+```{r}
+#| label: tbl-offset-term
+#| tbl-cap: "Incidence Rate for Framingham Dataset"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+library(gtExtras)
+
+fh_ir_tbl <- fh %>% 
+  select(CHD, Sex, followupYR) %>% 
+  group_by(Sex) %>% 
+  summarize(
+    CHD_cases = sum(CHD == "Developed CHD"),
+    ft_py = sum(followupYR),
+    CHD_IR = ((CHD_cases / ft_py)*100) ## CH Incidence rate calculation
+            )  %>% 
+  gt() %>% ## convert into gt() table
+  tab_header(
+      title = "Coronary Heart Disease Incidence Metrics") %>% 
+  cols_label(
+    CHD_cases = "Total Cases",
+    ft_py = "Person-Years",
+    CHD_IR = "Incidence Rate per 100 person-years"
+            ) %>% 
+  fmt_number( ## format Incidence Ratio
+    columns = c(CHD_IR),
+    decimals = 2
+            ) %>% 
+  fmt_number( ## format person-years
+    columns = ft_py,
+    decimals = 0
+            ) 
+  
+
+fh_ir_tbl
+```
+
+An offset term is used in Poisson regression to account for observations that had more time to occur. For instance, if we do not have an offset term, our poisson regression will assume that every person will have an equal opportunity to get a disease. Whereas, in reality, a singular person may have cancer for 10 years and another person may have cancer for 2 years.
+
+In other words, the offset variable will always be the time variable (e.g follow-up).
+
+-   An offset term is needed to account for the different variations in follow-up time (e.g 10 years follow-up vs 1-year; the Poisson model helps distinguish who’s more at risk)
+
+Therefore, the offset term is used to account for this time variation. The offset term is only needed if we are SPECIFICALLY looking at the RATE.
+
+**Question**:
+
+# Other Regression Models
+
+Regression models such as Log-binomial and Ordinal do not follow the Central Limit Theorem and/or normal probability distribution.
+
+## Log-binomial Regression Model
+
+Log-binomial regression is used to determine the relative risk for binary outcomes.
+
+We need the following libraries for log binomial regression.
+
+```{r}
+#| label: log-binomial-reg
+#| message: false
+#| warning: false
+#| echo: true  
+
+library(tidymodels) ## generate log models via tidyverse
+library(emmeans) ## calculate ratios (e.g risk ratio)
+```
+
+```{r}
+#| label: dekaf-data-clean-v2
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+dekaf <- dekaf %>% 
+  mutate(Gender = as.factor(if_else(gender == 1, "Male", "Female")),
+         DGF = as.factor(if_else(dgf == 1, "Yes", "No")),
+         Gender_women_ref = relevel(Gender, ref = "Female"))
+
+```
+
+### Example
+
+**Questions**
+
+-   What is the effect of having ever smoked cigarettes on general health at 12 months, after adjusting for age?
+
+-   What is the effect of age on general health at 12 months, after adjusting for having ever smoked cigarettes?
+
+```{r}
+#| label: tbl-logistic-reg-model
+#| tbl-cap: "Logistic Regression Model: DGF Outcome by Gender"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+
+model_1 <- logistic_reg() %>% 
+  set_engine("glm") %>% 
+  set_mode("classification") %>% 
+  fit(DGF ~ Gender, data = dekaf)
+
+tidy(model_1) ## this is to make the output readable
+
+
+
+```
+
+```{r}
+
+#| label: tbl-logistic-reg-model-exp
+#| tbl-cap: "Logistic Regression Model: DGF Outcome by Gender"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+model_1 %>% ## exponent form
+  tbl_regression(
+    intercept = TRUE,
+    exponent = TRUE
+  ) %>% 
+  bold_labels() %>% 
+  italicize_labels()
+
+
+```
+
+```{r}
+
+#| label: tbl-logistic-reg-model-log-form
+#| tbl-cap: "Logistic Regression Model: DGF Outcome by Gender"
+#| tbl-cap-location: top
+#| warning: false
+#| message: false
+#| echo: true
+
+model_1 %>% ## log form
+  tbl_regression(
+    intercept = TRUE,
+    exponent = FALSE
+  ) %>% 
+  bold_labels() %>% 
+  italicize_labels()
+
+```
+
+#### Interpretation
+
+$$ \text{logit}[P(\text{ql\_12}_1 \le j)] = (\beta_1 \times \text{eversmk}) + (\beta_2 \times \text{age}) $$
+
+Holding all else constant, men have a 12% higher odds DGF risk compared to women (OR = 1.88). This is statistically significant given that the p-value is lower than alpha and the confidence interval does not include 1.0 (CI: 1.30 to 2.76).
+
+## Ordinal Regression Model
+
+Ordinal Regression is used to target cumulative ordered categories (e.g low, medium, high) where the ranking matters.
+
+We need the following libraries for ordinal regression:
+
+```{r}
+#| label: ordinal-regression-library
+#| message: false
+#| warning: false
+#| echo: true  
+
+library(jtools)
+library(VGAM)
+
+```
+
+#### Example
+
+Question: Write the appropriate adjusted ordinal regression equation you would use to determine whether general health at 12 months (ql12_1) depends on whether a person ever smoked after adjusting for age. Use the actual names of the variables (not just X or Y) and beta0, beta1, etc. for the coefficients.
+
+$$
+\text{logit}[P(\text{ql_12}_1 \le j] = (\beta_1 \times \text{eversmk}) + (\beta_2 \times \text{age})
+$$
+
+```{r}
+#| label: tomhs-genhealth
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false  
+
+
+tomhs <- tomhs %>% 
+  mutate(
+    Sex = as.factor(if_else(sex == 1, "Male", "Female")),
+    Race = as.factor(case_when(
+      race == 1 ~ "White",
+      race == 2 ~ "Black",
+      race == 3 ~ "Asian",
+      race == 4 ~ "Other"
+    )),
+    Eversmk = as.factor(if_else(eversmk == 1, "Yes", "No")),
+    GenHealth = as.factor(case_when(
+      ql12_1 == 1 ~ "Excellent",
+      ql12_1 == 2 ~ "Very good",
+      ql12_1 == 3 ~ "Good",
+      ql12_1 == 4 ~ "Fair",
+      ql12_1 == 5 ~ "Poor"
+    )
+    )
+  )
+
+```
+
+```{r}
+#| label: tbl-adj-ordinal-regression
+#| tbl-cap: "Adjusted Ordinal Regression"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+ordinal_regression <- vglm(
+                formula = GenHealth ~ Eversmk + age,
+                data = tomhs,
+                family = cumulative(link = "logitlink", parallel = TRUE))
+
+ordinal_regression
+
+```
+
+```{r}
+
+#| label: tbl-adj-ordinal-regression-log-form
+#| tbl-cap: "Adjusted Ordinal Regression Log Form"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+model_1 %>%  ## log form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = FALSE
+    ) %>% 
+  bold_labels() %>% 
+  italicize_levels()
+
+```
+
+```{r}
+#| label: tbl-adj-ordinal-regression-log-form
+#| tbl-cap: "Adjusted Ordinal Regression Exponent Form"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+model_1 %>%  ## exponent form
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = TRUE,
+    ) %>% 
+  bold_labels() %>% 
+  italicize_levels() 
+
+```
+
+-   Using the model results, what is the estimated common odds ratio for the eversmk variable? Provide an interpretation of this common odds ratio in the context of the problem. 
+
+    -   The estimated common odds-ratio for the eversmk variable is 0.90. This means patients who smoke have a 10% decrease in odds of reporting a better health status (e.g “Excellent”).
+
+-   Using the model results, is there a significant relationship between having ever smoked cigarettes and general health at 12 months, after adjusting for age? Explain your reasoning.
+
+    -   No, after adjusting for age, we conclude that there is not a statistically significant relationship between having ever smoked cigarettes and general health at 12 months considering that the p-value is greater than alpha and the confidence interval includes 1.0 (OR = 0.90, p-value = 0.4, CI: 0.70 to 1.16).
+
+-   Using the model results, what is the estimated common odds ratio for the age variable? Provide an interpretation of this common odds ratio in the context of the problem.
+
+    -   The estimated common-odds ratio for the age variable is 0.98. This indicates that for every one-year increase in age, the odds of a patient reporting a better general health status (e.g., ‘Excellent’ vs. all lower categories) decrease by 2%, holding smoking status constant.
+
+-   Using the model results, is there a significant relationship between age and general health at 12 months, after adjusting for having ever smoked cigarettes? Explain your reasoning.
+
+    -   After adjusting for having ever smoked cigarettes, we conclude that the relationship between age and general health at 12 months is not statistically significant given that the p-value is greater than alpha and the confidence interval includes 1.0 (p-value = 0.12, CI: 0.97 to 1.00).
+
+# Sample Size Estimates and Power
+
+Sample size and power are linked through four primary variables. If you know three, you can calculate the fourth:
+
+1.  **Alpha (**$\alpha$): The significance level (usually 0.05). This is the risk of a **Type I error** (finding an effect that isn't actually there).
+
+2.  **Beta (**$\beta$): The risk of a **Type II error** (failing to find an effect that actually exists).
+
+3.  **Power (**$1 - \beta$): The probability of correctly rejecting the null hypothesis when it is false.
+
+    1.  This is usually set to a level of 0.80 0r 0.90 unless specified otherwise.
+
+4.  **Effect Size:** The "signal" you are looking for—how much of a difference exists between the two groups (e.g., a 10 mmHg drop in blood pressure).
+
+    1.  To detect a small effect, we need a large sample
+
+## Continuous Outcomes
+
+#### Estimating Sample Sizes in Group Means
+
+```{r}
+#| label: tbl-sample-size-continuous
+#| tbl-cap: "Estimating Sample Size from a Continuous Outcome"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+power.t.test(
+  delta = 2, ## this is the MCID value
+  sd = 6,
+  sig.level = 0.05,
+  power = 0.8,
+  type = "two.sample",
+) %>% 
+  tidy() %>% 
+  kable(
+        format = "html",
+        digits = 2,
+        align = "c") %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    full_width = FALSE,
+    position = "center"
+  )
+```
+
+### Estimating Multiple Sample Sizes via Power Table
+
+```{r}
+#| label: tbl-sample-size-power-table
+#| tbl-cap: "Estimating Multiple Sample Sizes via Power Table"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+deltas <- seq(
+  from = 1,
+  to = 5,
+  by = 1
+)
+
+q9 <- map_df(deltas, ~{
+  power.t.test(
+    delta = .x,         
+    sd = 6,              
+    sig.level = 0.05, 
+    power = 0.80, 
+    type = "two.sample"
+  ) %>% tidy()
+})
+
+q9 %>% 
+  kable(
+        format = "html",
+        digits = 2,
+        align = "c") %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    full_width = FALSE,
+    position = "center"
+  )
+## DO NOT TRUST THE SOFTWARE LESSON. IT IS INACCURATE
+
+
+```
+
+## **Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)**
+
+```{r}
+#| label: fig-power-curve
+#| fig-cap: "Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+## We need to create a list of values for our x-axis in the power curve plot
+n.values <- seq(from = 5,
+                to = 100,
+                by = 5) 
+
+## Get Sample Size when MCID = 2
+twogrpmean.power.small <-
+  power.t.test(
+    delta = 2,
+    sd = 6,
+    power = NULL, ## Leave Power NULL when calculating power curve (bc this is what we want R to graph for us)
+    n = n.values,
+    type = "two.sample"
+  )
+  
+
+## Get Sample Size when MCID = 4
+twogrpmean.power.medium <-
+    power.t.test(
+    delta = 4,
+    sd = 6,
+    power = NULL,
+    n = n.values,
+    type = "two.sample",
+  )
+
+## Plotting the first curve (MCID = 2)
+plot(n.values,
+     twogrpmean.power.small$power,
+     type = "b",
+     xlab = "sample size",
+     ylab = "power",
+     ylim = c(0,1))
+
+lines(n.values, 
+      twogrpmean.power.small$power, 
+      type = "b") 
+
+## cannot add type = "b" argument. This will cause graph not to run.
+
+
+## Add Second Curve (MCID = 4)
+points(n.values,
+       twogrpmean.power.medium$power,
+       type = "b",
+       col = "red",) ## Keep these arguments like this to run. Otherwise, if you follow the software lesson it will not run.
+
+
+## Add a legend for each curve
+legend("bottomright", c( "d = 2", "d = 4"), lty = c(1,2),
+pch = c(1,2), col = c(1,2), cex=1.5)
+
+```
+
+What if my outcome is Continuous (Group Means)?
+
+-   Information needed to calculate sample size:
+
+    -   Mean
+
+    -   Standard Deviation
+
+    -   Effect Size (also known as delta or MCID)
+
+    -   Power Level (usually 0.80 unless stated otherwise)
+
+## Binary Outcomes
+
+What if my outcome is Binary (Proportions)?
+
+-   Information needed to calculate sample size:
+
+    -   Standard Deviations **IS NOT NEEDED**
+
+    -   Baseline Proportion
+
+    -   Comparison Proportion
+
+    -   Effect Size (MCID)
+
+#### Estimating Sample Sizes
+
+```{r}
+#| label: tbl-sample-size-grp-prop
+#| tbl-cap: "Estimating Sample Size in a Group Proportion"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+twogrpp.n <- power.prop.test(
+  p1 = 0.70,
+  p2 = 0.80,
+  power = 0.80
+)
+
+twogrpp.n %>% 
+  tidy() %>% 
+  kable(
+        format = "html",
+        digits = 2,
+        align = "c") %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    full_width = FALSE,
+    position = "center"
+  )
+
+```
+
+## Calculating Multiple Sample Sizes with the same MCID {#sec-binary-outcome-multiple-sample-size-same-MCID}
+
+```{r}
+## Define Baseline Proportions
+p1_levels <- seq(from = 0.50, to = 0.75, by = 0.05)
+
+# Level 1: 50% to 60%
+res1 <- power.prop.test(p1=0.50, p2=0.60, sig.level=0.05, power=0.80, n=NULL)
+n1   <- ceiling(res1$n)
+
+# Level 2: 55% to 65%
+res2 <- power.prop.test(p1=0.55, p2=0.65, sig.level=0.05, power=0.80, n=NULL)
+n2   <- ceiling(res2$n)
+
+# Level 3: 60% to 70%
+res3 <- power.prop.test(p1=0.60, p2=0.70, sig.level=0.05, power=0.80, n=NULL)
+n3   <- ceiling(res3$n)
+
+# Level 4: 65% to 75%
+res4 <- power.prop.test(p1=0.65, p2=0.75, sig.level=0.05, power=0.80, n=NULL)
+n4   <- ceiling(res4$n)
+
+# Level 5: 70% to 80% (Original target)
+res5 <- power.prop.test(p1=0.70, p2=0.80, sig.level=0.05, power=0.80, n=NULL)
+n5   <- ceiling(res5$n)
+
+# Level 6: 75% to 85%
+res6 <- power.prop.test(p1=0.75, p2=0.85, sig.level=0.05, power=0.80, n=NULL)
+n6   <- ceiling(res6$n)
+
+## 3. Combine results into the final table
+twogrpp.pwrtable <- data.frame(
+  Baseline_Suppression = p1_levels,
+  Comparison_Suppression = p1_levels + 0.10,
+  Required_N_per_Group = c(n1, n2, n3, n4, n5, n6)
+)
+
+# Display the final table
+twogrpp.pwrtable
+```
+
+```{r}
+
+twogrpp.pwrtable %>% 
+    kable(
+        format = "html",
+        digits = 2,
+        align = "c") %>% 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    full_width = FALSE,
+    position = "center"
+  )
+```
+
+## Using a Power Curve to Estimate Power based on Sample Size {#sec-binary-outcome-power-curve}
+
+```{r}
+## Define range of samples
+
+n_range <- seq(from = 10, to = 300, by = 10)
+
+
+## Get Sample Size for each proportion
+
+pow_60 <- 
+  power.prop.test(
+    p1 = 0.60,
+    p2 = 0.70,
+    n = n_range,
+  )$power
+
+pow_70 <-
+  power.prop.test(
+    p1 = 0.70,
+    p2 = 0.80,
+    n = n_range,
+  )$power
+
+## Plot
+plot(n_range, pow_70, 
+     type = "b", 
+     col = "blue", 
+     pch = 16,
+     xlab = "Sample Size (per group)", 
+     ylab = "Power", 
+     ylim = c(0, 1))
+
+# Add the 60% line
+lines(n_range, pow_60, type = "b", col = "red", pch = 16)
+
+# Add a reference line for 80% power
+abline(h = 0.80, lty = 2, col = "darkgrey")
+
+## 5. Add a legend that matches your data
+legend("bottomright", 
+       legend = c("Baseline 70% (Target 80%)", "Baseline 60% (Target 70%)"), 
+       col = c("blue", "red"), 
+       pch = 16, 
+       lty = 1, 
+       cex = 0.8) # Adjusted cex so it fits better
+```
+
+## Calculating Sample Size Lost to Attrition {#sec-sample-size-attrition}
+
+-   Question: You and your collaborator decide to be a bit conservative and use a viral suppression rate of 60%. You also believe based on past experience that about 20% of the enrolled participants will be lost to follow-up over the one year of the study. How many participants should you aim to enroll for your study? Please show your work.
+
+-   Know
+
+    -   n = 356
+        -   Since we use the 60% prop, the n is 356 according to the Power Table
+    -   attrition rate = 0.20
+        -   This is stated in the problem \[the people lost to follow-up\]
+    -   Formula to calculate **Adjusted Sample Size PER GROUP**
+        -   $$ N_{adj} = \frac{n}{1 - \text{attrition rate}} $$
+
+    ```{r}
+    #| label: attrition 
+    #| warning: false 
+    #| message: false 
+    #| echo: true  
+
+
+    (356/(1-0.2))
+    ```
