@@ -315,6 +315,7 @@ $$
 ##### Example
 
 ```{r}
+#| label: interact-effects
 #| message: false
 #| warning: false
 #| echo: false  
@@ -712,7 +713,7 @@ H_0: HR = 1 \text{ | There is no risk difference between groups}
 $$
 
 $$
-H_1: HR < 1 \text{ |  The treatment group has a lower risk of the event (better survival or fewer negative events). For example, HR = 0.5 means the event is half as likely to happen in the treatment group compared to the control group.}
+H_1: HR < 1 \text{ | The treatment group has a lower risk of the event (better survival or fewer negative events). For example, HR = 0.5 means the event is half as likely to happen in the treatment group compared to the control group.}
 $$
 
 $$
@@ -809,7 +810,7 @@ If we have a multi-categorical predictor, we then need to conduct pairwise compa
 To verify assumptions, we first need to create an adjusted model, and then we need to conduct a Schoenfeld test.
 
 ```{r}
-#| label: aids-model-unadj
+#| label: HR-model-unadj
 #| message: false
 #| warning: false
 #| echo: false  
@@ -838,9 +839,7 @@ If the p-value is greater than alpha, and the $\beta$ throughout the time series
 
 ## Poisson Regression Model
 
-Poisson regression is used to model the **probability** of a number of events per a fixed amount of time. For example, it could be counting the number of cars passing a road in one hour.
-
-In other words, we are calculating the average rate of events.
+Poisson regression is used to model the **probability** of a number of events per a fixed amount of time. For example, it could be counting the number of cars passing a road in one hour. In other words, we are calculating the average rate of events.
 
 ```{r}
 #| label: lhs-import
@@ -877,67 +876,25 @@ lhs <- lhs %>%
 
 ### Example
 
-In the example below, we are fitting a Poisson regression model to estimate the effect of the treatment group on cigarette smoking at 5 years. We set the sual group as the reference level.
+In the example below, we are fitting a Poisson regression model to estimate the effect of the treatment group on outcome.
 
 ```{r}
-#| label: cigs-model
+#| label: poisson-reg-model
 #| message: false
 #| warning: false
 #| echo: false  
 
-trt_group_cigs5_model <- glm(cigs5 ~ TreatmentGroup, 
-                             data = lhs,
-                             family = poisson(link = "log"))
+#trt_group_model <- glm(outcome ~ treatment_var, data = data, family = poisson(link = "log"))
 
-trt_group_cigs5_model 
-
-```
-
-#### Exponent Form
-
-```{r}
-#| label: tbl-cigs-model-exp
-#| tbl-cap: "Cigarette Smoking and Treatment Group Model Ouput [Exponent Form]"
-#| tbl-cap-location: top
-#| message: false
-#| warning: false
-#| echo: false
-
-trt_group_cigs5_model %>% ## this is the exponentiated form
-  tbl_regression(
-    intercept = TRUE,
-    exponentiate = TRUE,
-    label = list(TreatmentGroup ~ "Treatment Group")
-  )
-
-```
-
-#### Log Form
-
-```{r}
-#| label: tbl-cigs-model-log-form
-#| tbl-cap: "Cigarette Smoking and Treatment Group Model Ouput [Log Form]"
-#| tbl-cap-location: top
-#| message: false
-#| warning: false
-#| echo: false
-
-trt_group_cigs5_model %>% ## this is the expected log form
-  tbl_regression(
-    intercept = TRUE,
-    exponentiate = FALSE,
-    label = list(TreatmentGroup ~ "Treatment Group")
-  )
+#trt_group_model 
 
 ```
 
 ##### Interpretation
 
-**Question:**  What is the estimated smoking rate ratio at 5 years for participants in the special intervention/placebo (SI-P) group compared to the usual care (UC) group?
+**Question:**  What is the estimated outcome rate ratio for participants in the treatment group compared to the control group?
 
-**Answer:** The estimated smoking rate ratio for participants in the SI-P group is 0.67 in comparison to the usual care group (95% CI: 0.66 to 0.68). Holding other factors constant, this means that the SI-P group smoked 33% fewer cigarettes at the 5-year mark in comparison to the usual group.
-
-The effect of the SI-P smoking intervention group is 0.67 relative to the usual group at year 5. In other words, the estimated Incidence Rate Ratio (IRR) is 0.67, meaning that the SI-P group smoked at a rate 33% lower than the usual care group. This finding is statistically significant given that our p-value is lower than alpha and the 95% confidence interval does not include 1.0 (p-value \< 0.001, CI: 0.66 - 0.68).
+**Answer \[made-up for interpretation purposes\]:** The estimated rate ratio for participants in the treatment group is 0.67 in comparison to the control group (95% CI: 0.66 to 0.68). Holding other factors constant, this means that the treatment group had 33% behavior / activity in comparison to the control group. This finding is statistically significant given that our p-value is lower than alpha and the 95% confidence interval does not include 1.0 (p-value \< 0.001, 95% CI: 0.66 to 0.68).
 
 ##### Model Evaluation for Overdispersion Test
 
@@ -948,13 +905,12 @@ To evaluate the poisson regression, we need to review the ratio of the residual 
 #| message: false
 #| warning: false
 #| echo: false  
-#| 
-model_ratio <- (trt_group_cigs5_model$deviance
-/ trt_group_cigs5_model$df.residual)
 
-model_ratio
+#model_ratio <- (trt_group_model$deviance / trt_group_model$df.residual)
 
-model_ratio > 10
+#model_ratio
+
+#model_ratio > 10 ## checking if model_ratio is super huge
 
 ```
 
@@ -968,53 +924,17 @@ Overdispersion can be dealt with either using a Quasi-Poisson Regression or a Ne
 #| warning: false
 #| echo: false  
 
-model1.qp <- glm(cigs5 ~ TreatmentGroup,
-                 data = lhs,
-                 family = quasipoisson(link = "log"))
+#model1.qp <- glm(outcome_var ~ treatment_var, data = data, family = quasipoisson(link = "log"))
 
-model1.qp
-
-```
-
-#### Exponent Form
-
-```{r}
-#| label: quasi-poisson-exp
-#| message: false
-#| warning: false
-#| echo: false
-
-
-model1.qp %>%  ## exponentiated form
-  tbl_regression(
-    exponentiate = TRUE,
-    label = (TreatmentGroup ~ "Treatment Group")
-  )
-
-```
-
-#### Log Form
-
-```{r}
-#| label: quasi-poisson-log-form
-#| message: false
-#| warning: false
-#| echo: false
-
-
-model1.qp %>%  ## expected log form
-    tbl_regression(
-    exponentiate = FALSE,
-    label = (TreatmentGroup ~ "Treatment Group")
-  )
+# model1.qp <-- this will be in log form. Make sure to convert to exponent form
 
 ```
 
 #### Interpretation
 
--   Question: Provide an answer to the research question for this section: What is the effect of sex on coronary heart disease (CHD) incidence rate? That is, describe the magnitude and direction of the effect AND its statistical significance in the context of this problem. Use evidence from the previous questions to support your answer.
+-   Question: What is the effect of predictor variable on outcome variable incidence rate? That is, describe the magnitude and direction of the effect AND its statistical significance in the context of this problem. Use evidence from the previous questions to support your answer.
 
--   Answer: In terms of sex, males have a 64% higher CHD incidence rate than females while holding all else constant (IRR = 1.64). This is statistically significant given that p-value is less than alpha and the 95% confidence interval does not contain 1.0 (p-value \< 0.001, CI: 1.48 to 1.82).
+-   Answer \[made-up for interpretation purposes\]: In terms of treatment variable, Group A has a 64% higher outcome incidence rate than Group B while holding all else constant (IRR = 1.64). This is statistically significant given that p-value is less than alpha and the 95% confidence interval does not contain 1.0 (p-value \< 0.001, CI: 1.48 to 1.82).
 
 Make sure to use the exponent form when interpreting the values.
 
@@ -1025,7 +945,7 @@ Make sure to use the exponent form when interpreting the values.
 #| message: false
 #| warning: false
 #| echo: false
-#| include: true
+#| include: false
 
 fh <- read.csv("Framingham_dataset.csv")
 
@@ -1047,44 +967,23 @@ fh <- fh %>%
 
 library(gtExtras)
 
-fh_ir_tbl <- fh %>% 
-  select(CHD, Sex, followupYR) %>% 
-  group_by(Sex) %>% 
-  summarize(
-    CHD_cases = sum(CHD == "Developed CHD"),
-    ft_py = sum(followupYR),
-    CHD_IR = ((CHD_cases / ft_py)*100) ## CH Incidence rate calculation
-            )  %>% 
-  gt() %>% ## convert into gt() table
-  tab_header(
-      title = "Coronary Heart Disease Incidence Metrics") %>% 
-  cols_label(
-    CHD_cases = "Total Cases",
-    ft_py = "Person-Years",
-    CHD_IR = "Incidence Rate per 100 person-years"
-            ) %>% 
-  fmt_number( ## format Incidence Ratio
-    columns = c(CHD_IR),
-    decimals = 2
-            ) %>% 
-  fmt_number( ## format person-years
-    columns = ft_py,
-    decimals = 0
-            ) 
+#offset_term_table <- data %>% 
+ # group_by(class_var) %>% 
+  #summarize(
+   # outcome_cases = sum(outcome == 1),
+    #outcome_py = sum(followupYR),
+    #outcome_IR = ((outcome_cases / outcome_py)*100) ## CH Incidence rate calculation)  %>% 
+  #gt() %>% ## convert into gt() table
+  #tab_header(title = "Outcome Incidence Metrics") %>% 
+  #cols_label(outcome_cases = "Total Cases",
+    #outcome_py = "Person-Years",
+    #outcome_IR = "Incidence Rate per 100 person-years") %>% 
   
 
-fh_ir_tbl
+#offset_term_table
 ```
 
-An offset term is used in Poisson regression to account for observations that had more time to occur. For instance, if we do not have an offset term, our poisson regression will assume that every person will have an equal opportunity to get a disease. Whereas, in reality, a singular person may have cancer for 10 years and another person may have cancer for 2 years.
-
-In other words, the offset variable will always be the time variable (e.g follow-up).
-
--   An offset term is needed to account for the different variations in follow-up time (e.g 10 years follow-up vs 1-year; the Poisson model helps distinguish who’s more at risk)
-
-Therefore, the offset term is used to account for this time variation. The offset term is only needed if we are SPECIFICALLY looking at the RATE.
-
-**Question**:
+An offset term is used in Poisson regression to account for observations that had more time to occur. For instance, if we do not have an offset term, our poisson regression will assume that every person will have an equal opportunity to get a disease. Whereas, in reality, a singular person may have cancer for 10 years and another person may have cancer for 2 years. In other words, the offset variable will always be the time variable (e.g follow-up), and is needed to account for the different variations in follow-up time (e.g 10 years follow-up vs 1-year; the Poisson model helps distinguish who’s more at risk) Therefore, the offset term is used to account for this time variation. The offset term is only needed if we are SPECIFICALLY looking at the RATE.
 
 # Other Regression Models
 
@@ -1092,9 +991,7 @@ Regression models such as Log-binomial and Ordinal do not follow the Central Lim
 
 ## Log-binomial Regression Model
 
-Log-binomial regression is used to determine the relative risk for binary outcomes.
-
-We need the following libraries for log binomial regression.
+Log-binomial regression is used to determine the relative risk for binary outcomes. We need the following libraries for log binomial regression.
 
 ```{r}
 #| label: log-binomial-reg
