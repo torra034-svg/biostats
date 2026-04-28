@@ -414,16 +414,13 @@ The code-chunk below displays a plot of DFFITS values vs observation numbers to 
 
 #model_adjusted <- lm(data = data, outcome_var ~ predictor_var1 + predictor_var2)
 
-
 #ols_plot_dffits(model_adjusted)
 
 ```
 
 #### MLR Model Assumptions & Diagnostic Plots {#sec-MLR-diagnostics}
 
-The linear regression model must meet the four LINE assumptions.
-
-Recall, that residuals refer to how the distance between the model's predictions to the actual values. In other words, residuals are relevant because they tell us the accuracy of a model.
+The linear regression model must meet the four LINE assumptions. Recall, that residuals refer to how the distance between the model's predictions to the actual values. Residuals are relevant because they tell us the accuracy of a model.
 
 Please review the definitions below and how to interpret the graphs.
 
@@ -451,16 +448,14 @@ Furthermore, **outliers and influential points** can be diagnosed by reviewing t
 #| echo: false
 
 
-par(mfrow = c(2,2))
-plot(adj_MLR)
+#par(mfrow = c(2,2))
+#plot(adj_MLR)
 
 ```
 
 ## Logistic Regression
 
-Logistic regression modeling is similar to linear regression modeling except we are interested in a binary outcome \[result can only be 0 or 1\].
-
-Some differences from linear regression to logistic regression are the following:
+Logistic regression modeling is similar to linear regression modeling except we are interested in a binary outcome \[result can only be 0 or 1\]. Some differences from linear regression to logistic regression are the following:
 
 -   Everything is on the log-odds scale
 
@@ -494,66 +489,35 @@ library(lmtest)
 
 #### Interpretation
 
-Your output will be on the log-scale. Remember to use the log-scale values for writing the fitted equation and use the exponential values for interpreting the output. Also make sure to convert your variables to factors when applicable.
-
-Also make sure to utilize a likelihood ratio test, variance inflation factor test, Hosmer-Lemeshow test, and a graph plotting the linearity of the logit values and x-variable to evaluate the logistic regression model diagnostics.
+Your output will be on the log-scale. Make sure to utilize a likelihood ratio test, variance inflation factor test, Hosmer-Lemeshow test, and a graph plotting the linearity of the logit values and x-variable to evaluate the logistic regression model diagnostics.
 
 ```{r}
 #| label: dekaf-data-clean
 #| warning: false
 #| message: false
 #| echo: false
+#| include: false
 
 
 
 dekaf <- dekaf %>% 
   mutate(cardiac_death = if_else(dcd_yn == 1, "Yes", "No", missing = NULL),
          DGF = if_else(dgf == 1, "Yes", "No", missing = NULL))
-
-
-
 ```
 
 #### Example
 
 **Questions:**
 
-1.  How does donation after cardiac death affect the odds of DGF, after adjusting for donor age? (Remember to interpret both the estimate and its significance.)
-2.  How does donor age affect the odds of DGF, after adjusting for donation after cardiac death?
+1.  How does categorical variable affect the odds of outcome variable, after adjusting for predictor variable 1?
 
 ```{r}
 #| label: log-reg
+#| echo: false
 
-rq1 <- glm(data = dekaf,
-           formula = as.factor(dgf) ~ as.factor(cardiac_death) + agedonor16,
-           family = binomial(link = "logit"))
+#rq1 <- glm(data = data, as.factor(outcome_var) ~ as.factor(categorical_var_b) + var1,         family = binomial(link = "logit"))
 
-rq1
-```
-
-```{r}
-#| label: tbl-log-reg-log-form
-#| tbl-cap: "Logistic Regression Output [Log Form]"
-#| tbl-cap-location: top
-
-rq1 %>% ## log form
-  tbl_regression(
-    intercept = TRUE,
-    exponentiate = FALSE
-  )
-
-```
-
-```{r}
-#| label: tbl-log-reg-exp-form
-#| tbl-cap: "Logistic Regression Output [Exponent Form]"
-#| tbl-cap-location: top
-
-rq1 %>% ## exponent form
-  tbl_regression(
-    intercept = TRUE,
-    exponentiate = FALSE
-  )
+#rq1
 ```
 
 ```{r}
@@ -563,22 +527,22 @@ rq1 %>% ## exponent form
 #| echo: false  
 
 
-rq2 <- glm(data = dekaf,
-           as.factor(dgf) ~ agedonor16 + as.factor(cardiac_death),
-           family = binomial(link = "logit"))
+#rq2 <- glm(data = data, as.factor(outcome_var) ~ var1 + as.factor(categorical_var), family = binomial(link = "logit"))
+
+#rq2
 ```
 
-**Answer:** When accounting for donor age, participants who received a donation after cardiac death have 2.17 times the odds of DGF compared to participants who did not receive a donation after cardiac death. This is significantly associated with the odds of DGF (OR = 2.17, p-value \< 0.05, CI: 1.24 to 3.80). When accounting for cardiac death, a 1 year increase in donor age results in a 1.02 times the odds of DGF. This is significantly associated with the odds of DGF (OR = 1.02, p-value \< 0.05, CI: 1.01 to 1.03).
+**Answer:** When accounting for categorical variable, donor age, participants who had var1 have XYZ times the odds of outcome variable compared to participants who did not have var1. This is significantly associated with the odds of outcome_var (OR $\neq$ 1.00, p-value \< 0.05, CI: does not include 1.0).
 
 ##### Diagnostic Testing
 
 We conducted Likelihood Ratio test to compare the goodness-of-fit between two models, the Variance Inflation Factor (VIF) to detect multicollinearity (e.g correlation between two predictor variables), and a Hosmer-Lemeshow test ensure a goodness-of-fit for our logistic regression model.
 
-Respectively, the first test indicated that both aforementioned models are identical in predictive power (p-value = 1), the second test indicated that there were no multicollinearity issues since all predictor values were at 1.02 (VIF \< 5), and the third test indicated that both models were a good fit since we failed to reject the null hypothesis (p-value \> 0.05). The logit vs donor age scatterplot, was used to verify the linearity assumption. The trajectory of the blue curve is extremely close to the red line and does not diverge into any other shape, and thus, we verify that the linearity is met.
+Respectively, the first test indicated that both aforementioned models are identical in predictive power (p-value = 1), the second test indicated that there were no multicollinearity issues since all predictor values were at 1.00 (VIF \< 5), and the third test indicated that both models were a good fit since we failed to reject the null hypothesis (p-value \> 0.05). The logit vs donor age scatterplot, was used to verify the linearity assumption. The trajectory of the blue curve is extremely close to the red line and does not diverge into any other shape, and thus, we verify that the linearity is met.
 
 ##### Conclusion
 
-Based on the adjusted models, donation after cardiac death is positive and is significantly associated with change in odds of DGF. And, donor age is positive and is significantly associated with change in odds of DGF.
+Based on the adjusted models, var1 is positive and is significantly associated with change in odds of outcome var. And, predictor variable is positive and is significantly associated with change in odds of outcome variable.
 
 ```{r}
 #| label: lr-test
@@ -586,7 +550,7 @@ Based on the adjusted models, donation after cardiac death is positive and is si
 #| warning: false
 #| echo: false  
 
-lrtest(rq1,rq2)
+#lrtest(rq1,rq2)
 
 ```
 
@@ -596,8 +560,7 @@ lrtest(rq1,rq2)
 #| warning: false
 #| echo: false
 
-
-vif(rq1)
+#vif(rq1)
 
 ```
 
@@ -608,8 +571,7 @@ vif(rq1)
 #| echo: false  
 
 
-hoslem.test(dekaf$dgf, fitted(rq1))
-
+#hoslem.test(data$outcome_var, fitted(rq1))
 
 ```
 
