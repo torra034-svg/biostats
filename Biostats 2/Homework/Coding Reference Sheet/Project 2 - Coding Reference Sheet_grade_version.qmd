@@ -4,7 +4,7 @@ author: "Patrick Torralba"
 format:
   html:
     theme: flatly
-    fontsize: 0.9em
+    fontsize: 10pt
     code-fold: FALSE
     code-tools: TRUE
     code-copy: TRUE
@@ -13,6 +13,9 @@ format:
     smooth-scroll: TRUE
     embed-resources: TRUE
     fig-align: center
+execute:
+  results: hide
+  output: false
 editor: visual
 ---
 
@@ -24,34 +27,28 @@ editor: visual
 
 #### Library {#sec-library}
 
-To first import data into R, we need to load the tidyverse package. This package gives us the tools needed to both import and clean data.
-
-In the code chunk below, we load in the tidyverse package (and other packages that are more relevant in other sections).
+To first import data into R, we need to load the tidyverse package. This package gives us the tools needed to both import and clean data. In the code chunk below, we load in the tidyverse package (and other packages that are more relevant in other sections).
 
 ```{r}
 #| label: library
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 library(tidyverse) ## data cleaning 
 library(kableExtra) ## make table from output via kable()
 library(gtsummary) ## make table via tbl_regression()
-
-  
 ```
 
 #### Import Data
 
-We use the read.csv() function to import .csv files. Make sure to specify the file pathway and assign it to a variable using "\<-".
-
-In the code chunk below, we import the data by specifying it's location and file extension.
+We use the read.csv() function to import .csv files. Make sure to specify the file pathway and assign it to a variable using "\<-". In the code chunk below, we import the data by specifying it's location and file extension.
 
 ```{r}
 #| label: import-data
 #| warning: false
 #| message: false
-#| echo: false
+#| echo: true
 
 #data <- read.csv("data.csv")  
 ```
@@ -66,7 +63,7 @@ To create new variables, we first want to overwrite our dataset with changes wit
 #| label: new-var
 #| warning: false
 #| message: false
-#| echo: false
+#| echo: true
 
 #data <- data %>% 
   #mutate(
@@ -102,10 +99,10 @@ We should create a new dataset just in case we want to refer to the original dat
 #| label: delete-obs-sub-set
 #| warning: false
 #| message: false
-#| echo: false
+#| echo: true
 
-data_sub <- data %>% 
-  filter(!is.na(var1))
+#data_sub <- data %>% 
+#  filter(!is.na(var1))
   
 ```
 
@@ -123,7 +120,7 @@ For Table 1 purposes, we only want to summarize the main characteristics of the 
 #| label: dekaf-import
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 #| include: false
 
 dekaf <- read.csv("dekaf_dgf.csv")
@@ -134,7 +131,7 @@ dekaf <- read.csv("dekaf_dgf.csv")
 #| label: eda-example-dekaf
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 #| include: false
 
 dekaf <- dekaf %>% 
@@ -147,7 +144,7 @@ dekaf <- dekaf %>%
 #| label: table-1-data-clean
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 #| include: false
 
 
@@ -165,7 +162,7 @@ table_1 <- dekaf %>%
 #| tbl-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 #table_1 <- data %>% 
   #tbl_summary(by = group_var)
@@ -183,7 +180,7 @@ We want to utilize visualizations that summarize the relationship between the pr
 #| fig-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 #ggplot(data, aes(x = var1, y = var2, fill = var2)) +
   #geom_boxplot() 
@@ -215,11 +212,11 @@ Example Question: What is the effect of weight change on total cholesterol chang
 #| tbl-cap-location: top
 #| warning: false
 #| message: false
-#| echo: false
+#| echo: true
 
 #unadj_MLR <- lm(outcome_var ~ predictor_var, data = data)
 
-#unadj_MLR
+#summary(unadj_MLR)
 ```
 
 #### Multiple Linear Regression Fitted Equation {#sec-MLR-equation}
@@ -240,12 +237,12 @@ The intercept means when the x-variable is at zero, we expect the outcome variab
 #| tbl-cap-location: top
 #| warning: false
 #| message: false
-#| echo: false
+#| echo: true
 #| include: false
 
 #adj_MLR <- lm(outcome_var ~ predictor_var + predictor_var2, data = data)
 
-#adj_MLR
+#summary(adj_MLR)
 ```
 
 #### Interpretation {#sec-adj-MLR-interpretation}
@@ -262,7 +259,7 @@ Interaction plots are used to visualize the effect of one predictor variable on 
 #| label: tomhs-data-clean
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 #| include: false
 
 tomhs <- read.csv("tomhs.csv")
@@ -280,7 +277,7 @@ tomhs <- tomhs %>%
 #| fig-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 #library(interactions)
 #model <- lm(outcome_var ~ predictor_var*predictor_var2, data = data)
@@ -318,13 +315,13 @@ $$
 #| label: interact-effects
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 #data$predictor_var1 <-relevel(data$predictor_var1, ref = "cat_level_1")
 
 #interaction_model <- lm(outcome_var~predictor_var1+predictor_var2+predictor_var1*predictor_var2,data = data)
 
-#interaction_model
+#summary(interaction_model)
 
 ```
 
@@ -334,7 +331,7 @@ The reference level can be changed in the following example:
 #| label: ref-level-change
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 ##tomhs <- tomhs %>% 
   ##mutate(wtchgcat1 = fct_relevel(wtchgcat, ##"gained"))
@@ -351,7 +348,7 @@ A Type III ANOVA F-Test or a Likelihood of Ratio Test can either be conducted to
 #| label: ANOVA-F-TEST
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 #library(car)
 
@@ -360,7 +357,7 @@ A Type III ANOVA F-Test or a Likelihood of Ratio Test can either be conducted to
 ## data = df)
 
 
-## Anova(model, type = "III")
+## summary(Anova(model, type = "III"))
 
 ```
 
@@ -370,16 +367,13 @@ In the case of a likelihood ratio test, we are comparing the full model to the r
 #| label: likelihood-ratio-test
 #| message: false
 #| warning: false
-#| echo: false 
+#| echo: true 
 
-## 1. Fit the Full Model
 #model_full <- lm(outcome_var ~ #predictor_var + other_covariates, data = data)
 
-# 2. Fit the Reduced Model (remove the variable of #interest)
 #model_reduced <- lm(outcome_Var ~ other_covariates, data = data)
 
-# 3. Compare them using anova() 
-#anova(model_reduced, model_full)
+#summary(anova(model_reduced, model_full))
 
 ```
 
@@ -409,7 +403,7 @@ The code-chunk below displays a plot of DFFITS values vs observation numbers to 
 #| fig-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 #library(olsrr)
 
@@ -446,7 +440,7 @@ Furthermore, **outliers and influential points** can be diagnosed by reviewing t
 #| fig-cap-location: top
 #| warning: false
 #| message: false
-#| echo: false
+#| echo: true
 
 
 #par(mfrow = c(2,2))
@@ -478,7 +472,7 @@ Listed below in the code chunk are the libraries needed for logistic regression 
 #| label: log-regression-library
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 library(ResourceSelection) # for hosmer-lemeshow test
 library(car) #for multicollinearity and linearity
@@ -496,7 +490,7 @@ Your output will be on the log-scale. Make sure to utilize a likelihood ratio te
 #| label: dekaf-data-clean
 #| warning: false
 #| message: false
-#| echo: false
+#| echo: true
 #| include: false
 
 
@@ -514,23 +508,23 @@ dekaf <- dekaf %>%
 
 ```{r}
 #| label: log-reg
-#| echo: false
+#| echo: true
 
 #rq1 <- glm(data = data, as.factor(outcome_var) ~ as.factor(categorical_var_b) + var1,         family = binomial(link = "logit"))
 
-#rq1
+#summary(rq1)
 ```
 
 ```{r}
 #| label: rq2
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 
 #rq2 <- glm(data = data, as.factor(outcome_var) ~ var1 + as.factor(categorical_var), family = binomial(link = "logit"))
 
-#rq2
+#summary(rq2)
 ```
 
 **Answer:** When accounting for categorical variable, donor age, participants who had var1 have XYZ times the odds of outcome variable compared to participants who did not have var1. This is significantly associated with the odds of outcome_var (OR $\neq$ 1.00, p-value \< 0.05, CI: does not include 1.0).
@@ -549,7 +543,7 @@ Based on the adjusted models, var1 is positive and is significantly associated w
 #| label: lr-test
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 #lrtest(rq1,rq2)
 
@@ -559,7 +553,7 @@ Based on the adjusted models, var1 is positive and is significantly associated w
 #| label: vif
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 #vif(rq1)
 
@@ -569,7 +563,7 @@ Based on the adjusted models, var1 is positive and is significantly associated w
 #| label: hosmer-lemeshow
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 
 #hoslem.test(data$outcome_var, fitted(rq1))
@@ -584,7 +578,7 @@ Survival modeling is a method to analyze "time-to-event" data and is used to cal
 #| label: load-f6-data
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 #| include: false 
 
 f6 <- read.csv("first6.csv")
@@ -595,7 +589,7 @@ f6 <- read.csv("first6.csv")
 #| label: f6-data-clean-1
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 #| include: false
 
 
@@ -615,7 +609,7 @@ The following libraries are required for survival modeling
 #| label: survival-model-libraries
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 library(survival) #survival analysis
 library(ggfortify) #survival analysis
@@ -634,7 +628,7 @@ Kaplan-Meier Plots are used to display the survival percentage of the study demo
 #| fig-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 #kpm <- survfit(Surv(time_var, event_var) ~ var_strat_1, data = data)
 
@@ -656,7 +650,7 @@ Median survival time refers to the specific point in time where 50% of the patie
 #| label: survival-specific-event
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 #summary(kpm, times =c(48)) ##note: the times argument is going to vary based on your time unit
 
@@ -676,7 +670,7 @@ Is there a difference in event-free survival between the var strategy groups? Ci
 #| label: log-rank-test
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 #survdiff(Surv(time_var, event_var) ~ var_1, data =data, rho = 0) 
 ## make sure to set rho = 0 for log-rank
@@ -693,7 +687,7 @@ This test is used to compare the survival curves of 2+ independent groups AND gi
 #| label: wilcoxon
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 #survdiff(Surv(time_var, event_var) ~ var_1, data = data, rho = 1) 
 ## make sure to set rho = 1 for GBW
@@ -726,7 +720,7 @@ $$
 #| label: clean-f6-data
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 #| include: false
 
 f6 <- f6 %>% 
@@ -759,14 +753,12 @@ To run the hazard proportion model we first need to call the following libraries
 #| label: lib-cox
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 library(ggfortify) ## to calculate "Schoenfeld residuals vs time"
 library(survminer)
 library(multcomp)
 library(emmeans) ## to calculate hazard ratios
-
-
 ```
 
 This model compares the class_A to the Class_B strategies.
@@ -777,11 +769,11 @@ This model compares the class_A to the Class_B strategies.
 #| label: cox-model
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 #cox_model <- coxph(Surv(time_var,event_var) ~ var_class + var_1 + var_2, data = data)
 
-#cox_model <-- this will be in log form. Make sure to convert to exp form.
+#summary(cox_model) <-- this will be in log form. Make sure to convert to exp form.
 
 ```
 
@@ -797,7 +789,7 @@ If we have a multi-categorical predictor, we then need to conduct pairwise compa
 #| label: cox-tukey
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 #cox.multcomp <- glht(cox_model, linfct = mcp(m.f = "Tukey"))
 
@@ -813,7 +805,7 @@ To verify assumptions, we first need to create an adjusted model, and then we ne
 #| label: HR-model-unadj
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 #class_model_unadj <- coxph(Surv(time_var, event_var) ~ var_class, data = data)
 
@@ -829,7 +821,7 @@ If the p-value is greater than alpha, and the $\beta$ throughout the time series
 #| fig-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 #class_resid <- cox.zph(class_model_unadj)
 
@@ -845,7 +837,7 @@ Poisson regression is used to model the **probability** of a number of events pe
 #| label: lhs-import
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 #| include: false
 
 lhs <- read.csv("lhs.csv")
@@ -882,11 +874,11 @@ In the example below, we are fitting a Poisson regression model to estimate the 
 #| label: poisson-reg-model
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 #trt_group_model <- glm(outcome ~ treatment_var, data = data, family = poisson(link = "log"))
 
-#trt_group_model 
+#summary(trt_group_model)
 
 ```
 
@@ -904,7 +896,7 @@ To evaluate the poisson regression, we need to review the ratio of the residual 
 #| label: overdispersion-test
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 #model_ratio <- (trt_group_model$deviance / trt_group_model$df.residual)
 
@@ -922,11 +914,11 @@ Overdispersion can be dealt with either using a Quasi-Poisson Regression or a Ne
 #| label: quasi-poisson
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 #model1.qp <- glm(outcome_var ~ treatment_var, data = data, family = quasipoisson(link = "log"))
 
-# model1.qp <-- this will be in log form. Make sure to convert to exponent form
+# summary(model1.qp) <-- this will be in log form. Make sure to convert to exponent form
 
 ```
 
@@ -944,7 +936,7 @@ Make sure to use the exponent form when interpreting the values.
 #| label: fh-load-clean
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 #| include: false
 
 fh <- read.csv("Framingham_dataset.csv")
@@ -963,7 +955,7 @@ fh <- fh %>%
 #| tbl-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 library(gtExtras)
 
@@ -974,10 +966,10 @@ library(gtExtras)
     #outcome_py = sum(followupYR),
     #outcome_IR = ((outcome_cases / outcome_py)*100) ## CH Incidence rate calculation)  %>% 
   #gt() %>% ## convert into gt() table
-  #tab_header(title = "Outcome Incidence Metrics") %>% 
+  #tab_header(title = "Outcome Incidence Metrics") %>%
   #cols_label(outcome_cases = "Total Cases",
     #outcome_py = "Person-Years",
-    #outcome_IR = "Incidence Rate per 100 person-years") %>% 
+    #outcome_IR = "Incidence Rate per 100 person-years") 
   
 
 #offset_term_table
@@ -997,7 +989,7 @@ Log-binomial regression is used to determine the relative risk for binary outcom
 #| label: log-binomial-reg
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 library(tidymodels) ## generate log models via tidyverse
 library(emmeans) ## calculate ratios (e.g risk ratio)
@@ -1007,7 +999,7 @@ library(emmeans) ## calculate ratios (e.g risk ratio)
 #| label: dekaf-data-clean-v2
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 #| include: false
 
 dekaf <- dekaf %>% 
@@ -1027,18 +1019,18 @@ dekaf <- dekaf %>%
 #| tbl-cap-location: top
 #| warning: false
 #| message: false
-#| echo: false
+#| echo: true
 
 
-logistic_reg_model <- glm(outcome_var ~ var1 + var2, data = data)
+#logistic_reg_model <- glm(outcome_var ~ var1 + var2, data = data)
 
-logistic_reg_model
+#logistic_reg_model
 
 ```
 
 #### Interpretation \[fake-data\]
 
-$$ \text{logit}[P(\text{outcome_var}_1 \le j)] = (\beta_1 \times \text{var1}) + (\beta_2 \times \text{var2}) $$
+$$\text{logit}[P(\text{outcome\_var}_1 \le j)] = (\beta_1 \times \text{var1}) + (\beta_2 \times \text{var2})$$
 
 Holding all else constant, Group A has 12% higher odds outcome risk compared to Group B (OR = 1.88). This is statistically significant given that the p-value is lower than alpha and the confidence interval does not include 1.0 (CI: 1.30 to 2.76).
 
@@ -1052,11 +1044,10 @@ We need the following libraries for ordinal regression:
 #| label: ordinal-regression-library
 #| message: false
 #| warning: false
-#| echo: false  
+#| echo: true  
 
 library(jtools)
 library(VGAM)
-
 ```
 
 #### Example
@@ -1064,38 +1055,8 @@ library(VGAM)
 Question: Write the appropriate adjusted ordinal regression equation you would use to determine whether outcome variable depends on whether a person did variable 1 after adjusting for variable 2.
 
 $$
-\text{logit}[P(\text{outcome_variable} \le j] = (\beta_1 \times \text{var1}) + (\beta_2 \times \text{var2})
+\text{logit}[P(\text{outcome\_variable} \le j] = (\beta_1 \times \text{var1}) + (\beta_2 \times \text{var2})
 $$
-
-```{r}
-#| label: tomhs-genhealth
-#| message: false
-#| warning: false
-#| echo: false
-#| include: false  
-
-
-tomhs <- tomhs %>% 
-  mutate(
-    Sex = as.factor(if_else(sex == 1, "Male", "Female")),
-    Race = as.factor(case_when(
-      race == 1 ~ "White",
-      race == 2 ~ "Black",
-      race == 3 ~ "Asian",
-      race == 4 ~ "Other"
-    )),
-    Eversmk = as.factor(if_else(eversmk == 1, "Yes", "No")),
-    GenHealth = as.factor(case_when(
-      ql12_1 == 1 ~ "Excellent",
-      ql12_1 == 2 ~ "Very good",
-      ql12_1 == 3 ~ "Good",
-      ql12_1 == 4 ~ "Fair",
-      ql12_1 == 5 ~ "Poor"
-    )
-    )
-  )
-
-```
 
 ```{r}
 #| label: tbl-adj-ordinal-regression
@@ -1103,16 +1064,14 @@ tomhs <- tomhs %>%
 #| tbl-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
+#ordinal_regression <- vglm(outcome_var ~ var1 + var2, #data = data, family = cumulative(link = "logitlink", #parallel = TRUE))
 
-
-#ordinal_regression <- vglm(outcome_var ~ var1 + var2, data = data, family = cumulative(link = "logitlink", parallel = TRUE))
-
-#ordinal_regression
+#summary(ordinal_regression)
 
 ```
 
-#### Interpretation \[fake-data\]
+#### Interpretation \[fake data\]
 
 -   Using the model results, what is the estimated common odds ratio for the outcome variable? 
 
@@ -1134,7 +1093,7 @@ Sample size and power are linked through four primary variables. If you know thr
 
     1.  This is usually set to a level of 0.80 0r 0.90 unless specified otherwise.
 
-4.  **Effect Size:** The "signal" you are looking for—how much of a difference exists between the two groups (e.g., a 10 mmHg drop in blood pressure).
+4.  **Effect Size:** The "signal" you are looking for—how much of a difference exists between the two groups (e.g., a 10 mmHg drop in blood pressure). Represented as delta or "d".
 
     1.  To detect a small effect, we need a large sample
 
@@ -1148,26 +1107,13 @@ Sample size and power are linked through four primary variables. If you know thr
 #| tbl-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
+library(pwr)
 
-power.t.test(
-  delta = 2, ## this is the MCID value
-  sd = 6,
-  sig.level = 0.05,
-  power = 0.8,
-  type = "two.sample",
-) %>% 
-  tidy() %>% 
-  kable(
-        format = "html",
-        digits = 2,
-        align = "c") %>% 
-  kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-    full_width = FALSE,
-    position = "center"
-  )
+#twogrpmean.n <- pwr.t.test(d = 0.20, sig.level = 0.05, power = 0.90, type = "two.sample")
+
+#summary(twogrpmean.n)
 ```
 
 ### Estimating Multiple Sample Sizes via Power Table
@@ -1178,38 +1124,13 @@ power.t.test(
 #| tbl-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
+#candidate.n <- seq(from = 25, to = 1000, by = 25) #creates a list 25, 50, 75, 100, ...
 
-deltas <- seq(
-  from = 1,
-  to = 5,
-  by = 1
-)
+#twogrpmean.power <- pwr.t.test(d = 0.2, sig.level = 0.05,n = candidate.n, type = "two.sample")
 
-q9 <- map_df(deltas, ~{
-  power.t.test(
-    delta = .x,         
-    sd = 6,              
-    sig.level = 0.05, 
-    power = 0.80, 
-    type = "two.sample"
-  ) %>% tidy()
-})
-
-q9 %>% 
-  kable(
-        format = "html",
-        digits = 2,
-        align = "c") %>% 
-  kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-    full_width = FALSE,
-    position = "center"
-  )
-## DO NOT TRUST THE SOFTWARE LESSON. IT IS INACCURATE
-
-
+#summary(twogrpmean.power)
 ```
 
 ## **Using a Power Curve to Compare Two Different MCIDS (Effect Sizes)**
@@ -1220,60 +1141,28 @@ q9 %>%
 #| fig-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
 
-## We need to create a list of values for our x-axis in the power curve plot
-n.values <- seq(from = 5,
-                to = 100,
-                by = 5) 
+# creating list of sample sizes
+n.values <-seq(from = 5, to = 100, by = 5)
 
-## Get Sample Size when MCID = 2
-twogrpmean.power.small <-
-  power.t.test(
-    delta = 2,
-    sd = 6,
-    power = NULL, ## Leave Power NULL when calculating power curve (bc this is what we want R to graph for us)
-    n = n.values,
-    type = "two.sample"
-  )
-  
+# getting power for each sample size in list
+twogrpmean.power.medium<- pwr.t.test(d = 0.5, sig.level = 0.05, n = n.values, type = "two.sample")
 
-## Get Sample Size when MCID = 4
-twogrpmean.power.medium <-
-    power.t.test(
-    delta = 4,
-    sd = 6,
-    power = NULL,
-    n = n.values,
-    type = "two.sample",
-  )
+twogrpmean.power.large<- pwr.t.test(d = 0.8, sig.level = 0.05, n = n.values, type = "two.sample")
+# plotting the first curve
 
-## Plotting the first curve (MCID = 2)
-plot(n.values,
-     twogrpmean.power.small$power,
-     type = "b",
-     xlab = "sample size",
-     ylab = "power",
-     ylim = c(0,1))
+plot(n.values, twogrpmean.power.medium$power, type = "b",
+xlab = "sample size", ylab = "power", ylim=c(0,1))
 
-lines(n.values, 
-      twogrpmean.power.small$power, 
-      type = "b") 
+lines(n.values, twogrpmean.power.medium$power, type = "l")
 
-## cannot add type = "b" argument. This will cause graph not to run.
+# adding the points with dashed lines of the second curve to plot
+points(n.values, twogrpmean.power.large$power, type = "b", col=2, lty=2, pch = 2)
+# adding a legend for each curve
+legend("bottomright", c( "d = 0.5", "d = 0.8"), lty = c(1,2),pch = c(1,2), col = c(1,2), cex=1.5)
 
-
-## Add Second Curve (MCID = 4)
-points(n.values,
-       twogrpmean.power.medium$power,
-       type = "b",
-       col = "red",) ## Keep these arguments like this to run. Otherwise, if you follow the software lesson it will not run.
-
-
-## Add a legend for each curve
-legend("bottomright", c( "d = 2", "d = 4"), lty = c(1,2),
-pch = c(1,2), col = c(1,2), cex=1.5)
 
 ```
 
@@ -1311,26 +1200,11 @@ What if my outcome is Binary (Proportions)?
 #| tbl-cap-location: top
 #| message: false
 #| warning: false
-#| echo: false
+#| echo: true
 
+twogrpp.n <- pwr.2p.test(h = ES.h(p1 = 0.85, p2 = 0.70), sig.level = 0.05, power = 0.90)
 
-twogrpp.n <- power.prop.test(
-  p1 = 0.70,
-  p2 = 0.80,
-  power = 0.80
-)
-
-twogrpp.n %>% 
-  tidy() %>% 
-  kable(
-        format = "html",
-        digits = 2,
-        align = "c") %>% 
-  kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-    full_width = FALSE,
-    position = "center"
-  )
+twogrpp.n
 
 ```
 
@@ -1373,20 +1247,6 @@ twogrpp.pwrtable <- data.frame(
 
 # Display the final table
 twogrpp.pwrtable
-```
-
-```{r}
-
-twogrpp.pwrtable %>% 
-    kable(
-        format = "html",
-        digits = 2,
-        align = "c") %>% 
-  kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-    full_width = FALSE,
-    position = "center"
-  )
 ```
 
 ## Using a Power Curve to Estimate Power based on Sample Size {#sec-binary-outcome-power-curve}
@@ -1436,26 +1296,3 @@ legend("bottomright",
        lty = 1, 
        cex = 0.8) # Adjusted cex so it fits better
 ```
-
-## Calculating Sample Size Lost to Attrition {#sec-sample-size-attrition}
-
--   Question: You and your collaborator decide to be a bit conservative and use a viral suppression rate of 60%. You also believe based on past experience that about 20% of the enrolled participants will be lost to follow-up over the one year of the study. How many participants should you aim to enroll for your study? Please show your work.
-
--   Know
-
-    -   n = 356
-        -   Since we use the 60% prop, the n is 356 according to the Power Table
-    -   attrition rate = 0.20
-        -   This is stated in the problem \[the people lost to follow-up\]
-    -   Formula to calculate **Adjusted Sample Size PER GROUP**
-        -   $$ N_{adj} = \frac{n}{1 - \text{attrition rate}} $$
-
-    ```{r}
-    #| label: attrition 
-    #| warning: false 
-    #| message: false 
-    #| echo: false  
-
-
-    (356/(1-0.2))
-    ```
