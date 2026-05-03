@@ -29,7 +29,7 @@ library(tidyverse)
 ```
 
 
-# Part 1: Comparing Methods
+# Part 2: Key Concepts - Multiple Linear Regression
 
 ## Situation A
 ```{r}
@@ -64,7 +64,16 @@ ggplot(df, aes(x = age, y = sbp)) +
   )
 
 
+```
 
+## Situation B
+```{r}
+#| label: fig-SBP-treatment
+#| fig-cap: "caption"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
 
 ```
 
