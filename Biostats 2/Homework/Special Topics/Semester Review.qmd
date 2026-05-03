@@ -68,12 +68,58 @@ ggplot(df, aes(x = age, y = sbp)) +
 
 ## Situation B
 ```{r}
+#| label: SBP-treatment
+#| message: false
+#| warning: false
+#| echo: true
+
+
+# Set seed
+set.seed(67)
+
+# define total sample size
+sample_size <- 50
+
+
+# define age range participants in both groups
+
+age_placebo <- seq(20,80, length.out = sample_size)
+  
+age_treatment <- seq(20,80, length.out = sample_size)
+
+# define sbp placebo
+sbp_placebo <- 100 + (0.6*age_placebo) + rnorm(sample_size, mean = 0, sd = 8)
+
+# define sbp treatment. Lesser value bc drug fights SBP
+sbp_treatment <- 100 +(0.3*age_treatment) + rnorm(sample_size, mean = 0, sd = 8)
+
+# combine into dataframe
+
+df_placebo <- data.frame(Age = age, SBP = sbp_placebo, Group = "Placebo")
+
+df_treatment <- data.frame(Age = age, SBP = sbp_treatment, Group = "treatment")
+
+data_B <- rbind(df_placebo, df_treatment)
+
+```
+
+
+```{r}
 #| label: fig-SBP-treatment
-#| fig-cap: "caption"
+#| fig-cap: "Treatment vs SBP"
 #| fig-cap-location: top
 #| message: false
 #| warning: false
 #| echo: true
+
+ggplot(data_B, aes(x = Age, y = SBP, color = Group)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Systolic Blood Pressure (SBP) vs Age by Group",
+    y = "SBP (mmHg)",
+    x = "Age (years)"
+  )
 
 ```
 
