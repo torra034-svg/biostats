@@ -1,0 +1,70 @@
+---
+title: "Semester Review"
+author: "Patrick Torralba"
+format:
+  html:
+    theme: flatly
+    fontsize: 0.8em
+    code-fold: FALSE
+    code-tools: TRUE
+    code-copy: TRUE
+    toc: TRUE
+    toc-depth: 4
+    smooth-scroll: TRUE
+    embed-resources: TRUE
+    fig-align: center
+editor: visual
+---
+
+# Set-up
+
+## library
+```{r}
+#| label: library
+#| message: false
+#| warning: false
+#| echo: true
+
+library(tidyverse)
+```
+
+
+# Part 1: Comparing Methods
+
+## Situation A
+```{r}
+#| label: fig-SBP
+#| fig-cap: "SBP"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+# Set seed
+set.seed(42)
+
+# define age range of 100 people in sample
+age <- seq(20,80, length.out = 100)
+
+# define SBP
+sbp <- 100 + (0.6*age) + rnorm(100, mean = 0, sd = 8)
+
+# create dataframe
+df <- data.frame(age, sbp)
+
+# create scatterplot
+
+ggplot(df, aes(x = age, y = sbp)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    x = "Age (years)",
+    y = "Systolic Blood Pressure (mmHg)",
+    title = "Relationship between Systolic Blood Pressure and Age"
+  )
+
+
+
+
+```
+
